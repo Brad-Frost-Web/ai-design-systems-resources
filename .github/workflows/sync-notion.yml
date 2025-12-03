@@ -6,6 +6,9 @@ on:
     - cron: '0 */6 * * *'
   # Allow manual trigger from GitHub Actions tab
   workflow_dispatch:
+  # Allow webhook trigger via repository_dispatch
+  repository_dispatch:
+    types: [notion-update]
 
 jobs:
   sync:

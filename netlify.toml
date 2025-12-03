@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  publish = "_site"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Environment variables needed:
+# - GITHUB_PAT: Personal Access Token with repo scope (for triggering Actions)
+# - GITHUB_REPO: Your repo in "owner/repo" format
+
