@@ -1131,4 +1131,60 @@ hr {
   margin: 4rem 0;
 }
 
+.resource-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 1rem;
+}
+
+.resource-tag {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+}
+.resource-tag--default {
+  background-color: rgba(206, 205, 202, 0.5);
+  color: rgb(50, 48, 44);
+}
+.resource-tag--gray {
+  background-color: rgba(140, 140, 140, 0.2);
+  color: rgb(100, 100, 100);
+}
+.resource-tag--brown {
+  background-color: rgba(140, 100, 80, 0.2);
+  color: rgb(96, 59, 44);
+}
+.resource-tag--orange {
+  background-color: rgba(245, 174, 115, 0.4);
+  color: rgb(147, 74, 10);
+}
+.resource-tag--yellow {
+  background-color: rgba(253, 236, 142, 0.5);
+  color: rgb(131, 94, 16);
+}
+.resource-tag--green {
+  background-color: rgba(152, 195, 155, 0.4);
+  color: rgb(40, 92, 48);
+}
+.resource-tag--blue {
+  background-color: rgba(143, 186, 220, 0.4);
+  color: rgb(32, 82, 126);
+}
+.resource-tag--purple {
+  background-color: rgba(186, 153, 203, 0.4);
+  color: rgb(88, 50, 115);
+}
+.resource-tag--pink {
+  background-color: rgba(223, 150, 178, 0.4);
+  color: rgb(136, 53, 90);
+}
+.resource-tag--red {
+  background-color: rgba(227, 137, 137, 0.4);
+  color: rgb(143, 41, 41);
+}
+
 /*# sourceMappingURL=styles.tmp.css.map */

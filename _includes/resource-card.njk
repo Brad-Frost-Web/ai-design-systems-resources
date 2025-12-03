@@ -1,5 +1,11 @@
 <ed-card>
   <ed-heading>{{ resource.title }}</ed-heading>
-  <ed-text-passage>{{ resource.description }}</ed-text-passage>
-  <ed-button href="{{ resource.href }}" slot="footer">View</ed-button>
+  {% if resource.tags.length %}
+  <div class="resource-tags">
+    {% for tag in resource.tags %}
+    <span class="resource-tag resource-tag--{{ tag.color }}">{{ tag.name }}</span>
+    {% endfor %}
+  </div>
+  {% endif %}
+  <ed-button href="{{ resource.href }}" slot="footer" target="_blank">View</ed-button>
 </ed-card>
