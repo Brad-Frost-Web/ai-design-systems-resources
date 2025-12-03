@@ -11,7 +11,7 @@ module.exports = function () {
 		return [];
 	}
 
-	// Get all markdown files in the resources  directory
+	// Get all markdown files in the resources directory
 	const files = fs
 		.readdirSync(resourcesDir)
 		.filter((file) => file.endsWith(".md"));
