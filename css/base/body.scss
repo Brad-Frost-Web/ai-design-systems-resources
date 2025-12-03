@@ -1,0 +1,33 @@
+@use '@brad-frost-web/eddie-design-tokens/core/scss/typography-usage' as *;
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--ed-theme-color-background-default);
+  color: var(--ed-theme-color-content-default);
+  @include ed-theme-typography-body-default;
+
+  &.is-disabled {
+    overflow: hidden;
+  }
+}
+
+.fpo {
+  padding: 2rem;
+  background: rgb(206, 239, 250);
+  border: 1px solid rgb(128, 215, 244);
+  text-align: center;
+  color: black;
+}

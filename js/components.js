@@ -1,0 +1,9 @@
+// Set global icon URL for ed-icon components
+globalThis.DS_ICON_URL = "/images/icons/ed-icons.svg";
+
+import "@brad-frost-web/eddie-web-components/components/button/button.js";
+import "@brad-frost-web/eddie-web-components/components/layout-container/layout-container.js";
+import "@brad-frost-web/eddie-web-components/components/card/card.js";
+import "@brad-frost-web/eddie-web-components/components/heading/heading.js";
+import "@brad-frost-web/eddie-web-components/components/text-passage/text-passage.js";
+import "@brad-frost-web/eddie-web-components/components/main/main.js";

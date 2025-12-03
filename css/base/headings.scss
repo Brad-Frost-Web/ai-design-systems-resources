@@ -1,0 +1,42 @@
+@use "@brad-frost-web/eddie-design-tokens/core/scss/typography-usage" as *;
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	text-transform: uppercase;
+	margin: 0;
+}
+
+h1 {
+	@include ed-theme-typography-display-default;
+}
+
+h2 {
+	@include ed-theme-typography-headline-lg;
+}
+
+h3 {
+	@include ed-theme-typography-headline-default;
+}
+
+ed-heading.character__heading {
+	--ed-theme-typography-display-default-font-size: clamp(1.4rem, 5vw, 2rem);
+	--ed-theme-typography-display-default-mobile-font-size: clamp(
+		1.4rem,
+		5vw,
+		2rem
+	);
+}
+
+ed-heading.text-node__heading {
+	--ed-theme-typography-display-default-font-size: clamp(2rem, 5vw, 5rem);
+	--ed-theme-typography-display-default-mobile-font-size: clamp(
+		2rem,
+		5vw,
+		4rem
+	);
+	text-wrap: balance;
+}
