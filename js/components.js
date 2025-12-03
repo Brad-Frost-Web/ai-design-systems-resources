@@ -7,3 +7,5 @@ import "@brad-frost-web/eddie-web-components/components/card/card.js";
 import "@brad-frost-web/eddie-web-components/components/heading/heading.js";
 import "@brad-frost-web/eddie-web-components/components/text-passage/text-passage.js";
 import "@brad-frost-web/eddie-web-components/components/main/main.js";
+import "@brad-frost-web/eddie-web-components/components/grid/grid.js";
+import "@brad-frost-web/eddie-web-components/components/card/card.js";

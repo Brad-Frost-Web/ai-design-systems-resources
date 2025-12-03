@@ -1,4 +1,7 @@
 import { build } from "esbuild";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export default async function (eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("css/*");
