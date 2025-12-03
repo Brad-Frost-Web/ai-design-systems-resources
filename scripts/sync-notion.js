@@ -147,14 +147,17 @@ async function syncFromNotion() {
 			console.log(`  ✅ ${filename}`);
 		}
 
-		// Report files that exist locally but not in Notion
+		// Delete files that exist locally but not in Notion
 		const deletedInNotion = [...existingFiles].filter(
 			(f) => !processedFiles.has(f)
 		);
 		if (deletedInNotion.length > 0) {
-			console.log("\n⚠️  Files exist locally but not in Notion:");
-			deletedInNotion.forEach((f) => console.log(`  - ${f}`));
-			console.log("  (These files were NOT deleted. Remove manually if needed.)");
+			console.log("\n🗑️  Removing files deleted from Notion:");
+			deletedInNotion.forEach((f) => {
+				const filePath = path.join(RESOURCES_DIR, f);
+				fs.unlinkSync(filePath);
+				console.log(`  ❌ ${f}`);
+			});
 		}
 
 		console.log(`\n✨ Sync complete! ${processedFiles.size} resources saved to _data/resources/`);
