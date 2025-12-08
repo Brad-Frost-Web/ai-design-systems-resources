@@ -6,4 +6,7 @@ notionId: "2c33c932-3e86-81d5-82e5-cc21580c0ece"
 tags:
   - "culture|purple"
   - "history|green"
+  - "ai|blue"
+  - "ethics|yellow"
+  - "politics|gray"
 ---
