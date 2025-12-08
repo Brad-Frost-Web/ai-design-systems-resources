@@ -5,4 +5,6 @@ created: "2025-12-08T15:44:00.000Z"
 notionId: "2c33c932-3e86-8198-9cee-f0150c7e29ad"
 tags:
   - "southleft|red"
+  - "context engineering|purple"
+  - "context-based design systems|yellow"
 ---
