@@ -6,4 +6,5 @@ notionId: "2c33c932-3e86-8109-a9ca-fabf4e8ecac5"
 tags:
   - "ai|blue"
   - "process|green"
+  - "mcp|purple"
 ---
