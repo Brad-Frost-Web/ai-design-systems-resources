@@ -7,4 +7,5 @@ tags:
   - "culture|purple"
   - "history|green"
   - "ethics|yellow"
+  - "ai|blue"
 ---
