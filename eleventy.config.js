@@ -4,6 +4,10 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export default async function (eleventyConfig) {
+	// Use Nunjucks for HTML files
+	eleventyConfig.setTemplateFormats(["njk", "html", "md"]);
+	eleventyConfig.addExtension("html", { key: "njk" });
+
 	eleventyConfig.addPassthroughCopy("css/*");
 	eleventyConfig.addPassthroughCopy("images");
 	eleventyConfig.addPassthroughCopy("favicon.svg");
