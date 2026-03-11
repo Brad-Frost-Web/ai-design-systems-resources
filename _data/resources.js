@@ -36,7 +36,7 @@ module.exports = function () {
 			return typeof tag === "object" ? tag : { name: tag, color: "default" };
 		});
 
-		return {
+		const resource = {
 			title: data.title || "Untitled",
 			href: data.url || "#",
 			tags,
@@ -44,6 +44,14 @@ module.exports = function () {
 			created: data.created || null,
 			notionId: data.notionId || null,
 		};
+
+		// Pass through Slack-specific fields when present
+		if (data.source) resource.source = data.source;
+		if (data.slackMessageUrl) resource.slackMessageUrl = data.slackMessageUrl;
+		if (data.slackSummary) resource.slackSummary = data.slackSummary;
+		if (data.slackSentiment) resource.slackSentiment = data.slackSentiment;
+
+		return resource;
 	});
 
 	// Sort by created date (newest first)

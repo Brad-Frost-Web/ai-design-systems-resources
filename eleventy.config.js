@@ -8,6 +8,18 @@ export default async function (eleventyConfig) {
 	eleventyConfig.setTemplateFormats(["njk", "html", "md"]);
 	eleventyConfig.addExtension("html", { key: "njk" });
 
+	// Sentiment emoji filter for Slack-sourced resources
+	eleventyConfig.addFilter("sentimentEmoji", (sentiment) => {
+		const map = {
+			excited: "🔥",
+			useful: "💡",
+			question: "❓",
+			cautious: "🤔",
+			discussion: "💬",
+		};
+		return map[sentiment] || "💬";
+	});
+
 	eleventyConfig.addPassthroughCopy("css/*");
 	eleventyConfig.addPassthroughCopy("images");
 	eleventyConfig.addPassthroughCopy("favicon.svg");
