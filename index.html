@@ -3,9 +3,13 @@
 	{% include "head.njk" %}
 	<body>
 		<ed-main>
-      <ed-layout-container>
-        <!-- prettier-ignore -->
-        <ed-heading class="ed-u-display-block ed-u-margin-bottom-xl" tagName="h1" variant="display-default">AI & Design Systems Links & Resources</ed-heading></h1>
+      <ed-r-course-hero compact>
+        <ed-heading tagName="h1">AI &amp; DESIGN SYSTEMS</ed-heading>
+        <p style="font-size: 1.6rem; margin: 0.5rem 0 0;">Links &amp; Resources</p>
+      </ed-r-course-hero>
+      <ed-layout-container class="ed-u-padding-top-xl">
+        {% include "resource-toolbar.njk" %}
+        {% include "resource-card-grid.njk" %}
         {% include "resource-category-list.njk" %}
       </ed-layout-container>
 		</ed-main>

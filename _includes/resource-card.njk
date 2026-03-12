@@ -1,31 +1,23 @@
 <ed-card>
-  <ed-heading>{{ resource.title }}</ed-heading>
-  {% if resource.tags.length %}
+  <ed-heading variant="title-sm">
+    <a href="{{ resource.href }}" target="_blank">{{ resource.title }}</a>
+  </ed-heading>
+  {% if resource.type or resource.tags.length %}
   <div class="resource-tags">
+    {% if resource.type %}
+    <ed-badge text="{{ resource.type }}"></ed-badge>
+    {% endif %}
     {% for tag in resource.tags %}
-    <span class="resource-tag resource-tag--{{ tag.color }}">{{ tag.name }}</span>
+    <ed-badge text="{{ tag.name }}"></ed-badge>
     {% endfor %}
   </div>
   {% endif %}
   {% if resource.source == "slack" and resource.slackSummary %}
-  <div class="resource-slack-summary">
-    <div class="resource-slack-summary__ai-header">
-      <span class="resource-slack-summary__sentiment">{{ resource.slackSentiment | sentimentEmoji }}</span>
-      <span class="resource-slack-summary__label">AI summary</span>
-    </div>
-    <p class="resource-slack-summary__text">{{ resource.slackSummary }}</p>
+  <ed-text-passage size="sm">
+    <p>{{ resource.slackSentiment | sentimentEmoji }} {{ resource.slackSummary }}</p>
     {% if resource.slackMessageUrl %}
-    <details class="resource-slack-details">
-      <summary class="resource-slack-details__toggle">View Slack context ↓</summary>
-      <div class="resource-slack-details__content">
-        <a href="{{ resource.slackMessageUrl }}" target="_blank" rel="noopener noreferrer" class="resource-slack-details__link">
-          Open original Slack thread →
-        </a>
-        <p class="resource-slack-details__note">Only visible to Slack channel members.</p>
-      </div>
-    </details>
+    <p><a href="{{ resource.slackMessageUrl }}" target="_blank">View in Slack →</a></p>
     {% endif %}
-  </div>
+  </ed-text-passage>
   {% endif %}
-  <ed-button href="{{ resource.href }}" slot="footer" target="_blank">View</ed-button>
 </ed-card>

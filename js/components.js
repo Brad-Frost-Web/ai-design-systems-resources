@@ -9,4 +9,9 @@ import "@brad-frost-web/eddie-web-components/components/text-passage/text-passag
 import "@brad-frost-web/eddie-web-components/components/main/main.js";
 import "@brad-frost-web/eddie-web-components/components/grid/grid.js";
 import "@brad-frost-web/eddie-web-components/components/grid-item/grid-item.js";
-import "@brad-frost-web/eddie-web-components/components/card/card.js";
+import "@brad-frost-web/eddie-web-components/components/badge/badge.js";
+import "@brad-frost-web/eddie-web-components/components/accordion/accordion.js";
+import "@brad-frost-web/eddie-web-components/components/accordion-panel/accordion-panel.js";
+import "@brad-frost-web/eddie-web-components/components/toolbar/toolbar.js";
+import "@brad-frost-web/eddie-web-components/components/select-field/select-field.js";
+import "./course-hero.js";

@@ -1,24 +1,3 @@
-{# Recently Shared in Slack section #}
-{% set slackResources = [] %}
-{% for resource in resources %}
-  {% if resource.source == "slack" %}
-    {% set slackResources = (slackResources.push(resource), slackResources) %}
-  {% endif %}
-{% endfor %}
-
-{% if slackResources.length %}
-<section class="resource-recent-slack">
-  <ed-heading tagName="h2" variant="headline-default">Recently Shared in Slack</ed-heading>
-  <ed-grid variant="2up">
-    {% for resource in slackResources.slice(0, 10) %}
-    <ed-grid-item>
-      {% include "resource-card.njk" %}
-    </ed-grid-item>
-    {% endfor %}
-  </ed-grid>
-</section>
-{% endif %}
-
 {# Collect all unique tags across all resources #}
 {% set allTags = [] %}
 {% for resource in resources %}
