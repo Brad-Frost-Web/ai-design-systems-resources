@@ -1,7 +1,0 @@
-<ed-grid variant="3up" id="resource-grid">
-  {% for resource in resources %}
-  <ed-grid-item class="resource-grid-item" data-type="{{ resource.type }}" data-source="{{ resource.source }}" data-tags="{% for tag in resource.tags %}{{ tag.name }}{% if not loop.last %},{% endif %}{% endfor %}">
-    {% include "resource-card.njk" %}
-  </ed-grid-item>
-  {% endfor %}
-</ed-grid>
