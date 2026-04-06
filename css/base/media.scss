@@ -1,0 +1,16 @@
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+iframe {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+video {
+  width: 100%;
+  height: auto;
+}

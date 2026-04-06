@@ -1,0 +1,47 @@
+name: Sync Notion Database
+
+on:
+  # Run on a schedule (every 6 hours)
+  schedule:
+    - cron: '0 */6 * * *'
+  # Allow manual trigger from GitHub Actions tab
+  workflow_dispatch:
+  # Allow webhook trigger via repository_dispatch
+  repository_dispatch:
+    types: [notion-update]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync from Notion
+        run: npm run sync
+        env:
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A _data/resources/
+          git diff --staged --quiet || git commit -m "Sync resources from Notion [automated]"
+          git push
+

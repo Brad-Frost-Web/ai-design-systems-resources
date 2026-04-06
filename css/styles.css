@@ -1,0 +1,1422 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=League+Gothic&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap");
+:root {
+  --ed-theme-color-background-default: #f6f5de;
+  --ed-theme-color-background-default-hover: #efeed4;
+  --ed-theme-color-background-subtle: #dedcb9;
+  --ed-theme-color-background-subtle-hover: #ddd79a;
+  --ed-theme-color-background-knockout: #110000;
+  --ed-theme-color-background-brand: #be6700;
+  --ed-theme-color-background-brand-hover: #804600;
+  --ed-theme-color-background-brand-disabled: #ffc175;
+  --ed-theme-color-background-brand-knockout: #be6700;
+  --ed-theme-color-background-brand-knockout-hover: #804600;
+  --ed-theme-color-background-accent-1: #be6700;
+  --ed-theme-color-background-accent-2: #80cafa;
+  --ed-theme-color-background-accent-3: #0b0049;
+  --ed-theme-color-background-accent-4: #c9b039;
+  --ed-theme-color-background-accent-5: #110000;
+  --ed-theme-color-background-accent-6: #efeed4;
+  --ed-theme-color-background-accent-7: #dedcb9;
+  --ed-theme-color-background-accent-8: #a29e5e;
+  --ed-theme-color-background-utility-error: #fceaef;
+  --ed-theme-color-background-utility-error-knockout: #b82f30;
+  --ed-theme-color-background-utility-warning: #f9efbb;
+  --ed-theme-color-background-utility-warning-knockout: #8a5801;
+  --ed-theme-color-background-utility-success: #dcf3ee;
+  --ed-theme-color-background-utility-success-knockout: #0b7058;
+  --ed-theme-color-background-utility-info: #eceefc;
+  --ed-theme-color-background-utility-info-knockout: #4555d3;
+  --ed-theme-color-background-dataviz-primary: #61646b;
+  --ed-theme-color-background-dataviz-primary-subtle: #00000040;
+  --ed-theme-color-background-dataviz-secondary: #d0d2d5;
+  --ed-theme-color-background-dataviz-tertiary: #9699a0;
+  --ed-theme-color-background-disabled: #d0d2d5;
+  --ed-theme-color-background-transparent: #00000040;
+  --ed-theme-color-background-transparent-strong: #000000e5;
+  --ed-theme-color-border-default: #4a3620;
+  --ed-theme-color-border-default-hover: #7a7e87;
+  --ed-theme-color-border-subtle: #a29e5e;
+  --ed-theme-color-border-strong: #1c1d1f;
+  --ed-theme-color-border-knockout: #9699a0;
+  --ed-theme-color-border-brand: #be6700;
+  --ed-theme-color-border-utility-error: #8d2121;
+  --ed-theme-color-border-utility-warning: #6d3f00;
+  --ed-theme-color-border-utility-success: #085442;
+  --ed-theme-color-border-utility-info: #34409e;
+  --ed-theme-color-border-disabled: #d0d2d5;
+  --ed-theme-color-content-default: #110000;
+  --ed-theme-color-content-default-hover: #4a3620;
+  --ed-theme-color-content-subtle: #cfc578;
+  --ed-theme-color-content-knockout: #f6f5de;
+  --ed-theme-color-content-brand: #be6700;
+  --ed-theme-color-content-brand-hover: #2d2013;
+  --ed-theme-color-content-brand-knockout: #f6f5de;
+  --ed-theme-color-content-disabled: #61646b;
+  --ed-theme-color-content-utility-error: #b82f30;
+  --ed-theme-color-content-utility-warning: #8a5801;
+  --ed-theme-color-content-utility-success: #0b7058;
+  --ed-theme-color-content-utility-info: #4555d3;
+  --ed-z-index-0: 0;
+  --ed-z-index-100: 100;
+  --ed-z-index-200: 200;
+  --ed-z-index-300: 300;
+  --ed-z-index-400: 400;
+  --ed-z-index-500: 500;
+  --ed-z-index-top: 99999;
+  --ed-z-index-bottom: -100;
+  --ed-theme-border-radius-none: 0rem;
+  --ed-theme-border-radius-sm: 0rem;
+  --ed-theme-border-radius-md: 0rem;
+  --ed-theme-border-radius-lg: 0rem;
+  --ed-theme-border-width-sm: 0.0625rem;
+  --ed-theme-border-width-md: 0.125rem;
+  --ed-theme-border-width-lg: 0.25rem;
+  --ed-theme-border-width-xl: 0.5rem;
+  --ed-theme-typography-display-xl-font-family: League Gothic;
+  --ed-theme-typography-display-xl-font-weight: 400;
+  --ed-theme-typography-display-xl-font-size: 11rem;
+  --ed-theme-typography-display-xl-line-height: 1.15;
+  --ed-theme-typography-display-xl-letter-spacing: 0rem;
+  --ed-theme-typography-display-xl-text-transform: none;
+  --ed-theme-typography-display-xl-tablet-font-family: League Gothic;
+  --ed-theme-typography-display-xl-tablet-font-weight: 400;
+  --ed-theme-typography-display-xl-tablet-font-size: 6.25rem;
+  --ed-theme-typography-display-xl-tablet-line-height: 1.10;
+  --ed-theme-typography-display-xl-tablet-letter-spacing: 0rem;
+  --ed-theme-typography-display-xl-tablet-text-transform: none;
+  --ed-theme-typography-display-xl-mobile-font-family: League Gothic;
+  --ed-theme-typography-display-xl-mobile-font-weight: 400;
+  --ed-theme-typography-display-xl-mobile-font-size: 4.5rem;
+  --ed-theme-typography-display-xl-mobile-line-height: 1.11;
+  --ed-theme-typography-display-xl-mobile-letter-spacing: 0rem;
+  --ed-theme-typography-display-xl-mobile-text-transform: none;
+  --ed-theme-typography-display-lg-font-family: League Gothic;
+  --ed-theme-typography-display-lg-font-weight: 400;
+  --ed-theme-typography-display-lg-font-size: 6.25rem;
+  --ed-theme-typography-display-lg-line-height: 1.10;
+  --ed-theme-typography-display-lg-letter-spacing: 0rem;
+  --ed-theme-typography-display-lg-text-transform: none;
+  --ed-theme-typography-display-lg-mobile-font-family: League Gothic;
+  --ed-theme-typography-display-lg-mobile-font-weight: 400;
+  --ed-theme-typography-display-lg-mobile-font-size: 4rem;
+  --ed-theme-typography-display-lg-mobile-line-height: 1.13;
+  --ed-theme-typography-display-lg-mobile-letter-spacing: 0rem;
+  --ed-theme-typography-display-lg-mobile-text-transform: none;
+  --ed-theme-typography-display-default-font-family: League Gothic;
+  --ed-theme-typography-display-default-font-weight: 400;
+  --ed-theme-typography-display-default-font-size: 4.5rem;
+  --ed-theme-typography-display-default-line-height: 1.11;
+  --ed-theme-typography-display-default-letter-spacing: 0rem;
+  --ed-theme-typography-display-default-text-transform: none;
+  --ed-theme-typography-display-default-mobile-font-family: League Gothic;
+  --ed-theme-typography-display-default-mobile-font-weight: 400;
+  --ed-theme-typography-display-default-mobile-font-size: 3.5rem;
+  --ed-theme-typography-display-default-mobile-line-height: 1.14;
+  --ed-theme-typography-display-default-mobile-letter-spacing: 0rem;
+  --ed-theme-typography-display-default-mobile-text-transform: none;
+  --ed-theme-typography-headline-lg-font-family: League Gothic;
+  --ed-theme-typography-headline-lg-font-weight: 400;
+  --ed-theme-typography-headline-lg-font-size: 4rem;
+  --ed-theme-typography-headline-lg-line-height: 1.13;
+  --ed-theme-typography-headline-lg-letter-spacing: 0rem;
+  --ed-theme-typography-headline-lg-text-transform: none;
+  --ed-theme-typography-headline-lg-mobile-font-family: League Gothic;
+  --ed-theme-typography-headline-lg-mobile-font-weight: 400;
+  --ed-theme-typography-headline-lg-mobile-font-size: 2.5rem;
+  --ed-theme-typography-headline-lg-mobile-line-height: 1.20;
+  --ed-theme-typography-headline-lg-mobile-letter-spacing: 0rem;
+  --ed-theme-typography-headline-lg-mobile-text-transform: none;
+  --ed-theme-typography-headline-default-font-family: League Gothic;
+  --ed-theme-typography-headline-default-font-weight: 400;
+  --ed-theme-typography-headline-default-font-size: 3rem;
+  --ed-theme-typography-headline-default-line-height: 1.17;
+  --ed-theme-typography-headline-default-letter-spacing: 0rem;
+  --ed-theme-typography-headline-default-text-transform: none;
+  --ed-theme-typography-headline-default-mobile-font-family: League Gothic;
+  --ed-theme-typography-headline-default-mobile-font-weight: 400;
+  --ed-theme-typography-headline-default-mobile-font-size: 2.5rem;
+  --ed-theme-typography-headline-default-mobile-line-height: 1.00;
+  --ed-theme-typography-headline-default-mobile-letter-spacing: 0rem;
+  --ed-theme-typography-headline-default-mobile-text-transform: none;
+  --ed-theme-typography-headline-sm-font-family: League Gothic;
+  --ed-theme-typography-headline-sm-font-weight: 400;
+  --ed-theme-typography-headline-sm-font-size: 2.5rem;
+  --ed-theme-typography-headline-sm-line-height: 1.20;
+  --ed-theme-typography-headline-sm-letter-spacing: 0rem;
+  --ed-theme-typography-headline-sm-text-transform: none;
+  --ed-theme-typography-headline-sm-mobile-font-family: League Gothic;
+  --ed-theme-typography-headline-sm-mobile-font-weight: 400;
+  --ed-theme-typography-headline-sm-mobile-font-size: 2rem;
+  --ed-theme-typography-headline-sm-mobile-line-height: 1.13;
+  --ed-theme-typography-headline-sm-mobile-letter-spacing: 0rem;
+  --ed-theme-typography-headline-sm-mobile-text-transform: none;
+  --ed-theme-typography-title-lg-font-family: League Gothic;
+  --ed-theme-typography-title-lg-font-weight: 400;
+  --ed-theme-typography-title-lg-font-size: 2rem;
+  --ed-theme-typography-title-lg-line-height: 1.25;
+  --ed-theme-typography-title-lg-letter-spacing: 0rem;
+  --ed-theme-typography-title-lg-text-transform: none;
+  --ed-theme-typography-title-lg-mobile-font-family: League Gothic;
+  --ed-theme-typography-title-lg-mobile-font-weight: 400;
+  --ed-theme-typography-title-lg-mobile-font-size: 1.75rem;
+  --ed-theme-typography-title-lg-mobile-line-height: 1.29;
+  --ed-theme-typography-title-lg-mobile-letter-spacing: 0rem;
+  --ed-theme-typography-title-lg-mobile-text-transform: none;
+  --ed-theme-typography-title-default-font-family: League Gothic;
+  --ed-theme-typography-title-default-font-weight: 400;
+  --ed-theme-typography-title-default-font-size: 1.75rem;
+  --ed-theme-typography-title-default-line-height: 1.29;
+  --ed-theme-typography-title-default-letter-spacing: 0rem;
+  --ed-theme-typography-title-default-text-transform: none;
+  --ed-theme-typography-title-sm-font-family: League Gothic;
+  --ed-theme-typography-title-sm-font-weight: 400;
+  --ed-theme-typography-title-sm-font-size: 1.5rem;
+  --ed-theme-typography-title-sm-line-height: 1.33;
+  --ed-theme-typography-title-sm-letter-spacing: 0rem;
+  --ed-theme-typography-title-sm-text-transform: none;
+  --ed-theme-typography-label-lg-font-family: Montserrat;
+  --ed-theme-typography-label-lg-font-weight: 700;
+  --ed-theme-typography-label-lg-font-size: 1.25rem;
+  --ed-theme-typography-label-lg-line-height: 1.40;
+  --ed-theme-typography-label-lg-letter-spacing: 0rem;
+  --ed-theme-typography-label-lg-text-transform: none;
+  --ed-theme-typography-label-default-font-family: Montserrat;
+  --ed-theme-typography-label-default-font-weight: 700;
+  --ed-theme-typography-label-default-font-size: 1rem;
+  --ed-theme-typography-label-default-line-height: 1.50;
+  --ed-theme-typography-label-default-letter-spacing: 0rem;
+  --ed-theme-typography-label-default-text-transform: none;
+  --ed-theme-typography-label-sm-font-family: Montserrat;
+  --ed-theme-typography-label-sm-font-weight: 700;
+  --ed-theme-typography-label-sm-font-size: 0.875rem;
+  --ed-theme-typography-label-sm-line-height: 1.43;
+  --ed-theme-typography-label-sm-letter-spacing: 0rem;
+  --ed-theme-typography-label-sm-text-transform: none;
+  --ed-theme-typography-body-lg-font-family: Montserrat;
+  --ed-theme-typography-body-lg-font-weight: 400;
+  --ed-theme-typography-body-lg-font-size: 1.25rem;
+  --ed-theme-typography-body-lg-line-height: 1.40;
+  --ed-theme-typography-body-lg-letter-spacing: 0rem;
+  --ed-theme-typography-body-lg-text-transform: none;
+  --ed-theme-typography-body-default-font-family: Montserrat;
+  --ed-theme-typography-body-default-font-weight: 400;
+  --ed-theme-typography-body-default-font-size: 1rem;
+  --ed-theme-typography-body-default-line-height: 1.50;
+  --ed-theme-typography-body-default-letter-spacing: 0rem;
+  --ed-theme-typography-body-default-text-transform: none;
+  --ed-theme-typography-body-sm-font-family: Montserrat;
+  --ed-theme-typography-body-sm-font-weight: 400;
+  --ed-theme-typography-body-sm-font-size: 0.875rem;
+  --ed-theme-typography-body-sm-line-height: 1.43;
+  --ed-theme-typography-body-sm-letter-spacing: 0rem;
+  --ed-theme-typography-body-sm-text-transform: none;
+  --ed-theme-typography-meta-default-font-family: Montserrat;
+  --ed-theme-typography-meta-default-font-weight: 700;
+  --ed-theme-typography-meta-default-font-size: 0.875rem;
+  --ed-theme-typography-meta-default-line-height: 1.43;
+  --ed-theme-typography-meta-default-letter-spacing: 0.125rem;
+  --ed-theme-typography-meta-default-text-transform: uppercase;
+  --ed-theme-typography-meta-sm-font-family: Montserrat;
+  --ed-theme-typography-meta-sm-font-weight: 700;
+  --ed-theme-typography-meta-sm-font-size: 0.75rem;
+  --ed-theme-typography-meta-sm-line-height: 1.33;
+  --ed-theme-typography-meta-sm-letter-spacing: 0.125rem;
+  --ed-theme-typography-meta-sm-text-transform: uppercase;
+  --ed-theme-typography-button-lg-font-family: League Gothic;
+  --ed-theme-typography-button-lg-font-weight: 400;
+  --ed-theme-typography-button-lg-font-size: 1.25rem;
+  --ed-theme-typography-button-lg-line-height: 1.40;
+  --ed-theme-typography-button-lg-letter-spacing: 0rem;
+  --ed-theme-typography-button-lg-text-transform: none;
+  --ed-theme-typography-button-default-font-family: League Gothic;
+  --ed-theme-typography-button-default-font-weight: 400;
+  --ed-theme-typography-button-default-font-size: 1rem;
+  --ed-theme-typography-button-default-line-height: 1.50;
+  --ed-theme-typography-button-default-letter-spacing: 0rem;
+  --ed-theme-typography-button-default-text-transform: none;
+  --ed-theme-typography-button-sm-font-family: League Gothic;
+  --ed-theme-typography-button-sm-font-weight: 400;
+  --ed-theme-typography-button-sm-font-size: 0.875rem;
+  --ed-theme-typography-button-sm-line-height: 1.43;
+  --ed-theme-typography-button-sm-letter-spacing: 0rem;
+  --ed-theme-typography-button-sm-text-transform: none;
+  --ed-theme-typography-primary-nav-default-font-family: League Gothic;
+  --ed-theme-typography-primary-nav-default-font-weight: 400;
+  --ed-theme-typography-primary-nav-default-font-size: 2rem;
+  --ed-theme-typography-primary-nav-default-line-height: 1.25;
+  --ed-theme-typography-primary-nav-default-letter-spacing: 0rem;
+  --ed-theme-typography-primary-nav-default-text-transform: none;
+  --ed-theme-typography-primary-nav-default-mobile-font-family: League Gothic;
+  --ed-theme-typography-primary-nav-default-mobile-font-weight: 400;
+  --ed-theme-typography-primary-nav-default-mobile-font-size: 1.75rem;
+  --ed-theme-typography-primary-nav-default-mobile-line-height: 1.29;
+  --ed-theme-typography-primary-nav-default-mobile-letter-spacing: 0rem;
+  --ed-theme-typography-primary-nav-default-mobile-text-transform: none;
+  --ed-theme-animation-fade-quick: 0.15s;
+  --ed-theme-animation-fade-long: 0.4s;
+  --ed-theme-animation-move-quick: 0.15s;
+  --ed-theme-animation-move-long: 0.4s;
+  --ed-theme-animation-ease: ease;
+  --ed-theme-box-shadow-sm: 0rem 0.25rem 0.25rem 0rem #00000040;
+  --ed-theme-box-shadow-md: 0rem 0.5rem 0.375rem -0.375rem #0000001a;
+  --ed-theme-button-color-background-default: #be6700;
+  --ed-theme-button-color-background-hover: #db7900;
+  --ed-theme-button-color-background-active: #db7900;
+  --ed-theme-button-color-background-disabled: #b3b6bb;
+  --ed-theme-button-color-content-default: #f6f5de;
+  --ed-theme-button-color-content-hover: #f6f5de;
+  --ed-theme-button-color-content-active: #f6f5de;
+  --ed-theme-button-color-content-disabled: #ffffff;
+  --ed-theme-button-color-border-default: #be6700;
+  --ed-theme-button-color-border-hover: #db7900;
+  --ed-theme-button-color-border-active: #db7900;
+  --ed-theme-button-color-border-disabled: #b3b6bb;
+  --ed-theme-button-primary-color-background-default: #be6700;
+  --ed-theme-button-primary-color-background-hover: #db7900;
+  --ed-theme-button-primary-color-background-active: #db7900;
+  --ed-theme-button-primary-color-background-disabled: #b3b6bb;
+  --ed-theme-button-primary-color-content-default: #f6f5de;
+  --ed-theme-button-primary-color-content-hover: #f6f5de;
+  --ed-theme-button-primary-color-content-active: #f6f5de;
+  --ed-theme-button-primary-color-content-disabled: #ffffff;
+  --ed-theme-button-primary-color-border-default: #be6700;
+  --ed-theme-button-primary-color-border-hover: #db7900;
+  --ed-theme-button-primary-color-border-active: #db7900;
+  --ed-theme-button-primary-color-border-disabled: #b3b6bb;
+  --ed-theme-button-bare-color-content-default: #110000;
+  --ed-theme-button-bare-color-content-hover: #110000;
+  --ed-theme-button-bare-color-content-active: #110000;
+  --ed-theme-button-bare-color-content-disabled: #484a4f;
+  --ed-theme-focus-ring-color-border-default: #000000;
+  --ed-theme-focus-ring-color-border-knockout: #f6f5de;
+  --ed-theme-form-color-background-default: #1c1d1f;
+  --ed-theme-form-color-background-focus: #1c1d1f;
+  --ed-theme-form-color-background-hover: #1c1d1f;
+  --ed-theme-form-color-background-active: #1c1d1f;
+  --ed-theme-form-color-border-default: #a4902d;
+  --ed-theme-form-color-border-focus: #a4902d;
+  --ed-theme-form-color-border-hover: #a4902d;
+  --ed-theme-form-color-border-active: #a4902d;
+  --ed-theme-form-color-content-default: #f6f5de;
+  --ed-theme-form-color-content-focus: #f6f5de;
+  --ed-theme-form-color-content-hover: #f6f5de;
+  --ed-theme-form-color-content-active: #f6f5de;
+  --ed-theme-link-color-content-default: #be6700;
+  --ed-theme-link-color-content-hover: #be6700;
+  --ed-theme-link-color-content-active: #be6700;
+  --ed-theme-link-color-content-visited: #be6700;
+  --ed-theme-link-knockout-color-content-default: #f6f5de;
+  --ed-theme-link-knockout-color-content-hover: #f6f5de;
+  --ed-theme-link-knockout-color-content-active: #f6f5de;
+  --ed-theme-link-knockout-color-content-visited: #f6f5de;
+}
+/*------------------------------------*\
+    #BREAKPOINT VARIABLES
+\*------------------------------------*/
+:root,
+:host {
+  --size-base-unit: 0.5rem;
+}
+/* ------------------------------------*\
+    #TYPOGRAPHY APPLICATIONS
+\*------------------------------------ */
+/*------------------------------------*\
+    #RESET
+\*------------------------------------*/
+/**
+ * Border-Box http:/paulirish.com/2012/box-sizing-border-box-ftw/
+ */
+*,
+::slotted(*),
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+body {
+  font-family: var(--ed-theme-typography-body-default-font-family);
+  font-weight: var(--ed-theme-typography-body-default-font-weight);
+  font-size: var(--ed-theme-typography-body-default-font-size);
+  line-height: var(--ed-theme-typography-body-default-line-height);
+  letter-spacing: var(--ed-theme-typography-body-default-letter-spacing);
+  text-transform: var(--ed-theme-typography-body-default-text-transform);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  color: var(--ed-theme-color-content-default);
+  background: var(--ed-theme-color-background-default);
+}
+/*------------------------------------*\
+    #MEDIA
+\*------------------------------------*/
+/**
+ * Responsive image styling
+ * 1) Allows for images to flex with varying screen size
+ */
+img {
+  max-width: 100%;
+  height: auto;
+}
+/*------------------------------------*\
+    #COLORS UTILITIES
+\*------------------------------------*/
+/**
+   * Brand text utility class
+   */
+.ed-u-content-brand-knockout {
+  color: var(--ed-theme-color-content-brand-knockout);
+}
+/*------------------------------------*\
+    #VISIBILITY UTILITIES
+\*------------------------------------*/
+/* Completely remove from the flow and screen readers. */
+.ed-u-is-hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+/* Completely remove from the flow but leave available to screen readers. */
+.ed-u-is-vishidden {
+  position: absolute !important;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+/**
+ * Hide element at sm breakpoint 
+ */
+@media all and (min-width: 23.4375rem) {
+  .ed-u-hide-sm {
+    display: none !important;
+  }
+}
+/**
+ * Hide element at md breakpoint 
+ */
+@media all and (min-width: 48rem) {
+  .ed-u-hide-md {
+    display: none !important;
+  }
+}
+/**
+ * Hide element at lg breakpoint 
+ */
+@media all and (min-width: 60rem) {
+  .ed-u-hide-lg {
+    display: none !important;
+  }
+}
+/**
+ * Hide element at xl breakpoint 
+ */
+@media all and (min-width: 75rem) {
+  .ed-u-hide-xl {
+    display: none !important;
+  }
+}
+/**
+ * Show element at sm breakpoint 
+ */
+@media all and (max-width: 23.4375rem) {
+  .ed-u-show-sm {
+    display: none !important;
+  }
+}
+/**
+ * Show element at md breakpoint 
+ */
+@media all and (max-width: 48rem) {
+  .ed-u-show-md {
+    display: none !important;
+  }
+}
+/**
+ * Show element at lg breakpoint 
+ */
+@media all and (max-width: 60rem) {
+  .ed-u-show-lg {
+    display: none !important;
+  }
+}
+/**
+ * Show element at xl breakpoint 
+ */
+@media all and (max-width: 75rem) {
+  .ed-u-show-xl {
+    display: none !important;
+  }
+}
+/*------------------------------------*\
+    #SPACING UTILITY CLASSES
+\*------------------------------------*/
+/*------------------------------------*\
+    #MARGIN
+\*------------------------------------*/
+/**
+  * Margin none
+  * 1) Forces margin none to 0
+  */
+.ed-u-margin-none {
+  margin: 0 !important;
+}
+/**
+  * Margin small
+  * 1) Forces margin small to 0.5rem
+  */
+.ed-u-margin-sm {
+  margin: calc(0.5rem * 1) !important;
+}
+/**
+  * Margin medium
+  * 1) Forces margin medium to 1rem
+  */
+.ed-u-margin-md {
+  margin: calc(0.5rem * 2) !important;
+}
+/**
+  * Margin large
+  * 1) Forces margin large to size(3)
+  */
+.ed-u-margin-lg {
+  margin: calc(0.5rem * 3) !important;
+}
+/**
+  * Margin xl
+  * 1) Forces margin xl to 2rem
+  */
+.ed-u-margin-xl {
+  margin: calc(0.5rem * 4) !important;
+}
+/**
+  * Margin xxl
+  * 1) Forces margin to 4rem
+  */
+.ed-u-margin-xxl {
+  margin: calc(0.5rem * 8) !important;
+}
+/**
+  * Margin top none
+  * 1) Forces margin top to 0
+  */
+.ed-u-margin-top-none {
+  margin-block-start: 0 !important;
+}
+/**
+  * Margin top small
+  * 1) Forces margin top to 0.5rem
+  */
+.ed-u-margin-top-sm {
+  margin-block-start: calc(0.5rem * 1) !important;
+}
+/**
+  * Margin top medium
+  * 1) Forces margin top to 1rem
+  */
+.ed-u-margin-top-md {
+  margin-block-start: calc(0.5rem * 2) !important;
+}
+/**
+  * Margin top large
+  * 1) Forces margin top to size(3)
+  */
+.ed-u-margin-top-lg {
+  margin-block-start: calc(0.5rem * 3) !important;
+}
+/**
+  * Margin top xl
+  * 1) Forces margin top to 2rem
+  */
+.ed-u-margin-top-xl {
+  margin-block-start: calc(0.5rem * 4) !important;
+}
+/**
+  * Margin top xxl
+  * 1) Forces margin top to 4rem
+  */
+.ed-u-margin-top-xxl {
+  margin-block-start: calc(0.5rem * 8) !important;
+}
+/**
+    * Margin right none
+    * 1) Forces margin right to 0
+    */
+.ed-u-margin-right-none {
+  margin-inline-end: 0 !important;
+}
+/**
+  * Margin right small
+  * 1) Forces margin right to 0.5rem
+  */
+.ed-u-margin-right-sm {
+  margin-inline-end: calc(0.5rem * 1) !important;
+}
+/**
+  * Margin right medium
+  * 1) Forces margin right to 1rem
+  */
+.ed-u-margin-right-md {
+  margin-inline-end: calc(0.5rem * 2) !important;
+}
+/**
+    * Margin right large
+    * 1) Forces margin right to size(3)
+    */
+.ed-u-margin-right-lg {
+  margin-inline-end: calc(0.5rem * 3) !important;
+}
+/**
+    * Margin right xl
+    * 1) Forces margin right to 2rem
+    */
+.ed-u-margin-right-xl {
+  margin-inline-end: calc(0.5rem * 4) !important;
+}
+/**
+  * Margin right xxl
+  * 1) Forces margin right to 4rem
+  */
+.ed-u-margin-right-xxl {
+  margin-inline-end: calc(0.5rem * 8) !important;
+}
+/**
+  * Margin bottom none
+  * 1) Forces margin bottom to 0
+  */
+.ed-u-margin-bottom-none {
+  margin-block-end: 0 !important;
+}
+/**
+  * Margin bottom small
+  * 1) Forces margin bottom to 0.5rem
+  */
+.ed-u-margin-bottom-sm {
+  margin-block-end: calc(0.5rem * 1) !important;
+}
+/**
+  * Margin bottom medium
+  * 1) Forces margin bottom to 1rem
+  */
+.ed-u-margin-bottom-md {
+  margin-block-end: calc(0.5rem * 2) !important;
+}
+/**
+  * Margin bottom large
+  * 1) Forces margin bottom to size(3)
+  */
+.ed-u-margin-bottom-lg {
+  margin-block-end: calc(0.5rem * 3) !important;
+}
+/**
+  * Margin bottom xl
+  * 1) Forces margin bottom to 2rem
+  */
+.ed-u-margin-bottom-xl {
+  margin-block-end: calc(0.5rem * 4) !important;
+}
+/**
+  * Margin bottom xxl
+  * 1) Forces margin bottom to 4rem
+  */
+.ed-u-margin-bottom-xxl {
+  margin-block-end: calc(0.5rem * 8) !important;
+}
+/**
+  * Margin bottom xl
+  * 1) Forces margin bottom to 2rem on small screens and 4rem on large screens
+  */
+.ed-u-margin-bottom-xl-xxl {
+  margin-block-end: calc(0.5rem * 4) !important;
+}
+@media all and (min-width: 48rem) {
+  .ed-u-margin-bottom-xl-xxl {
+    margin-block-end: calc(0.5rem * 8) !important;
+  }
+}
+/**
+  * Margin left none
+  * 1) Forces margin left to 0
+  */
+.ed-u-margin-left-none {
+  margin-inline-start: 0 !important;
+}
+/**
+  * Margin left small
+  * 1) Forces margin left to 0.5rem
+  */
+.ed-u-margin-left-sm {
+  margin-inline-start: calc(0.5rem * 1) !important;
+}
+/**
+  * Margin left medium
+  * 1) Forces margin left to 1rem
+  */
+.ed-u-margin-left-md {
+  margin-inline-start: calc(0.5rem * 2) !important;
+}
+/**
+  * Margin left large
+  * 1) Forces margin left to 1.5rem
+  */
+.ed-u-margin-left-lg {
+  margin-inline-start: calc(0.5rem * 3) !important;
+}
+/**
+  * Margin left xl
+  * 1) Forces margin left to 2rem
+  */
+.ed-u-margin-left-xl {
+  margin-inline-start: calc(0.5rem * 4) !important;
+}
+/**
+  * Margin left xxl
+  * 1) Forces margin left to 4rem
+  */
+.ed-u-margin-left-xxl {
+  margin-inline-start: calc(0.5rem * 8) !important;
+}
+/*------------------------------------*\
+    #PADDING
+\*------------------------------------*/
+/**
+  * Padding none
+  * 1) Forces padding none to 0
+  */
+.ed-u-padding-none {
+  padding: 0 !important;
+}
+/**
+  * Padding small
+  * 1) Forces padding small to 0.5rem
+  */
+.ed-u-padding-sm {
+  padding: calc(0.5rem * 1) !important;
+}
+/**
+  * Padding medium
+  * 1) Forces padding medium to 1rem
+  */
+.ed-u-padding-md {
+  padding: calc(0.5rem * 2) !important;
+}
+/**
+  * Padding large
+  * 1) Forces padding large to size(3)
+  */
+.ed-u-padding-lg {
+  padding: calc(0.5rem * 3) !important;
+}
+/**
+  * Padding xl
+  * 1) Forces padding xl to 2rem
+  */
+.ed-u-padding-xl {
+  padding: calc(0.5rem * 4) !important;
+}
+/**
+  * Padding xxl
+  * 1) Forces padding xxl to 4rem
+  */
+.ed-u-padding-xxl {
+  padding: calc(0.5rem * 8) !important;
+}
+/**
+  * Padding top none
+  * 1) Forces padding top to 0
+  */
+.ed-u-padding-top-none {
+  padding-block-start: 0 !important;
+}
+/**
+  * Padding top small
+  * 1) Forces padding top to 0.5rem
+  */
+.ed-u-padding-top-sm {
+  padding-block-start: calc(0.5rem * 1) !important;
+}
+/**
+  * Padding top medium
+  * 1) Forces padding top to 1rem
+  */
+.ed-u-padding-top-md {
+  padding-block-start: calc(0.5rem * 2) !important;
+}
+/**
+  * Padding top large
+  * 1) Forces padding top to size(3)
+  */
+.ed-u-padding-top-lg {
+  padding-block-start: calc(0.5rem * 3) !important;
+}
+/**
+  * Padding top xl
+  * 1) Forces padding top to 2rem
+  */
+.ed-u-padding-top-xl {
+  padding-block-start: calc(0.5rem * 4) !important;
+}
+/**
+  * Padding top xxl
+  * 1) Forces padding top xxl to 4rem
+  */
+.ed-u-padding-top-xxl {
+  padding-block-start: calc(0.5rem * 8) !important;
+}
+/**
+    * Padding right none
+    * 1) Forces padding right to 0
+    */
+.ed-u-padding-right-none {
+  padding-inline-end: 0 !important;
+}
+/**
+  * Padding right small
+  * 1) Forces padding right to 0.5rem
+  */
+.ed-u-padding-right-sm {
+  padding-inline-end: calc(0.5rem * 1) !important;
+}
+/**
+  * Padding right medium
+  * 1) Forces padding right to 1rem
+  */
+.ed-u-padding-right-md {
+  padding-inline-end: calc(0.5rem * 2) !important;
+}
+/**
+    * Padding right large
+    * 1) Forces padding right to size(3)
+    */
+.ed-u-padding-right-lg {
+  padding-inline-end: calc(0.5rem * 3) !important;
+}
+/**
+    * Padding right xl
+    * 1) Forces padding right to 2rem
+    */
+.ed-u-padding-right-xl {
+  padding-inline-end: calc(0.5rem * 4) !important;
+}
+/**
+  * Padding right xxl
+  * 1) Forces padding right xxl to 4rem
+  */
+.ed-u-padding-right-xxl {
+  padding-inline-end: calc(0.5rem * 8) !important;
+}
+/**
+  * Padding bottom none
+  * 1) Forces padding bottom to 0
+  */
+.ed-u-padding-bottom-none {
+  padding-block-end: 0 !important;
+}
+/**
+  * Padding bottom small
+  * 1) Forces padding bottom to 0.5rem
+  */
+.ed-u-padding-bottom-sm {
+  padding-block-end: calc(0.5rem * 1) !important;
+}
+/**
+  * Padding bottom medium
+  * 1) Forces padding bottom to 1rem
+  */
+.ed-u-padding-bottom-md {
+  padding-block-end: calc(0.5rem * 2) !important;
+}
+/**
+  * Padding bottom large
+  * 1) Forces padding bottom to size(3)
+  */
+.ed-u-padding-bottom-lg {
+  padding-block-end: calc(0.5rem * 3) !important;
+}
+/**
+  * Padding bottom xl
+  * 1) Forces padding bottom to 2rem
+  */
+.ed-u-padding-bottom-xl {
+  padding-block-end: calc(0.5rem * 4) !important;
+}
+/**
+  * Padding bottom xxl
+  * 1) Forces padding bottom xxl to 4rem
+  */
+.ed-u-padding-bottom-xxl {
+  padding-block-end: calc(0.5rem * 8) !important;
+}
+/**
+  * Padding left none
+  * 1) Forces padding left to 0
+  */
+.ed-u-padding-left-none {
+  padding-inline-start: 0 !important;
+}
+/**
+  * Padding left small
+  * 1) Forces padding left to 0.5rem
+  */
+.ed-u-padding-left-sm {
+  padding-inline-start: calc(0.5rem * 1) !important;
+}
+/**
+  * Padding left medium
+  * 1) Forces padding left to 1rem
+  */
+.ed-u-padding-left-md {
+  padding-inline-start: calc(0.5rem * 2) !important;
+}
+/**
+  * Padding left large
+  * 1) Forces padding left to 1.5rem
+  */
+.ed-u-padding-left-lg {
+  padding-inline-start: calc(0.5rem * 3) !important;
+}
+/**
+  * Padding left xl
+  * 1) Forces padding left to 2rem
+  */
+.ed-u-padding-left-xl {
+  padding-inline-start: calc(0.5rem * 4) !important;
+}
+/**
+  * Padding left xxl
+  * 1) Forces padding left xxl to 4rem
+  */
+.ed-u-padding-left-xxl {
+  padding-inline-start: calc(0.5rem * 8) !important;
+}
+/*------------------------------------*\
+    #DISPLAY UTILITIES
+\*------------------------------------*/
+/**
+ * Display flex utility class
+ */
+.ed-u-display-flex {
+  display: flex !important;
+}
+/**
+ * Display block utility class
+ */
+.ed-u-display-block {
+  display: block !important;
+}
+/* ------------------------------------*\
+    #TYPOGRAPHY UTILITY CLASSES
+\*------------------------------------ */
+.ed-u-theme-typography-display-xl {
+  font-family: var(--ed-theme-typography-display-xl-mobile-font-family) !important;
+  font-weight: var(--ed-theme-typography-display-xl-mobile-font-weight) !important;
+  font-size: var(--ed-theme-typography-display-xl-mobile-font-size) !important;
+  line-height: var(--ed-theme-typography-display-xl-mobile-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-display-xl-mobile-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-display-xl-mobile-text-transform) !important;
+}
+@media all and (min-width: 48rem) {
+  .ed-u-theme-typography-display-xl {
+    font-family: var(--ed-theme-typography-display-xl-tablet-font-family) !important;
+    font-weight: var(--ed-theme-typography-display-xl-tablet-font-weight) !important;
+    font-size: var(--ed-theme-typography-display-xl-tablet-font-size) !important;
+    line-height: var(--ed-theme-typography-display-xl-tablet-line-height) !important;
+    letter-spacing: var(--ed-theme-typography-display-xl-tablet-letter-spacing) !important;
+    text-transform: var(--ed-theme-typography-display-xl-tablet-text-transform) !important;
+  }
+}
+@media all and (min-width: 75rem) {
+  .ed-u-theme-typography-display-xl {
+    font-family: var(--ed-theme-typography-display-xl-font-family) !important;
+    font-weight: var(--ed-theme-typography-display-xl-font-weight) !important;
+    font-size: var(--ed-theme-typography-display-xl-font-size) !important;
+    line-height: var(--ed-theme-typography-display-xl-line-height) !important;
+    letter-spacing: var(--ed-theme-typography-display-xl-letter-spacing) !important;
+    text-transform: var(--ed-theme-typography-display-xl-text-transform) !important;
+  }
+}
+.ed-u-theme-typography-display-lg {
+  font-family: var(--ed-theme-typography-display-lg-mobile-font-family) !important;
+  font-weight: var(--ed-theme-typography-display-lg-mobile-font-weight) !important;
+  font-size: var(--ed-theme-typography-display-lg-mobile-font-size) !important;
+  line-height: var(--ed-theme-typography-display-lg-mobile-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-display-lg-mobile-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-display-lg-mobile-text-transform) !important;
+}
+@media all and (min-width: 48rem) {
+  .ed-u-theme-typography-display-lg {
+    font-family: var(--ed-theme-typography-display-lg-font-family) !important;
+    font-weight: var(--ed-theme-typography-display-lg-font-weight) !important;
+    font-size: var(--ed-theme-typography-display-lg-font-size) !important;
+    line-height: var(--ed-theme-typography-display-lg-line-height) !important;
+    letter-spacing: var(--ed-theme-typography-display-lg-letter-spacing) !important;
+    text-transform: var(--ed-theme-typography-display-lg-text-transform) !important;
+  }
+}
+.ed-u-theme-typography-display-default {
+  font-family: var(--ed-theme-typography-display-default-mobile-font-family) !important;
+  font-weight: var(--ed-theme-typography-display-default-mobile-font-weight) !important;
+  font-size: var(--ed-theme-typography-display-default-mobile-font-size) !important;
+  line-height: var(--ed-theme-typography-display-default-mobile-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-display-default-mobile-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-display-default-mobile-text-transform) !important;
+}
+@media all and (min-width: 48rem) {
+  .ed-u-theme-typography-display-default {
+    font-family: var(--ed-theme-typography-display-default-font-family) !important;
+    font-weight: var(--ed-theme-typography-display-default-font-weight) !important;
+    font-size: var(--ed-theme-typography-display-default-font-size) !important;
+    line-height: var(--ed-theme-typography-display-default-line-height) !important;
+    letter-spacing: var(--ed-theme-typography-display-default-letter-spacing) !important;
+    text-transform: var(--ed-theme-typography-display-default-text-transform) !important;
+  }
+}
+.ed-u-theme-typography-headline-lg {
+  font-family: var(--ed-theme-typography-headline-lg-mobile-font-family) !important;
+  font-weight: var(--ed-theme-typography-headline-lg-mobile-font-weight) !important;
+  font-size: var(--ed-theme-typography-headline-lg-mobile-font-size) !important;
+  line-height: var(--ed-theme-typography-headline-lg-mobile-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-headline-lg-mobile-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-headline-lg-mobile-text-transform) !important;
+}
+@media all and (min-width: 48rem) {
+  .ed-u-theme-typography-headline-lg {
+    font-family: var(--ed-theme-typography-headline-lg-font-family) !important;
+    font-weight: var(--ed-theme-typography-headline-lg-font-weight) !important;
+    font-size: var(--ed-theme-typography-headline-lg-font-size) !important;
+    line-height: var(--ed-theme-typography-headline-lg-line-height) !important;
+    letter-spacing: var(--ed-theme-typography-headline-lg-letter-spacing) !important;
+    text-transform: var(--ed-theme-typography-headline-lg-text-transform) !important;
+  }
+}
+.ed-u-theme-typography-headline-default {
+  font-family: var(--ed-theme-typography-headline-default-mobile-font-family) !important;
+  font-weight: var(--ed-theme-typography-headline-default-mobile-font-weight) !important;
+  font-size: var(--ed-theme-typography-headline-default-mobile-font-size) !important;
+  line-height: var(--ed-theme-typography-headline-default-mobile-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-headline-default-mobile-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-headline-default-mobile-text-transform) !important;
+}
+@media all and (min-width: 48rem) {
+  .ed-u-theme-typography-headline-default {
+    font-family: var(--ed-theme-typography-headline-default-font-family) !important;
+    font-weight: var(--ed-theme-typography-headline-default-font-weight) !important;
+    font-size: var(--ed-theme-typography-headline-default-font-size) !important;
+    line-height: var(--ed-theme-typography-headline-default-line-height) !important;
+    letter-spacing: var(--ed-theme-typography-headline-default-letter-spacing) !important;
+    text-transform: var(--ed-theme-typography-headline-default-text-transform) !important;
+  }
+}
+.ed-u-theme-typography-headline-sm {
+  font-family: var(--ed-theme-typography-headline-sm-mobile-font-family) !important;
+  font-weight: var(--ed-theme-typography-headline-sm-mobile-font-weight) !important;
+  font-size: var(--ed-theme-typography-headline-sm-mobile-font-size) !important;
+  line-height: var(--ed-theme-typography-headline-sm-mobile-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-headline-sm-mobile-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-headline-sm-mobile-text-transform) !important;
+}
+@media all and (min-width: 48rem) {
+  .ed-u-theme-typography-headline-sm {
+    font-family: var(--ed-theme-typography-headline-sm-font-family) !important;
+    font-weight: var(--ed-theme-typography-headline-sm-font-weight) !important;
+    font-size: var(--ed-theme-typography-headline-sm-font-size) !important;
+    line-height: var(--ed-theme-typography-headline-sm-line-height) !important;
+    letter-spacing: var(--ed-theme-typography-headline-sm-letter-spacing) !important;
+    text-transform: var(--ed-theme-typography-headline-sm-text-transform) !important;
+  }
+}
+.ed-u-theme-typography-title-lg {
+  font-family: var(--ed-theme-typography-title-lg-mobile-font-family) !important;
+  font-weight: var(--ed-theme-typography-title-lg-mobile-font-weight) !important;
+  font-size: var(--ed-theme-typography-title-lg-mobile-font-size) !important;
+  line-height: var(--ed-theme-typography-title-lg-mobile-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-title-lg-mobile-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-title-lg-mobile-text-transform) !important;
+}
+@media all and (min-width: 48rem) {
+  .ed-u-theme-typography-title-lg {
+    font-family: var(--ed-theme-typography-title-lg-font-family) !important;
+    font-weight: var(--ed-theme-typography-title-lg-font-weight) !important;
+    font-size: var(--ed-theme-typography-title-lg-font-size) !important;
+    line-height: var(--ed-theme-typography-title-lg-line-height) !important;
+    letter-spacing: var(--ed-theme-typography-title-lg-letter-spacing) !important;
+    text-transform: var(--ed-theme-typography-title-lg-text-transform) !important;
+  }
+}
+.ed-u-theme-typography-title-default {
+  font-family: var(--ed-theme-typography-title-default-font-family) !important;
+  font-weight: var(--ed-theme-typography-title-default-font-weight) !important;
+  font-size: var(--ed-theme-typography-title-default-font-size) !important;
+  line-height: var(--ed-theme-typography-title-default-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-title-default-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-title-default-text-transform) !important;
+}
+.ed-u-theme-typography-title-sm {
+  font-family: var(--ed-theme-typography-title-sm-font-family) !important;
+  font-weight: var(--ed-theme-typography-title-sm-font-weight) !important;
+  font-size: var(--ed-theme-typography-title-sm-font-size) !important;
+  line-height: var(--ed-theme-typography-title-sm-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-title-sm-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-title-sm-text-transform) !important;
+}
+.ed-u-theme-typography-label-lg {
+  font-family: var(--ed-theme-typography-label-lg-font-family) !important;
+  font-weight: var(--ed-theme-typography-label-lg-font-weight) !important;
+  font-size: var(--ed-theme-typography-label-lg-font-size) !important;
+  line-height: var(--ed-theme-typography-label-lg-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-label-lg-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-label-lg-text-transform) !important;
+}
+.ed-u-theme-typography-label-default {
+  font-family: var(--ed-theme-typography-label-default-font-family) !important;
+  font-weight: var(--ed-theme-typography-label-default-font-weight) !important;
+  font-size: var(--ed-theme-typography-label-default-font-size) !important;
+  line-height: var(--ed-theme-typography-label-default-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-label-default-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-label-default-text-transform) !important;
+}
+.ed-u-theme-typography-label-sm {
+  font-family: var(--ed-theme-typography-label-sm-font-family) !important;
+  font-weight: var(--ed-theme-typography-label-sm-font-weight) !important;
+  font-size: var(--ed-theme-typography-label-sm-font-size) !important;
+  line-height: var(--ed-theme-typography-label-sm-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-label-sm-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-label-sm-text-transform) !important;
+}
+.ed-u-theme-typography-body-lg {
+  font-family: var(--ed-theme-typography-body-lg-font-family) !important;
+  font-weight: var(--ed-theme-typography-body-lg-font-weight) !important;
+  font-size: var(--ed-theme-typography-body-lg-font-size) !important;
+  line-height: var(--ed-theme-typography-body-lg-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-body-lg-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-body-lg-text-transform) !important;
+}
+.ed-u-theme-typography-body-default {
+  font-family: var(--ed-theme-typography-body-default-font-family) !important;
+  font-weight: var(--ed-theme-typography-body-default-font-weight) !important;
+  font-size: var(--ed-theme-typography-body-default-font-size) !important;
+  line-height: var(--ed-theme-typography-body-default-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-body-default-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-body-default-text-transform) !important;
+}
+.ed-u-theme-typography-body-sm {
+  font-family: var(--ed-theme-typography-body-sm-font-family) !important;
+  font-weight: var(--ed-theme-typography-body-sm-font-weight) !important;
+  font-size: var(--ed-theme-typography-body-sm-font-size) !important;
+  line-height: var(--ed-theme-typography-body-sm-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-body-sm-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-body-sm-text-transform) !important;
+}
+.ed-u-theme-typography-button-lg {
+  font-family: var(--ed-theme-typography-button-lg-font-family) !important;
+  font-weight: var(--ed-theme-typography-button-lg-font-weight) !important;
+  font-size: var(--ed-theme-typography-button-lg-font-size) !important;
+  line-height: var(--ed-theme-typography-button-lg-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-button-lg-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-button-lg-text-transform) !important;
+}
+.ed-u-theme-typography-button-default {
+  font-family: var(--ed-theme-typography-button-default-font-family) !important;
+  font-weight: var(--ed-theme-typography-button-default-font-weight) !important;
+  font-size: var(--ed-theme-typography-button-default-font-size) !important;
+  line-height: var(--ed-theme-typography-button-default-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-button-default-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-button-default-text-transform) !important;
+}
+.ed-u-theme-typography-button-sm {
+  font-family: var(--ed-theme-typography-button-sm-font-family) !important;
+  font-weight: var(--ed-theme-typography-button-sm-font-weight) !important;
+  font-size: var(--ed-theme-typography-button-sm-font-size) !important;
+  line-height: var(--ed-theme-typography-button-sm-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-button-sm-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-button-sm-text-transform) !important;
+}
+.ed-u-theme-typography-meta-default {
+  font-family: var(--ed-theme-typography-meta-default-font-family) !important;
+  font-weight: var(--ed-theme-typography-meta-default-font-weight) !important;
+  font-size: var(--ed-theme-typography-meta-default-font-size) !important;
+  line-height: var(--ed-theme-typography-meta-default-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-meta-default-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-meta-default-text-transform) !important;
+}
+.ed-u-theme-typography-meta-sm {
+  font-family: var(--ed-theme-typography-meta-sm-font-family) !important;
+  font-weight: var(--ed-theme-typography-meta-sm-font-weight) !important;
+  font-size: var(--ed-theme-typography-meta-sm-font-size) !important;
+  line-height: var(--ed-theme-typography-meta-sm-line-height) !important;
+  letter-spacing: var(--ed-theme-typography-meta-sm-letter-spacing) !important;
+  text-transform: var(--ed-theme-typography-meta-sm-text-transform) !important;
+}
+* {
+  box-sizing: border-box;
+}
+/**
+ * Fonts
+ */
+@font-face {
+  font-family: "Agrandir";
+  src: url("../fonts/Agrandir/Agrandir-Variable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Agrandir";
+  src: url("../fonts/Agrandir/Agrandir-Variable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+}
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--ed-theme-color-background-default);
+  color: var(--ed-theme-color-content-default);
+  font-family: var(--ed-theme-typography-body-default-font-family);
+  font-weight: var(--ed-theme-typography-body-default-font-weight);
+  font-size: var(--ed-theme-typography-body-default-font-size);
+  line-height: var(--ed-theme-typography-body-default-line-height);
+  letter-spacing: var(--ed-theme-typography-body-default-letter-spacing);
+  text-transform: var(--ed-theme-typography-body-default-text-transform);
+}
+body.is-disabled {
+  overflow: hidden;
+}
+.fpo {
+  padding: 2rem;
+  background: rgb(206, 239, 250);
+  border: 1px solid rgb(128, 215, 244);
+  text-align: center;
+  color: black;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-transform: uppercase;
+  margin: 0;
+}
+h1 {
+  font-family: var(--ed-theme-typography-display-default-mobile-font-family);
+  font-weight: var(--ed-theme-typography-display-default-mobile-font-weight);
+  font-size: var(--ed-theme-typography-display-default-mobile-font-size);
+  line-height: var(--ed-theme-typography-display-default-mobile-line-height);
+  letter-spacing: var(--ed-theme-typography-display-default-mobile-letter-spacing);
+  text-transform: var(--ed-theme-typography-display-default-mobile-text-transform);
+}
+@media all and (min-width: 48rem) {
+  h1 {
+    font-family: var(--ed-theme-typography-display-default-font-family);
+    font-weight: var(--ed-theme-typography-display-default-font-weight);
+    font-size: var(--ed-theme-typography-display-default-font-size);
+    line-height: var(--ed-theme-typography-display-default-line-height);
+    letter-spacing: var(--ed-theme-typography-display-default-letter-spacing);
+    text-transform: var(--ed-theme-typography-display-default-text-transform);
+  }
+}
+h2 {
+  font-family: var(--ed-theme-typography-headline-lg-mobile-font-family);
+  font-weight: var(--ed-theme-typography-headline-lg-mobile-font-weight);
+  font-size: var(--ed-theme-typography-headline-lg-mobile-font-size);
+  line-height: var(--ed-theme-typography-headline-lg-mobile-line-height);
+  letter-spacing: var(--ed-theme-typography-headline-lg-mobile-letter-spacing);
+  text-transform: var(--ed-theme-typography-headline-lg-mobile-text-transform);
+}
+@media all and (min-width: 48rem) {
+  h2 {
+    font-family: var(--ed-theme-typography-headline-lg-font-family);
+    font-weight: var(--ed-theme-typography-headline-lg-font-weight);
+    font-size: var(--ed-theme-typography-headline-lg-font-size);
+    line-height: var(--ed-theme-typography-headline-lg-line-height);
+    letter-spacing: var(--ed-theme-typography-headline-lg-letter-spacing);
+    text-transform: var(--ed-theme-typography-headline-lg-text-transform);
+  }
+}
+h3 {
+  font-family: var(--ed-theme-typography-headline-default-mobile-font-family);
+  font-weight: var(--ed-theme-typography-headline-default-mobile-font-weight);
+  font-size: var(--ed-theme-typography-headline-default-mobile-font-size);
+  line-height: var(--ed-theme-typography-headline-default-mobile-line-height);
+  letter-spacing: var(--ed-theme-typography-headline-default-mobile-letter-spacing);
+  text-transform: var(--ed-theme-typography-headline-default-mobile-text-transform);
+}
+@media all and (min-width: 48rem) {
+  h3 {
+    font-family: var(--ed-theme-typography-headline-default-font-family);
+    font-weight: var(--ed-theme-typography-headline-default-font-weight);
+    font-size: var(--ed-theme-typography-headline-default-font-size);
+    line-height: var(--ed-theme-typography-headline-default-line-height);
+    letter-spacing: var(--ed-theme-typography-headline-default-letter-spacing);
+    text-transform: var(--ed-theme-typography-headline-default-text-transform);
+  }
+}
+ed-heading.character__heading {
+  --ed-theme-typography-display-default-font-size: clamp(1.4rem, 5vw, 2rem);
+  --ed-theme-typography-display-default-mobile-font-size: clamp(
+  	1.4rem,
+  	5vw,
+  	2rem
+  );
+}
+ed-heading.text-node__heading {
+  --ed-theme-typography-display-default-font-size: clamp(2rem, 5vw, 5rem);
+  --ed-theme-typography-display-default-mobile-font-size: clamp(
+  	2rem,
+  	5vw,
+  	4rem
+  );
+  text-wrap: balance;
+}
+/*------------------------------------*\
+    #MIXINS
+\*------------------------------------*/
+/**
+ * Visible focus outline for elements on a light background
+ */
+/**
+ * Visible focus outline for elements on a dark background
+ */
+/**
+ * Visually hidden from display
+ */
+a:not([class]) {
+  color: var(--ed-theme-color-content-brand);
+}
+a:focus-visible {
+  outline: var(--ed-theme-border-width-lg) solid var(--ed-theme-focus-ring-color-border-default);
+  outline-offset: var(--ed-theme-offset-focus-ring, calc(0.5rem * 0.5));
+}
+img {
+  max-width: 100%;
+  height: auto;
+}
+iframe {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+}
+video {
+  width: 100%;
+  height: auto;
+}
+hr {
+  border: 0;
+  background: var(--ed-theme-color-border-subtle);
+  height: 2px;
+  margin: 4rem 0;
+}
+.resource-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 1rem;
+}
+.resource-tag {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+}
+.resource-tag--default {
+  background-color: rgba(206, 205, 202, 0.5);
+  color: rgb(50, 48, 44);
+}
+.resource-tag--gray {
+  background-color: rgba(140, 140, 140, 0.2);
+  color: rgb(100, 100, 100);
+}
+.resource-tag--brown {
+  background-color: rgba(140, 100, 80, 0.2);
+  color: rgb(96, 59, 44);
+}
+.resource-tag--orange {
+  background-color: rgba(245, 174, 115, 0.4);
+  color: rgb(147, 74, 10);
+}
+.resource-tag--yellow {
+  background-color: rgba(253, 236, 142, 0.5);
+  color: rgb(131, 94, 16);
+}
+.resource-tag--green {
+  background-color: rgba(152, 195, 155, 0.4);
+  color: rgb(40, 92, 48);
+}
+.resource-tag--blue {
+  background-color: rgba(143, 186, 220, 0.4);
+  color: rgb(32, 82, 126);
+}
+.resource-tag--purple {
+  background-color: rgba(186, 153, 203, 0.4);
+  color: rgb(88, 50, 115);
+}
+.resource-tag--pink {
+  background-color: rgba(223, 150, 178, 0.4);
+  color: rgb(136, 53, 90);
+}
+.resource-tag--red {
+  background-color: rgba(227, 137, 137, 0.4);
+  color: rgb(143, 41, 41);
+}
+.resource-category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.resource-category__heading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.resource-category__heading .resource-tag {
+  font-size: 1rem;
+  padding: 0.375rem 0.75rem;
+  text-transform: capitalize;
+}
+.resource-category__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.resource-category__links li {
+  margin: 0;
+  padding: 0;
+}
+.resource-category__links a {
+  display: inline-block;
+  padding: 0.5rem 0;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+.resource-category__links a:hover {
+  text-decoration: underline;
+}
+
+/*# sourceMappingURL=styles.css.map */

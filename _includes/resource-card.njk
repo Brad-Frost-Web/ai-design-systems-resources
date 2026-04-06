@@ -1,0 +1,23 @@
+<ed-card>
+  <ed-heading variant="title-sm">
+    <a href="{{ resource.href }}" target="_blank">{{ resource.title }}</a>
+  </ed-heading>
+  {% if resource.type or resource.tags.length %}
+  <div class="resource-tags">
+    {% if resource.type %}
+    <ed-badge text="{{ resource.type }}"></ed-badge>
+    {% endif %}
+    {% for tag in resource.tags %}
+    <ed-badge text="{{ tag.name }}"></ed-badge>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% if resource.source == "slack" and resource.slackSummary %}
+  <ed-text-passage size="sm">
+    <p>{{ resource.slackSentiment | sentimentEmoji }} {{ resource.slackSummary }}</p>
+    {% if resource.slackMessageUrl %}
+    <p><a href="{{ resource.slackMessageUrl }}" target="_blank">View in Slack →</a></p>
+    {% endif %}
+  </ed-text-passage>
+  {% endif %}
+</ed-card>

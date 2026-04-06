@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+	{% include "head.njk" %}
+	<body>
+		<ed-main>
+      <ed-r-course-hero compact>
+        <ed-heading tagName="h1">AI &amp; DESIGN SYSTEMS</ed-heading>
+        <p style="font-size: 1.6rem; margin: 0.5rem 0 0;">Links &amp; Resources</p>
+      </ed-r-course-hero>
+      <ed-layout-container class="ed-u-padding-top-xl">
+        {% include "resource-toolbar.njk" %}
+        {% include "resource-card-grid.njk" %}
+        {% include "resource-category-list.njk" %}
+      </ed-layout-container>
+		</ed-main>
+
+		<script type="module" src="js/components.js"></script>
+		<script type="module" src="js/scripts.js"></script>
+	</body>
+</html>

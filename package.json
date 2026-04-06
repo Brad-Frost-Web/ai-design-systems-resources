@@ -1,0 +1,36 @@
+{
+	"name": "ai-design-systems-resources",
+	"version": "0.1.0",
+	"description": "A collection of resources for AI and design systems",
+	"scripts": {
+		"start": "npm-run-all --parallel start:eleventy start:sass start:postcss",
+		"start:eleventy": "npx @11ty/eleventy --serve",
+		"start:sass": "sass --load-path=node_modules --watch css/styles.scss css/styles.tmp.css",
+		"start:postcss": "postcss css/styles.tmp.css -o css/styles.css --watch",
+		"build": "npm run build:css && npm run build:eleventy",
+		"build:css": "sass --load-path=node_modules css/styles.scss css/styles.tmp.css && postcss css/styles.tmp.css -o css/styles.css",
+		"build:eleventy": "ELEVENTY_ENV=production npx @11ty/eleventy",
+		"sync": "node scripts/sync-notion.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@11ty/eleventy": "^3.0.0",
+		"@brad-frost-web/eddie-design-tokens": "^0.17.0",
+		"@brad-frost-web/eddie-recipes": "file:../eddie-design-system/packages/eddie-recipes",
+		"@brad-frost-web/eddie-web-components": "^0.17.0",
+		"@notionhq/client": "^2.2.15",
+		"dotenv": "^16.4.5",
+		"gray-matter": "^4.0.3",
+		"npm-run-all": "^4.1.5",
+		"sass": "^1.82.0"
+	},
+	"devDependencies": {
+		"esbuild": "^0.27.0",
+		"postcss": "^8.5.6",
+		"postcss-cli": "^11.0.1",
+		"postcss-import": "^16.1.1"
+	}
+}
