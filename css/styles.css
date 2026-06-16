@@ -1,6 +1,10 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=League+Gothic&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap");
 :root {
+  --ed-theme-color-background-viz-design: #8a4cef;
+  --ed-theme-color-background-viz-repo: #f1992a;
+  --ed-theme-color-background-viz-package: #ecba40;
+  --ed-theme-color-background-viz-product: #3bc23b;
   --ed-theme-color-background-default: #f6f5de;
   --ed-theme-color-background-default-hover: #efeed4;
   --ed-theme-color-background-subtle: #dedcb9;
@@ -34,17 +38,10 @@
   --ed-theme-color-background-disabled: #d0d2d5;
   --ed-theme-color-background-transparent: #00000040;
   --ed-theme-color-background-transparent-strong: #000000e5;
-  --ed-theme-color-border-default: #4a3620;
-  --ed-theme-color-border-default-hover: #7a7e87;
-  --ed-theme-color-border-subtle: #a29e5e;
-  --ed-theme-color-border-strong: #1c1d1f;
-  --ed-theme-color-border-knockout: #9699a0;
-  --ed-theme-color-border-brand: #be6700;
-  --ed-theme-color-border-utility-error: #8d2121;
-  --ed-theme-color-border-utility-warning: #6d3f00;
-  --ed-theme-color-border-utility-success: #085442;
-  --ed-theme-color-border-utility-info: #34409e;
-  --ed-theme-color-border-disabled: #d0d2d5;
+  --ed-theme-color-content-on-viz-design: #ffffff;
+  --ed-theme-color-content-on-viz-repo: #110000;
+  --ed-theme-color-content-on-viz-package: #110000;
+  --ed-theme-color-content-on-viz-product: #ffffff;
   --ed-theme-color-content-default: #110000;
   --ed-theme-color-content-default-hover: #4a3620;
   --ed-theme-color-content-subtle: #cfc578;
@@ -52,11 +49,54 @@
   --ed-theme-color-content-brand: #be6700;
   --ed-theme-color-content-brand-hover: #2d2013;
   --ed-theme-color-content-brand-knockout: #f6f5de;
+  --ed-theme-color-content-accent-1: #be6700;
+  --ed-theme-color-content-accent-2: #80cafa;
+  --ed-theme-color-content-accent-3: #0b0049;
+  --ed-theme-color-content-accent-4: #c9b039;
+  --ed-theme-color-content-accent-5: #110000;
+  --ed-theme-color-content-accent-6: #efeed4;
+  --ed-theme-color-content-accent-7: #dedcb9;
+  --ed-theme-color-content-accent-8: #a29e5e;
+  --ed-theme-color-content-on-accent-1: #f6f5de;
+  --ed-theme-color-content-on-accent-2: #110000;
+  --ed-theme-color-content-on-accent-3: #f6f5de;
+  --ed-theme-color-content-on-accent-4: #110000;
+  --ed-theme-color-content-on-accent-5: #f6f5de;
+  --ed-theme-color-content-on-accent-6: #110000;
+  --ed-theme-color-content-on-accent-7: #110000;
+  --ed-theme-color-content-on-accent-8: #110000;
   --ed-theme-color-content-disabled: #61646b;
   --ed-theme-color-content-utility-error: #b82f30;
   --ed-theme-color-content-utility-warning: #8a5801;
   --ed-theme-color-content-utility-success: #0b7058;
   --ed-theme-color-content-utility-info: #4555d3;
+  --ed-theme-color-border-default: #4a3620;
+  --ed-theme-color-border-default-hover: #7a7e87;
+  --ed-theme-color-border-subtle: #a29e5e;
+  --ed-theme-color-border-strong: #1c1d1f;
+  --ed-theme-color-border-knockout: #9699a0;
+  --ed-theme-color-border-brand: #be6700;
+  --ed-theme-color-border-accent-1: #be6700;
+  --ed-theme-color-border-accent-2: #80cafa;
+  --ed-theme-color-border-accent-3: #0b0049;
+  --ed-theme-color-border-accent-4: #c9b039;
+  --ed-theme-color-border-accent-5: #110000;
+  --ed-theme-color-border-accent-6: #efeed4;
+  --ed-theme-color-border-accent-7: #dedcb9;
+  --ed-theme-color-border-accent-8: #a29e5e;
+  --ed-theme-color-border-on-accent-1: #dedcb9;
+  --ed-theme-color-border-on-accent-2: #4a3620;
+  --ed-theme-color-border-on-accent-3: #dedcb9;
+  --ed-theme-color-border-on-accent-4: #4a3620;
+  --ed-theme-color-border-on-accent-5: #dedcb9;
+  --ed-theme-color-border-on-accent-6: #4a3620;
+  --ed-theme-color-border-on-accent-7: #4a3620;
+  --ed-theme-color-border-on-accent-8: #110000;
+  --ed-theme-color-border-utility-error: #8d2121;
+  --ed-theme-color-border-utility-warning: #6d3f00;
+  --ed-theme-color-border-utility-success: #085442;
+  --ed-theme-color-border-utility-info: #34409e;
+  --ed-theme-color-border-disabled: #d0d2d5;
   --ed-z-index-0: 0;
   --ed-z-index-100: 100;
   --ed-z-index-200: 200;
@@ -65,14 +105,12 @@
   --ed-z-index-500: 500;
   --ed-z-index-top: 99999;
   --ed-z-index-bottom: -100;
-  --ed-theme-border-radius-none: 0rem;
-  --ed-theme-border-radius-sm: 0rem;
-  --ed-theme-border-radius-md: 0rem;
-  --ed-theme-border-radius-lg: 0rem;
-  --ed-theme-border-width-sm: 0.0625rem;
-  --ed-theme-border-width-md: 0.125rem;
-  --ed-theme-border-width-lg: 0.25rem;
-  --ed-theme-border-width-xl: 0.5rem;
+  --ed-theme-typography-viz-label-font-family: League Gothic;
+  --ed-theme-typography-viz-label-font-weight: 400;
+  --ed-theme-typography-viz-label-font-size: clamp(10cqi, calc(130cqi / var(--_label-length, 6)), 24cqi);
+  --ed-theme-typography-viz-label-line-height: NaN;
+  --ed-theme-typography-viz-label-letter-spacing: 0.02em;
+  --ed-theme-typography-viz-label-text-transform: lowercase;
   --ed-theme-typography-display-xl-font-family: League Gothic;
   --ed-theme-typography-display-xl-font-weight: 400;
   --ed-theme-typography-display-xl-font-size: 11rem;
@@ -253,6 +291,14 @@
   --ed-theme-typography-primary-nav-default-mobile-line-height: 1.29;
   --ed-theme-typography-primary-nav-default-mobile-letter-spacing: 0rem;
   --ed-theme-typography-primary-nav-default-mobile-text-transform: none;
+  --ed-theme-border-radius-none: 0rem;
+  --ed-theme-border-radius-sm: 0rem;
+  --ed-theme-border-radius-md: 0rem;
+  --ed-theme-border-radius-lg: 0rem;
+  --ed-theme-border-width-sm: 0.0625rem;
+  --ed-theme-border-width-md: 0.125rem;
+  --ed-theme-border-width-lg: 0.25rem;
+  --ed-theme-border-width-xl: 0.5rem;
   --ed-theme-animation-fade-quick: 0.15s;
   --ed-theme-animation-fade-long: 0.4s;
   --ed-theme-animation-move-quick: 0.15s;
@@ -1297,7 +1343,7 @@ ed-heading.text-node__heading {
  * Visible focus outline for elements on a dark background
  */
 /**
- * Visually hidden from display
+ * Visually hidden from displays
  */
 a:not([class]) {
   color: var(--ed-theme-color-content-brand);
@@ -1325,6 +1371,38 @@ hr {
   background: var(--ed-theme-color-border-subtle);
   height: 2px;
   margin: 4rem 0;
+}
+.site-header__layout-container {
+  width: 100%;
+}
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  padding-block: 0.5rem;
+}
+.site-header__nav-container {
+  display: none;
+  margin-inline-start: auto;
+}
+.site-header.is-active .site-header__nav-container {
+  display: block;
+}
+.site-header__menu-button {
+  margin-inline-start: auto;
+}
+.site-header__nav-item--placeholder {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: default;
+}
+@media all and (min-width: 48rem) {
+  .site-header__nav-container {
+    display: block;
+    margin-inline-start: auto;
+  }
+  .site-header__menu-button {
+    display: none;
+  }
 }
 .resource-tags {
   display: flex;

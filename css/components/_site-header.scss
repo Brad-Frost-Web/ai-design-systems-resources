@@ -1,0 +1,51 @@
+// Site header chrome
+//
+// Composes Eddie's <ed-header>, <ed-logo>, <ed-nav-container> and <ed-primary-nav>
+// in light DOM. The flex layout and mobile nav-toggle behavior mirror the
+// canonical eddie-recipes `site-header` recipe, adapted for this site's nav.
+
+.site-header__layout-container {
+	width: 100%;
+}
+
+.site-header__inner {
+	display: flex;
+	align-items: center;
+	padding-block: 0.5rem;
+}
+
+// Mobile: nav is hidden until the menu button toggles `.is-active` on the header.
+.site-header__nav-container {
+	display: none;
+	margin-inline-start: auto;
+}
+
+.site-header.is-active .site-header__nav-container {
+	display: block;
+}
+
+.site-header__menu-button {
+	margin-inline-start: auto;
+}
+
+// Current-page indication uses Eddie's own convention: the `isHighlighted`
+// property on the matching ed-primary-nav-item (applies ed-c-primary-nav__item--highlight).
+// No custom styling here — see _includes/site-header.njk.
+
+// Placeholder items (planned pages that don't exist yet): visible but inert.
+.site-header__nav-item--placeholder {
+	opacity: 0.5;
+	pointer-events: none;
+	cursor: default;
+}
+
+@media all and (min-width: 48rem) {
+	.site-header__nav-container {
+		display: block;
+		margin-inline-start: auto;
+	}
+
+	.site-header__menu-button {
+		display: none;
+	}
+}

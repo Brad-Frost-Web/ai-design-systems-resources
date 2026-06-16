@@ -1,0 +1,44 @@
+{# Shared site chrome: Eddie header + logo + primary nav. Inherited by every page via base.njk. #}
+<ed-header fullWidth class="site-header" id="site-header">
+	<ed-layout-container class="site-header__layout-container">
+		<div class="site-header__inner">
+			<ed-logo class="site-header__logo" href="/" showDots inverted>AI &amp; Design Systems</ed-logo>
+
+			<ed-nav-container class="site-header__nav-container">
+				<ed-primary-nav>
+					{%- for item in nav.primary %}
+					{%- if item.placeholder %}
+					<ed-primary-nav-item
+						class="site-header__nav-item site-header__nav-item--placeholder"
+						text="{{ item.text }}"
+						href="#"
+						aria-disabled="true"
+						title="Coming soon"
+					></ed-primary-nav-item>
+					{%- else %}
+					<ed-primary-nav-item
+						class="site-header__nav-item"
+						text="{{ item.text }}"
+						href="{{ item.url }}"
+						{% if page.url == item.url %}isHighlighted aria-current="page"{% endif %}
+					></ed-primary-nav-item>
+					{%- endif %}
+					{%- endfor %}
+				</ed-primary-nav>
+			</ed-nav-container>
+
+			<ed-button
+				class="site-header__menu-button"
+				id="site-header-menu-button"
+				size="lg"
+				variant="bare"
+				inverted
+				text="Menu"
+				iconPosition="before"
+				iconName="menu"
+				aria-controls="site-header"
+				aria-expanded="false"
+			></ed-button>
+		</div>
+	</ed-layout-container>
+</ed-header>
