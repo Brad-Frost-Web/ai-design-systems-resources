@@ -2,6 +2,7 @@
 title: "Impeccable Style"
 url: "https://impeccable.style/"
 created: "2026-03-26T23:44:41.000Z"
+notionId: "3813c932-3e86-814e-bf7e-e39c17269568"
 source: "slack"
 slackMessageUrl: "https://bradfrost.slack.com/archives/C09TMK7DS7J/p1774568681198379"
 slackSummary: "Jesse Basham asked if anyone uses Impeccable Style, a shareable set of design opinions for AI coding. Thread showed mixed reactions — one member uses it for their personal site, while others raised concerns about importing opinionated rules and suggested configurable setup skills instead."

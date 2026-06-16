@@ -2,6 +2,7 @@
 title: "Figma MCP: Connectors, Plugins, and Skills"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75501255-figma-mcp-connectors-plugins-and-skills"
 created: "2026-05-27T22:34:49.000Z"
+notionId: "3813c932-3e86-81aa-b53c-d8e28f6fa2bb"
 source: "slack"
 slackMessageUrl: "https://bradfrost.slack.com/archives/C09TMK7DS7J/p1779921289061789"
 slackSummary: "A new AI & Design Systems course lesson clarifying the difference between Figma MCP Connectors, Plugins, and Skills — key conceptual distinctions for anyone building or using Figma-integrated AI workflows."

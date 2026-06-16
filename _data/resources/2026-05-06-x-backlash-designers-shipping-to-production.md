@@ -2,6 +2,7 @@
 title: "X Thread: Backlash Against Designers Shipping to Production via AI"
 url: "https://x.com/i/status/2051625170318598305"
 created: "2026-05-06T03:54:08.294Z"
+notionId: "3813c932-3e86-8126-8470-d0e238438043"
 source: "slack"
 slackMessageUrl: "https://bradfrost.slack.com/archives/C09TMK7DS7J/p1778039648294759"
 slackSummary: "A community member flagged a backlash thread against non-technical people shipping to production thanks to AI, sparking a rich discussion about guardrails, empowerment, and what it actually means to ship. Ian Frost and others argued for empowerment with proper infrastructure — a theme the course will dig into directly."
