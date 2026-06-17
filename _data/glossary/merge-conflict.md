@@ -1,0 +1,20 @@
+---
+term: "Merge Conflict"
+source:
+  type: "course"
+  name: "AI & Design Systems Course"
+lessons:
+  - number: "2.66"
+    chapter: "Chapter 2"
+    title: "Git Core Concepts Cheat Sheet"
+    url: "https://app.notion.com/p/3663c9323e86811a8c5ae262cb42ceef"
+  - number: "2.70"
+    chapter: "Chapter 2"
+    title: "AI-generated Code & Git Commits"
+    url: "https://app.notion.com/p/3663c9323e86819b877dd2bd02a64444"
+tags:
+  - "git"
+  - "workflow"
+---
+
+A merge conflict happens whenever two people touch the same line of code at the same time. The course's example: if you change the buttons to purple and a teammate changes them to pink at the same time, then try to merge the branches together, Git will flag the conflicting information and require you to resolve it one way or the other.
