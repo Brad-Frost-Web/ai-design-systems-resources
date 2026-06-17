@@ -1169,6 +1169,116 @@ hr {
     display: none;
   }
 }
+.glossary-intro {
+  max-inline-size: 60ch;
+  margin-block-end: 2rem;
+  color: var(--ed-theme-color-content-subtle);
+}
+
+.glossary-az {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  position: sticky;
+  inset-block-start: 0;
+  padding-block: 0.75rem;
+  margin-block-end: 1.5rem;
+  background: var(--ed-theme-color-background-default);
+  border-block-end: var(--ed-theme-border-width-sm, 1px) solid var(--ed-theme-color-border-subtle);
+  z-index: 2;
+}
+
+.glossary-az a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 2rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--ed-theme-border-radius-md);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.glossary-az a:hover,
+.glossary-az a:focus {
+  background: var(--ed-theme-color-background-knockout);
+  color: var(--ed-theme-color-content-knockout);
+}
+
+.glossary-section {
+  margin-block-end: 2.5rem;
+}
+
+.glossary-section__letter {
+  margin-block-end: 1rem;
+  padding-block-end: 0.25rem;
+  border-block-end: var(--ed-theme-border-width-lg, 2px) solid var(--ed-theme-color-border-subtle);
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+.glossary-list {
+  margin: 0;
+}
+
+.glossary-term {
+  padding-block: 1.25rem;
+  border-block-end: var(--ed-theme-border-width-sm, 1px) solid var(--ed-theme-color-border-subtle);
+  scroll-margin-block-start: 4rem;
+}
+
+.glossary-term__name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-block-end: 0.5rem;
+}
+
+.glossary-term__aliases {
+  margin-inline-start: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ed-theme-color-content-subtle);
+}
+
+.glossary-term__body {
+  margin: 0;
+}
+
+.glossary-term__definition {
+  max-inline-size: 70ch;
+  margin: 0 0 0.5rem;
+}
+
+.glossary-term__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 0.5rem;
+}
+
+.glossary-term__tag {
+  padding: 0.1rem 0.5rem;
+  border-radius: var(--ed-theme-border-radius-round, 999px);
+  background: var(--ed-theme-color-background-subtle);
+  font-size: 0.8rem;
+  color: var(--ed-theme-color-content-subtle);
+}
+
+.glossary-term__source {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--ed-theme-color-content-subtle);
+}
+
+.glossary-term__source-label {
+  font-weight: 600;
+}
+
+.glossary-term__sep {
+  color: var(--ed-theme-color-border-subtle);
+}
+
 .resource-tags {
   display: flex;
   flex-wrap: wrap;

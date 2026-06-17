@@ -1,0 +1,64 @@
+---
+layout: base.njk
+permalink: /glossary/
+---
+<ed-main>
+	<ed-r-course-hero compact>
+		<ed-heading tagName="h1">GLOSSARY</ed-heading>
+		<p style="font-size: 1.6rem; margin: 0.5rem 0 0;">Key terms from the AI &amp; Design Systems course</p>
+	</ed-r-course-hero>
+
+	<ed-layout-container class="ed-u-padding-top-xl">
+		<p class="glossary-intro">
+			{{ glossary.length }} terms defined as they're articulated in the
+			<a href="https://aianddesign.systems">AI &amp; Design Systems course</a>.
+			Each entry links to the lesson(s) it comes from.
+		</p>
+
+		{# Build the distinct set of starting letters for the A–Z index #}
+		{% set letters = [] %}
+		{% for item in glossary %}
+			{% if item.letter not in letters %}
+				{% set letters = (letters.push(item.letter), letters) %}
+			{% endif %}
+		{% endfor %}
+
+		<nav class="glossary-az" aria-label="Jump to a letter">
+			{% for letter in letters %}<a href="#letter-{{ letter }}">{{ letter }}</a>{% endfor %}
+		</nav>
+
+		{% for letter in letters %}
+			<section class="glossary-section" aria-labelledby="letter-{{ letter }}">
+				<h2 class="glossary-section__letter" id="letter-{{ letter }}">{{ letter }}</h2>
+				<dl class="glossary-list">
+					{% for item in glossary %}
+						{% if item.letter == letter %}
+							<div class="glossary-term" id="{{ item.slug }}">
+								<dt class="glossary-term__name">
+									{{ item.term }}
+									{% if item.aliases.length %}
+										<span class="glossary-term__aliases">{{ item.aliases | join(", ") }}</span>
+									{% endif %}
+								</dt>
+								<dd class="glossary-term__body">
+									<p class="glossary-term__definition">{{ item.definition }}</p>
+									{% if item.tags.length %}
+										<p class="glossary-term__tags">
+											{% for tag in item.tags %}<span class="glossary-term__tag">{{ tag }}</span>{% endfor %}
+										</p>
+									{% endif %}
+									{% if item.lessons.length %}
+										<p class="glossary-term__source">
+											<span class="glossary-term__source-label">Source —</span>
+											{% for lesson in item.lessons %}<a class="glossary-term__lesson" href="{{ lesson.url }}">{{ lesson.number }} · {{ lesson.title }}</a>{% if not loop.last %} <span class="glossary-term__sep">·</span> {% endif %}{% endfor %}
+										</p>
+									{% endif %}
+								</dd>
+							</div>
+						{% endif %}
+					{% endfor %}
+				</dl>
+			</section>
+		{% endfor %}
+	</ed-layout-container>
+</ed-main>

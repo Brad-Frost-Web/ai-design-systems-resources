@@ -29,9 +29,11 @@ module.exports = function () {
 		const fileContents = fs.readFileSync(path.join(glossaryDir, file), "utf8");
 		const { data, content } = matter(fileContents);
 
+		const term = data.term || slug;
 		return {
 			slug,
-			term: data.term || slug,
+			term,
+			letter: term.charAt(0).toUpperCase(),
 			aliases: data.aliases || [],
 			definition: (content || "").trim(),
 			source: data.source || null,
