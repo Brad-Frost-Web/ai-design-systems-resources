@@ -7,11 +7,11 @@ lessons:
   - number: "1.09"
     chapter: "Chapter 1"
     title: "LLM Overview"
-    url: "https://app.notion.com/p/3563c9323e8681c4ada9e1146bfce6ee"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74519161-llm-overview"
   - number: "1.10"
     chapter: "Chapter 1"
     title: "LLM Demo"
-    url: "https://app.notion.com/p/3573c9323e8681428d74d0461a7c31b1"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74964390-llms-in-action"
 tags:
   - "ai"
 ---

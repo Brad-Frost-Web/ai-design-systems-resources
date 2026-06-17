@@ -7,11 +7,11 @@ lessons:
   - number: "2.72"
     chapter: "Chapter 2"
     title: "Adding Collaborators On GitHub"
-    url: "https://app.notion.com/p/3663c9323e868145a1e0ca5cbc51e807"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75162822-adding-github-collaborators"
   - number: "2.74"
     chapter: "Chapter 2"
     title: "Publish New Branch"
-    url: "https://app.notion.com/p/3663c9323e868101a524f1c4608e2884"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75162832-publishing-a-new-branch"
 tags:
   - "github"
   - "workflow"

@@ -9,11 +9,11 @@ lessons:
   - number: "1.13"
     chapter: "Chapter 1"
     title: "What's Hard About AI"
-    url: "https://app.notion.com/p/3593c9323e86812494a4daebc1a42eb3"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75002391-what-s-hard-about-ai"
   - number: "1.26"
     chapter: "Chapter 1"
     title: "What LLMs Are Not"
-    url: "https://app.notion.com/p/34a3c9323e8681db9e7ad5edb36b418a"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74426993-what-llms-are-not"
 tags:
   - "ai"
   - "llm"

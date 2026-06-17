@@ -9,11 +9,11 @@ lessons:
   - number: "1.27"
     chapter: "Chapter 1"
     title: "Major LLM Players: Overview and Features"
-    url: "https://app.notion.com/p/34a3c9323e86812fab99e94ac4d97a1a"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74427090-major-llm-players-overview-and-features"
   - number: "1.36"
     chapter: "Chapter 1"
     title: "AI Tools Recap"
-    url: "https://app.notion.com/p/34a3c9323e8681af8285de6af3470c11"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74427656-ai-tools-recap"
 tags:
   - "ai"
   - "llm"

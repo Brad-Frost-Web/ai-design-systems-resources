@@ -9,11 +9,11 @@ lessons:
   - number: "3.00"
     chapter: "Chapter 3"
     title: "Chapter 3 Intro"
-    url: "https://app.notion.com/p/34a3c9323e8681d4b8f5d76e1a3dd523"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74284727-chapter-3-introduction"
   - number: "3.01"
     chapter: "Chapter 3"
     title: "The Check Engine Light for Design Systems"
-    url: "https://app.notion.com/p/3563c9323e8681e18ef5fa40a4752734"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74521446-the-check-engine-light-for-design-systems"
 tags:
   - "design systems"
   - "metaphor"

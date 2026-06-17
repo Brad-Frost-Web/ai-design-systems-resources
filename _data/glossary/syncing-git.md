@@ -11,7 +11,7 @@ lessons:
   - number: "2.76"
     chapter: "Chapter 2"
     title: "Syncing GitHub to Local Git"
-    url: "https://app.notion.com/p/3663c9323e8681d8a18cd6bd803bd3be"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75162841-syncing-changes-from-github"
 tags:
   - "git"
   - "workflow"

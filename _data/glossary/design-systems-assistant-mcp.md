@@ -7,7 +7,7 @@ lessons:
   - number: "3.03"
     chapter: "Chapter 3"
     title: "Analyzing a Component with FigmaLint"
-    url: "https://app.notion.com/p/3563c9323e868143bcacc3f810cdb908"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74881246-analyzing-a-component-with-figmalint"
 tags:
   - "tooling"
   - "design systems"

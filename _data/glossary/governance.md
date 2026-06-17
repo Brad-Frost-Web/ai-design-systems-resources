@@ -9,11 +9,11 @@ lessons:
   - number: "1.07"
     chapter: "Chapter 1"
     title: "What's Hard About Design Systems?"
-    url: "https://app.notion.com/p/34a3c9323e8681c7bdd7f0125b19a715"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75961808-what-s-hard-about-design-systems"
   - number: "7.00"
     chapter: "Chapter 7"
     title: "Chapter 7 Intro"
-    url: "https://app.notion.com/p/34a3c9323e868194bd3cf25bea7429b1"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74287019-chapter-7-introduction"
 tags:
   - "design systems"
   - "ai"

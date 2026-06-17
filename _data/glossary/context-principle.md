@@ -7,7 +7,7 @@ lessons:
   - number: "0.06"
     chapter: "Chapter 0"
     title: "Principles and Our Approach to AI"
-    url: "https://app.notion.com/p/34a3c9323e8681859a0fc379dd635f38"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/72577755-principles-our-approach-to-ai"
 tags:
   - "principles"
   - "ai"

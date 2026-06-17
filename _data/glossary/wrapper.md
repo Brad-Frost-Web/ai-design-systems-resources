@@ -9,7 +9,7 @@ lessons:
   - number: "1.28"
     chapter: "Chapter 1"
     title: "How We Actually Use LLMs"
-    url: "https://app.notion.com/p/34a3c9323e8681faac51c2e716ff5b25"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74427291-how-we-actually-use-llms"
 tags:
   - "ai"
   - "tooling"

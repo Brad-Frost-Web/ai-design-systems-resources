@@ -9,7 +9,7 @@ lessons:
   - number: "2.75"
     chapter: "Chapter 2"
     title: "Merging & Pull Requests"
-    url: "https://app.notion.com/p/3663c9323e8681978fd8f0a0f8d365bd"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75162838-merging-pull-requests"
 tags:
   - "github"
   - "workflow"

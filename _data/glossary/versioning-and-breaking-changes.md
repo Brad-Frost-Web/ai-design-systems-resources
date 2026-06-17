@@ -9,7 +9,7 @@ lessons:
   - number: "1.07"
     chapter: "Chapter 1"
     title: "What's Hard About Design Systems?"
-    url: "https://app.notion.com/p/34a3c9323e8681c7bdd7f0125b19a715"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75961808-what-s-hard-about-design-systems"
 tags:
   - "design systems"
 ---

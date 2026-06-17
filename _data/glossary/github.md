@@ -7,11 +7,11 @@ lessons:
   - number: "2.61"
     chapter: "Chapter 2"
     title: "Git Definition"
-    url: "https://app.notion.com/p/3663c9323e86812b9d7cdde5bd669f93"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74763921-git-definition"
   - number: "2.63"
     chapter: "Chapter 2"
     title: "A Quick Note About Access & Security"
-    url: "https://app.notion.com/p/3663c9323e86814fa114fc5f5605fbe6"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75162556-a-quick-note-about-access-and-security"
 tags:
   - "github"
   - "git"

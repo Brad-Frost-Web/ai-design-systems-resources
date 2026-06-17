@@ -7,11 +7,11 @@ lessons:
   - number: "2.64"
     chapter: "Chapter 2"
     title: "Creating a GitHub Account"
-    url: "https://app.notion.com/p/3663c9323e8681a7969ec5314e3ea481"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75162562-creating-a-github-account"
   - number: "2.65"
     chapter: "Chapter 2"
     title: "Installing GitHub CLI"
-    url: "https://app.notion.com/p/3663c9323e868105b059c2f1d09248ff"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75162574-installing-github-cli"
 tags:
   - "github"
   - "tools"

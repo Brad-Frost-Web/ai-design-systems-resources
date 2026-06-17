@@ -9,11 +9,11 @@ lessons:
   - number: "2.66"
     chapter: "Chapter 2"
     title: "Git Core Concepts Cheat Sheet"
-    url: "https://app.notion.com/p/3663c9323e86811a8c5ae262cb42ceef"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75162584-git-core-concepts-cheat-sheet"
   - number: "2.75"
     chapter: "Chapter 2"
     title: "Merging & Pull Requests"
-    url: "https://app.notion.com/p/3663c9323e8681978fd8f0a0f8d365bd"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75162838-merging-pull-requests"
 tags:
   - "git"
   - "workflow"

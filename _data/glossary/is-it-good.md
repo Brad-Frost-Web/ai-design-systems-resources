@@ -9,11 +9,11 @@ lessons:
   - number: "1.10"
     chapter: "Chapter 1"
     title: "LLM Demo"
-    url: "https://app.notion.com/p/3573c9323e8681428d74d0461a7c31b1"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74964390-llms-in-action"
   - number: "1.10 Appendix"
     chapter: "Chapter 1"
     title: "Appendix: Full LLM Demo"
-    url: "https://app.notion.com/p/3573c9323e86815eb28ec654ed61fb81"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74966906-llms-in-action-full-session"
 tags:
   - "ai"
   - "design systems"

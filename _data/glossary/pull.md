@@ -9,11 +9,11 @@ lessons:
   - number: "2.66"
     chapter: "Chapter 2"
     title: "Git Core Concepts Cheat Sheet"
-    url: "https://app.notion.com/p/3663c9323e86811a8c5ae262cb42ceef"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75162584-git-core-concepts-cheat-sheet"
   - number: "2.76"
     chapter: "Chapter 2"
     title: "Syncing GitHub to Local Git"
-    url: "https://app.notion.com/p/3663c9323e8681d8a18cd6bd803bd3be"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75162841-syncing-changes-from-github"
 tags:
   - "git"
   - "workflow"

@@ -9,11 +9,11 @@ lessons:
   - number: "1.31"
     chapter: "Chapter 1"
     title: "Subagents"
-    url: "https://app.notion.com/p/34a3c9323e868180aa37e448364d9f0e"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74427462-subagents"
   - number: "1.36"
     chapter: "Chapter 1"
     title: "AI Tools Recap"
-    url: "https://app.notion.com/p/34a3c9323e8681af8285de6af3470c11"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74427656-ai-tools-recap"
 tags:
   - "ai"
   - "agents"

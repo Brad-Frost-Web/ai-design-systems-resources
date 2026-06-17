@@ -10,15 +10,15 @@ lessons:
   - number: "1.05"
     chapter: "Chapter 1"
     title: "Design System Ingredients"
-    url: "https://app.notion.com/p/34a3c9323e8681f8bf0ef286e69be1e8"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74085221-a-design-system-s-ingredients"
   - number: "1.15"
     chapter: "Chapter 1"
     title: "Design System Tools Intro"
-    url: "https://app.notion.com/p/34a3c9323e8681b99b66c15f833c33dc"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74155545-design-system-tools-intro"
   - number: "1.22"
     chapter: "Chapter 1"
     title: "Documentation Tools"
-    url: "https://app.notion.com/p/34a3c9323e86812087abfd8f9d50bfa6"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74156294-documentation-tools"
 tags:
   - "design systems"
 ---

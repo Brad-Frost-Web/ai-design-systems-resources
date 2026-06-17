@@ -7,7 +7,7 @@ lessons:
   - number: "1.25"
     chapter: "Chapter 1"
     title: "What Are LLMs and How Do They Work?"
-    url: "https://app.notion.com/p/34a3c9323e868190956fe396935be094"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74426931-what-are-llms-and-how-do-they-work"
 tags:
   - "ai"
   - "llm"

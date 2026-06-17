@@ -11,7 +11,7 @@ lessons:
   - number: "1.17"
     chapter: "Chapter 1"
     title: "Figma Component Walkthrough"
-    url: "https://app.notion.com/p/34a3c9323e86817dba5fc64e4bf05999"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74155915-figma-component-walkthrough"
 tags:
   - "figma"
   - "tooling"

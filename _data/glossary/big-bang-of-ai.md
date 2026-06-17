@@ -7,7 +7,7 @@ lessons:
   - number: "0.05"
     chapter: "Chapter 0"
     title: "Our Collective AI Experience"
-    url: "https://app.notion.com/p/34a3c9323e86814b8650ff915a9bd71f"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/72575227-our-collective-ai-experience"
 tags:
   - "ai"
   - "metaphor"

@@ -7,11 +7,11 @@ lessons:
   - number: "0.04"
     chapter: "Chapter 0"
     title: "Meet Your Teachers"
-    url: "https://app.notion.com/p/34a3c9323e868141b6c6f6118e6fa80d"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/72575089-meet-your-teachers"
   - number: "1.02"
     chapter: "Chapter 1"
     title: "History of Design Systems"
-    url: "https://app.notion.com/p/34a3c9323e8681f19853c139ba52db6b"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74085190-history-of-design-systems"
 tags:
   - "design systems"
   - "methodology"

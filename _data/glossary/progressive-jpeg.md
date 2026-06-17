@@ -7,7 +7,7 @@ lessons:
   - number: "0.99"
     chapter: "Chapter 0"
     title: "Pardon Our Dust"
-    url: "https://app.notion.com/p/34a3c9323e8681b69280d31826e8c0a5"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74283694-a-quick-note-about-how-we-re-creating-this-course"
 tags:
   - "course"
   - "metaphor"

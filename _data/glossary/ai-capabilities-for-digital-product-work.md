@@ -9,7 +9,7 @@ lessons:
   - number: "1.11"
     chapter: "Chapter 1"
     title: "AI for Digital Product Work"
-    url: "https://app.notion.com/p/3593c9323e8681209e9bf1fc637d5bc6"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74995494-ai-for-digital-product-work"
 tags:
   - "ai"
 ---

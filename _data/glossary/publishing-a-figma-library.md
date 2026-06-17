@@ -10,7 +10,7 @@ lessons:
   - number: "1.18"
     chapter: "Chapter 1"
     title: "Figma Variables Walkthrough"
-    url: "https://app.notion.com/p/34a3c9323e868164b649e708730a5be7"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74156161-figma-variables-walkthrough"
 tags:
   - "figma"
   - "tooling"

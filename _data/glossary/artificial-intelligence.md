@@ -9,11 +9,11 @@ lessons:
   - number: "1.08"
     chapter: "Chapter 1"
     title: "A Brief History of AI"
-    url: "https://app.notion.com/p/3563c9323e8681db8393e822e6b02667"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74925327-a-brief-history-of-ai"
   - number: "1.09"
     chapter: "Chapter 1"
     title: "LLM Overview"
-    url: "https://app.notion.com/p/3563c9323e8681c4ada9e1146bfce6ee"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74519161-llm-overview"
 tags:
   - "ai"
   - "history"

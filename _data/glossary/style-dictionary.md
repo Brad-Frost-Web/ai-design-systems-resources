@@ -7,7 +7,7 @@ lessons:
   - number: "1.20"
     chapter: "Chapter 1"
     title: "Storybook Walkthrough"
-    url: "https://app.notion.com/p/34a3c9323e86817fae95c9736c646a58"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74156255-code-and-storybook-walkthrough"
 tags:
   - "tooling"
   - "design systems"

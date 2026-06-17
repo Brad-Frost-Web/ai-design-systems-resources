@@ -9,11 +9,11 @@ lessons:
   - number: "2.66"
     chapter: "Chapter 2"
     title: "Git Core Concepts Cheat Sheet"
-    url: "https://app.notion.com/p/3663c9323e86811a8c5ae262cb42ceef"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75162584-git-core-concepts-cheat-sheet"
   - number: "2.74"
     chapter: "Chapter 2"
     title: "Publish New Branch"
-    url: "https://app.notion.com/p/3663c9323e868101a524f1c4608e2884"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75162832-publishing-a-new-branch"
 tags:
   - "git"
   - "workflow"

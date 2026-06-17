@@ -7,7 +7,7 @@ lessons:
   - number: "1.21"
     chapter: "Chapter 1"
     title: "Publishing a Component Library in Code"
-    url: "https://app.notion.com/p/34a3c9323e8681f38873f69b2d35d6d6"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74156274-publishing-a-component-library-in-code"
 tags:
   - "tooling"
   - "design systems"

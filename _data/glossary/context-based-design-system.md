@@ -9,11 +9,11 @@ lessons:
   - number: "0.06"
     chapter: "Chapter 0"
     title: "Principles and Our Approach to AI"
-    url: "https://app.notion.com/p/34a3c9323e8681859a0fc379dd635f38"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/72577755-principles-our-approach-to-ai"
   - number: "4.00"
     chapter: "Chapter 4"
     title: "Chapter 4 Intro"
-    url: "https://app.notion.com/p/34a3c9323e868153add9d60a439dac60"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74285339-chapter-4-introduction"
 tags:
   - "design systems"
   - "ai"

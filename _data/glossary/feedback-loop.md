@@ -9,7 +9,7 @@ lessons:
   - number: "1.12"
     chapter: "Chapter 1"
     title: "The Value of AI"
-    url: "https://app.notion.com/p/3593c9323e868160b726c84322a36a85"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74995837-the-value-of-ai"
 tags:
   - "ai"
 ---

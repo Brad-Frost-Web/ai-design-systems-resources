@@ -7,7 +7,7 @@ lessons:
   - number: "5.00"
     chapter: "Chapter 5"
     title: "Chapter 5 Intro"
-    url: "https://app.notion.com/p/34a3c9323e868131900dd5ba91dbc046"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74285531-chapter-5-introduction"
 tags:
   - "ai"
   - "context"

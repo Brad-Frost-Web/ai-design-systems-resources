@@ -10,7 +10,7 @@ lessons:
   - number: "3.xx9"
     chapter: "Chapter 3"
     title: "Creating a Composition using Story UI"
-    url: "https://app.notion.com/p/3663c9323e8681619d36d8a35af93ad6"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75130779-using-story-ui-to-create-sign-in-page"
 tags:
   - "design systems"
   - "workflow"

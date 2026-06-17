@@ -7,7 +7,7 @@ lessons:
   - number: "1.01"
     chapter: "Chapter 1"
     title: "How Did We Get Here? A Brief History"
-    url: "https://app.notion.com/p/34a3c9323e8681e4a022ef0ecfe33a40"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/73788345-how-did-we-get-here-a-brief-history-of-technology-computing"
 tags:
   - "ai"
   - "history"

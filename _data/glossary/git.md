@@ -7,11 +7,11 @@ lessons:
   - number: "2.60"
     chapter: "Chapter 2"
     title: "Why Git Matters In The AI Age"
-    url: "https://app.notion.com/p/3663c9323e868138ad8af8d1816a335a"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74967391-why-git-matters-in-the-ai-age"
   - number: "2.61"
     chapter: "Chapter 2"
     title: "Git Definition"
-    url: "https://app.notion.com/p/3663c9323e86812b9d7cdde5bd669f93"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74763921-git-definition"
 tags:
   - "git"
   - "version control"

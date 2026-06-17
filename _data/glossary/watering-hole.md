@@ -7,7 +7,7 @@ lessons:
   - number: "0.03"
     chapter: "Chapter 0"
     title: "Who This Course Is For"
-    url: "https://app.notion.com/p/34a3c9323e868149b0e1da38918c4fe7"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/72571808-who-this-course-is-for"
 tags:
   - "design systems"
   - "collaboration"
