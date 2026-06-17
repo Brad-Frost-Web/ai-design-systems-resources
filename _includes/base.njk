@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+	{% include "head.njk" %}
+	<body>
+		{% include "site-header.njk" %}
+		{{ content | safe }}
+
+		<script type="module" src="/js/components.js"></script>
+		<script type="module" src="/js/scripts.js"></script>
+	</body>
+</html>

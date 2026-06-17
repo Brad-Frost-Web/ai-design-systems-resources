@@ -1096,7 +1096,7 @@ ed-heading.text-node__heading {
  * Visible focus outline for elements on a dark background
  */
 /**
- * Visually hidden from display
+ * Visually hidden from displays
  */
 a:not([class]) {
   color: var(--ed-theme-color-content-brand);
@@ -1131,6 +1131,44 @@ hr {
   margin: 4rem 0;
 }
 
+.site-header__layout-container {
+  width: 100%;
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  padding-block: 0.5rem;
+}
+
+.site-header__nav-container {
+  display: none;
+  margin-inline-start: auto;
+}
+
+.site-header.is-active .site-header__nav-container {
+  display: block;
+}
+
+.site-header__menu-button {
+  margin-inline-start: auto;
+}
+
+.site-header__nav-item--placeholder {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: default;
+}
+
+@media all and (min-width: 48rem) {
+  .site-header__nav-container {
+    display: block;
+    margin-inline-start: auto;
+  }
+  .site-header__menu-button {
+    display: none;
+  }
+}
 .resource-tags {
   display: flex;
   flex-wrap: wrap;

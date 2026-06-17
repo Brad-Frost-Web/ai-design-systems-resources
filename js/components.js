@@ -2,6 +2,11 @@
 globalThis.DS_ICON_URL = "/images/icons/ed-icons.svg";
 
 import "@brad-frost-web/eddie-web-components/components/button/button.js";
+import "@brad-frost-web/eddie-web-components/components/header/header.js";
+import "@brad-frost-web/eddie-web-components/components/logo/logo.js";
+import "@brad-frost-web/eddie-web-components/components/nav-container/nav-container.js";
+import "@brad-frost-web/eddie-web-components/components/primary-nav/primary-nav.js";
+import "@brad-frost-web/eddie-web-components/components/primary-nav-item/primary-nav-item.js";
 import "@brad-frost-web/eddie-web-components/components/layout-container/layout-container.js";
 import "@brad-frost-web/eddie-web-components/components/card/card.js";
 import "@brad-frost-web/eddie-web-components/components/heading/heading.js";

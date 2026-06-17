@@ -54,3 +54,21 @@
 	filterTag.addEventListener("change", applyFilters);
 	if (filterSource) filterSource.addEventListener("change", applyFilters);
 })();
+
+/**
+ * Mobile nav toggle for the site header.
+ * On small screens the primary nav is hidden until the menu button is tapped,
+ * which toggles `.is-active` on the header (CSS reveals the nav container).
+ * At ≥48rem the nav is always visible and the button is hidden.
+ */
+(function () {
+	const header = document.getElementById("site-header");
+	const button = document.getElementById("site-header-menu-button");
+
+	if (!header || !button) return;
+
+	button.addEventListener("click", () => {
+		const isActive = header.classList.toggle("is-active");
+		button.setAttribute("aria-expanded", String(isActive));
+	});
+})();
