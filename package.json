@@ -18,9 +18,9 @@
 	"license": "ISC",
 	"dependencies": {
 		"@11ty/eleventy": "^3.0.0",
-		"@brad-frost-web/eddie-design-tokens": "^0.17.0",
-		"@brad-frost-web/eddie-recipes": "file:../eddie-design-system/packages/eddie-recipes",
-		"@brad-frost-web/eddie-web-components": "^0.17.0",
+		"@brad-frost-web/eddie-design-tokens": "^0.20.0",
+		"@brad-frost-web/eddie-recipes": "^0.20.0",
+		"@brad-frost-web/eddie-web-components": "^0.20.0",
 		"@notionhq/client": "^2.2.15",
 		"dotenv": "^16.4.5",
 		"gray-matter": "^4.0.3",
