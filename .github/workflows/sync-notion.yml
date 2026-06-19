@@ -15,11 +15,13 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
@@ -37,11 +39,36 @@ jobs:
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
 
-      - name: Commit and push changes
+      - name: Open a PR with the synced changes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add -A _data/resources/
-          git diff --staged --quiet || git commit -m "Sync resources from Notion [automated]"
-          git push
 
+          # main is a protected branch, so we can't push to it directly.
+          # Instead, push the sync to a rolling branch and open/update a PR.
+
+          # Nothing changed? Then there's nothing to sync — exit cleanly.
+          if [ -z "$(git status --porcelain -- _data/resources/)" ]; then
+            echo "No Notion changes to sync."
+            exit 0
+          fi
+
+          BRANCH="automated/notion-sync"
+          git checkout -B "$BRANCH"
+          git add -A _data/resources/
+          git commit -m "Sync resources from Notion [automated]"
+          git push --force-with-lease origin "$BRANCH"
+
+          # Open a PR only if one isn't already open for this branch;
+          # otherwise the force-push above has already updated the existing PR.
+          if [ -z "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[].number')" ]; then
+            gh pr create \
+              --base main \
+              --head "$BRANCH" \
+              --title "Sync resources from Notion [automated]" \
+              --body "Automated Notion → site sync. Review and merge to publish to the live site."
+          else
+            echo "PR for $BRANCH already open; updated it with the latest sync."
+          fi
