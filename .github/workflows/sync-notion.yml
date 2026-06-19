@@ -58,7 +58,7 @@ jobs:
           git checkout -B "$BRANCH"
           git add -A _data/resources/
           git commit -m "Sync resources from Notion [automated]"
-          git push --force origin "$BRANCH"
+          git push --force-with-lease origin "$BRANCH"
 
           # Open a PR only if one isn't already open for this branch;
           # otherwise the force-push above has already updated the existing PR.
