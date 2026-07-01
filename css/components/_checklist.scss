@@ -10,15 +10,22 @@
 // component styling. Spacing via size(); surfaces via --ed-theme-* tokens.
 // ─────────────────────────────────────────────────────────────────────────
 
-.ed-u-checklist-stack > * + * {
-	margin-block-start: size(6);
+// ed-layout-container's host defaults to display:inline, which drops vertical
+// margins (incl. the ed-u-margin-top-* utility). Make it a block so page
+// rhythm and the hero gap actually render.
+.ed-u-checklist-stack {
+	display: block;
+
+	> * + * {
+		margin-block-start: size(8);
+	}
 }
 
 .ed-u-checklist-section {
 	scroll-margin-block-start: size(8);
 
 	> * + * {
-		margin-block-start: size(3);
+		margin-block-start: size(4);
 	}
 }
 
@@ -35,9 +42,8 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: size(3);
-	margin-block: size(4);
-	padding: size(4) size(3);
+	gap: size(4);
+	padding: size(5) size(3);
 	background-color: var(--ed-theme-color-background-subtle);
 	border: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-border-subtle);
 	border-radius: var(--ed-theme-border-radius-md);
@@ -73,7 +79,7 @@
 	scroll-margin-block-start: size(6);
 
 	& + & {
-		margin-block-start: size(3);
+		margin-block-start: size(5);
 	}
 
 	&__head {
@@ -105,7 +111,7 @@
 }
 
 .ed-u-checklist-details {
-	margin-block-start: size(2);
+	margin-block-start: size(3);
 
 	summary {
 		cursor: pointer;

@@ -1291,15 +1291,18 @@ hr {
   color: var(--ed-theme-color-border-subtle);
 }
 
+.ed-u-checklist-stack {
+  display: block;
+}
 .ed-u-checklist-stack > * + * {
-  margin-block-start: calc(0.5rem * 6);
+  margin-block-start: calc(0.5rem * 8);
 }
 
 .ed-u-checklist-section {
   scroll-margin-block-start: calc(0.5rem * 8);
 }
 .ed-u-checklist-section > * + * {
-  margin-block-start: calc(0.5rem * 3);
+  margin-block-start: calc(0.5rem * 4);
 }
 
 .ed-u-checklist-legend {
@@ -1315,9 +1318,8 @@ hr {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: calc(0.5rem * 3);
-  margin-block: calc(0.5rem * 4);
-  padding: calc(0.5rem * 4) calc(0.5rem * 3);
+  gap: calc(0.5rem * 4);
+  padding: calc(0.5rem * 5) calc(0.5rem * 3);
   background-color: var(--ed-theme-color-background-subtle);
   border: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-border-subtle);
   border-radius: var(--ed-theme-border-radius-md);
@@ -1351,7 +1353,7 @@ hr {
   scroll-margin-block-start: calc(0.5rem * 6);
 }
 .ed-u-checklist-station + .ed-u-checklist-station {
-  margin-block-start: calc(0.5rem * 3);
+  margin-block-start: calc(0.5rem * 5);
 }
 .ed-u-checklist-station__head {
   display: flex;
@@ -1379,7 +1381,7 @@ hr {
 }
 
 .ed-u-checklist-details {
-  margin-block-start: calc(0.5rem * 2);
+  margin-block-start: calc(0.5rem * 3);
 }
 .ed-u-checklist-details summary {
   cursor: pointer;
