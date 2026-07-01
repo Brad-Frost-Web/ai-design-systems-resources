@@ -46,7 +46,7 @@ module.exports = {
 					id: "coverage-gaps",
 					name: "Coverage & gaps",
 					question:
-						"Does your design system contain the necessary ingredients your products need&mdash;present across design, code, and docs?",
+						"Does your design system contain the necessary ingredients your products need, present across design, code, and docs?",
 					examples:
 						"For instance, whole missing components, or existing ones missing states, variants, tokens, or docs.",
 					warningLights: [
@@ -110,7 +110,7 @@ module.exports = {
 					number: 4,
 					id: "shared-language",
 					name: "Shared language",
-					question: "Is language applied consistently and coherently across every asset&mdash;token names, component props, API patterns, layers, and docs?",
+					question: "Is language consistent and coherent within and across system assets&mdash;tokens, props, layers, code, component APIs, docs?",
 					examples:
 						"For instance, consistent prop names and patterns, a coherent token naming scheme, and a single API convention.",
 					warningLights: [
@@ -127,9 +127,9 @@ module.exports = {
 					number: 5,
 					id: "testing-validation",
 					name: "Testing & validation",
-					question: "Is it verified to actually work, with coverage running automatically in CI?",
+					question: "Is quality tested and validated across the system, and is testing built into workflows?",
 					examples:
-						"For instance, meaningful unit, integration, and visual-regression tests, plus linting and drift detection running automatically in CI.",
+						"For instance, meaningful unit, integration, and visual-regression coverage plus linting and drift detection&mdash;running in CI and built into everyday workflows, not just on someone's laptop.",
 					warningLights: [
 						"No CI; tests and linting are local-only",
 						"Silent component bugs that don't fail loudly",
@@ -137,7 +137,7 @@ module.exports = {
 						"Tests exist but key behaviors (keyboard, states) aren't asserted",
 					],
 					aiHelps:
-						"Use AI to find untested surfaces, generate test cases, and diagnose silent failures. Stand up CI so build/test/lint runs on every change.",
+						"Use AI to find untested surfaces, generate test cases, and diagnose silent failures. Stand up CI and wire validation into everyday workflows so build/test/lint runs on every change, not just when someone remembers.",
 				},
 			],
 		},
@@ -154,7 +154,7 @@ module.exports = {
 					number: 6,
 					id: "orchestration",
 					name: "Orchestration",
-					question: "Are design, code, and docs assets actually connected&mdash;with workflows that keep a change in any one flowing to the others?",
+					question: "Are design, code, and docs assets actually connected, and are workflows synchronized?",
 					examples:
 						"For instance, a change in design propagates to code and docs (and the reverse), tokens stay aligned across platforms, instances stay attached, and no copy quietly drifts off on its own.",
 					warningLights: [
@@ -182,7 +182,7 @@ module.exports = {
 					number: 7,
 					id: "governance-version-control",
 					name: "Governance & version control",
-					question: "Is there a sane, documented process for how change flows in?",
+					question: "Are there formal, documented, and accurate processes for how system changes are made and managed?",
 					examples:
 						"For instance, a release flow, a changelog, a contribution path (CONTRIBUTING, PR template), clear ownership, and a healthy issue tracker.",
 					warningLights: [
@@ -199,9 +199,9 @@ module.exports = {
 					number: 8,
 					id: "feedback-adoption",
 					name: "Feedback & adoption",
-					question: "Is signal flowing back&mdash;adoption data, a feedback loop, a recurring review cadence?",
+					question: "Is system adoption tracked, and is product context feeding back into the system?",
 					examples:
-						"For instance, adoption and usage data, a real feedback mechanism, and a recurring review cadence rather than one-and-done audits.",
+						"For instance, adoption and usage data, a real mechanism for product-team learnings to flow back and shape the roadmap, and a recurring review cadence rather than one-and-done audits.",
 					warningLights: [
 						"No adoption/usage analytics",
 						"A feedback mechanism that exists but is empty",
@@ -242,10 +242,10 @@ module.exports = {
 				{
 					number: 10,
 					id: "agent-access",
-					name: "Agent access (MCP & integrations)",
-					question: "Is the system exposed to agents&mdash;MCP, knowledge graph, Code Connect, reachable from the IDE and design tool?",
+					name: "Agent access",
+					question: "Is the design system exposed to AI agents so it can be used successfully in AI-assisted product work?",
 					examples:
-						"For instance, exposure via MCP or a knowledge graph, a design-to-code bridge like Code Connect, and reachability from the IDE and the design tool.",
+						"For instance, exposure via MCP or a knowledge graph, a design-to-code bridge like Code Connect, reachability from the IDE and design tool&mdash;and agents that actually produce on-system results in real product work.",
 					warningLights: [
 						"No MCP or knowledge-graph surface to query",
 						"No design-to-code bridge (no Code Connect)",
@@ -313,7 +313,7 @@ module.exports = {
 				criteria: "Documentation & Tutorials (machine-readable side)",
 			},
 			{
-				station: "10. Agent access (MCP & integrations)",
+				station: "10. Agent access",
 				criteria: "Integration with Dev Tools (extended for the AI era)",
 			},
 		],
