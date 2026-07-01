@@ -39,22 +39,22 @@ const styles = `
     border-radius: 50%;
     border: var(--ed-theme-border-width-sm, 2px) solid var(--dot-border);
     background-color: var(--dot-bg);
-    opacity: 0.4;
+    opacity: 0.55;
     cursor: pointer;
     transition:
       opacity var(--ed-theme-animation-fade-quick, 0.15s) ease,
       transform var(--ed-theme-animation-fade-quick, 0.15s) ease;
   }
   .ed-r-c-status-rating__dot--green {
-    --dot-bg: var(--ed-theme-color-background-utility-success);
+    --dot-bg: var(--ed-theme-color-background-utility-success-knockout);
     --dot-border: var(--ed-theme-color-border-utility-success);
   }
   .ed-r-c-status-rating__dot--yellow {
-    --dot-bg: var(--ed-theme-color-background-utility-warning);
+    --dot-bg: var(--ed-theme-color-background-utility-warning-knockout);
     --dot-border: var(--ed-theme-color-border-utility-warning);
   }
   .ed-r-c-status-rating__dot--red {
-    --dot-bg: var(--ed-theme-color-background-utility-error);
+    --dot-bg: var(--ed-theme-color-background-utility-error-knockout);
     --dot-border: var(--ed-theme-color-border-utility-error);
   }
   .ed-r-c-status-rating__dot:hover { opacity: 0.75; }

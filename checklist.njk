@@ -82,15 +82,15 @@ permalink: /checklist/
 					<ed-r-status-rating station="{{ s.id }}" label="{{ s.name }} health" data-rating></ed-r-status-rating>
 				</div>
 
-				<ed-text-passage size="sm">
+				<ed-text-passage>
 					<p><strong>{{ s.question | safe }}</strong> <em>{{ s.examples | safe }}</em></p>
 				</ed-text-passage>
 
 				<details class="ed-u-checklist-details" data-details>
-					<summary>Warning lights &amp; how AI helps</summary>
+					<summary>Warning signs &amp; how AI helps</summary>
 					<div class="ed-u-checklist-details__body">
 						<ed-text-passage size="sm">
-							<h4>Warning lights</h4>
+							<h4>Warning signs</h4>
 							<ul>{% for w in s.warningLights %}<li>{{ w | safe }}</li>{% endfor %}</ul>
 							<h4>How AI helps</h4>
 							<p>{{ s.aiHelps | safe }}</p>

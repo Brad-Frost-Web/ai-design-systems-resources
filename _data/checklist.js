@@ -19,7 +19,7 @@ module.exports = {
 	},
 
 	overviewIntro:
-		"The first four are table stakes for any high-quality design system. The fifth&mdash;AI-Ready&mdash;packages the rest so machines can use it too. Read them as a sensible order and a triage priority, not a rigid sequence.",
+		"The first four are table stakes for any high-quality design system. The fifth&mdash;AI-Ready&mdash;packages the rest so machines can use it too.",
 
 	howToUse: {
 		heading: "Key",
