@@ -52,7 +52,7 @@ module.exports = {
 					warningLights: [
 						"Design components with no code counterpart (or vice versa)",
 						"Whole categories missing, so teams roll their own",
-						"Partial token set (color but no spacing/type, or no semantic tier)",
+						"Partial or untiered tokens (color but no spacing/type; no primitive &rarr; semantic &rarr; component tiers)",
 						"Hardcoded hex/px values where tokens should be",
 						"Components missing states or variants",
 						"Thin or missing docs&mdash;no descriptions, guidelines, or onboarding",
@@ -85,6 +85,7 @@ module.exports = {
 						"Div soup, magic numbers, brittle fixed layouts",
 						"No logical properties, so RTL and vertical writing break",
 						"Docs that are walls of text with no examples",
+						"No file hierarchy&mdash;library, product, and draft files all mixed together",
 					],
 					aiHelps:
 						"Have AI scan for non-semantic markup, missing auto-layout, and un-idiomatic patterns&mdash;against your house conventions, not a generic bar. FigmaLint surfaces a lot of this automatically.",
@@ -119,6 +120,7 @@ module.exports = {
 						"<code>size</code> vs <code>scale</code> vs <code>sz</code> for the same idea",
 						"Naming drift, old and new with no migration",
 						"No naming validator or drift detection",
+						"Tokens named by raw value (<code>blue-500</code>) instead of by role (<code>color.action.primary</code>)",
 					],
 					aiHelps:
 						"Have AI scan the whole library for naming and API inconsistencies at once&mdash;exactly the tedious pattern-matching it's great at. Standardize, rename, add a naming validator.",
@@ -163,6 +165,7 @@ module.exports = {
 						"No mechanism to propagate a change across all three; syncing is manual and ad hoc",
 						"Tokens diverge across platforms (web, iOS, Android)",
 						"Detached instances or competing forks drifting on their own",
+						"Figma component names and variants don't match their code counterparts",
 					],
 					aiHelps:
 						"Point AI at any two assets and have it diff them&mdash;design vs. code, docs vs. behavior, tokens across platforms&mdash;then propagate the reconciled change back across design, code, and docs so all three stay in sync.",
@@ -191,6 +194,8 @@ module.exports = {
 						"Duplicate/stale issues; blockers open past your threshold",
 						"No branch protection or clear release process",
 						"Backlog overdue by 30+ days with no triage",
+						"No clear ownership&mdash;no one accountable for the system's health and evolution",
+						"Breaking changes ship with no versioning or migration communication",
 					],
 					aiHelps:
 						"Use AI to triage and dedupe the backlog and draft the missing process docs. Set thresholds so stale items trip the warning light automatically.",
@@ -221,7 +226,7 @@ module.exports = {
 			question: "Can AI successfully use the design system?",
 			accent: "#3a7bb5",
 			intro:
-				"The capstone: package everything above so machines can understand and reach it&mdash;and generate great output instead of garbage.",
+				"The capstone: package everything above so machines can understand and reach it&mdash;and generate great output instead of garbage. A ready system is the launchpad; wielding it in repeatable, trusted workflows is where the real speed comes from.",
 			stations: [
 				{
 					number: 9,
@@ -235,6 +240,7 @@ module.exports = {
 						"No AI-facing context surface (no llms.txt, schemas, or metadata)",
 						"Component metadata that confuses agents",
 						"Agents misuse components because rules aren't machine-readable",
+						"Tokens and props aren't published in a machine-consumable format (JSON, CSS variables, Figma Variables)",
 					],
 					aiHelps:
 						"Use AI to author machine-readable descriptions, metadata, and context files&mdash;then self-test by generating with your components and seeing where it goes wrong.",
@@ -251,9 +257,10 @@ module.exports = {
 						"No design-to-code bridge (no Code Connect)",
 						"Not reachable from the IDE or design tool",
 						"Agents produce weak, generic results",
+						"No repeatable AI-assisted workflow in daily practice&mdash;AI use is one-off, with no shared sense of where it can and can't be trusted",
 					],
 					aiHelps:
-						"Stand up the interfaces: an MCP server or knowledge graph, plus Code Connect. Test it by asking an agent to rebuild a page with your components&mdash;weak output is your warning light.",
+						"Stand up the interfaces: an MCP server or knowledge graph, plus Code Connect. Test it by asking an agent to rebuild a page with your components&mdash;weak output is your warning light. Then turn the win into a repeatable workflow your team actually runs&mdash;the goal isn't access, it's habitual, trusted use.",
 				},
 			],
 		},
