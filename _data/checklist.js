@@ -152,20 +152,20 @@ module.exports = {
 			stations: [
 				{
 					number: 6,
-					id: "source-of-truth-parity",
-					name: "Source of truth & parity",
-					question: "Do Figma, code, docs, and the published artifact all agree with each other?",
+					id: "orchestration",
+					name: "Orchestration",
+					question: "Are design, code, and docs assets actually connected&mdash;with workflows that keep a change in any one flowing to the others?",
 					examples:
-						"For instance, one canonical source per layer, with Figma, code, docs, and the published artifact in sync, instances attached, and no competing forks.",
+						"For instance, a change in design propagates to code and docs (and the reverse), tokens stay aligned across platforms, instances stay attached, and no copy quietly drifts off on its own.",
 					warningLights: [
-						"Figma and code have visibly drifted",
-						"Published/CDN artifact is stale vs. the source repo",
-						"Docs describe an older version than what ships",
-						"Detached instances cut off from their source",
-						"Multiple competing libraries",
+						"Design, code, and docs have visibly drifted apart",
+						"Changes flow one way only&mdash;design updates never reach code, or code never reaches docs",
+						"No mechanism to propagate a change across all three; syncing is manual and ad hoc",
+						"Tokens diverge across platforms (web, iOS, Android)",
+						"Detached instances or competing forks drifting on their own",
 					],
 					aiHelps:
-						"Point AI at two copies and have it diff them&mdash;Figma vs. code, source vs. bundle, docs vs. behavior, tokens across platforms. Then pick and document the canonical source.",
+						"Point AI at any two assets and have it diff them&mdash;design vs. code, docs vs. behavior, tokens across platforms&mdash;then propagate the reconciled change back across design, code, and docs so all three stay in sync.",
 				},
 			],
 		},
@@ -302,7 +302,7 @@ module.exports = {
 				criteria: "Component Library / Clear Guidelines (naming)",
 			},
 			{ station: "5. Testing & validation", criteria: "Quality / Testing" },
-			{ station: "6. Source of truth & parity", criteria: "Single Source of Truth" },
+			{ station: "6. Orchestration", criteria: "Single Source of Truth &middot; synchronized across design, code & docs" },
 			{
 				station: "7. Governance & version control",
 				criteria: "Version Control & Governance + Collaboration Across Teams",
