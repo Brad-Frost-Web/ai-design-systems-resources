@@ -70,6 +70,7 @@
 
 .ed-u-checklist-station {
 	display: block;
+	scroll-margin-block-start: size(6);
 
 	& + & {
 		margin-block-start: size(3);

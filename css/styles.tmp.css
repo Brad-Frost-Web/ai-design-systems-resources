@@ -1348,6 +1348,7 @@ hr {
 
 .ed-u-checklist-station {
   display: block;
+  scroll-margin-block-start: calc(0.5rem * 6);
 }
 .ed-u-checklist-station + .ed-u-checklist-station {
   margin-block-start: calc(0.5rem * 3);

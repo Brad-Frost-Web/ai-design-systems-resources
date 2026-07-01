@@ -43,21 +43,15 @@ permalink: /checklist/
 			</div>
 		</details>
 
-		{# ── The stations ────────────────────────────────────────────────── #}
-		{% for q in checklist.qualities %}
-		<section class="ed-u-checklist-section" id="quality-{{ q.id }}" aria-labelledby="quality-{{ q.id }}-heading">
-			<ed-heading tagName="h2" id="quality-{{ q.id }}-heading">{{ q.name }}</ed-heading>
-			<ed-text-passage>
-				<p><strong>{{ q.question }}</strong></p>
-				<p>{{ q.intro | safe }}</p>
-			</ed-text-passage>
-
+		{# ── The stations (colocated flat list) ───────────────────────────── #}
+		<section class="ed-u-checklist-section" aria-label="Inspection stations">
+			{% for q in checklist.qualities %}
 			{% for s in q.stations %}
-			<ed-card class="ed-u-checklist-station" data-station-card="{{ s.id }}" data-quality="{{ q.id }}">
+			<ed-card class="ed-u-checklist-station" data-station-card="{{ s.id }}" data-quality="{{ q.id }}"{% if loop.first %} id="quality-{{ q.id }}"{% endif %}>
 				<div class="ed-u-checklist-station__head">
 					<div class="ed-u-checklist-station__titles">
 						<ed-badge text="Station {{ s.number }}"></ed-badge>
-						<ed-heading tagName="h3" variant="headline-sm">{{ s.name }}</ed-heading>
+						<ed-heading tagName="h2" variant="headline-sm">{{ s.name }}</ed-heading>
 					</div>
 					<ed-r-status-rating station="{{ s.id }}" label="{{ s.name }} health" data-rating></ed-r-status-rating>
 				</div>
@@ -87,8 +81,8 @@ permalink: /checklist/
 				</details>
 			</ed-card>
 			{% endfor %}
+			{% endfor %}
 		</section>
-		{% endfor %}
 
 		{# ── Scoreboard (Lighthouse-style quality gauges) ─────────────────── #}
 		<section class="ed-u-checklist-scoreboard" data-dashboard hidden aria-label="Inspection score">
