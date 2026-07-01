@@ -19,4 +19,5 @@ import "@brad-frost-web/eddie-web-components/components/accordion/accordion.js";
 import "@brad-frost-web/eddie-web-components/components/accordion-panel/accordion-panel.js";
 import "@brad-frost-web/eddie-web-components/components/toolbar/toolbar.js";
 import "@brad-frost-web/eddie-web-components/components/select-field/select-field.js";
+import "@brad-frost-web/eddie-recipes/recipes/tools/theme-customizer/theme-customizer.js";
 import "./course-hero.js";

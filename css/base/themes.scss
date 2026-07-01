@@ -1,5 +1,26 @@
 @use "@brad-frost-web/eddie-design-tokens/core/scss/head.scss" as *;
 @use "@brad-frost-web/eddie-design-tokens/core/scss/utilities/visibility.scss"
 	as *;
+
+// Fonts for every theme the Eddie theme-customizer can switch to. The
+// customizer swaps the theme class on <html>; each theme carries its own
+// type families, so load them all up front.
 @import "@brad-frost-web/eddie-design-tokens/bfw/css/fonts.css";
-@import "@brad-frost-web/eddie-design-tokens/bfw/build/css/tokens.css";
+@import "@brad-frost-web/eddie-design-tokens/bfw-dark/css/fonts.css";
+@import "@brad-frost-web/eddie-design-tokens/bfw-v9/css/fonts.css";
+@import "@brad-frost-web/eddie-design-tokens/wowee-zowee/css/fonts.css";
+@import "@brad-frost-web/eddie-design-tokens/we-are-here/css/fonts.css";
+@import "@brad-frost-web/eddie-design-tokens/altitude/css/fonts.css";
+@import "@brad-frost-web/eddie-design-tokens/southleft/css/fonts.css";
+
+// Class-scoped token sets. Each file scopes its CSS custom properties to a
+// theme class (.bfw, .bfw-dark, …) so the theme-customizer can switch the
+// active theme by toggling the class on the <html> element. The default
+// theme is set via class="bfw" in base.njk.
+@import "@brad-frost-web/eddie-design-tokens/bfw/build/css/bfw.css";
+@import "@brad-frost-web/eddie-design-tokens/bfw-dark/build/css/bfw-dark.css";
+@import "@brad-frost-web/eddie-design-tokens/bfw-v9/build/css/bfw-v9.css";
+@import "@brad-frost-web/eddie-design-tokens/wowee-zowee/build/css/wowee-zowee.css";
+@import "@brad-frost-web/eddie-design-tokens/we-are-here/build/css/we-are-here.css";
+@import "@brad-frost-web/eddie-design-tokens/altitude/build/css/altitude.css";
+@import "@brad-frost-web/eddie-design-tokens/southleft/build/css/southleft.css";

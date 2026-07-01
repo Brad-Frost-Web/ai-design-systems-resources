@@ -1,0 +1,701 @@
+// ─────────────────────────────────────────────────────────────────────────
+// Checklist page — "The Design System Check Engine Light"
+// An interactive multi-point inspection: 5 qualities, 10 stations, each with a
+// green / yellow / red health rating that persists in localStorage.
+// ─────────────────────────────────────────────────────────────────────────
+
+// Traffic-light status colors. Fixed (not theme tokens) because the
+// green/yellow/red semantics must stay constant across every theme.
+$status-green: #1f9d57;
+$status-yellow: #e0a020;
+$status-red: #e5484d;
+
+.u-visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.checklist {
+	--status-green: #{$status-green};
+	--status-yellow: #{$status-yellow};
+	--status-red: #{$status-red};
+}
+
+// ── Intro / section scaffolding ──────────────────────────────────────────
+.checklist-intro {
+	max-inline-size: 64ch;
+	margin-block-end: 3rem;
+}
+
+.checklist-intro__eyebrow {
+	margin: 0 0 0.5rem;
+	font-size: 0.85rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ed-theme-color-content-subtle);
+}
+
+.checklist-intro__heading {
+	margin: 0 0 0.75rem;
+	font-size: clamp(2rem, 5vw, 3.25rem);
+	line-height: 1.05;
+}
+
+.checklist-intro__subtitle {
+	margin: 0;
+	font-size: 1.25rem;
+	line-height: 1.5;
+	color: var(--ed-theme-color-content-subtle);
+}
+
+.checklist-section {
+	margin-block-end: 3.5rem;
+	scroll-margin-block-start: 5rem;
+}
+
+.checklist-section__heading {
+	margin: 0 0 1rem;
+	font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.checklist-prose {
+	max-inline-size: 70ch;
+
+	p {
+		margin-block: 0 1rem;
+		line-height: 1.6;
+	}
+}
+
+.checklist-prose__lead {
+	max-inline-size: 70ch;
+	margin-block: 1.5rem 0.75rem;
+	font-weight: 600;
+}
+
+.checklist-callout {
+	max-inline-size: 72ch;
+	margin-block: 1.5rem 0;
+	padding: 1rem 1.25rem;
+	border-inline-start: 4px solid var(--ed-theme-color-border-strong, currentColor);
+	border-radius: var(--ed-theme-border-radius-md, 6px);
+	background: var(--ed-theme-color-background-subtle);
+	line-height: 1.6;
+}
+
+.checklist-callout--warning {
+	border-inline-start-color: var(--status-yellow);
+	font-weight: 600;
+}
+
+.checklist-source {
+	margin-block: 3rem 0;
+	padding-block-start: 1.5rem;
+	border-block-start: 1px solid var(--ed-theme-color-border-subtle);
+	font-size: 0.9rem;
+	color: var(--ed-theme-color-content-subtle);
+}
+
+// ── Principles ───────────────────────────────────────────────────────────
+.principle-list {
+	max-inline-size: 72ch;
+	margin: 0 0 1rem;
+	padding: 0;
+	list-style: none;
+	counter-reset: principle;
+	display: grid;
+	gap: 0.75rem;
+}
+
+.principle {
+	counter-increment: principle;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 0.85rem;
+	padding: 1rem 1.25rem;
+	border: 1px solid var(--ed-theme-color-border-subtle);
+	border-radius: var(--ed-theme-border-radius-md, 6px);
+
+	&::before {
+		content: counter(principle);
+		display: grid;
+		place-items: center;
+		inline-size: 1.85rem;
+		block-size: 1.85rem;
+		border-radius: 999px;
+		background: var(--ed-theme-color-background-knockout);
+		color: var(--ed-theme-color-content-knockout);
+		font-weight: 700;
+	}
+}
+
+.principle__body {
+	margin: 0;
+	line-height: 1.6;
+}
+
+// ── 5 qualities overview ─────────────────────────────────────────────────
+.quality-overview {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 0.75rem;
+	margin: 1.5rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.quality-overview__link {
+	display: flex;
+	flex-direction: column;
+	gap: 0.15rem;
+	block-size: 100%;
+	padding: 1rem;
+	border: 1px solid var(--ed-theme-color-border-subtle);
+	border-block-start: 4px solid var(--q-accent);
+	border-radius: var(--ed-theme-border-radius-md, 6px);
+	text-decoration: none;
+	color: inherit;
+	transition: transform 0.12s ease, box-shadow 0.12s ease;
+
+	&:hover,
+	&:focus-visible {
+		transform: translateY(-2px);
+		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+	}
+}
+
+.quality-overview__name {
+	font-weight: 700;
+	font-size: 1.05rem;
+}
+
+.quality-overview__q {
+	font-size: 0.85rem;
+	color: var(--ed-theme-color-content-subtle);
+}
+
+// ── Legend ───────────────────────────────────────────────────────────────
+.legend {
+	display: grid;
+	gap: 0.5rem;
+	margin: 1.25rem 0 0;
+	padding: 0;
+	list-style: none;
+	max-inline-size: 60ch;
+}
+
+.legend__item {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+}
+
+// ── Sticky dashboard ─────────────────────────────────────────────────────
+.dashboard {
+	position: sticky;
+	inset-block-start: 0.5rem;
+	z-index: 5;
+	margin-block-end: 2.5rem;
+	border-radius: var(--ed-theme-border-radius-lg, 10px);
+	background: var(--ed-theme-color-background-knockout);
+	color: var(--ed-theme-color-content-knockout);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.dashboard__inner {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 1rem 1.5rem;
+	padding: 0.85rem 1.25rem;
+}
+
+.dashboard__gauge {
+	display: flex;
+	align-items: baseline;
+	gap: 0.4rem;
+}
+
+.dashboard__score {
+	font-size: 2rem;
+	font-weight: 800;
+	line-height: 1;
+}
+
+.dashboard__score-total {
+	font-size: 0.9rem;
+	opacity: 0.8;
+}
+
+.dashboard__tallies {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.9rem;
+	font-size: 0.95rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.tally {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+}
+
+.tally--unset {
+	opacity: 0.75;
+}
+
+.dashboard__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+	margin-inline-start: auto;
+}
+
+.dashboard__btn {
+	padding: 0.4rem 0.75rem;
+	border: 1px solid rgba(255, 255, 255, 0.35);
+	border-radius: 999px;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-size: 0.85rem;
+	cursor: pointer;
+	transition: background 0.12s ease;
+
+	&:hover,
+	&:focus-visible {
+		background: rgba(255, 255, 255, 0.15);
+	}
+}
+
+.dashboard__btn--danger:hover,
+.dashboard__btn--danger:focus-visible {
+	background: var(--status-red);
+	border-color: var(--status-red);
+}
+
+// ── Quality blocks ───────────────────────────────────────────────────────
+.quality {
+	margin-block-end: 3rem;
+	scroll-margin-block-start: 5rem;
+}
+
+// Qualities are now lightweight section dividers; the stations carry the weight.
+.quality__header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.25rem 0.75rem;
+	padding-block-end: 0.5rem;
+	border-block-end: 2px solid var(--q-accent);
+}
+
+.quality__name {
+	margin: 0;
+	font-size: 1.4rem;
+	font-weight: 700;
+	line-height: 1.1;
+	color: var(--q-accent);
+}
+
+.quality__question {
+	margin: 0;
+	font-size: 1rem;
+	font-style: italic;
+	color: var(--ed-theme-color-content-subtle);
+}
+
+.quality__intro {
+	max-inline-size: 72ch;
+	margin-block: 1rem 1.5rem;
+	line-height: 1.6;
+}
+
+// ── Station cards ────────────────────────────────────────────────────────
+.station {
+	margin-block-end: 1rem;
+	border: 1px solid var(--ed-theme-color-border-subtle);
+	border-inline-start: 5px solid var(--q-accent);
+	border-radius: var(--ed-theme-border-radius-md, 8px);
+	background: var(--ed-theme-color-background-default);
+	overflow: hidden;
+	scroll-margin-block-start: 5.5rem;
+	transition: box-shadow 0.15s ease;
+
+	&[data-state="green"] { --station-tint: var(--status-green); }
+	&[data-state="yellow"] { --station-tint: var(--status-yellow); }
+	&[data-state="red"] { --station-tint: var(--status-red); }
+
+	&[data-state] {
+		border-inline-start-color: var(--station-tint);
+		box-shadow: inset 4px 0 0 var(--station-tint);
+	}
+}
+
+.station__bar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem 1rem;
+	padding: 1rem 1.25rem;
+}
+
+.station__titles {
+	display: flex;
+	flex-direction: column;
+	gap: 0.15rem;
+	min-inline-size: 0;
+}
+
+.station__kicker,
+.station__title {
+	display: block;
+	margin: 0;
+}
+
+.station__kicker {
+	color: var(--q-accent);
+}
+
+.station__title {
+	line-height: 1.1;
+}
+
+// ── Status control (the three traffic-light dots) ────────────────────────
+.status-control {
+	display: inline-flex;
+	gap: 0.4rem;
+	padding: 0.25rem;
+	border-radius: 999px;
+	background: var(--ed-theme-color-background-subtle);
+}
+
+.status-dot {
+	--dot-color: var(--ed-theme-color-border-strong, #888);
+	display: inline-grid;
+	place-items: center;
+	inline-size: 1.6rem;
+	block-size: 1.6rem;
+	padding: 0;
+	border: 2px solid var(--dot-color);
+	border-radius: 999px;
+	background: transparent;
+	cursor: pointer;
+	transition: transform 0.1s ease, background 0.1s ease, box-shadow 0.1s ease;
+
+	&--green { --dot-color: var(--status-green); }
+	&--yellow { --dot-color: var(--status-yellow); }
+	&--red { --dot-color: var(--status-red); }
+
+	&::after {
+		content: "";
+		inline-size: 0.7rem;
+		block-size: 0.7rem;
+		border-radius: 999px;
+		background: var(--dot-color);
+		opacity: 0.25;
+		transition: opacity 0.1s ease, transform 0.1s ease;
+	}
+
+	&:hover::after,
+	&:focus-visible::after {
+		opacity: 0.6;
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--dot-color);
+		outline-offset: 2px;
+	}
+
+	&[aria-checked="true"],
+	&.is-selected {
+		background: var(--dot-color);
+		box-shadow: 0 0 0 3px color-mix(in srgb, var(--dot-color) 30%, transparent);
+
+		&::after {
+			opacity: 1;
+			background: #fff;
+			transform: scale(1.05);
+		}
+	}
+}
+
+.status-dot--md {
+	inline-size: 1.6rem;
+	block-size: 1.6rem;
+}
+
+// Static dots (legend / results / dashboard) aren't interactive.
+.status-dot--static {
+	cursor: default;
+	inline-size: 1.25rem;
+	block-size: 1.25rem;
+
+	&::after {
+		inline-size: 0.55rem;
+		block-size: 0.55rem;
+	}
+
+	&:not(.is-selected) {
+		--dot-color: var(--ed-theme-color-border-strong, #888);
+	}
+}
+
+// Always-visible framing: the question to ask at this station, plus a few
+// illustrative (non-exhaustive) examples set apart in muted italics.
+.station__check {
+	margin: 0;
+	padding: 0 1.25rem 1rem;
+	max-inline-size: 80ch;
+	line-height: 1.55;
+	color: var(--ed-theme-color-content-default);
+}
+
+.station__question {
+	font-weight: 600;
+}
+
+.station__examples {
+	color: var(--ed-theme-color-content-subtle);
+	font-style: italic;
+}
+
+// ── Collapsible station body ─────────────────────────────────────────────
+.station__details {
+	border-block-start: 1px solid var(--ed-theme-color-border-subtle);
+}
+
+.station__summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.65rem 1.25rem;
+	cursor: pointer;
+	font-size: 0.85rem;
+	font-weight: 600;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	color: var(--ed-theme-color-content-subtle);
+	list-style: none;
+
+	&::-webkit-details-marker { display: none; }
+
+	&:hover {
+		color: var(--ed-theme-color-content-default);
+	}
+}
+
+.station__summary-chevron {
+	inline-size: 0.6rem;
+	block-size: 0.6rem;
+	border-inline-end: 2px solid currentColor;
+	border-block-end: 2px solid currentColor;
+	transform: rotate(45deg);
+	transition: transform 0.15s ease;
+}
+
+.station__details[open] .station__summary-chevron {
+	transform: rotate(-135deg);
+}
+
+.station__body {
+	display: grid;
+	gap: 1.25rem;
+	padding: 0.5rem 1.25rem 1.5rem;
+}
+
+.field {
+	max-inline-size: 74ch;
+}
+
+.field__label {
+	margin: 0 0 0.4rem;
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--ed-theme-color-content-subtle);
+}
+
+.field__icon {
+	font-size: 0.95rem;
+}
+
+.field p {
+	margin: 0 0 0.5rem;
+	line-height: 1.6;
+}
+
+.field__list {
+	margin: 0.25rem 0 0.5rem;
+	padding-inline-start: 1.25rem;
+	line-height: 1.6;
+
+	li { margin-block-end: 0.35rem; }
+}
+
+.field--warning-lights {
+	padding: 0.85rem 1rem;
+	border-radius: var(--ed-theme-border-radius-md, 6px);
+	background: color-mix(in srgb, var(--status-red) 8%, var(--ed-theme-color-background-default));
+}
+
+.warning-lights {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: grid;
+	gap: 0.4rem;
+}
+
+.warning-lights__item {
+	position: relative;
+	padding-inline-start: 1.6rem;
+	line-height: 1.5;
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset-block-start: 0.35em;
+		inset-inline-start: 0;
+		inline-size: 0.7rem;
+		block-size: 0.7rem;
+		border-radius: 999px;
+		background: var(--status-red);
+		box-shadow: 0 0 0 3px color-mix(in srgb, var(--status-red) 25%, transparent);
+	}
+}
+
+.field--ai {
+	padding: 0.85rem 1rem;
+	border-radius: var(--ed-theme-border-radius-md, 6px);
+	background: color-mix(in srgb, var(--status-green) 8%, var(--ed-theme-color-background-default));
+}
+
+.station__notes {
+	inline-size: 100%;
+	max-inline-size: 74ch;
+	padding: 0.6rem 0.75rem;
+	border: 1px solid var(--ed-theme-color-border-subtle);
+	border-radius: var(--ed-theme-border-radius-md, 6px);
+	background: var(--ed-theme-color-background-default);
+	color: inherit;
+	font: inherit;
+	resize: vertical;
+
+	&:focus-visible {
+		outline: 2px solid var(--q-accent);
+		outline-offset: 1px;
+	}
+}
+
+// ── Results + crosswalk tables ───────────────────────────────────────────
+.results-table {
+	inline-size: 100%;
+	border-collapse: collapse;
+	margin-block: 1rem;
+	font-size: 0.95rem;
+
+	th,
+	td {
+		padding: 0.6rem 0.85rem;
+		text-align: start;
+		border-block-end: 1px solid var(--ed-theme-color-border-subtle);
+		vertical-align: top;
+	}
+
+	thead th {
+		font-size: 0.78rem;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		color: var(--ed-theme-color-content-subtle);
+	}
+
+	a { text-decoration: none; }
+	a:hover { text-decoration: underline; }
+}
+
+.results-table__quality th {
+	padding-block: 0.85rem 0.5rem;
+	border-block-end: 2px solid var(--q-accent);
+	font-size: 0.95rem;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	color: var(--q-accent);
+}
+
+.results-table__health {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	white-space: nowrap;
+}
+
+.results-table__label {
+	font-size: 0.85rem;
+	color: var(--ed-theme-color-content-subtle);
+}
+
+// ── Cadence + crosswalk ──────────────────────────────────────────────────
+.cadence-list {
+	max-inline-size: 72ch;
+	margin: 1rem 0;
+	padding: 0;
+	list-style: none;
+	display: grid;
+	gap: 0.75rem;
+}
+
+.cadence {
+	padding: 1rem 1.25rem;
+	border: 1px solid var(--ed-theme-color-border-subtle);
+	border-radius: var(--ed-theme-border-radius-md, 6px);
+	line-height: 1.6;
+}
+
+.crosswalk__summary {
+	cursor: pointer;
+	list-style: none;
+
+	&::-webkit-details-marker { display: none; }
+
+	.checklist-section__heading {
+		display: inline;
+	}
+
+	&::before {
+		content: "▸ ";
+		color: var(--ed-theme-color-content-subtle);
+	}
+}
+
+.crosswalk[open] .crosswalk__summary::before {
+	content: "▾ ";
+}
+
+// ── Print ────────────────────────────────────────────────────────────────
+@media print {
+	.dashboard,
+	.site-header,
+	ed-r-theme-customizer,
+	.quality-overview,
+	.station__summary { display: none !important; }
+
+	.station__details { border-block-start: none; }
+	.station,
+	.cadence,
+	.principle { break-inside: avoid; }
+	.station__body { display: block; }
+}
