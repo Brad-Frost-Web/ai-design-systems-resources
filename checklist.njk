@@ -50,8 +50,8 @@ permalink: /checklist/
 			<ed-card class="ed-u-checklist-station" data-station-card="{{ s.id }}" data-quality="{{ q.id }}"{% if loop.first %} id="quality-{{ q.id }}"{% endif %}>
 				<div class="ed-u-checklist-station__head">
 					<div class="ed-u-checklist-station__titles">
-						<ed-badge text="Station {{ s.number }}"></ed-badge>
-						<ed-heading tagName="h2" variant="headline-sm">{{ s.name }}</ed-heading>
+						<span class="ed-u-checklist-kicker">Station {{ s.number }}</span>
+						<ed-heading tagName="h2" variant="headline-lg">{{ s.name }}</ed-heading>
 					</div>
 					<ed-r-status-rating station="{{ s.id }}" label="{{ s.name }} health" data-rating></ed-r-status-rating>
 				</div>

@@ -5212,7 +5212,16 @@ hr {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: calc(0.5rem * 1);
+  gap: calc(0.5rem * 0.5);
+}
+.ed-u-checklist-kicker {
+  font-family: var(--ed-theme-typography-meta-default-font-family);
+  font-size: var(--ed-theme-typography-meta-default-font-size);
+  font-weight: var(--ed-theme-typography-meta-default-font-weight);
+  line-height: var(--ed-theme-typography-meta-default-line-height);
+  letter-spacing: var(--ed-theme-typography-meta-default-letter-spacing);
+  text-transform: var(--ed-theme-typography-meta-default-text-transform);
+  color: var(--ed-theme-color-content-subtle);
 }
 .ed-u-checklist-details {
   margin-block-start: calc(0.5rem * 2);
