@@ -36,7 +36,7 @@ module.exports = {
 			id: "complete",
 			number: 1,
 			name: "Complete",
-			question: "Is it all there?",
+			question: "Does your system have what products need?",
 			accent: "#c0502a",
 			intro:
 				"Before you can judge quality, find what's simply missing. This is where AI's generative power shines&mdash;building what never got built.",
@@ -67,7 +67,7 @@ module.exports = {
 			id: "sound",
 			number: 2,
 			name: "Sound",
-			question: "Is what's there actually good?",
+			question: "Is what's in the system actually good?",
 			accent: "#e0a020",
 			intro:
 				"Existence isn't enough. Four checks: best practices, accessibility, shared language, and testing.",
@@ -145,7 +145,7 @@ module.exports = {
 			id: "synchronized",
 			number: 3,
 			name: "Synchronized",
-			question: "Do the assets agree with each other?",
+			question: "Are assets connected & orchestrated?",
 			accent: "#23456b",
 			intro:
 				"Your Figma button, coded button, and docs should describe the same button. The moment they drift, every downstream decision is built on a lie.",
@@ -173,7 +173,7 @@ module.exports = {
 			id: "extensible",
 			number: 4,
 			name: "Extensible",
-			question: "Can you keep growing it, repeatably and safely?",
+			question: "Can you reliably & consistently improve, extend, and evolve the system?",
 			accent: "#2e7d46",
 			intro:
 				"Growth should be repeatable, not heroic. Orderly change (governance) plus signal flowing back (feedback).",
@@ -218,7 +218,7 @@ module.exports = {
 			id: "ai-ready",
 			number: 5,
 			name: "AI-Ready",
-			question: "Can AI actually use it?",
+			question: "Can AI successfully use the design system?",
 			accent: "#3a7bb5",
 			intro:
 				"The capstone: package everything above so machines can understand and reach it&mdash;and generate great output instead of garbage.",
