@@ -19,18 +19,15 @@ module.exports = {
 	},
 
 	overviewIntro:
-		"Five qualities. The first four are table stakes for any high-quality design system; the fifth, AI-Ready, packages them so machines can actually use it.",
-
-	caution:
-		"<strong>Don't out-generate your standards.</strong> Filling holes is the most exciting&mdash;and most dangerous&mdash;work. Generate <em>against</em> the standards from the other four qualities, not ahead of them. Generation needs guardrails.",
+		"The first four are table stakes for any high-quality design system. The fifth&mdash;AI-Ready&mdash;packages the rest so machines can use it too. Read them as a sensible order and a triage priority, not a rigid sequence.",
 
 	howToUse: {
-		heading: "How to use this",
-		body: "Rate each of the ten stations below, fix every red, schedule the yellows, and tally your greens for a quick health score. It's a flexible frame&mdash;scale it to your team.",
+		heading: "Key",
+		body: "Rate each station red, yellow, or green&mdash;then fix the reds, schedule the yellows, and count your greens for a quick health score. Scale the frame to your team.",
 		legend: [
-			{ status: "green", label: "Green", desc: "Healthy, no action needed." },
-			{ status: "yellow", label: "Yellow", desc: "Drift or gaps; schedule a fix." },
 			{ status: "red", label: "Red", desc: "Broken or missing; the light is ON." },
+			{ status: "yellow", label: "Yellow", desc: "Drift or gaps; schedule a fix." },
+			{ status: "green", label: "Green", desc: "Healthy, no action needed." },
 		],
 	},
 
@@ -49,7 +46,7 @@ module.exports = {
 					id: "coverage-gaps",
 					name: "Coverage & gaps",
 					question:
-						"Is everything actually there across the three-legged stool of Figma, code, and docs?",
+						"Does your design system contain the necessary ingredients your products need&mdash;present across design, code, and docs?",
 					examples:
 						"For instance, whole missing components, or existing ones missing states, variants, tokens, or docs.",
 					warningLights: [
@@ -79,7 +76,7 @@ module.exports = {
 					number: 2,
 					id: "best-practices",
 					name: "Best practices",
-					question: "Is each asset built to a high standard for its medium?",
+					question: "Do design system assets embody industry, organization, and format best practices?",
 					examples:
 						"For instance, auto-layout and real component properties in Figma, semantic markup and modern layout in code, or clear examples in docs.",
 					warningLights: [
@@ -96,7 +93,7 @@ module.exports = {
 					number: 3,
 					id: "accessibility",
 					name: "Accessibility",
-					question: "Is accessibility real, tested, and automated?",
+					question: "Do design system assets embody accessibility best practices and deliver inclusive experiences?",
 					examples:
 						"For instance, WCAG 2.1 AA, keyboard support, screen readers, contrast across themes, and correct ARIA.",
 					warningLights: [
@@ -112,8 +109,8 @@ module.exports = {
 				{
 					number: 4,
 					id: "shared-language",
-					name: "Shared language (naming & API)",
-					question: "Does the whole system speak one vocabulary?",
+					name: "Shared language",
+					question: "Is language applied consistently and coherently across every asset&mdash;token names, component props, API patterns, layers, and docs?",
 					examples:
 						"For instance, consistent prop names and patterns, a coherent token naming scheme, and a single API convention.",
 					warningLights: [
@@ -130,7 +127,7 @@ module.exports = {
 					number: 5,
 					id: "testing-validation",
 					name: "Testing & validation",
-					question: "Is it verified to actually work?",
+					question: "Is it verified to actually work, with coverage running automatically in CI?",
 					examples:
 						"For instance, meaningful unit, integration, and visual-regression tests, plus linting and drift detection running automatically in CI.",
 					warningLights: [
@@ -157,7 +154,7 @@ module.exports = {
 					number: 6,
 					id: "source-of-truth-parity",
 					name: "Source of truth & parity",
-					question: "Do all the copies agree?",
+					question: "Do Figma, code, docs, and the published artifact all agree with each other?",
 					examples:
 						"For instance, one canonical source per layer, with Figma, code, docs, and the published artifact in sync, instances attached, and no competing forks.",
 					warningLights: [
@@ -185,7 +182,7 @@ module.exports = {
 					number: 7,
 					id: "governance-version-control",
 					name: "Governance & version control",
-					question: "Is there a sane process for change?",
+					question: "Is there a sane, documented process for how change flows in?",
 					examples:
 						"For instance, a release flow, a changelog, a contribution path (CONTRIBUTING, PR template), clear ownership, and a healthy issue tracker.",
 					warningLights: [
@@ -202,7 +199,7 @@ module.exports = {
 					number: 8,
 					id: "feedback-adoption",
 					name: "Feedback & adoption",
-					question: "Is signal flowing back?",
+					question: "Is signal flowing back&mdash;adoption data, a feedback loop, a recurring review cadence?",
 					examples:
 						"For instance, adoption and usage data, a real feedback mechanism, and a recurring review cadence rather than one-and-done audits.",
 					warningLights: [
@@ -230,7 +227,7 @@ module.exports = {
 					number: 9,
 					id: "machine-readable-docs",
 					name: "Machine-readable docs & context",
-					question: "Can a machine actually consume your system, not just humans?",
+					question: "Can a machine actually consume the system's knowledge, not just a human?",
 					examples:
 						"For instance, structured component metadata, usage rules, and an AI-facing context surface like llms.txt or schemas.",
 					warningLights: [
@@ -246,7 +243,7 @@ module.exports = {
 					number: 10,
 					id: "agent-access",
 					name: "Agent access (MCP & integrations)",
-					question: "Can agents actually reach it?",
+					question: "Is the system exposed to agents&mdash;MCP, knowledge graph, Code Connect, reachable from the IDE and design tool?",
 					examples:
 						"For instance, exposure via MCP or a knowledge graph, a design-to-code bridge like Code Connect, and reachability from the IDE and the design tool.",
 					warningLights: [
@@ -301,7 +298,7 @@ module.exports = {
 			},
 			{ station: "3. Accessibility", criteria: "Focus on Accessibility" },
 			{
-				station: "4. Shared language (naming & API)",
+				station: "4. Shared language",
 				criteria: "Component Library / Clear Guidelines (naming)",
 			},
 			{ station: "5. Testing & validation", criteria: "Quality / Testing" },

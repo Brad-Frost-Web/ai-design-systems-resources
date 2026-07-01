@@ -20,9 +20,9 @@ import { EdElement } from '@brad-frost-web/eddie-web-components/components/EdEle
 import { html, unsafeCSS } from 'lit';
 
 const STATUSES = [
-  { key: 'green', token: 'success', label: 'Healthy — no action needed' },
-  { key: 'yellow', token: 'warning', label: 'Drift or gaps — schedule a fix' },
   { key: 'red', token: 'error', label: 'Broken or missing — the light is ON' },
+  { key: 'yellow', token: 'warning', label: 'Drift or gaps — schedule a fix' },
+  { key: 'green', token: 'success', label: 'Healthy — no action needed' },
 ];
 
 const styles = `

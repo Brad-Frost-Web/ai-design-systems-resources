@@ -9,42 +9,39 @@ permalink: /checklist/
 <ed-main class="checklist" data-checklist>
 	<ed-r-course-hero compact>
 		<ed-heading tagName="h1">AI-ready design system inspection</ed-heading>
+		<p slot="eyebrow">Check and improve the quality of your design system so AI agents and humans alike can use it to build great, on-brand products&mdash;fast.</p>
 	</ed-r-course-hero>
 
 	<ed-layout-container class="ed-u-checklist-stack">
-		<ed-text-passage>
-			<p>Check and improve the quality of your design system so AI agents and humans alike can use it to build great, on-brand products&mdash;fast.</p>
-		</ed-text-passage>
 
-		{# ── The 5 qualities overview ────────────────────────────────────── #}
+		{# ── The five qualities overview ─────────────────────────────────── #}
 		<section class="ed-u-checklist-section" aria-labelledby="qualities-heading">
-			<ed-heading tagName="h2" id="qualities-heading">The 5 qualities of AI-ready design systems</ed-heading>
+			<ed-heading tagName="h2" id="qualities-heading">The five qualities of an AI-ready design system</ed-heading>
 			<ed-text-passage><p>{{ checklist.overviewIntro | safe }}</p></ed-text-passage>
 			<ed-grid variant="3up">
 				{% for q in checklist.qualities %}
 				<ed-grid-item>
 					<ed-card>
-						<ed-heading tagName="h3" variant="title"><a href="#quality-{{ q.id }}">{{ q.number }}. {{ q.name }}</a></ed-heading>
+						<ed-heading tagName="h3" variant="title"><a href="#quality-{{ q.id }}">{{ q.name }}</a></ed-heading>
 						<ed-text-passage size="sm"><p>{{ q.question }}</p></ed-text-passage>
 					</ed-card>
 				</ed-grid-item>
 				{% endfor %}
 			</ed-grid>
-			<ed-alert variant="warning" tagName="h3" heading="Don't out-generate your standards">
-				<ed-text-passage size="sm"><p>{{ checklist.caution | safe }}</p></ed-text-passage>
-			</ed-alert>
 		</section>
 
-		{# ── How to use ──────────────────────────────────────────────────── #}
-		<section class="ed-u-checklist-section" aria-labelledby="howto-heading">
-			<ed-heading tagName="h2" id="howto-heading">{{ checklist.howToUse.heading }}</ed-heading>
-			<ed-text-passage><p>{{ checklist.howToUse.body | safe }}</p></ed-text-passage>
-			<ul class="ed-u-checklist-legend">
-				{% for opt in checklist.howToUse.legend %}
-				<li><ed-badge variant="{{ statusVariant(opt.status) }}" appearance="solid" text="{{ opt.label }}"></ed-badge> {{ opt.desc }}</li>
-				{% endfor %}
-			</ul>
-		</section>
+		{# ── Key (how to use) ────────────────────────────────────────────── #}
+		<details class="ed-u-checklist-details ed-u-checklist-key">
+			<summary>{{ checklist.howToUse.heading }}</summary>
+			<div class="ed-u-checklist-details__body">
+				<ed-text-passage size="sm"><p>{{ checklist.howToUse.body | safe }}</p></ed-text-passage>
+				<ul class="ed-u-checklist-legend">
+					{% for opt in checklist.howToUse.legend %}
+					<li><ed-badge variant="{{ statusVariant(opt.status) }}" appearance="solid" text="{{ opt.label }}"></ed-badge> {{ opt.desc }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</details>
 
 		{# ── Sticky progress dashboard ───────────────────────────────────── #}
 		<div class="ed-u-checklist-dashboard" data-dashboard hidden>
@@ -53,9 +50,9 @@ permalink: /checklist/
 				<p><strong><span data-score>0</span> / 10 green</strong></p>
 			</div>
 			<div class="ed-u-checklist-tallies">
-				<ed-badge variant="success"><span data-count="green">0</span> healthy</ed-badge>
-				<ed-badge variant="warning"><span data-count="yellow">0</span> watch</ed-badge>
 				<ed-badge variant="error"><span data-count="red">0</span> broken</ed-badge>
+				<ed-badge variant="warning"><span data-count="yellow">0</span> watch</ed-badge>
+				<ed-badge variant="success"><span data-count="green">0</span> healthy</ed-badge>
 				<ed-badge><span data-count="unset">10</span> unrated</ed-badge>
 			</div>
 			<ed-toolbar behavior="responsive">
@@ -69,7 +66,7 @@ permalink: /checklist/
 		{# ── The stations ────────────────────────────────────────────────── #}
 		{% for q in checklist.qualities %}
 		<section class="ed-u-checklist-section" id="quality-{{ q.id }}" aria-labelledby="quality-{{ q.id }}-heading">
-			<ed-heading tagName="h2" id="quality-{{ q.id }}-heading">{{ q.number }}. {{ q.name }}</ed-heading>
+			<ed-heading tagName="h2" id="quality-{{ q.id }}-heading">{{ q.name }}</ed-heading>
 			<ed-text-passage>
 				<p><strong>{{ q.question }}</strong></p>
 				<p>{{ q.intro | safe }}</p>
