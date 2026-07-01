@@ -1,20 +1,22 @@
 /**
- * Interactive design-system inspection checklist.
+ * Interactive design-system inspection checklist — state layer.
  *
- * Drives the /checklist/ page: each of the ten stations gets a green/yellow/red
- * health rating plus a free-text note, all persisted to localStorage so a
- * student's inspection survives a reload. A sticky dashboard tallies the score
- * live, and the results table at the bottom mirrors every rating.
+ * Drives the /checklist/ page. The presentation is pure Eddie: the traffic
+ * light is the `ed-r-status-rating` recipe, notes are `ed-textarea-field`, the
+ * score is `ed-progress`, tallies are `ed-badge`. This module owns only the
+ * state: it seeds each control from localStorage, listens for the components'
+ * events, aggregates the score, and mirrors results — so an inspection
+ * survives a reload.
  *
  * Progressive enhancement: without JS the page is a fully readable checklist;
- * this script only adds the interactive scoring layer on top.
+ * this script only adds the scoring layer on top.
  */
 (function () {
 	const root = document.querySelector("[data-checklist]");
 	if (!root) return;
 
 	const STORAGE_KEY = "ds-inspection:v1";
-	const STATUSES = ["green", "yellow", "red"];
+	const STATUS_VARIANT = { green: "success", yellow: "warning", red: "error" };
 	const STATUS_LABELS = {
 		green: "Healthy",
 		yellow: "Needs attention",
@@ -23,14 +25,17 @@
 
 	const state = load();
 
-	const controls = Array.from(root.querySelectorAll(".status-control"));
+	const ratings = new Map(
+		Array.from(root.querySelectorAll("ed-r-status-rating[data-rating]")).map(
+			(el) => [el.getAttribute("station"), el],
+		),
+	);
 	const cards = new Map(
 		Array.from(root.querySelectorAll("[data-station-card]")).map((el) => [
 			el.dataset.stationCard,
 			el,
 		]),
 	);
-	const totalStations = controls.length;
 
 	function load() {
 		try {
@@ -48,61 +53,26 @@
 		}
 	}
 
-	// ── Status ratings ──────────────────────────────────────────────────
-	function setStatus(stationId, status) {
-		if (!state[stationId]) state[stationId] = {};
-		// Clicking the active status again clears it.
-		state[stationId].status =
-			state[stationId].status === status ? null : status;
-		save();
-		renderStation(stationId);
-		renderDashboard();
-	}
-
-	function renderStation(stationId) {
+	// ── Rendering ────────────────────────────────────────────────────────
+	function renderResult(stationId) {
 		const status = state[stationId] && state[stationId].status;
-
-		const control = root.querySelector(
-			`.status-control[data-station="${stationId}"]`,
-		);
-		if (control) {
-			control.querySelectorAll(".status-dot").forEach((dot) => {
-				dot.setAttribute(
-					"aria-checked",
-					String(dot.dataset.status === status),
-				);
-				dot.classList.toggle("is-selected", dot.dataset.status === status);
-			});
-		}
-
 		const card = cards.get(stationId);
 		if (card) {
 			if (status) card.setAttribute("data-state", status);
 			else card.removeAttribute("data-state");
 		}
 
-		// Results-table mirror.
-		const resultDot = root.querySelector(`[data-result="${stationId}"]`);
-		const resultLabel = root.querySelector(
-			`[data-result-label="${stationId}"]`,
-		);
-		if (resultDot) {
-			STATUSES.forEach((s) =>
-				resultDot.classList.remove(`status-dot--${s}`),
-			);
-			resultDot.classList.toggle("is-selected", Boolean(status));
-			if (status) resultDot.classList.add(`status-dot--${status}`);
-		}
-		if (resultLabel) {
-			resultLabel.textContent = status
-				? STATUS_LABELS[status]
-				: "Not yet rated";
+		const badge = root.querySelector(`ed-badge[data-result="${stationId}"]`);
+		if (badge) {
+			badge.setAttribute("text", status ? STATUS_LABELS[status] : "Not yet rated");
+			if (status) badge.setAttribute("variant", STATUS_VARIANT[status]);
+			else badge.removeAttribute("variant");
 		}
 	}
 
 	function renderDashboard() {
 		const counts = { green: 0, yellow: 0, red: 0, unset: 0 };
-		cards.forEach((_, stationId) => {
+		ratings.forEach((_, stationId) => {
 			const status = state[stationId] && state[stationId].status;
 			if (status && counts[status] !== undefined) counts[status]++;
 			else counts.unset++;
@@ -114,49 +84,32 @@
 		root.querySelectorAll("[data-score]").forEach((el) => {
 			el.textContent = counts.green;
 		});
+		const bar = root.querySelector("[data-score-bar]");
+		if (bar) bar.value = counts.green;
 	}
 
-	// ── Notes ───────────────────────────────────────────────────────────
-	function renderNotes() {
-		root.querySelectorAll("[data-notes]").forEach((field) => {
-			const id = field.dataset.notes;
-			field.value = (state[id] && state[id].notes) || "";
-		});
-	}
-
-	// ── Wiring ──────────────────────────────────────────────────────────
-	controls.forEach((control) => {
-		control.addEventListener("click", (e) => {
-			const dot = e.target.closest(".status-dot");
-			if (!dot) return;
-			setStatus(control.dataset.station, dot.dataset.status);
-		});
-		// Keyboard: arrow keys move through the three options.
-		control.addEventListener("keydown", (e) => {
-			if (!["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"].includes(e.key))
-				return;
-			e.preventDefault();
-			const dots = Array.from(control.querySelectorAll(".status-dot"));
-			const current = dots.findIndex(
-				(d) => d.getAttribute("aria-checked") === "true",
-			);
-			const dir = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : -1;
-			const next = (current + dir + dots.length) % dots.length;
-			dots[next].focus();
-			setStatus(control.dataset.station, dots[next].dataset.status);
-		});
+	// ── Status ratings ───────────────────────────────────────────────────
+	root.addEventListener("status-change", (e) => {
+		const { station, value } = e.detail;
+		if (!station) return;
+		if (!state[station]) state[station] = {};
+		state[station].status = value || null;
+		save();
+		renderResult(station);
+		renderDashboard();
 	});
 
-	root.querySelectorAll("[data-notes]").forEach((field) => {
-		field.addEventListener("input", () => {
-			const id = field.dataset.notes;
-			if (!state[id]) state[id] = {};
-			state[id].notes = field.value;
-			save();
-		});
+	// ── Notes ────────────────────────────────────────────────────────────
+	root.addEventListener("input", (e) => {
+		const field = e.target.closest("ed-textarea-field[data-notes]");
+		if (!field) return;
+		const id = field.dataset.notes;
+		if (!state[id]) state[id] = {};
+		state[id].notes = field.value;
+		save();
 	});
 
-	// Dashboard actions.
+	// ── Dashboard actions ────────────────────────────────────────────────
 	const dashboard = root.querySelector("[data-dashboard]");
 	if (dashboard) {
 		dashboard.hidden = false;
@@ -167,28 +120,34 @@
 
 			if (action === "expand" || action === "collapse") {
 				root
-					.querySelectorAll(".station__details")
+					.querySelectorAll("details[data-details]")
 					.forEach((d) => (d.open = action === "expand"));
 			} else if (action === "print") {
 				window.print();
 			} else if (action === "reset") {
-				if (
-					!window.confirm(
-						"Clear all ratings and notes for this inspection?",
-					)
-				)
+				if (!window.confirm("Clear all ratings and notes for this inspection?"))
 					return;
 				for (const key of Object.keys(state)) delete state[key];
 				save();
-				cards.forEach((_, id) => renderStation(id));
-				renderNotes();
+				ratings.forEach((el) => (el.value = ""));
+				root
+					.querySelectorAll("ed-textarea-field[data-notes]")
+					.forEach((f) => (f.value = ""));
+				cards.forEach((_, id) => renderResult(id));
 				renderDashboard();
 			}
 		});
 	}
 
-	// ── Initial paint ───────────────────────────────────────────────────
-	cards.forEach((_, id) => renderStation(id));
-	renderNotes();
+	// ── Initial paint ────────────────────────────────────────────────────
+	ratings.forEach((el, id) => {
+		const saved = state[id] && state[id].status;
+		if (saved) el.value = saved;
+		renderResult(id);
+	});
+	root.querySelectorAll("ed-textarea-field[data-notes]").forEach((field) => {
+		const saved = state[field.dataset.notes] && state[field.dataset.notes].notes;
+		if (saved) field.value = saved;
+	});
 	renderDashboard();
 })();
