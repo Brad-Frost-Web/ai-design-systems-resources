@@ -50,11 +50,12 @@ const styles = `
     --dot-border: var(--ed-theme-color-border-utility-success);
   }
   .ed-r-c-status-rating__dot--yellow {
-    /* Interim: the -warning-knockout token renders muddy brown (not yellow) in
-       the bfw theme — see eddie-design-system#961. Use the lighter warning
-       fill until that's fixed, then restore the knockout for consistency. */
-    --dot-bg: var(--ed-theme-color-background-utility-warning);
-    --dot-border: var(--ed-theme-color-border-utility-warning);
+    /* Interim: bfw's warning fills read as brown (knockout #8a5801) or near-
+       invisible pale (#f9efbb) — neither is a traffic-light yellow. Use the
+       amber accent as a legible stand-in until warning is fixed upstream
+       (eddie-design-system#961), then restore the semantic warning token. */
+    --dot-bg: var(--ed-theme-color-background-accent-4);
+    --dot-border: var(--ed-theme-color-background-accent-4);
   }
   .ed-r-c-status-rating__dot--red {
     --dot-bg: var(--ed-theme-color-background-utility-error-knockout);

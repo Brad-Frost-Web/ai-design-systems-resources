@@ -43,11 +43,13 @@ permalink: /checklist/
 			</div>
 		</details>
 
-		{# ── Sticky progress dashboard ───────────────────────────────────── #}
-		<div class="ed-u-checklist-dashboard" data-dashboard hidden>
-			<div class="ed-u-checklist-dashboard__score">
-				<ed-progress data-score-bar value="0" max="10" label="Green stations" variant="success" size="lg"></ed-progress>
-				<p><strong><span data-score>0</span> / 10 green</strong></p>
+		{# ── Scoreboard (Lighthouse-style quality gauges) ─────────────────── #}
+		<section class="ed-u-checklist-scoreboard" data-dashboard hidden aria-label="Inspection score">
+			<div class="ed-u-checklist-gauges">
+				<ed-r-score-gauge data-overall size="lg" label="Overall"></ed-r-score-gauge>
+				{% for q in checklist.qualities %}
+				<ed-r-score-gauge data-quality="{{ q.id }}" size="sm" label="{{ q.name }}"></ed-r-score-gauge>
+				{% endfor %}
 			</div>
 			<div class="ed-u-checklist-tallies">
 				<ed-badge variant="error"><span data-count="red">0</span> broken</ed-badge>
@@ -55,13 +57,14 @@ permalink: /checklist/
 				<ed-badge variant="success"><span data-count="green">0</span> healthy</ed-badge>
 				<ed-badge><span data-count="unset">10</span> unrated</ed-badge>
 			</div>
+			<p class="ed-u-checklist-scoreboard__note"><strong><span data-rated-count>0</span> of 10 stations rated.</strong> Scores weight each station green&nbsp;100 · yellow&nbsp;50 · red&nbsp;0. Fix reds first, then schedule yellows.</p>
 			<ed-toolbar behavior="responsive">
 				<ed-button slot="left" variant="bare" size="sm" data-action="expand" text="Expand all"></ed-button>
 				<ed-button slot="left" variant="bare" size="sm" data-action="collapse" text="Collapse all"></ed-button>
 				<ed-button slot="right" variant="bare" size="sm" data-action="print" text="Print"></ed-button>
 				<ed-button slot="right" variant="danger" size="sm" data-action="reset" text="Reset"></ed-button>
 			</ed-toolbar>
-		</div>
+		</section>
 
 		{# ── The stations ────────────────────────────────────────────────── #}
 		{% for q in checklist.qualities %}
@@ -73,7 +76,7 @@ permalink: /checklist/
 			</ed-text-passage>
 
 			{% for s in q.stations %}
-			<ed-card class="ed-u-checklist-station" data-station-card="{{ s.id }}">
+			<ed-card class="ed-u-checklist-station" data-station-card="{{ s.id }}" data-quality="{{ q.id }}">
 				<div class="ed-u-checklist-station__head">
 					<div class="ed-u-checklist-station__titles">
 						<ed-badge text="Station {{ s.number }}"></ed-badge>

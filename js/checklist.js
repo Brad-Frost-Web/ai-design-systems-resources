@@ -1,15 +1,19 @@
 /**
- * Interactive design-system inspection checklist — state layer.
+ * Interactive design-system inspection checklist — state + scoring layer.
  *
- * Drives the /checklist/ page. The presentation is pure Eddie: the traffic
- * light is the `ed-r-status-rating` recipe, notes are `ed-textarea-field`, the
- * score is `ed-progress`, tallies are `ed-badge`. This module owns only the
- * state: it seeds each control from localStorage, listens for the components'
- * events, aggregates the score, and mirrors results — so an inspection
- * survives a reload.
+ * The presentation is pure Eddie: the traffic light is the `ed-r-status-rating`
+ * recipe, notes are `ed-textarea-field`, and the scoreboard is a row of
+ * `ed-r-score-gauge` recipes (one per quality plus an overall).
+ *
+ * Scoring is Lighthouse-inspired. Each station scores by its rating —
+ * green 100, yellow 50, red 0. A quality's score is the mean of its rated
+ * stations; the overall score is the mean of every rated station. Unrated
+ * stations are excluded from the denominator so a partial inspection still
+ * reads sensibly (with an "N of 10 rated" note). Everything persists to
+ * localStorage so an inspection survives a reload.
  *
  * Progressive enhancement: without JS the page is a fully readable checklist;
- * this script only adds the scoring layer on top.
+ * this script only adds the interactive scoring layer on top.
  */
 (function () {
 	const root = document.querySelector("[data-checklist]");
@@ -22,6 +26,7 @@
 		yellow: "Needs attention",
 		red: "The light is ON",
 	};
+	const STATUS_SCORE = { green: 100, yellow: 50, red: 0 };
 
 	const state = load();
 
@@ -36,6 +41,23 @@
 			el,
 		]),
 	);
+
+	// quality id -> [station ids], read off the station cards.
+	const qualityStations = {};
+	cards.forEach((el, id) => {
+		const q = el.dataset.quality;
+		if (!q) return;
+		(qualityStations[q] = qualityStations[q] || []).push(id);
+	});
+
+	const overallGauge = root.querySelector("ed-r-score-gauge[data-overall]");
+	const qualityGauges = new Map(
+		Array.from(root.querySelectorAll("ed-r-score-gauge[data-quality]")).map(
+			(el) => [el.dataset.quality, el],
+		),
+	);
+
+	const totalStations = cards.size;
 
 	function load() {
 		try {
@@ -53,9 +75,29 @@
 		}
 	}
 
+	function statusOf(stationId) {
+		return state[stationId] && state[stationId].status;
+	}
+
+	function mean(nums) {
+		if (!nums.length) return null;
+		return nums.reduce((a, b) => a + b, 0) / nums.length;
+	}
+
+	// Mean score across a set of station ids, ignoring unrated ones.
+	function scoreFor(stationIds) {
+		const scored = stationIds
+			.map((id) => {
+				const s = statusOf(id);
+				return s ? STATUS_SCORE[s] : null;
+			})
+			.filter((n) => n !== null);
+		return mean(scored);
+	}
+
 	// ── Rendering ────────────────────────────────────────────────────────
 	function renderResult(stationId) {
-		const status = state[stationId] && state[stationId].status;
+		const status = statusOf(stationId);
 		const card = cards.get(stationId);
 		if (card) {
 			if (status) card.setAttribute("data-state", status);
@@ -70,10 +112,10 @@
 		}
 	}
 
-	function renderDashboard() {
+	function renderScore() {
 		const counts = { green: 0, yellow: 0, red: 0, unset: 0 };
-		ratings.forEach((_, stationId) => {
-			const status = state[stationId] && state[stationId].status;
+		cards.forEach((_, stationId) => {
+			const status = statusOf(stationId);
 			if (status && counts[status] !== undefined) counts[status]++;
 			else counts.unset++;
 		});
@@ -84,8 +126,16 @@
 		root.querySelectorAll("[data-score]").forEach((el) => {
 			el.textContent = counts.green;
 		});
-		const bar = root.querySelector("[data-score-bar]");
-		if (bar) bar.value = counts.green;
+		const ratedEl = root.querySelector("[data-rated-count]");
+		if (ratedEl) ratedEl.textContent = totalStations - counts.unset;
+
+		// Overall gauge = mean across every rated station.
+		if (overallGauge) overallGauge.value = scoreFor(Array.from(cards.keys()));
+
+		// Per-quality gauges.
+		qualityGauges.forEach((gauge, qualityId) => {
+			gauge.value = scoreFor(qualityStations[qualityId] || []);
+		});
 	}
 
 	// ── Status ratings ───────────────────────────────────────────────────
@@ -96,7 +146,7 @@
 		state[station].status = value || null;
 		save();
 		renderResult(station);
-		renderDashboard();
+		renderScore();
 	});
 
 	// ── Notes ────────────────────────────────────────────────────────────
@@ -109,7 +159,7 @@
 		save();
 	});
 
-	// ── Dashboard actions ────────────────────────────────────────────────
+	// ── Scoreboard actions ───────────────────────────────────────────────
 	const dashboard = root.querySelector("[data-dashboard]");
 	if (dashboard) {
 		dashboard.hidden = false;
@@ -134,14 +184,14 @@
 					.querySelectorAll("ed-textarea-field[data-notes]")
 					.forEach((f) => (f.value = ""));
 				cards.forEach((_, id) => renderResult(id));
-				renderDashboard();
+				renderScore();
 			}
 		});
 	}
 
 	// ── Initial paint ────────────────────────────────────────────────────
 	ratings.forEach((el, id) => {
-		const saved = state[id] && state[id].status;
+		const saved = statusOf(id);
 		if (saved) el.value = saved;
 		renderResult(id);
 	});
@@ -149,5 +199,5 @@
 		const saved = state[field.dataset.notes] && state[field.dataset.notes].notes;
 		if (saved) field.value = saved;
 	});
-	renderDashboard();
+	renderScore();
 })();

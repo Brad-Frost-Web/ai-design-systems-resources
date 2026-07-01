@@ -1311,31 +1311,33 @@ hr {
   gap: calc(0.5rem * 1.5);
 }
 
-.ed-u-checklist-dashboard {
-  position: sticky;
-  inset-block-start: 0;
-  z-index: 10;
+.ed-u-checklist-scoreboard {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
-  gap: calc(0.5rem * 2) calc(0.5rem * 4);
+  gap: calc(0.5rem * 3);
   margin-block: calc(0.5rem * 4);
-  padding: calc(0.5rem * 2) calc(0.5rem * 3);
+  padding: calc(0.5rem * 4) calc(0.5rem * 3);
   background-color: var(--ed-theme-color-background-subtle);
   border: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-border-subtle);
   border-radius: var(--ed-theme-border-radius-md);
 }
-.ed-u-checklist-dashboard[hidden] {
+.ed-u-checklist-scoreboard[hidden] {
   display: none;
 }
-.ed-u-checklist-dashboard__score {
-  display: flex;
-  align-items: center;
-  gap: calc(0.5rem * 2);
-  min-inline-size: calc(0.5rem * 24);
-}
-.ed-u-checklist-dashboard__score p {
+.ed-u-checklist-scoreboard__note {
   margin: 0;
+  max-inline-size: 62ch;
+  text-align: center;
+  color: var(--ed-theme-color-content-subtle);
+}
+
+.ed-u-checklist-gauges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: calc(0.5rem * 2) calc(0.5rem * 5);
 }
 
 .ed-u-checklist-tallies {

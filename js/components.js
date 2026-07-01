@@ -32,3 +32,4 @@ import "@brad-frost-web/eddie-web-components/components/table-header-cell/table-
 import "@brad-frost-web/eddie-recipes/recipes/tools/theme-customizer/theme-customizer.js";
 import "./course-hero.js";
 import "./status-rating.js";
+import "./score-gauge.js";
