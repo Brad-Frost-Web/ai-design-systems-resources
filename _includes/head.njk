@@ -1,6 +1,26 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Restore the theme chosen in the theme switcher (before paint), and
+         persist any change so it sticks across pages. -->
+    <script>
+      (function () {
+        var KEY = "ai-ds-theme";
+        try {
+          var saved = localStorage.getItem(KEY);
+          if (saved) document.documentElement.className = saved;
+          new MutationObserver(function () {
+            try {
+              localStorage.setItem(KEY, document.documentElement.className);
+            } catch (e) {}
+          }).observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["class"],
+          });
+        } catch (e) {}
+      })();
+    </script>
     <title>AI & Design Systems Resources</title>
     <meta
       name="description"
