@@ -5230,8 +5230,6 @@ hr {
 }
 .ed-r-c-inspection__check-legend {
   display: flex;
-  justify-content: space-between;
-  gap: calc(0.5rem * 1);
   margin-block-start: calc(0.5rem * 0.5);
   font-size: calc(0.5rem * 1.3);
   text-transform: none;
@@ -5239,6 +5237,8 @@ hr {
   opacity: 0.75;
 }
 .ed-r-c-inspection__check-legend span {
+  flex: 1;
+  text-align: center;
   white-space: nowrap;
 }
 .ed-r-c-inspection__quality {
@@ -5247,7 +5247,7 @@ hr {
   text-align: center;
   color: var(--q-accent);
   background-color: color-mix(in srgb, var(--q-accent) 12%, transparent);
-  border-inline-start: calc(0.5rem * 1) solid var(--q-accent);
+  box-shadow: inset calc(0.5rem * 1) 0 0 0 var(--q-accent);
 }
 .ed-r-c-inspection__quality-icon {
   display: block;
@@ -5302,9 +5302,10 @@ hr {
   gap: calc(0.5rem * 3);
 }
 .ed-r-c-inspection__check {
-  text-align: center;
   vertical-align: middle;
-  white-space: nowrap;
+}
+.ed-r-c-inspection__check ed-r-status-rating {
+  display: block;
 }
 .ed-u-checklist-details {
   margin-block-start: calc(0.5rem * 3);
@@ -5316,7 +5317,7 @@ hr {
   margin-block-start: calc(0.5rem * 2);
 }
 [data-checklist] {
-  --ed-layout-container-max-width: 120rem;
+  --ed-layout-container-max-width: 100rem;
   display: block;
   min-block-size: 100vh;
   padding-block: calc(0.5rem * 8);

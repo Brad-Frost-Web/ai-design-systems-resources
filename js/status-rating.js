@@ -28,9 +28,8 @@ const STATUSES = [
 const styles = `
   :host { display: inline-block; }
   .ed-r-c-status-rating {
-    display: inline-flex;
-    gap: var(--ed-theme-spacing-xs, 0.5rem);
-    padding: var(--ed-theme-spacing-xxs, 0.25rem);
+    display: flex;
+    justify-content: space-around;
   }
   .ed-r-c-status-rating__dot {
     inline-size: 1.85rem;
