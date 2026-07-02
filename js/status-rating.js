@@ -32,17 +32,20 @@ const styles = `
     justify-content: space-around;
   }
   .ed-r-c-status-rating__dot {
-    inline-size: 1.85rem;
-    block-size: 1.85rem;
+    inline-size: 2.35rem;
+    block-size: 2.35rem;
     padding: 0;
     border-radius: 50%;
-    border: var(--ed-theme-border-width-sm, 2px) solid var(--dot-border);
-    background-color: var(--dot-bg);
-    opacity: 0.55;
+    /* Unselected reads as a faint hollow ring; selecting fills it solid. */
+    border: 0.2rem solid var(--dot-border);
+    background-color: transparent;
+    opacity: 0.4;
     cursor: pointer;
     transition:
-      opacity var(--ed-theme-animation-fade-quick, 0.15s) ease,
-      transform var(--ed-theme-animation-fade-quick, 0.15s) ease;
+      opacity 0.15s ease,
+      transform 0.15s ease,
+      background-color 0.15s ease,
+      box-shadow 0.15s ease;
   }
   .ed-r-c-status-rating__dot--green {
     --dot-bg: var(--ed-theme-color-background-utility-success-knockout);
@@ -60,11 +63,15 @@ const styles = `
     --dot-bg: var(--ed-theme-color-background-utility-error-knockout);
     --dot-border: var(--ed-theme-color-border-utility-error);
   }
-  .ed-r-c-status-rating__dot:hover { opacity: 0.75; }
+  .ed-r-c-status-rating__dot:hover {
+    opacity: 0.85;
+    background-color: var(--dot-bg);
+  }
   .ed-r-c-status-rating__dot[aria-checked='true'] {
     opacity: 1;
-    transform: scale(1.1);
-    box-shadow: 0 0 0 var(--ed-theme-border-width-sm, 2px) var(--dot-border);
+    background-color: var(--dot-bg);
+    transform: scale(1.16);
+    box-shadow: 0 0 0 0.32rem color-mix(in srgb, var(--dot-border) 28%, transparent);
   }
   .ed-r-c-status-rating__dot:focus-visible {
     outline: var(--ed-theme-border-width-lg, 3px) solid
