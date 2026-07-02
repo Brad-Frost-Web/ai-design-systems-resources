@@ -14,82 +14,89 @@ permalink: /checklist/
 
 	<ed-layout-container class="ed-u-checklist-stack ed-u-margin-top-xxl">
 
-		{# ── The five qualities overview ─────────────────────────────────── #}
-		<section class="ed-u-checklist-section" aria-labelledby="qualities-heading">
-			<ed-heading tagName="h2" id="qualities-heading">The five qualities of an AI-ready design system</ed-heading>
+		{# ── Intro + Key ─────────────────────────────────────────────────── #}
+		<section class="ed-u-checklist-section" aria-labelledby="intro-heading">
+			<ed-heading tagName="h2" id="intro-heading">The five qualities of an AI-ready design system</ed-heading>
 			<ed-text-passage><p>{{ checklist.overviewIntro | safe }}</p></ed-text-passage>
-			<ed-grid variant="3up">
-				{% for q in checklist.qualities %}
-				<ed-grid-item>
-					<ed-card>
-						<ed-heading tagName="h3" variant="title"><a href="#quality-{{ q.id }}">{{ q.name }}</a></ed-heading>
-						<ed-text-passage size="sm"><p>{{ q.question }}</p></ed-text-passage>
-					</ed-card>
-				</ed-grid-item>
-				{% endfor %}
-			</ed-grid>
+			<details class="ed-u-checklist-details ed-u-checklist-key">
+				<summary>{{ checklist.howToUse.heading }}</summary>
+				<div class="ed-u-checklist-details__body">
+					<ed-text-passage size="sm"><p>{{ checklist.howToUse.body | safe }}</p></ed-text-passage>
+					<ul class="ed-u-checklist-legend">
+						{% for opt in checklist.howToUse.legend %}
+						<li><ed-badge variant="{{ statusVariant(opt.status) }}" appearance="solid" text="{{ opt.label }}"></ed-badge> {{ opt.desc }}</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</details>
 		</section>
 
-		{# ── Key (how to use) ────────────────────────────────────────────── #}
-		<details class="ed-u-checklist-details ed-u-checklist-key">
-			<summary>{{ checklist.howToUse.heading }}</summary>
-			<div class="ed-u-checklist-details__body">
-				<ed-text-passage size="sm"><p>{{ checklist.howToUse.body | safe }}</p></ed-text-passage>
-				<ul class="ed-u-checklist-legend">
-					{% for opt in checklist.howToUse.legend %}
-					<li><ed-badge variant="{{ statusVariant(opt.status) }}" appearance="solid" text="{{ opt.label }}"></ed-badge> {{ opt.desc }}</li>
+		{# ── The inspection table (product art direction) ────────────────── #}
+		<section class="ed-u-checklist-section" aria-label="Design system inspection">
+			<div class="ed-r-c-inspection__scroll">
+				<table class="ed-r-c-inspection">
+					<thead>
+						<tr>
+							<th class="ed-r-c-inspection__h ed-r-c-inspection__h--quality" scope="col">Quality</th>
+							<th class="ed-r-c-inspection__h ed-r-c-inspection__h--station" scope="col">Station</th>
+							<th class="ed-r-c-inspection__h ed-r-c-inspection__h--desc" scope="col">Description</th>
+							<th class="ed-r-c-inspection__h ed-r-c-inspection__h--check" scope="col">
+								<span class="ed-r-c-inspection__check-title">Check</span>
+								<span class="ed-r-c-inspection__check-legend" aria-hidden="true">
+									<span>Needs work</span><span>Okay</span><span>Good</span>
+								</span>
+							</th>
+						</tr>
+					</thead>
+					{% for q in checklist.qualities %}
+					<tbody class="ed-r-c-inspection__group" style="--q-accent: {{ q.accent }};" id="quality-{{ q.id }}">
+						{% for s in q.stations %}
+						<tr class="ed-r-c-inspection__row" data-station-card="{{ s.id }}" data-quality="{{ q.id }}">
+							{% if loop.first %}
+							<th class="ed-r-c-inspection__quality" scope="rowgroup" rowspan="{{ q.stations.length }}">
+								<span class="ed-r-c-inspection__quality-icon" aria-hidden="true">{{ q.icon }}</span>
+								<span class="ed-r-c-inspection__quality-name">{{ q.name }}</span>
+							</th>
+							{% endif %}
+							<td class="ed-r-c-inspection__station">
+								<span class="ed-r-c-inspection__num" aria-hidden="true">{{ s.number }}</span>
+								<span class="ed-r-c-inspection__station-name">{{ s.name }}</span>
+							</td>
+							<td class="ed-r-c-inspection__desc">
+								<p class="ed-r-c-inspection__q">{{ s.question | safe }}</p>
+								<details class="ed-r-c-inspection__detail" data-details>
+									<summary>Pop open the hood</summary>
+									<div class="ed-r-c-inspection__detail-body">
+										<div class="ed-r-c-inspection__detail-grid">
+											<ed-text-passage size="sm">
+												<h4>What to look out for</h4>
+												<ul>{% for w in s.warningLights %}<li>{{ w | safe }}</li>{% endfor %}</ul>
+											</ed-text-passage>
+											<ed-text-passage size="sm">
+												<h4>How you can wield AI</h4>
+												<p>{{ s.aiHelps | safe }}</p>
+											</ed-text-passage>
+										</div>
+										<ed-textarea-field
+											fieldId="notes-{{ s.id }}"
+											name="notes-{{ s.id }}"
+											label="Your notes"
+											rows="2"
+											placeholder="What did you find? What's the plan?"
+											data-notes="{{ s.id }}"
+										></ed-textarea-field>
+									</div>
+								</details>
+							</td>
+							<td class="ed-r-c-inspection__check">
+								<ed-r-status-rating station="{{ s.id }}" label="{{ s.name }} health" data-rating></ed-r-status-rating>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
 					{% endfor %}
-				</ul>
+				</table>
 			</div>
-		</details>
-
-		{# ── The stations (colocated flat list) ───────────────────────────── #}
-		<section class="ed-u-checklist-section" aria-label="Inspection stations">
-			{% for q in checklist.qualities %}
-			{% for s in q.stations %}
-			<ed-card class="ed-u-checklist-station" data-station-card="{{ s.id }}" data-quality="{{ q.id }}"{% if loop.first %} id="quality-{{ q.id }}"{% endif %}>
-				<div class="ed-u-checklist-station__head">
-					<div class="ed-u-checklist-station__titles">
-						<span class="ed-u-checklist-kicker">Station {{ s.number }}</span>
-						<ed-heading tagName="h2" variant="headline-lg">{{ s.name }}</ed-heading>
-					</div>
-					<ed-r-status-rating station="{{ s.id }}" label="{{ s.name }} health" data-rating></ed-r-status-rating>
-				</div>
-
-				<ed-text-passage>
-					<p><strong>{{ s.question | safe }}</strong> <em>{{ s.examples | safe }}</em></p>
-				</ed-text-passage>
-
-				<details class="ed-u-checklist-details" data-details>
-					<summary>Pop open the hood</summary>
-					<div class="ed-u-checklist-details__body">
-						<ed-grid variant="2up">
-							<ed-grid-item>
-								<ed-text-passage size="sm">
-									<h3>What to look out for</h3>
-									<ul>{% for w in s.warningLights %}<li>{{ w | safe }}</li>{% endfor %}</ul>
-								</ed-text-passage>
-							</ed-grid-item>
-							<ed-grid-item>
-								<ed-text-passage size="sm">
-									<h3>How you can wield AI</h3>
-									<p>{{ s.aiHelps | safe }}</p>
-								</ed-text-passage>
-							</ed-grid-item>
-						</ed-grid>
-						<ed-textarea-field
-							fieldId="notes-{{ s.id }}"
-							name="notes-{{ s.id }}"
-							label="Your notes"
-							rows="2"
-							placeholder="What did you find? What's the plan?"
-							data-notes="{{ s.id }}"
-						></ed-textarea-field>
-					</div>
-				</details>
-			</ed-card>
-			{% endfor %}
-			{% endfor %}
 		</section>
 
 		{# ── Scoreboard (Lighthouse-style quality gauges) ─────────────────── #}
@@ -115,32 +122,10 @@ permalink: /checklist/
 			</ed-toolbar>
 		</section>
 
-		{# ── Results ─────────────────────────────────────────────────────── #}
-		<section class="ed-u-checklist-section" aria-labelledby="results-heading">
-			<ed-heading tagName="h2" id="results-heading">Your inspection results</ed-heading>
-			<ed-table fullWidth>
-				<ed-table-header>
-					<ed-table-row>
-						<ed-table-header-cell>Quality / Station</ed-table-header-cell>
-						<ed-table-header-cell>Health</ed-table-header-cell>
-					</ed-table-row>
-				</ed-table-header>
-				<ed-table-body>
-					{% for q in checklist.qualities %}
-					{% for s in q.stations %}
-					<ed-table-row>
-						<ed-table-cell><a href="#quality-{{ q.id }}">{{ q.name }} &middot; Station {{ s.number }}: {{ s.name }}</a></ed-table-cell>
-						<ed-table-cell><ed-badge data-result="{{ s.id }}" text="Not yet rated"></ed-badge></ed-table-cell>
-					</ed-table-row>
-					{% endfor %}
-					{% endfor %}
-				</ed-table-body>
-			</ed-table>
-			<ed-text-passage><p><strong>Greens: <span data-score>0</span> / 10.</strong> {{ checklist.results.scoreNote }}</p></ed-text-passage>
-			<ed-alert variant="success" tagName="h3" heading="Worked example">
-				<ed-text-passage size="sm"><p>{{ checklist.results.example | safe }}</p></ed-text-passage>
-			</ed-alert>
-		</section>
+		{# ── Worked example ──────────────────────────────────────────────── #}
+		<ed-alert variant="success" tagName="h2" heading="A worked example">
+			<ed-text-passage size="sm"><p>{{ checklist.results.example | safe }}</p></ed-text-passage>
+		</ed-alert>
 
 		{# ── Maintenance ─────────────────────────────────────────────────── #}
 		<section class="ed-u-checklist-section" aria-labelledby="maintenance-heading">

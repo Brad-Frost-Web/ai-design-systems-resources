@@ -38,6 +38,7 @@ module.exports = {
 			name: "Complete",
 			question: "Does your system have what products need?",
 			accent: "#c0502a",
+			icon: "📋",
 			intro:
 				"Before you can judge quality, find what's simply missing. This is where AI's generative power shines&mdash;building what never got built.",
 			stations: [
@@ -69,6 +70,7 @@ module.exports = {
 			name: "Sound",
 			question: "Is what's in the system actually good?",
 			accent: "#e0a020",
+			icon: "🔊",
 			intro:
 				"Existence isn't enough. Four checks: best practices, accessibility, shared language, and testing.",
 			stations: [
@@ -149,6 +151,7 @@ module.exports = {
 			name: "Synchronized",
 			question: "Are assets connected & orchestrated?",
 			accent: "#23456b",
+			icon: "⚙️",
 			intro:
 				"Your Figma button, coded button, and docs should describe the same button. The moment they drift, every downstream decision is built on a lie.",
 			stations: [
@@ -178,6 +181,7 @@ module.exports = {
 			name: "Extensible",
 			question: "Can you reliably & consistently improve, extend, and evolve the system?",
 			accent: "#2e7d46",
+			icon: "🌱",
 			intro:
 				"Growth should be repeatable, not heroic. Orderly change (governance) plus signal flowing back (feedback).",
 			stations: [
@@ -225,6 +229,7 @@ module.exports = {
 			name: "AI-Ready",
 			question: "Can AI successfully use the design system?",
 			accent: "#3a7bb5",
+			icon: "🤖",
 			intro:
 				"The capstone: package everything above so machines can understand and reach it&mdash;and generate great output instead of garbage. A ready system is the launchpad; wielding it in repeatable, trusted workflows is where the real speed comes from.",
 			stations: [
