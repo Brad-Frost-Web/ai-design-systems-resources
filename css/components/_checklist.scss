@@ -220,3 +220,59 @@
 		margin-block-start: size(2);
 	}
 }
+
+// ── Product art direction: clipboard desk + paper sheet + letterhead ─────
+// The page reads as an inspection sheet clipped to a workbench. The desk is
+// the clipboard photo; content lives on a cream "paper" surface; the hero is
+// replaced by a letterhead (robot + masthead) at the top of the paper.
+[data-checklist] {
+	--ed-layout-container-max-width: 120rem;
+	display: block;
+	min-block-size: 100vh;
+	padding-block: size(8);
+	background-color: var(--ed-theme-color-background-knockout);
+	background-image: url("/images/clipboard.png");
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-size: cover;
+	background-attachment: fixed;
+}
+
+.ed-r-c-inspection__sheet {
+	padding: size(6) size(6) size(9);
+	background-color: var(--ed-theme-color-background-default);
+	border-radius: var(--ed-theme-border-radius-sm);
+	box-shadow: 0 size(1) size(6)
+		color-mix(in srgb, var(--ed-theme-color-background-knockout) 55%, transparent);
+}
+
+.ed-r-c-inspection__letterhead {
+	display: flex;
+	align-items: center;
+	gap: size(3);
+	padding-block-end: size(4);
+	border-block-end: var(--ed-theme-border-width-md) solid var(--ed-theme-color-content-default);
+}
+
+.ed-r-c-inspection__robot {
+	flex: none;
+	inline-size: size(14);
+	block-size: size(14);
+}
+
+.ed-r-c-inspection__title {
+	margin: 0;
+	font-family: var(--ed-theme-typography-headline-lg-font-family);
+	font-weight: 800;
+	text-transform: uppercase;
+	line-height: 0.92;
+	letter-spacing: -0.01em;
+	font-size: clamp(#{size(6)}, 7vw, #{size(11)});
+	color: var(--ed-theme-color-content-default);
+}
+
+.ed-r-c-inspection__lede {
+	margin: size(1.5) 0 0;
+	max-inline-size: 60ch;
+	color: var(--ed-theme-color-content-subtle);
+}
