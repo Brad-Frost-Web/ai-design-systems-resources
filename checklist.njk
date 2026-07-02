@@ -8,25 +8,41 @@ permalink: /checklist/
 
 <ed-main class="checklist" data-checklist>
 	<ed-layout-container>
-		<div class="ed-r-c-inspection__sheet ed-u-checklist-stack">
+		<div class="ed-r-c-inspection__sheet">
+		<div class="ed-r-c-inspection__clip" aria-hidden="true"></div>
+		<div class="ed-r-c-inspection__paper ed-u-checklist-stack">
 
-		{# ── Letterhead (robot + masthead, on the paper) ─────────────────── #}
+		{# ── Letterhead — vintage service-invoice masthead (framed) ───────── #}
 		<header class="ed-r-c-inspection__letterhead">
-			<svg class="ed-r-c-inspection__robot" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none" role="img" aria-label="AI &amp; design systems robot">
-				<rect y="28.5459" width="96" height="67.4541" rx="2" fill="#110000"/>
-				<rect x="28.4883" y="20.8721" width="39.0244" height="67.1564" rx="16" fill="#110000"/>
-				<rect x="46.0488" y="6.06104" width="3.90244" height="15.5115" fill="#110000"/>
-				<ellipse cx="48" cy="5.76781" rx="5.7561" ry="5.76781" fill="#110000"/>
-				<ellipse cx="28.4878" cy="54.6479" rx="16.9756" ry="17.0102" fill="#F6F5DE"/>
-				<ellipse cx="28.4875" cy="54.6478" rx="9.07317" ry="9.09164" fill="#BE6700"/>
-				<ellipse cx="66.9268" cy="54.6479" rx="16.9756" ry="17.0102" fill="#F6F5DE"/>
-				<ellipse cx="66.9272" cy="54.6478" rx="9.07317" ry="9.09164" fill="#BE6700"/>
-				<rect x="29.8535" y="79.5762" width="36.3902" height="5.27902" rx="2.63951" fill="#F6F5DE"/>
-			</svg>
-			<div class="ed-r-c-inspection__masthead">
-				<h1 class="ed-r-c-inspection__title">Design System Inspection</h1>
-				<p class="ed-r-c-inspection__lede">Check and improve the quality of your design system so AI agents and humans alike can use it to build great, on-brand products&mdash;fast.</p>
-			</div>
+
+			{# Corner stamps (decorative) #}
+			<span class="ed-r-c-inspection__stamp ed-r-c-inspection__stamp--form" aria-hidden="true">
+				<span class="ed-r-c-inspection__stamp-no">Form No. AI&ndash;DS&ndash;01</span>
+				<span class="ed-r-c-inspection__stamp-sub">Service Letterhead</span>
+			</span>
+			<span class="ed-r-c-inspection__stamp ed-r-c-inspection__stamp--copy" aria-hidden="true">Customer&rsquo;s Copy</span>
+
+			{# Linked brand marque: the real ledger-diamond motif + huge distressed wordmark #}
+			<a class="ed-r-c-inspection__brand" href="https://aianddesign.systems/">
+				<img class="ed-r-c-inspection__diamond" src="/images/diamond.svg" alt="" aria-hidden="true">
+				<span class="ed-r-c-inspection__brand-name">AI &amp; Design Systems</span>
+			</a>
+
+			{# The form's purpose — the page's real heading, flanked by rules #}
+			<h1 class="ed-r-c-inspection__title"><span>Design System Inspection &amp; AI Readiness</span></h1>
+
+			{# Provenance byline — a natural extension of the title #}
+			<p class="ed-r-c-inspection__byline" aria-hidden="true">A Southleft &amp; Brad Frost Web Service <span class="ed-r-c-inspection__star">&#9733;</span> Est. MMXIII</p>
+
+			{# Boxed service strip #}
+			<p class="ed-r-c-inspection__services" aria-hidden="true">
+				<span>Token Tune&ndash;Ups</span>
+				<span>Drift Diagnostics</span>
+				<span>Component Repair</span>
+				<span>AI Road&ndash;Readiness</span>
+			</p>
+
+			<p class="ed-r-c-inspection__lede">Check and improve the quality of your design system so AI agents and humans alike can use it to build great, on-brand products&mdash;fast.</p>
 		</header>
 
 		{# ── The inspection table (product art direction) ────────────────── #}
@@ -170,6 +186,8 @@ permalink: /checklist/
 		<ed-text-passage size="xs">
 			<p>Source of truth: <a href="{{ checklist.meta.sourceUrl }}">DS inspection checklist</a> &middot; Chapter 3 of the <a href="https://aianddesign.systems">AI &amp; Design Systems course</a>. Warning signs cross-checked against <a href="https://southleft.com">Southleft&rsquo;s</a> AI-Ready Design System Scorecard.</p>
 		</ed-text-passage>
+		</div>
+		<div class="ed-r-c-inspection__foot" aria-hidden="true"></div>
 		</div>
 	</ed-layout-container>
 </ed-main>

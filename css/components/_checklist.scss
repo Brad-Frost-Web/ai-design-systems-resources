@@ -44,7 +44,6 @@
 	align-items: center;
 	gap: size(4);
 	padding: size(5) size(3);
-	background-color: var(--ed-theme-color-background-subtle);
 	border: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-border-subtle);
 	border-radius: var(--ed-theme-border-radius-md);
 
@@ -74,27 +73,34 @@
 	gap: size(1);
 }
 
+// Let the clipboard paper show through the alerts. ed-alert paints its surface
+// with --ed-theme-color-content-knockout inside its shadow DOM (nothing else in
+// the alert uses that token for foreground), so neutralizing it here drops the
+// fill while keeping the accent border + text intact.
+[data-checklist] ed-alert {
+	--ed-theme-color-content-knockout: transparent;
+}
+
 // ── Product art direction: the inspection table ─────────────────────────
 // The project-local art-direction layer on top of Eddie — the clipboard
 // "inspection sheet". Per-quality accent comes from --q-accent (set inline
 // from the data's product palette); everything else is Eddie tokens + size().
 .ed-r-c-inspection__scroll {
 	overflow-x: auto;
-	border: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-border-default);
+	border: var(--ed-theme-border-width-sm) dashed var(--ed-theme-color-border-default);
 	border-radius: var(--ed-theme-border-radius-md);
 }
 
 .ed-r-c-inspection {
 	inline-size: 100%;
 	border-collapse: collapse;
-	background-color: var(--ed-theme-color-background-default);
 
 	th,
 	td {
 		text-align: start;
 		vertical-align: top;
 		padding: size(2) size(2.5);
-		border-block-end: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-border-subtle);
+		border-block-end: var(--ed-theme-border-width-sm) dashed var(--ed-theme-color-border-subtle);
 	}
 }
 
@@ -232,44 +238,242 @@
 	display: block;
 	min-block-size: 100vh;
 	padding-block: size(8);
+	// The workbench desk: a dark tool-strewn surface whose empty center is where
+	// the clipboard sheet lands. Knockout token stays as the fallback behind it.
 	background-color: var(--ed-theme-color-background-knockout);
-	background-image: url("/images/clipboard.png");
+	background-image: url("/images/bg-workbench.png");
 	background-repeat: no-repeat;
 	background-position: center top;
 	background-size: cover;
 	background-attachment: fixed;
 }
 
+// The sheet is a 3-slice, vertically-expandable clipboard: a fixed clip cap
+// on top, a repeating "paper" body that grows with the content, and a fixed
+// foot cap at the bottom. All three slices are 1024px wide, so their wooden
+// frame rails line up seamlessly when each is stretched to 100% width.
 .ed-r-c-inspection__sheet {
-	padding: size(6) size(6) size(9);
+	position: relative;
 }
 
+.ed-r-c-inspection__clip {
+	aspect-ratio: 1024 / 344;
+	background: url("/images/bg-clipboard-top.png") top center / 100% 100% no-repeat;
+}
+
+.ed-r-c-inspection__paper {
+	background: url("/images/bg-clipboard-body.png") top center / 100% auto repeat-y;
+	padding-block: size(4) size(6);
+	// Sit the content well inside the wooden side rails so it reads as typed
+	// onto the paper. Fixed inset (not %) keeps it stable across widths.
+	padding-inline: 14rem;
+}
+
+.ed-r-c-inspection__foot {
+	aspect-ratio: 1024 / 132;
+	background: url("/images/bg-clipboard-bottom.png") bottom center / 100% 100% no-repeat;
+}
+
+// ── The letterhead: a framed vintage service-invoice masthead ───────────
+// Modeled on carbon-copy invoice letterheads: a ruled frame, corner stamps +
+// slogans, a gold ledger-diamond motif (the course hero), a huge letterpress
+// wordmark distressed with a blend-mode grain overlay, a rule-flanked purpose
+// line, and a boxed service strip. The whole marque links to the course site.
 .ed-r-c-inspection__letterhead {
-	display: flex;
-	align-items: center;
-	gap: size(3);
-	padding-block-end: size(4);
+	position: relative;
+	padding: size(9) size(5) size(5);
+	border: var(--ed-theme-border-width-md) solid var(--ed-theme-color-content-default);
+	text-align: center;
+	// Query container so the wordmark can size to the letterhead's real width
+	// (which doesn't track the viewport, thanks to the fixed paper inset).
+	container-type: inline-size;
 }
 
-.ed-r-c-inspection__robot {
-	flex: none;
-	inline-size: size(14);
-	block-size: size(14);
+// Boxed corner stamps, pinned to the top corners of the frame.
+.ed-r-c-inspection__stamp {
+	position: absolute;
+	inset-block-start: size(3);
+	display: inline-block;
+	padding: size(0.75) size(1.5);
+	border: var(--ed-theme-border-width-md) solid currentColor;
+	font-family: var(--ed-theme-typography-label-default-font-family);
+	font-weight: 700;
+	font-size: size(1.4);
+	line-height: 1.15;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--ed-theme-color-content-accent-1);
+
+	&--form {
+		inset-inline-start: size(3);
+		text-align: start;
+	}
+
+	// A faded, over-rotated rubber stamp with wide tracking.
+	&--copy {
+		inset-inline-end: size(3);
+		font-size: size(1.7);
+		letter-spacing: 0.24em;
+		opacity: 0.5;
+		transform: rotate(3deg);
+	}
 }
 
-.ed-r-c-inspection__title {
-	margin: 0;
+.ed-r-c-inspection__stamp-no,
+.ed-r-c-inspection__stamp-sub {
+	display: block;
+}
+
+.ed-r-c-inspection__star {
+	color: var(--ed-theme-color-content-utility-error);
+}
+
+// Linked brand marque.
+.ed-r-c-inspection__brand {
+	display: block;
+	text-decoration: none;
+	color: inherit;
+	border-radius: var(--ed-theme-border-radius-md);
+
+	&:focus-visible {
+		outline: var(--ed-theme-border-width-lg) solid
+			var(--ed-theme-focus-ring-color-border-default, currentColor);
+		outline-offset: var(--ed-theme-offset-focus-ring, 0.25rem);
+	}
+}
+
+// The real ledger-diamond brand emblem (course-hero motif) at top-center.
+.ed-r-c-inspection__diamond {
+	display: block;
+	margin-inline: auto;
+	inline-size: clamp(#{size(22)}, 24vw, #{size(40)});
+	block-size: auto;
+}
+
+// The huge letterpress wordmark, tucked up beneath the diamond.
+.ed-r-c-inspection__brand-name {
+	position: relative;
+	display: block;
+	margin-block-start: size(-1);
 	font-family: var(--ed-theme-typography-headline-lg-font-family);
 	font-weight: 800;
+	line-height: 0.78;
+	letter-spacing: -0.03em;
 	text-transform: uppercase;
-	line-height: 0.92;
-	letter-spacing: -0.01em;
-	font-size: clamp(#{size(6)}, 7vw, #{size(11)});
+	white-space: nowrap;
+	font-size: clamp(#{size(4)}, 9cqi, #{size(15)});
 	color: var(--ed-theme-color-content-default);
+	transition: color var(--ed-theme-animation-fade-quick, 0.15s) ease;
+
+	// Distress: a high-contrast noise grain screened over the ink erodes it
+	// into a worn, letterpressed finish without touching the paper around it.
+	&::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='340' height='170'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncR type='linear' slope='2.4' intercept='-0.85'/><feFuncG type='linear' slope='2.4' intercept='-0.85'/><feFuncB type='linear' slope='2.4' intercept='-0.85'/></feComponentTransfer></filter><rect width='340' height='170' filter='url(%23g)'/></svg>");
+		background-size: cover;
+		mix-blend-mode: screen;
+		opacity: 0.42;
+		pointer-events: none;
+	}
+}
+
+.ed-r-c-inspection__brand:hover .ed-r-c-inspection__brand-name,
+.ed-r-c-inspection__brand:focus-visible .ed-r-c-inspection__brand-name {
+	color: var(--ed-theme-color-content-subtle);
+}
+
+// The purpose line (the page's real h1) — rust, flanked by short heavy rules.
+.ed-r-c-inspection__title {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: size(2);
+	margin: size(2) 0 0;
+	font-family: var(--ed-theme-typography-headline-default-font-family);
+	font-weight: 700;
+	line-height: 1.05;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	font-size: clamp(#{size(2.25)}, 2.4vw, #{size(3.5)});
+	color: var(--ed-theme-color-content-accent-1);
+
+	&::before,
+	&::after {
+		content: "";
+		flex: none;
+		inline-size: size(7);
+		border-block-start: var(--ed-theme-border-width-lg) solid
+			var(--ed-theme-color-content-default);
+	}
+}
+
+// Provenance byline — reads as a natural extension of the purpose line.
+.ed-r-c-inspection__byline {
+	margin: size(1.5) 0 0;
+	font-family: var(--ed-theme-typography-label-default-font-family);
+	font-weight: 700;
+	font-size: size(1.6);
+	text-transform: uppercase;
+	letter-spacing: 0.14em;
+	color: var(--ed-theme-color-content-subtle);
+}
+
+// Boxed service strip — dot-separated garage menu.
+.ed-r-c-inspection__services {
+	margin: size(3) 0 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	padding: size(1.5) size(2);
+	border: var(--ed-theme-border-width-md) solid var(--ed-theme-color-content-default);
+	font-family: var(--ed-theme-typography-label-default-font-family);
+	font-weight: 700;
+	font-size: size(1.6);
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--ed-theme-color-content-default);
+
+	span + span::before {
+		content: "\2022";
+		margin-inline: size(2.5);
+		color: var(--ed-theme-color-content-accent-1);
+	}
 }
 
 .ed-r-c-inspection__lede {
-	margin: size(1.5) 0 0;
+	margin: size(3) auto 0;
 	max-inline-size: 60ch;
 	color: var(--ed-theme-color-content-subtle);
+}
+
+// Float the corner stamps back into the flow on small screens, where the
+// absolute layout would collide with the marque. (Full mobile pass pending.)
+@media (max-width: 48rem) {
+	.ed-r-c-inspection__letterhead {
+		padding-block-start: size(4);
+	}
+
+	.ed-r-c-inspection__stamp {
+		position: static;
+		display: inline-block;
+		margin-block-end: size(2);
+		transform: none;
+	}
+}
+
+// The fixed 14rem paper inset is a desktop figure; pull it in on smaller
+// screens so the content doesn't collapse. (Full mobile pass still pending.)
+@media (max-width: 60rem) {
+	.ed-r-c-inspection__paper {
+		padding-inline: size(8);
+	}
+}
+
+@media (max-width: 40rem) {
+	.ed-r-c-inspection__paper {
+		padding-inline: size(4);
+	}
 }
