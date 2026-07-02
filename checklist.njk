@@ -7,29 +7,27 @@ permalink: /checklist/
 {%- endmacro -%}
 
 <ed-main class="checklist" data-checklist>
-	<ed-r-course-hero compact>
-		<ed-heading tagName="h1">AI-ready design system inspection</ed-heading>
-		<p slot="eyebrow">Check and improve the quality of your design system so AI agents and humans alike can use it to build great, on-brand products&mdash;fast.</p>
-	</ed-r-course-hero>
+	<ed-layout-container>
+		<div class="ed-r-c-inspection__sheet ed-u-checklist-stack">
 
-	<ed-layout-container class="ed-u-checklist-stack ed-u-margin-top-xxl">
-
-		{# ── Intro + Key ─────────────────────────────────────────────────── #}
-		<section class="ed-u-checklist-section" aria-labelledby="intro-heading">
-			<ed-heading tagName="h2" id="intro-heading">The five qualities of an AI-ready design system</ed-heading>
-			<ed-text-passage><p>{{ checklist.overviewIntro | safe }}</p></ed-text-passage>
-			<details class="ed-u-checklist-details ed-u-checklist-key">
-				<summary>{{ checklist.howToUse.heading }}</summary>
-				<div class="ed-u-checklist-details__body">
-					<ed-text-passage size="sm"><p>{{ checklist.howToUse.body | safe }}</p></ed-text-passage>
-					<ul class="ed-u-checklist-legend">
-						{% for opt in checklist.howToUse.legend %}
-						<li><ed-badge variant="{{ statusVariant(opt.status) }}" appearance="solid" text="{{ opt.label }}"></ed-badge> {{ opt.desc }}</li>
-						{% endfor %}
-					</ul>
-				</div>
-			</details>
-		</section>
+		{# ── Letterhead (robot + masthead, on the paper) ─────────────────── #}
+		<header class="ed-r-c-inspection__letterhead">
+			<svg class="ed-r-c-inspection__robot" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none" role="img" aria-label="AI &amp; design systems robot">
+				<rect y="28.5459" width="96" height="67.4541" rx="2" fill="#110000"/>
+				<rect x="28.4883" y="20.8721" width="39.0244" height="67.1564" rx="16" fill="#110000"/>
+				<rect x="46.0488" y="6.06104" width="3.90244" height="15.5115" fill="#110000"/>
+				<ellipse cx="48" cy="5.76781" rx="5.7561" ry="5.76781" fill="#110000"/>
+				<ellipse cx="28.4878" cy="54.6479" rx="16.9756" ry="17.0102" fill="#F6F5DE"/>
+				<ellipse cx="28.4875" cy="54.6478" rx="9.07317" ry="9.09164" fill="#BE6700"/>
+				<ellipse cx="66.9268" cy="54.6479" rx="16.9756" ry="17.0102" fill="#F6F5DE"/>
+				<ellipse cx="66.9272" cy="54.6478" rx="9.07317" ry="9.09164" fill="#BE6700"/>
+				<rect x="29.8535" y="79.5762" width="36.3902" height="5.27902" rx="2.63951" fill="#F6F5DE"/>
+			</svg>
+			<div class="ed-r-c-inspection__masthead">
+				<h1 class="ed-r-c-inspection__title">Design System Inspection</h1>
+				<p class="ed-r-c-inspection__lede">Check and improve the quality of your design system so AI agents and humans alike can use it to build great, on-brand products&mdash;fast.</p>
+			</div>
+		</header>
 
 		{# ── The inspection table (product art direction) ────────────────── #}
 		<section class="ed-u-checklist-section" aria-label="Design system inspection">
@@ -172,5 +170,6 @@ permalink: /checklist/
 		<ed-text-passage size="xs">
 			<p>Source of truth: <a href="{{ checklist.meta.sourceUrl }}">DS inspection checklist</a> &middot; Chapter 3 of the <a href="https://aianddesign.systems">AI &amp; Design Systems course</a>. Warning signs cross-checked against <a href="https://southleft.com">Southleft&rsquo;s</a> AI-Ready Design System Scorecard.</p>
 		</ed-text-passage>
+		</div>
 	</ed-layout-container>
 </ed-main>

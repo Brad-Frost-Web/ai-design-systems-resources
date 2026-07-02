@@ -240,10 +240,6 @@
 
 .ed-r-c-inspection__sheet {
 	padding: size(6) size(6) size(9);
-	background-color: var(--ed-theme-color-background-default);
-	border-radius: var(--ed-theme-border-radius-sm);
-	box-shadow: 0 size(1) size(6)
-		color-mix(in srgb, var(--ed-theme-color-background-knockout) 55%, transparent);
 }
 
 .ed-r-c-inspection__letterhead {
@@ -251,7 +247,6 @@
 	align-items: center;
 	gap: size(3);
 	padding-block-end: size(4);
-	border-block-end: var(--ed-theme-border-width-md) solid var(--ed-theme-color-content-default);
 }
 
 .ed-r-c-inspection__robot {

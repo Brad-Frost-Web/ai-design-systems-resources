@@ -1498,9 +1498,6 @@ hr {
 
 .ed-r-c-inspection__sheet {
   padding: calc(0.5rem * 6) calc(0.5rem * 6) calc(0.5rem * 9);
-  background-color: var(--ed-theme-color-background-default);
-  border-radius: var(--ed-theme-border-radius-sm);
-  box-shadow: 0 calc(0.5rem * 1) calc(0.5rem * 6) color-mix(in srgb, var(--ed-theme-color-background-knockout) 55%, transparent);
 }
 
 .ed-r-c-inspection__letterhead {
@@ -1508,7 +1505,6 @@ hr {
   align-items: center;
   gap: calc(0.5rem * 3);
   padding-block-end: calc(0.5rem * 4);
-  border-block-end: var(--ed-theme-border-width-md) solid var(--ed-theme-color-content-default);
 }
 
 .ed-r-c-inspection__robot {
