@@ -42,6 +42,8 @@ question: Is the design system exposed to AI agents so it can be used successful
 - **Yellow (4–7):** Some access exists (an MCP, partial Code Connect) but it's spotty, unintegrated into daily tools, undocumented, or produces mediocre results — capability without adoption.
 - **Green (8–10):** System exposed via well-integrated surfaces; agents in the org's real tools produce on-system results; the tooling is documented and communicated; teams run repeatable AI-assisted workflows with shared, earned trust.
 
+**No live test, no confirmed green.** Same rule as Station 9: if procedure step 4 wasn't run, a would-be green is *provisional green*, and running the test is the first move.
+
 ## Turning off the light
 
 - Have AI **assess the current access story** (existing MCPs, Code Connect, metadata, docs) and report: can agents reach and successfully wield the ingredients? Then have it **help build what's missing** — standing up a design system MCP server, authoring skills and agent-facing ephemera, wiring integrations into each tool environment. This work is dramatically cheaper than a year ago.
@@ -55,6 +57,7 @@ question: Is the design system exposed to AI agents so it can be used successful
 ```markdown
 ### Station 10 — Agent access: <RED|YELLOW|GREEN> (<n>/10)
 - Surfaces mapped: <MCP/bridge/integrations> · Live test: <run/not run, output grade>
+- Evidence level: <live / export / screenshot / interview, per asset>
 - Findings:
   - [verified|reported] <finding + evidence>
 - Not inspected: <…>

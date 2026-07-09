@@ -56,6 +56,7 @@ question: Does your design system contain the necessary ingredients your product
 ```markdown
 ### Station 1 — Coverage & gaps: <RED|YELLOW|GREEN> (<n>/10)
 - Inventory: <n> in design · <n> in code · <n> documented (sampled: <scope>)
+- Evidence level: <live / export / screenshot / interview, per asset>
 - Findings:
   - [verified|reported] <finding + evidence>
 - Not inspected: <what and why>

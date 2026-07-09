@@ -54,6 +54,7 @@ question: Do design system assets embody accessibility best practices and delive
 ```markdown
 ### Station 3 — Accessibility: <RED|YELLOW|GREEN> (<n>/10)
 - Sampled: <components, themes checked>
+- Evidence level: <live / export / screenshot / interview, per asset>
 - Findings:
   - [verified|reported] <finding + evidence, WCAG criterion where applicable>
 - Not inspected: <…>

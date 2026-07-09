@@ -54,6 +54,7 @@ question: Is quality tested and validated across the system, and is testing buil
 ```markdown
 ### Station 5 — Testing & validation: <RED|YELLOW|GREEN> (<n>/10)
 - Inspected: <suites, CI config, tests read>
+- Evidence level: <live / export / screenshot / interview, per asset>
 - Findings:
   - [verified|reported] <finding + evidence>
 - Not inspected: <…>

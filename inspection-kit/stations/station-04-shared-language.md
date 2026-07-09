@@ -55,6 +55,7 @@ question: Is language consistent and coherent within and across system assets �
 ```markdown
 ### Station 4 — Shared language: <RED|YELLOW|GREEN> (<n>/10)
 - Swept: <APIs, tokens, assets traced>
+- Evidence level: <live / export / screenshot / interview, per asset>
 - Findings:
   - [verified|reported] <inconsistency + examples, within-asset or cross-asset>
 - Not inspected: <…>

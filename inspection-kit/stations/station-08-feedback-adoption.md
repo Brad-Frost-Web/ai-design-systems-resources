@@ -55,6 +55,7 @@ question: Is system adoption tracked, and is product context feeding back into t
 ```markdown
 ### Station 8 — Feedback & adoption: <RED|YELLOW|GREEN> (<n>/10)
 - Measured: <repos scanned, analytics reviewed, teams interviewed>
+- Evidence level: <live / export / screenshot / interview, per asset>
 - Findings:
   - [verified|reported] <finding + evidence; separate coverage vs. adoption>
 - Not inspected: <…>

@@ -55,6 +55,7 @@ question: Are there formal, documented, and accurate processes for how system ch
 ```markdown
 ### Station 7 — Governance & version control: <RED|YELLOW|GREEN> (<n>/10)
 - Inspected: <artifacts, tracker stats, releases reviewed>
+- Evidence level: <live / export / screenshot / interview, per asset>
 - Findings:
   - [verified|reported] <finding + evidence; flag paper-vs-reality gaps>
 - Not inspected: <…>

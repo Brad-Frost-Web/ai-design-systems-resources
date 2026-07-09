@@ -56,6 +56,7 @@ question: Are design, code, and docs assets actually connected, and are workflow
 ```markdown
 ### Station 6 — Orchestration: <RED|YELLOW|GREEN> (<n>/10)
 - Diffed: <components/assets compared>
+- Evidence level: <live / export / screenshot / interview, per asset>
 - Findings:
   - [verified|reported] <drift/connection finding + evidence>
 - Not inspected: <…>

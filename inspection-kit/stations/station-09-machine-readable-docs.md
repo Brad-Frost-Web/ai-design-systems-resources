@@ -40,6 +40,8 @@ question: Can a machine actually consume the system's knowledge, not just a huma
 - **Yellow (4–7):** Raw materials are machine-friendly (typed APIs, token JSON) but no deliberate AI-facing layer: no llms.txt, no usage rules, no anti-patterns encoded. Agents get the *what*, miss the *how* and *when*.
 - **Green (8–10):** A deliberate, current context surface: structured metadata (purpose, props, anti-patterns, composition, a11y), machine-consumable tokens, encoded usage rules — generated from source, and the generation test passes with minor stumbles at most.
 
+**No generation test, no confirmed green.** If procedure step 4 wasn't run, record a would-be green as *provisional green* with the reason — the test is the proof, and running it becomes the station's first move.
+
 ## Turning off the light
 
 - It's a bit meta, and it works: **use LLMs to assess your docs' AI-readiness** — feed in docs and metadata, ask what an agent can and can't determine — then have AI **author the machine-readable layer**: component descriptions (purpose, props, anti-patterns, composition, accessibility, examples), llms.txt, metadata schemas. Human-review everything; this layer steers every future agent.
@@ -52,6 +54,7 @@ question: Can a machine actually consume the system's knowledge, not just a huma
 ```markdown
 ### Station 9 — Machine-readable docs & context: <RED|YELLOW|GREEN> (<n>/10)
 - Inventoried: <formats, surfaces found> · Generation test: <run/not run, result>
+- Evidence level: <live / export / screenshot / interview, per asset>
 - Findings:
   - [verified|reported] <finding + evidence>
 - Not inspected: <…>

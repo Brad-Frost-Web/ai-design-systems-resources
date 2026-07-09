@@ -52,6 +52,7 @@ question: Do design system assets embody industry, organization, and format best
 ```markdown
 ### Station 2 — Best practices: <RED|YELLOW|GREEN> (<n>/10)
 - Sampled: <components/files/pages inspected>
+- Evidence level: <live / export / screenshot / interview, per asset>
 - Findings:
   - [verified|reported] <finding + evidence, tagged industry|org|format>
 - Not inspected: <…>
