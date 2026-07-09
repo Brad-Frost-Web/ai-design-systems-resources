@@ -20,6 +20,10 @@ export default async function (eleventyConfig) {
 		return map[sentiment] || "💬";
 	});
 
+	// Downloadable/linkable tool kits (markdown served as-is, not rendered as
+	// pages — tools/ is also listed in .eleventyignore)
+	eleventyConfig.addPassthroughCopy("tools");
+
 	eleventyConfig.addPassthroughCopy("css/*");
 	eleventyConfig.addPassthroughCopy("images");
 	eleventyConfig.addPassthroughCopy("favicon.svg");

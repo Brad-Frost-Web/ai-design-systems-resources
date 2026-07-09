@@ -4,3 +4,6 @@ node_modules
 /.vscode
 
 .env
+.devport
+.claude/launch.json
+.claude/worktrees/
