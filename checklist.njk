@@ -1,0 +1,170 @@
+---
+layout: base.njk
+permalink: /checklist/
+---
+{%- macro statusVariant(s) -%}
+{%- if s == "green" -%}success{%- elif s == "yellow" -%}warning{%- else -%}error{%- endif -%}
+{%- endmacro -%}
+{%- macro qualityIcon(id) -%}
+{%- if id == "complete" -%}
+<svg class="ed-r-c-inspection__quality-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M16 5h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+{%- elif id == "sound" -%}
+<svg class="ed-r-c-inspection__quality-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19.1 4.9a10 10 0 0 1 0 14.2"/></svg>
+{%- elif id == "synchronized" -%}
+<svg class="ed-r-c-inspection__quality-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.7 6"/><path d="M3 12A9 9 0 0 1 18.7 6"/><path d="M21 3v5h-5"/><path d="M3 21v-5h5"/></svg>
+{%- elif id == "extensible" -%}
+<svg class="ed-r-c-inspection__quality-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22V11"/><path d="M12 11C12 7 9 4 4 4c0 4 3 7 8 7Z"/><path d="M12 9c0-3 3-6 8-6 0 4-3 6-8 6Z"/></svg>
+{%- else -%}
+<svg class="ed-r-c-inspection__quality-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>
+{%- endif -%}
+{%- endmacro -%}
+
+<ed-main class="checklist" data-checklist>
+	<ed-layout-container>
+		<div class="ed-r-c-inspection__sheet">
+		<div class="ed-r-c-inspection__clip" aria-hidden="true"></div>
+		<div class="ed-r-c-inspection__paper ed-u-checklist-stack">
+
+		{# ── Letterhead — vintage service-invoice masthead (framed) ───────── #}
+		<header class="ed-r-c-inspection__letterhead">
+
+			{# Fine print — service menu across the very top edge, one line #}
+			<p class="ed-r-c-inspection__services" aria-hidden="true">
+				<span>Token Tune&ndash;Ups</span>
+				<span>Drift Diagnostics</span>
+				<span>Component Repair</span>
+				<span>AI Road&ndash;Readiness</span>
+			</p>
+
+			{# Form-no. fill-in field (left) · Customer Copy stamp (right) #}
+			<div class="ed-r-c-inspection__masthead-top">
+				<span class="ed-r-c-inspection__field" aria-hidden="true">
+					<span class="ed-r-c-inspection__field-label">Form No.</span>
+					<span class="ed-r-c-inspection__field-value">DS+AI-147</span>
+				</span>
+				<span class="ed-r-c-inspection__stamp ed-r-c-inspection__stamp--copy" aria-hidden="true">Customer Copy</span>
+			</div>
+
+			{# Marque: real ledger-diamond, provenance eyebrow, then the linked title #}
+			<img class="ed-r-c-inspection__diamond" src="/images/diamond.svg" alt="" aria-hidden="true">
+			<p class="ed-r-c-inspection__byline" aria-hidden="true">A Southleft &amp; Brad Frost Web Service <span class="ed-r-c-inspection__star">&#9733;</span> Est. MMXIII</p>
+			<h1 class="ed-r-c-inspection__title">
+				<a class="ed-r-c-inspection__brand" href="https://aianddesign.systems/">
+					<span class="ed-r-c-inspection__brand-name">AI-Ready Design System Inspection</span>
+				</a>
+			</h1>
+
+			<p class="ed-r-c-inspection__lede">Check and improve the quality of your design system so AI agents and humans alike can use it to build great, on-brand products&mdash;fast.</p>
+		</header>
+
+		{# ── The inspection table (product art direction) ────────────────── #}
+		<section class="ed-u-checklist-section" aria-label="Design system inspection">
+			<div class="ed-r-c-inspection__scroll">
+				<table class="ed-r-c-inspection">
+					<thead>
+						<tr>
+							<th class="ed-r-c-inspection__h ed-r-c-inspection__h--quality" scope="col">Quality</th>
+							<th class="ed-r-c-inspection__h ed-r-c-inspection__h--station" scope="col">Station</th>
+							<th class="ed-r-c-inspection__h ed-r-c-inspection__h--check" scope="col">
+								<span class="ed-r-c-inspection__check-title">Check</span>
+								<span class="ed-r-c-inspection__check-legend" aria-hidden="true">
+									<span>Needs work</span><span>Okay</span><span>Good</span>
+								</span>
+							</th>
+						</tr>
+					</thead>
+					{% for q in checklist.qualities %}
+					<tbody class="ed-r-c-inspection__group" style="--q-accent: {{ q.accent }};" id="quality-{{ q.id }}">
+						{% for s in q.stations %}
+						<tr class="ed-r-c-inspection__row" data-station-card="{{ s.id }}" data-quality="{{ q.id }}">
+							{% if loop.first %}
+							<th class="ed-r-c-inspection__quality" scope="rowgroup" rowspan="{{ q.stations.length * 2 }}">
+								<span class="ed-r-c-inspection__quality-icon" aria-hidden="true">{{ qualityIcon(q.id) }}</span>
+								<span class="ed-r-c-inspection__quality-name">{{ q.name }}</span>
+							</th>
+							{% endif %}
+							<td class="ed-r-c-inspection__station">
+								<div class="ed-r-c-inspection__station-head">
+									<span class="ed-r-c-inspection__num" aria-hidden="true">{{ s.number }}</span>
+									<ed-heading class="ed-r-c-inspection__station-name" tagName="h3" variant="title-lg">{{ s.name }}</ed-heading>
+								</div>
+								<p class="ed-r-c-inspection__q">{{ s.question | safe }}</p>
+							</td>
+							<td class="ed-r-c-inspection__check">
+								<ed-r-status-rating station="{{ s.id }}" label="{{ s.name }} health" data-rating></ed-r-status-rating>
+							</td>
+						</tr>
+						<tr class="ed-r-c-inspection__detail-row" data-quality="{{ q.id }}">
+							<td class="ed-r-c-inspection__detail-cell" colspan="2">
+								<details class="ed-r-c-inspection__detail" data-details>
+									<summary class="ed-r-c-inspection__detail-summary">Pop open the hood</summary>
+									<div class="ed-r-c-inspection__detail-body">
+										<div class="ed-r-c-inspection__detail-grid">
+											<ed-text-passage size="sm">
+												<h4>What to look out for</h4>
+												<ul>{% for w in s.warningLights %}<li>{{ w | safe }}</li>{% endfor %}</ul>
+											</ed-text-passage>
+											<ed-text-passage size="sm">
+												<h4>How you can wield AI</h4>
+												<p>{{ s.aiHelps | safe }}</p>
+											</ed-text-passage>
+										</div>
+										<ed-textarea-field
+											fieldId="notes-{{ s.id }}"
+											name="notes-{{ s.id }}"
+											label="Your notes"
+											rows="2"
+											placeholder="What did you find? What's the plan?"
+											data-notes="{{ s.id }}"
+										></ed-textarea-field>
+									</div>
+								</details>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+					{% endfor %}
+				</table>
+			</div>
+		</section>
+
+		{# ── Scoreboard (Lighthouse-style quality gauges) ─────────────────── #}
+		<section class="ed-u-checklist-scoreboard" data-dashboard hidden aria-label="Inspection score">
+			<div class="ed-u-checklist-gauges">
+				<ed-r-score-gauge data-overall size="lg" label="Overall"></ed-r-score-gauge>
+				{% for q in checklist.qualities %}
+				<ed-r-score-gauge data-quality="{{ q.id }}" size="sm" label="{{ q.name }}"></ed-r-score-gauge>
+				{% endfor %}
+			</div>
+			<div class="ed-u-checklist-tallies">
+				<ed-badge variant="error"><span data-count="red">0</span> broken</ed-badge>
+				<ed-badge variant="warning"><span data-count="yellow">0</span> watch</ed-badge>
+				<ed-badge variant="success"><span data-count="green">0</span> healthy</ed-badge>
+				<ed-badge><span data-count="unset">10</span> unrated</ed-badge>
+			</div>
+			<p class="ed-u-checklist-scoreboard__note"><strong><span data-rated-count>0</span> of 10 stations rated.</strong> Scores weight each station green&nbsp;100 · yellow&nbsp;50 · red&nbsp;0. Fix reds first, then schedule yellows.</p>
+			<ed-toolbar behavior="responsive">
+				<ed-button slot="left" variant="bare" size="sm" data-action="expand" text="Expand all"></ed-button>
+				<ed-button slot="left" variant="bare" size="sm" data-action="collapse" text="Collapse all"></ed-button>
+				<ed-button slot="right" variant="bare" size="sm" data-action="print" text="Print"></ed-button>
+				<ed-button slot="right" variant="danger" size="sm" data-action="reset" text="Reset"></ed-button>
+			</ed-toolbar>
+		</section>
+
+		{# What to do about it #}
+		<section class="ed-u-checklist-section" aria-labelledby="next-heading">
+			<ed-heading tagName="h2" id="next-heading">What to do about it</ed-heading>
+			<ed-text-passage>
+				<ul>
+					<li><strong>Fix the reds first.</strong> A red light is broken or missing&mdash;it&rsquo;s blocking products right now. Clear those, then schedule the yellows.</li>
+					<li><strong>Re-run it on a cadence.</strong> Sweep all ten stations quarterly, and wire the high-value checks into CI so drift surfaces the moment it appears.</li>
+					<li><strong>Keep the light off.</strong> Aim for a design system that tells you when something&rsquo;s wrong&mdash;instead of finding out the hard way on the side of the road.</li>
+				</ul>
+			</ed-text-passage>
+		</section>
+
+		</div>
+		<div class="ed-r-c-inspection__foot" aria-hidden="true"></div>
+		</div>
+	</ed-layout-container>
+</ed-main>

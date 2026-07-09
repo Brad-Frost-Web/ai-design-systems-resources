@@ -1,3 +1,5 @@
+import "./checklist.js";
+
 /**
  * Resource filtering logic
  * Listens to ed-select-field change events and filters the card grid + category list

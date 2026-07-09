@@ -1,0 +1,528 @@
+@use "@brad-frost-web/eddie-design-tokens/core/scss/abstracts/variables" as *;
+
+// ─────────────────────────────────────────────────────────────────────────
+// /checklist/ — layout-only helpers.
+//
+// The presentation layer is pure Eddie components (ed-card, ed-table,
+// ed-alert, ed-progress, ed-badge, ed-textarea-field) plus the project-local
+// `ed-r-status-rating` recipe. These classes handle ONLY page rhythm, the
+// sticky score dashboard, and the station header row — no presentational
+// component styling. Spacing via size(); surfaces via --ed-theme-* tokens.
+// ─────────────────────────────────────────────────────────────────────────
+
+// ed-layout-container's host defaults to display:inline, which drops vertical
+// margins (incl. the ed-u-margin-top-* utility). Make it a block so page
+// rhythm and the hero gap actually render.
+.ed-u-checklist-stack {
+	display: block;
+
+	> * + * {
+		margin-block-start: size(8);
+	}
+}
+
+.ed-u-checklist-section {
+	scroll-margin-block-start: size(8);
+
+	> * + * {
+		margin-block-start: size(4);
+	}
+}
+
+.ed-u-checklist-legend {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: size(1.5);
+}
+
+.ed-u-checklist-scoreboard {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: size(4);
+	padding: size(5) size(3);
+	border: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-border-subtle);
+	border-radius: var(--ed-theme-border-radius-md);
+
+	&[hidden] {
+		display: none;
+	}
+
+	&__note {
+		margin: 0;
+		max-inline-size: 62ch;
+		text-align: center;
+		color: var(--ed-theme-color-content-subtle);
+	}
+}
+
+.ed-u-checklist-gauges {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	justify-content: center;
+	gap: size(2) size(5);
+}
+
+.ed-u-checklist-tallies {
+	display: flex;
+	flex-wrap: wrap;
+	gap: size(1);
+}
+
+// Let the clipboard paper show through the alerts. ed-alert paints its surface
+// with --ed-theme-color-content-knockout inside its shadow DOM (nothing else in
+// the alert uses that token for foreground), so neutralizing it here drops the
+// fill while keeping the accent border + text intact.
+[data-checklist] ed-alert {
+	--ed-theme-color-content-knockout: transparent;
+}
+
+// ── Product art direction: the inspection table ─────────────────────────
+// The project-local art-direction layer on top of Eddie — the clipboard
+// "inspection sheet". Per-quality accent comes from --q-accent (set inline
+// from the data's product palette); everything else is Eddie tokens + size().
+.ed-r-c-inspection {
+	inline-size: 100%;
+	border-collapse: collapse;
+
+	th,
+	td {
+		text-align: start;
+		vertical-align: top;
+		padding: size(2.5) size(3);
+	}
+}
+
+// Sticky, bold header band — stays put as you work down the sheet.
+.ed-r-c-inspection__h {
+	position: sticky;
+	inset-block-start: 0;
+	z-index: 3;
+	padding-block: size(2.25);
+	background-color: var(--ed-theme-color-background-knockout);
+	color: var(--ed-theme-color-content-knockout);
+	vertical-align: middle;
+	font-family: var(--ed-theme-typography-label-default-font-family);
+	font-size: size(1.7);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+
+	&--check {
+		text-align: center;
+		min-inline-size: size(32);
+	}
+}
+
+.ed-r-c-inspection__check-title {
+	display: block;
+}
+
+.ed-r-c-inspection__check-legend {
+	display: flex;
+	margin-block-start: size(1);
+	font-size: size(1.35);
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	opacity: 0.8;
+
+	span {
+		flex: 1;
+		text-align: center;
+		white-space: nowrap;
+	}
+}
+
+// Solid per-quality colour block (darkened toward ink so cream text stays
+// legible across the whole palette, including the light amber). Sticky, so the
+// label rides down alongside its stations; --sticky-top clears the header.
+.ed-r-c-inspection__quality {
+	position: sticky;
+	inset-block-start: var(--sticky-top, 5.3rem);
+	inline-size: size(26);
+	vertical-align: top;
+	text-align: center;
+	padding-block: size(4) size(3);
+	background-color: color-mix(in srgb, var(--q-accent) 82%, var(--ed-theme-color-background-knockout));
+	color: var(--ed-theme-color-content-knockout);
+	border-block-end: var(--ed-theme-border-width-md) solid var(--ed-theme-color-background-default);
+}
+
+.ed-r-c-inspection__quality-icon {
+	display: inline-flex;
+}
+
+.ed-r-c-inspection__quality-glyph {
+	inline-size: size(6.5);
+	block-size: size(6.5);
+}
+
+.ed-r-c-inspection__quality-name {
+	display: block;
+	margin-block-start: size(1.5);
+	font-family: var(--ed-theme-typography-label-default-font-family);
+	font-weight: 700;
+	font-size: size(1.9);
+	line-height: 1.1;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+}
+
+// The merged station + description cell.
+.ed-r-c-inspection__station {
+	padding-block: size(3.5);
+}
+
+.ed-r-c-inspection__station-head {
+	display: flex;
+	align-items: center;
+	gap: size(2);
+	margin-block-end: size(1.5);
+}
+
+// Big numeral badge.
+.ed-r-c-inspection__num {
+	flex: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	inline-size: size(7);
+	block-size: size(7);
+	border-radius: 50%;
+	background-color: color-mix(in srgb, var(--q-accent) 82%, var(--ed-theme-color-background-knockout));
+	color: var(--ed-theme-color-content-knockout);
+	font-family: var(--ed-theme-typography-label-default-font-family);
+	font-weight: 700;
+	font-size: size(3);
+}
+
+// Station name — Eddie headline; reset the host margin.
+.ed-r-c-inspection__station-name {
+	margin: 0;
+}
+
+.ed-r-c-inspection__q {
+	margin: 0;
+	font-size: size(1.9);
+	line-height: 1.4;
+	color: var(--ed-theme-color-content-default);
+}
+
+// "Pop open the hood" lives in its own row spanning station→check, so the
+// what-to-look-for / wield-AI / notes content has full width to breathe.
+.ed-r-c-inspection__detail-cell {
+	padding-block-start: 0;
+	border-block-end: var(--ed-theme-border-width-sm) dashed var(--ed-theme-color-border-subtle);
+}
+
+.ed-r-c-inspection__detail {
+	.ed-r-c-inspection__detail-summary {
+		display: inline-block;
+		cursor: pointer;
+		color: var(--q-accent);
+		font-family: var(--ed-theme-typography-label-default-font-family);
+		font-weight: 700;
+		font-size: size(1.6);
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+	}
+
+	&-body {
+		margin-block-start: size(3);
+
+		> * + * {
+			margin-block-start: size(3);
+		}
+	}
+
+	&-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: size(5);
+	}
+}
+
+.ed-r-c-inspection__check {
+	vertical-align: middle;
+
+	ed-r-status-rating {
+		display: block;
+	}
+}
+
+.ed-u-checklist-details {
+	margin-block-start: size(3);
+
+	summary {
+		cursor: pointer;
+	}
+
+	&__body > * + * {
+		margin-block-start: size(2);
+	}
+}
+
+// ── Product art direction: clipboard desk + paper sheet + letterhead ─────
+// The page reads as an inspection sheet clipped to a workbench. The desk is
+// the clipboard photo; content lives on a cream "paper" surface; the hero is
+// replaced by a letterhead (robot + masthead) at the top of the paper.
+[data-checklist] {
+	--ed-layout-container-max-width: 100rem;
+	display: block;
+	min-block-size: 100vh;
+	padding-block: size(8);
+	// The workbench desk: a dark tool-strewn surface whose empty center is where
+	// the clipboard sheet lands. Knockout token stays as the fallback behind it.
+	background-color: var(--ed-theme-color-background-knockout);
+	background-image: url("/images/bg-workbench.png");
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-size: cover;
+	background-attachment: fixed;
+}
+
+// The sheet is a 3-slice, vertically-expandable clipboard: a fixed clip cap
+// on top, a repeating "paper" body that grows with the content, and a fixed
+// foot cap at the bottom. All three slices are 1024px wide, so their wooden
+// frame rails line up seamlessly when each is stretched to 100% width.
+.ed-r-c-inspection__sheet {
+	position: relative;
+}
+
+.ed-r-c-inspection__clip {
+	aspect-ratio: 1024 / 344;
+	background: url("/images/bg-clipboard-top.png") top center / 100% 100% no-repeat;
+}
+
+.ed-r-c-inspection__paper {
+	background: url("/images/bg-clipboard-body.png") top center / 100% auto repeat-y;
+	padding-block: size(4) size(6);
+	// Sit the content well inside the wooden side rails so it reads as typed
+	// onto the paper. Fixed inset (not %) keeps it stable across widths.
+	padding-inline: 14rem;
+}
+
+.ed-r-c-inspection__foot {
+	aspect-ratio: 1024 / 132;
+	background: url("/images/bg-clipboard-bottom.png") bottom center / 100% 100% no-repeat;
+}
+
+// ── The letterhead: a framed vintage service-invoice masthead ───────────
+// Modeled on carbon-copy invoice letterheads: a ruled frame, corner stamps +
+// slogans, a gold ledger-diamond motif (the course hero), a huge letterpress
+// wordmark distressed with a blend-mode grain overlay, a rule-flanked purpose
+// line, and a boxed service strip. The whole marque links to the course site.
+.ed-r-c-inspection__letterhead {
+	position: relative;
+	padding: size(6) size(5) size(5);
+	border: var(--ed-theme-border-width-md) solid var(--ed-theme-color-content-default);
+	text-align: center;
+	// Query container so the title can size to the letterhead's real width
+	// (which doesn't track the viewport, thanks to the fixed paper inset).
+	container-type: inline-size;
+}
+
+// Service menu as fine print, on one ghosted line across the very top edge.
+.ed-r-c-inspection__services {
+	position: absolute;
+	inset-block-start: size(1.5);
+	inset-inline: size(5);
+	margin: 0;
+	text-align: center;
+	white-space: nowrap;
+	font-family: var(--ed-theme-typography-label-default-font-family);
+	font-weight: 700;
+	font-size: size(1.15);
+	text-transform: uppercase;
+	letter-spacing: 0.16em;
+	color: var(--ed-theme-color-content-subtle);
+	opacity: 0.45;
+
+	span + span::before {
+		content: "\2022";
+		margin-inline: size(1.5);
+	}
+}
+
+// Form-no. field (left) · Customer-Copy stamp (right).
+.ed-r-c-inspection__masthead-top {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: size(3);
+}
+
+// Fill-in field — a pen-marked value on an underline, no box.
+.ed-r-c-inspection__field {
+	display: inline-flex;
+	align-items: baseline;
+	gap: size(1.5);
+	font-family: var(--ed-theme-typography-label-default-font-family);
+	font-weight: 700;
+	font-size: size(1.4);
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--ed-theme-color-content-subtle);
+}
+
+.ed-r-c-inspection__field-value {
+	min-inline-size: size(15);
+	padding: 0 size(1) size(0.5);
+	border-block-end: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-content-default);
+	color: var(--ed-theme-color-content-accent-1);
+	font-style: italic;
+	letter-spacing: 0.02em;
+	transform: rotate(-1.5deg);
+}
+
+// Customer-Copy rubber stamp — faded, over-rotated, wide tracking.
+.ed-r-c-inspection__stamp {
+	flex: none;
+	align-self: center;
+	display: inline-block;
+	padding: size(0.75) size(1.5);
+	border: var(--ed-theme-border-width-md) solid currentColor;
+	font-family: var(--ed-theme-typography-label-default-font-family);
+	font-weight: 700;
+	font-size: size(1.7);
+	line-height: 1.15;
+	text-transform: uppercase;
+	letter-spacing: 0.24em;
+	color: var(--ed-theme-color-content-accent-1);
+	opacity: 0.5;
+	transform: rotate(3deg);
+}
+
+.ed-r-c-inspection__star {
+	color: var(--ed-theme-color-content-utility-error);
+}
+
+// The real ledger-diamond brand emblem.
+.ed-r-c-inspection__diamond {
+	display: block;
+	margin-inline: auto;
+	margin-block-end: 2rem;
+	inline-size: 8rem;
+	block-size: auto;
+}
+
+// Provenance eyebrow above the title, flanked by short rules.
+.ed-r-c-inspection__byline {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: size(2);
+	margin: 0 0 size(1.5);
+	font-family: var(--ed-theme-typography-label-default-font-family);
+	font-weight: 700;
+	font-size: size(1.6);
+	text-transform: uppercase;
+	letter-spacing: 0.14em;
+	color: var(--ed-theme-color-content-subtle);
+
+	&::before,
+	&::after {
+		content: "";
+		flex: none;
+		inline-size: size(6);
+		border-block-start: var(--ed-theme-border-width-sm) solid currentColor;
+	}
+}
+
+// The h1 is a wrapper — the big title lives in the brand marque.
+.ed-r-c-inspection__title {
+	margin: 0;
+}
+
+// Linked brand marque.
+.ed-r-c-inspection__brand {
+	display: block;
+	text-decoration: none;
+	color: inherit;
+	border-radius: var(--ed-theme-border-radius-md);
+
+	&:focus-visible {
+		outline: var(--ed-theme-border-width-lg) solid
+			var(--ed-theme-focus-ring-color-border-default, currentColor);
+		outline-offset: var(--ed-theme-offset-focus-ring, 0.25rem);
+	}
+}
+
+// The huge letterpress title — sized to the container so it fills nicely.
+.ed-r-c-inspection__brand-name {
+	position: relative;
+	display: block;
+	font-family: var(--ed-theme-typography-headline-lg-font-family);
+	font-weight: 800;
+	line-height: 0.85;
+	text-transform: uppercase;
+	text-wrap: balance;
+	font-size: clamp(#{size(5)}, 7.5cqi, #{size(13)});
+	color: var(--ed-theme-color-content-default);
+	transition: color var(--ed-theme-animation-fade-quick, 0.15s) ease;
+
+	// Distress: a high-contrast noise grain screened over the ink erodes it
+	// into a worn, letterpressed finish without touching the paper around it.
+	&::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='340' height='170'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncR type='linear' slope='2.4' intercept='-0.85'/><feFuncG type='linear' slope='2.4' intercept='-0.85'/><feFuncB type='linear' slope='2.4' intercept='-0.85'/></feComponentTransfer></filter><rect width='340' height='170' filter='url(%23g)'/></svg>");
+		background-size: cover;
+		mix-blend-mode: screen;
+		opacity: 0.42;
+		pointer-events: none;
+	}
+}
+
+.ed-r-c-inspection__brand:hover .ed-r-c-inspection__brand-name,
+.ed-r-c-inspection__brand:focus-visible .ed-r-c-inspection__brand-name {
+	color: var(--ed-theme-color-content-subtle);
+}
+
+// Lede — larger, darker, and better-measured so it carries the weight the
+// rest of the letterhead sets up (was reading thin and incidental).
+.ed-r-c-inspection__lede {
+	margin: size(3) auto 0;
+	max-inline-size: 46ch;
+	font-size: size(2.2);
+	line-height: 1.45;
+	color: var(--ed-theme-color-content-default);
+}
+
+// Reflow the fine-print services into normal flow on small screens, where the
+// absolute one-line strip would overflow. (Full mobile pass pending.)
+@media (max-width: 48rem) {
+	.ed-r-c-inspection__services {
+		position: static;
+		inset-inline: auto;
+		white-space: normal;
+		margin-block-end: size(2);
+	}
+}
+
+// On smaller screens let the table scroll horizontally again (the sticky
+// header trades off inside a scroll container, which is an acceptable swap).
+@media (max-width: 64rem) {
+	.ed-r-c-inspection__scroll {
+		overflow-x: auto;
+	}
+}
+
+// The fixed 14rem paper inset is a desktop figure; pull it in on smaller
+// screens so the content doesn't collapse. (Full mobile pass still pending.)
+@media (max-width: 60rem) {
+	.ed-r-c-inspection__paper {
+		padding-inline: size(8);
+	}
+}
+
+@media (max-width: 40rem) {
+	.ed-r-c-inspection__paper {
+		padding-inline: size(4);
+	}
+}

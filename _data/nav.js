@@ -10,7 +10,8 @@ module.exports = {
 	primary: [
 		{ text: "Resources", url: "/" },
 		{ text: "Links", placeholder: true },
-		{ text: "Glossary", placeholder: true },
+		{ text: "Glossary", url: "/glossary/" },
+		{ text: "Checklist", url: "/checklist/" },
 		{ text: "Timeline", placeholder: true },
 	],
 };

@@ -1,0 +1,22 @@
+{
+  "version": "0.4.0",
+  "mode": "full",
+  "owners": [
+    {
+      "name": "Brad Frost",
+      "email": "brad@bradfrost.com"
+    },
+    {
+      "name": "Ian Frost",
+      "email": "ian@bradfrost.com"
+    }
+  ],
+  "projectType": "content-site",
+  "projectName": "ai-design-systems-resources",
+  "framework": "eleventy",
+  "eddieIntegration": true,
+  "eddieRoot": "/Users/brad/Sites/eddie-design-system",
+  "hardGates": {
+    "shipReadiness": true
+  }
+}
