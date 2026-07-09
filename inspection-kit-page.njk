@@ -1,0 +1,50 @@
+---
+layout: base.njk
+permalink: /tools/inspection-kit/
+title: Design System Multi-Point Inspection Kit
+---
+<ed-main>
+	<ed-layout-container>
+		<ed-text-passage capLinelength>
+			<h1>Design System Multi-Point Inspection Kit</h1>
+			<p><strong>Pop the hood. Roll up your sleeves. Figure out what&rsquo;s causing that check engine light.</strong></p>
+			<p>This kit turns the <a href="/checklist/">multi-point inspection checklist</a> into a real, runnable inspection you can point at <em>your</em> design system. An AI agent walks your system through the same 10 stations, gathers evidence, and hands back a red/yellow/green inspection report plus a prioritized work order.</p>
+			<p>It&rsquo;s <strong>tool-agnostic</strong> and plain markdown&mdash;no required vendor, plugin, or framework. If your agent can reach your design file, repo, or docs, findings come back <code>[verified]</code>; if not, every station falls back gracefully to exports, screenshots, or a plain interview.</p>
+
+			<h2>Quick start</h2>
+			<ol>
+				<li><strong>Grab the kit.</strong> Copy the <code>inspection-kit</code> folder into your design system repo (Claude Code users can drop it in <code>.claude/skills/</code>), or paste individual files into any AI chat.</li>
+				<li><strong>Check in your vehicle.</strong> Say <em>&ldquo;Run the design system multi-point inspection&mdash;start with intake&rdquo;</em> and answer the garage-intake questions about your system&rsquo;s assets and access.</li>
+				<li><strong>Run the stations.</strong> All ten in order, one at a time (&ldquo;run station 3&rdquo;), or re-inspect later to see what changed.</li>
+			</ol>
+
+			<h2>The files</h2>
+			<ul>
+				<li><a href="/tools/inspection-kit/README.md">README</a> &mdash; what it is and how to run it anywhere</li>
+				<li><a href="/tools/inspection-kit/SKILL.md">SKILL.md</a> &mdash; the orchestrator (full inspection &middot; single station &middot; re-inspection)</li>
+				<li><a href="/tools/inspection-kit/intake/GARAGE-INTAKE.md">Garage intake</a> &mdash; feed in your design system&rsquo;s assets &amp; context</li>
+			</ul>
+			<h3>The ten stations</h3>
+			<ol>
+				<li><a href="/tools/inspection-kit/stations/station-01-coverage-gaps.md">Coverage &amp; gaps</a></li>
+				<li><a href="/tools/inspection-kit/stations/station-02-best-practices.md">Best practices</a></li>
+				<li><a href="/tools/inspection-kit/stations/station-03-accessibility.md">Accessibility</a></li>
+				<li><a href="/tools/inspection-kit/stations/station-04-shared-language.md">Shared language</a></li>
+				<li><a href="/tools/inspection-kit/stations/station-05-testing-validation.md">Testing &amp; validation</a></li>
+				<li><a href="/tools/inspection-kit/stations/station-06-orchestration.md">Orchestration</a></li>
+				<li><a href="/tools/inspection-kit/stations/station-07-governance-version-control.md">Governance &amp; version control</a></li>
+				<li><a href="/tools/inspection-kit/stations/station-08-feedback-adoption.md">Feedback &amp; adoption</a></li>
+				<li><a href="/tools/inspection-kit/stations/station-09-machine-readable-docs.md">Machine-readable docs &amp; context</a></li>
+				<li><a href="/tools/inspection-kit/stations/station-10-agent-access.md">Agent access</a></li>
+			</ol>
+			<h3>Templates</h3>
+			<ul>
+				<li><a href="/tools/inspection-kit/templates/inspection-report.md">Inspection report</a> &mdash; the graded sheet your agent fills out</li>
+				<li><a href="/tools/inspection-kit/templates/work-order.md">Work order</a> &mdash; reds fixed now, yellows scheduled</li>
+			</ul>
+
+			<h2>Good neighbors</h2>
+			<p>For deep, single-purpose operations&mdash;token audits, deprecation plans, codemods, stakeholder briefs&mdash;check out Murphy Trueman&rsquo;s excellent, MIT-licensed <a href="https://designsystemops.com/">Design System Ops</a> skill pack. This kit is the diagnostic frame; that&rsquo;s the tool chest. The station files cross-reference his skills where they&rsquo;re the right next move.</p>
+		</ed-text-passage>
+	</ed-layout-container>
+</ed-main>
