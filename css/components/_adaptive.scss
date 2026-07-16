@@ -105,47 +105,6 @@ html {
 	outline: none;
 }
 
-.ed-r-c-stage--superposition {
-	text-align: center;
-	padding-block: 2rem;
-}
-
-// The ghost states shimmer between possibilities until observed.
-.ed-r-c-stage__ghosts {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	gap: 0.5rem;
-	margin-block-start: 1rem;
-}
-
-.ed-r-c-stage__ghosts ed-badge {
-	animation: ed-r-c-superpose 3.2s ease-in-out infinite;
-}
-
-@for $i from 1 through 5 {
-	.ed-r-c-stage__ghosts ed-badge:nth-child(#{$i}) {
-		animation-delay: #{($i - 1) * 0.64}s;
-	}
-}
-
-@keyframes ed-r-c-superpose {
-	0%,
-	100% {
-		opacity: 0.35;
-	}
-	50% {
-		opacity: 1;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.ed-r-c-stage__ghosts ed-badge {
-		animation: none;
-		opacity: 0.7;
-	}
-}
-
 // ---------------------------------------------------------------------------
 // Constellation — real buttons as stars over a decorative SVG line layer.
 .ed-r-c-constellation {

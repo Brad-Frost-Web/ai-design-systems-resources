@@ -224,27 +224,8 @@ export class EdRCAdaptiveStage extends LitElement {
 	}
 
 	render() {
-		if (!this._spec) {
-			return html`
-				<div class="ed-r-c-stage ed-r-c-stage--superposition">
-					<ed-text-passage size="sm">
-						<p>
-							<strong>This part of the page hasn't decided what it is yet.</strong>
-							Right now it's a timeline, a briefing, a glossary, and a reading
-							list all at once — a little interface superposition. Ask the
-							concierge something and it collapses into the one you need.
-						</p>
-					</ed-text-passage>
-					<div class="ed-r-c-stage__ghosts" aria-hidden="true">
-						<ed-badge text="timeline?"></ed-badge>
-						<ed-badge text="briefing?"></ed-badge>
-						<ed-badge text="glossary?"></ed-badge>
-						<ed-badge text="reading list?"></ed-badge>
-						<ed-badge text="ammunition?"></ed-badge>
-					</div>
-				</div>
-			`;
-		}
+		// Empty until the concierge composes a view; then results appear.
+		if (!this._spec) return nothing;
 
 		const spec = this._spec;
 		return html`

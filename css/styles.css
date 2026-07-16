@@ -1896,49 +1896,6 @@ html {
 .ed-r-c-stage__heading:focus {
   outline: none;
 }
-.ed-r-c-stage--superposition {
-  text-align: center;
-  padding-block: 2rem;
-}
-.ed-r-c-stage__ghosts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-block-start: 1rem;
-}
-.ed-r-c-stage__ghosts ed-badge {
-  animation: ed-r-c-superpose 3.2s ease-in-out infinite;
-}
-.ed-r-c-stage__ghosts ed-badge:nth-child(1) {
-  animation-delay: 0s;
-}
-.ed-r-c-stage__ghosts ed-badge:nth-child(2) {
-  animation-delay: 0.64s;
-}
-.ed-r-c-stage__ghosts ed-badge:nth-child(3) {
-  animation-delay: 1.28s;
-}
-.ed-r-c-stage__ghosts ed-badge:nth-child(4) {
-  animation-delay: 1.92s;
-}
-.ed-r-c-stage__ghosts ed-badge:nth-child(5) {
-  animation-delay: 2.56s;
-}
-@keyframes ed-r-c-superpose {
-  0%, 100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ed-r-c-stage__ghosts ed-badge {
-    animation: none;
-    opacity: 0.7;
-  }
-}
 .ed-r-c-constellation {
   position: relative;
   min-height: 30rem;
