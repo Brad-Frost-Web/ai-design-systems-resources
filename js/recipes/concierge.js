@@ -120,49 +120,59 @@ export class EdRCConcierge extends LitElement {
 					variant="display"
 				></ed-search-form>
 
-				<div class="ed-r-c-concierge__lenses">
-					<ed-radio-field label="Looking through the lens of…">
-						<ed-radio-field-item
-							name="concierge-lens"
-							fieldId="lens-none"
-							value=""
-							?checked=${!this._lens}
-						>
-							No particular lens
-						</ed-radio-field-item>
-						${Object.entries(LENSES).map(
-							([key, lens]) => html`
+				<ed-accordion>
+					<ed-accordion-panel>
+						<span slot="header">My role is…</span>
+						<div class="ed-r-c-concierge__lenses">
+							<ed-radio-field label="My role">
 								<ed-radio-field-item
 									name="concierge-lens"
-									fieldId="lens-${key}"
-									value=${key}
-									?checked=${this._lens === key}
+									fieldId="lens-none"
+									value=""
+									?checked=${!this._lens}
 								>
-									${lens.label}
+									No particular lens
 								</ed-radio-field-item>
-							`
-						)}
-					</ed-radio-field>
-				</div>
+								${Object.entries(LENSES).map(
+									([key, lens]) => html`
+										<ed-radio-field-item
+											name="concierge-lens"
+											fieldId="lens-${key}"
+											value=${key}
+											?checked=${this._lens === key}
+										>
+											${lens.label}
+										</ed-radio-field-item>
+									`
+								)}
+							</ed-radio-field>
+						</div>
+					</ed-accordion-panel>
+				</ed-accordion>
 
-				<div class="ed-r-c-concierge__suggestions">
-					<ed-text-passage size="sm">
-						<p>Or start from what the community keeps asking:</p>
-					</ed-text-passage>
-					<ul class="ed-r-c-concierge__suggestion-list" role="list">
-						${SUGGESTED_ASKS.map(
-							(s) => html`<li>
-								<ed-button
-									variant="bare"
-									size="sm"
-									text=${s}
-									?isLoading=${this._busy}
-									@click=${() => this._suggest(s)}
-								></ed-button>
-							</li>`
-						)}
-					</ul>
-				</div>
+				${
+					// Suggested asks — temporarily hidden. Flip to `true` to restore.
+					false
+						? html`<div class="ed-r-c-concierge__suggestions">
+								<ed-text-passage size="sm">
+									<p>Or start from what the community keeps asking:</p>
+								</ed-text-passage>
+								<ul class="ed-r-c-concierge__suggestion-list" role="list">
+									${SUGGESTED_ASKS.map(
+										(s) => html`<li>
+											<ed-button
+												variant="bare"
+												size="sm"
+												text=${s}
+												?isLoading=${this._busy}
+												@click=${() => this._suggest(s)}
+											></ed-button>
+										</li>`
+									)}
+								</ul>
+						  </div>`
+						: ""
+				}
 			</form>
 		`;
 	}

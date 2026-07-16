@@ -15,32 +15,26 @@ layout: base.njk
 				</ed-text-passage>
 			</div>
 			<ed-r-c-concierge></ed-r-c-concierge>
+
+			{# Explore by topic: the reference-weighted topic graph, in a toggle #}
+			<ed-accordion>
+				<ed-accordion-panel>
+					<span slot="header">Explore by topic</span>
+					<ed-r-c-constellation>
+						<ed-text-passage size="sm">
+							<p>
+								This graph is drawn with JavaScript. The same topics are listed,
+								unglamorously but completely, in <a href="#collection">the collection</a> below.
+							</p>
+						</ed-text-passage>
+					</ed-r-c-constellation>
+				</ed-accordion-panel>
+			</ed-accordion>
 		</ed-layout-container>
 	</ed-band>
 
 	<ed-layout-container class="ed-u-padding-top-lg">
 		<ed-r-c-adaptive-stage></ed-r-c-adaptive-stage>
-
-		{# ------------------------------------------------------------------ #}
-		{# Constellation: the reference-weighted topic graph                    #}
-		{# ------------------------------------------------------------------ #}
-		<ed-section id="constellation">
-			<ed-heading slot="header" tagName="h2" variant="headline-sm">Explore by topic</ed-heading>
-			<ed-text-passage capLinelength slot="header">
-				<p>
-					Every topic in the collection, sized by how many resources reference it.
-					Tap a star to ask about it.
-				</p>
-			</ed-text-passage>
-			<ed-r-c-constellation>
-				<ed-text-passage size="sm">
-					<p>
-						This graph is drawn with JavaScript. The same topics are listed,
-						unglamorously but completely, in <a href="#collection">the collection</a> below.
-					</p>
-				</ed-text-passage>
-			</ed-r-c-constellation>
-		</ed-section>
 
 		{# ------------------------------------------------------------------ #}
 		{# The collection: the progressive-enhancement floor. Works with JS off #}
