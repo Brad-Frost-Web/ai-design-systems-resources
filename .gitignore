@@ -5,3 +5,7 @@ node_modules
 
 .env
 .devport
+
+# Generated at build time by scripts/build-themes.js
+/css/themes.generated.css
+/css/theme-fonts/

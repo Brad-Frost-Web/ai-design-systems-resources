@@ -1,7 +1,11 @@
 import { build } from "esbuild";
 import dotenv from "dotenv";
+import { createRequire } from "node:module";
 
 dotenv.config();
+
+const require = createRequire(import.meta.url);
+const { buildThemes } = require("./scripts/build-themes.js");
 
 export default async function (eleventyConfig) {
 	// Use Nunjucks for HTML files
@@ -21,6 +25,8 @@ export default async function (eleventyConfig) {
 	});
 
 	eleventyConfig.addPassthroughCopy("css/*");
+	eleventyConfig.addPassthroughCopy("css/theme-fonts");
+	eleventyConfig.addWatchTarget("js/");
 	eleventyConfig.addPassthroughCopy("images");
 	eleventyConfig.addPassthroughCopy("favicon.svg");
 	eleventyConfig.addPassthroughCopy("favicon.ico");
@@ -30,6 +36,12 @@ export default async function (eleventyConfig) {
 
 	// Build JavaScript with esbuild before Eleventy processes
 	eleventyConfig.on("eleventy.before", async () => {
+		// Rescope Eddie's alternate theme tokens for runtime theme switching
+		try {
+			buildThemes();
+		} catch (error) {
+			console.error("theme build error:", error);
+		}
 		try {
 			const result = await build({
 				entryPoints: ["js/components.js", "js/scripts.js"],

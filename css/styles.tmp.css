@@ -221,7 +221,7 @@ img {
   * Margin top none
   * 1) Forces margin top to 0
   */
-.ed-u-margin-top-none {
+.ed-u-margin-block-start-none {
   margin-block-start: 0 !important;
 }
 
@@ -229,7 +229,7 @@ img {
   * Margin top small
   * 1) Forces margin top to 0.5rem
   */
-.ed-u-margin-top-sm {
+.ed-u-margin-block-start-sm {
   margin-block-start: calc(0.5rem * 1) !important;
 }
 
@@ -237,7 +237,7 @@ img {
   * Margin top medium
   * 1) Forces margin top to 1rem
   */
-.ed-u-margin-top-md {
+.ed-u-margin-block-start-md {
   margin-block-start: calc(0.5rem * 2) !important;
 }
 
@@ -245,7 +245,7 @@ img {
   * Margin top large
   * 1) Forces margin top to size(3)
   */
-.ed-u-margin-top-lg {
+.ed-u-margin-block-start-lg {
   margin-block-start: calc(0.5rem * 3) !important;
 }
 
@@ -253,7 +253,7 @@ img {
   * Margin top xl
   * 1) Forces margin top to 2rem
   */
-.ed-u-margin-top-xl {
+.ed-u-margin-block-start-xl {
   margin-block-start: calc(0.5rem * 4) !important;
 }
 
@@ -261,7 +261,7 @@ img {
   * Margin top xxl
   * 1) Forces margin top to 4rem
   */
-.ed-u-margin-top-xxl {
+.ed-u-margin-block-start-xxl {
   margin-block-start: calc(0.5rem * 8) !important;
 }
 
@@ -269,7 +269,7 @@ img {
     * Margin right none
     * 1) Forces margin right to 0
     */
-.ed-u-margin-right-none {
+.ed-u-margin-inline-end-none {
   margin-inline-end: 0 !important;
 }
 
@@ -277,7 +277,7 @@ img {
   * Margin right small
   * 1) Forces margin right to 0.5rem
   */
-.ed-u-margin-right-sm {
+.ed-u-margin-inline-end-sm {
   margin-inline-end: calc(0.5rem * 1) !important;
 }
 
@@ -285,7 +285,7 @@ img {
   * Margin right medium
   * 1) Forces margin right to 1rem
   */
-.ed-u-margin-right-md {
+.ed-u-margin-inline-end-md {
   margin-inline-end: calc(0.5rem * 2) !important;
 }
 
@@ -293,7 +293,7 @@ img {
     * Margin right large
     * 1) Forces margin right to size(3)
     */
-.ed-u-margin-right-lg {
+.ed-u-margin-inline-end-lg {
   margin-inline-end: calc(0.5rem * 3) !important;
 }
 
@@ -301,7 +301,7 @@ img {
     * Margin right xl
     * 1) Forces margin right to 2rem
     */
-.ed-u-margin-right-xl {
+.ed-u-margin-inline-end-xl {
   margin-inline-end: calc(0.5rem * 4) !important;
 }
 
@@ -309,7 +309,7 @@ img {
   * Margin right xxl
   * 1) Forces margin right to 4rem
   */
-.ed-u-margin-right-xxl {
+.ed-u-margin-inline-end-xxl {
   margin-inline-end: calc(0.5rem * 8) !important;
 }
 
@@ -317,7 +317,7 @@ img {
   * Margin bottom none
   * 1) Forces margin bottom to 0
   */
-.ed-u-margin-bottom-none {
+.ed-u-margin-block-end-none {
   margin-block-end: 0 !important;
 }
 
@@ -325,7 +325,7 @@ img {
   * Margin bottom small
   * 1) Forces margin bottom to 0.5rem
   */
-.ed-u-margin-bottom-sm {
+.ed-u-margin-block-end-sm {
   margin-block-end: calc(0.5rem * 1) !important;
 }
 
@@ -333,7 +333,7 @@ img {
   * Margin bottom medium
   * 1) Forces margin bottom to 1rem
   */
-.ed-u-margin-bottom-md {
+.ed-u-margin-block-end-md {
   margin-block-end: calc(0.5rem * 2) !important;
 }
 
@@ -341,7 +341,7 @@ img {
   * Margin bottom large
   * 1) Forces margin bottom to size(3)
   */
-.ed-u-margin-bottom-lg {
+.ed-u-margin-block-end-lg {
   margin-block-end: calc(0.5rem * 3) !important;
 }
 
@@ -349,7 +349,7 @@ img {
   * Margin bottom xl
   * 1) Forces margin bottom to 2rem
   */
-.ed-u-margin-bottom-xl {
+.ed-u-margin-block-end-xl {
   margin-block-end: calc(0.5rem * 4) !important;
 }
 
@@ -357,7 +357,7 @@ img {
   * Margin bottom xxl
   * 1) Forces margin bottom to 4rem
   */
-.ed-u-margin-bottom-xxl {
+.ed-u-margin-block-end-xxl {
   margin-block-end: calc(0.5rem * 8) !important;
 }
 
@@ -365,11 +365,11 @@ img {
   * Margin bottom xl
   * 1) Forces margin bottom to 2rem on small screens and 4rem on large screens
   */
-.ed-u-margin-bottom-xl-xxl {
+.ed-u-margin-block-end-xl-xxl {
   margin-block-end: calc(0.5rem * 4) !important;
 }
 @media all and (min-width: 48rem) {
-  .ed-u-margin-bottom-xl-xxl {
+  .ed-u-margin-block-end-xl-xxl {
     margin-block-end: calc(0.5rem * 8) !important;
   }
 }
@@ -378,7 +378,7 @@ img {
   * Margin left none
   * 1) Forces margin left to 0
   */
-.ed-u-margin-left-none {
+.ed-u-margin-inline-start-none {
   margin-inline-start: 0 !important;
 }
 
@@ -386,7 +386,7 @@ img {
   * Margin left small
   * 1) Forces margin left to 0.5rem
   */
-.ed-u-margin-left-sm {
+.ed-u-margin-inline-start-sm {
   margin-inline-start: calc(0.5rem * 1) !important;
 }
 
@@ -394,7 +394,7 @@ img {
   * Margin left medium
   * 1) Forces margin left to 1rem
   */
-.ed-u-margin-left-md {
+.ed-u-margin-inline-start-md {
   margin-inline-start: calc(0.5rem * 2) !important;
 }
 
@@ -402,7 +402,7 @@ img {
   * Margin left large
   * 1) Forces margin left to 1.5rem
   */
-.ed-u-margin-left-lg {
+.ed-u-margin-inline-start-lg {
   margin-inline-start: calc(0.5rem * 3) !important;
 }
 
@@ -410,7 +410,7 @@ img {
   * Margin left xl
   * 1) Forces margin left to 2rem
   */
-.ed-u-margin-left-xl {
+.ed-u-margin-inline-start-xl {
   margin-inline-start: calc(0.5rem * 4) !important;
 }
 
@@ -418,7 +418,7 @@ img {
   * Margin left xxl
   * 1) Forces margin left to 4rem
   */
-.ed-u-margin-left-xxl {
+.ed-u-margin-inline-start-xxl {
   margin-inline-start: calc(0.5rem * 8) !important;
 }
 
@@ -477,7 +477,7 @@ img {
   * Padding top none
   * 1) Forces padding top to 0
   */
-.ed-u-padding-top-none {
+.ed-u-padding-block-start-none {
   padding-block-start: 0 !important;
 }
 
@@ -485,7 +485,7 @@ img {
   * Padding top small
   * 1) Forces padding top to 0.5rem
   */
-.ed-u-padding-top-sm {
+.ed-u-padding-block-start-sm {
   padding-block-start: calc(0.5rem * 1) !important;
 }
 
@@ -493,7 +493,7 @@ img {
   * Padding top medium
   * 1) Forces padding top to 1rem
   */
-.ed-u-padding-top-md {
+.ed-u-padding-block-start-md {
   padding-block-start: calc(0.5rem * 2) !important;
 }
 
@@ -501,7 +501,7 @@ img {
   * Padding top large
   * 1) Forces padding top to size(3)
   */
-.ed-u-padding-top-lg {
+.ed-u-padding-block-start-lg {
   padding-block-start: calc(0.5rem * 3) !important;
 }
 
@@ -509,7 +509,7 @@ img {
   * Padding top xl
   * 1) Forces padding top to 2rem
   */
-.ed-u-padding-top-xl {
+.ed-u-padding-block-start-xl {
   padding-block-start: calc(0.5rem * 4) !important;
 }
 
@@ -517,7 +517,7 @@ img {
   * Padding top xxl
   * 1) Forces padding top xxl to 4rem
   */
-.ed-u-padding-top-xxl {
+.ed-u-padding-block-start-xxl {
   padding-block-start: calc(0.5rem * 8) !important;
 }
 
@@ -525,7 +525,7 @@ img {
     * Padding right none
     * 1) Forces padding right to 0
     */
-.ed-u-padding-right-none {
+.ed-u-padding-inline-end-none {
   padding-inline-end: 0 !important;
 }
 
@@ -533,7 +533,7 @@ img {
   * Padding right small
   * 1) Forces padding right to 0.5rem
   */
-.ed-u-padding-right-sm {
+.ed-u-padding-inline-end-sm {
   padding-inline-end: calc(0.5rem * 1) !important;
 }
 
@@ -541,7 +541,7 @@ img {
   * Padding right medium
   * 1) Forces padding right to 1rem
   */
-.ed-u-padding-right-md {
+.ed-u-padding-inline-end-md {
   padding-inline-end: calc(0.5rem * 2) !important;
 }
 
@@ -549,7 +549,7 @@ img {
     * Padding right large
     * 1) Forces padding right to size(3)
     */
-.ed-u-padding-right-lg {
+.ed-u-padding-inline-end-lg {
   padding-inline-end: calc(0.5rem * 3) !important;
 }
 
@@ -557,7 +557,7 @@ img {
     * Padding right xl
     * 1) Forces padding right to 2rem
     */
-.ed-u-padding-right-xl {
+.ed-u-padding-inline-end-xl {
   padding-inline-end: calc(0.5rem * 4) !important;
 }
 
@@ -565,7 +565,7 @@ img {
   * Padding right xxl
   * 1) Forces padding right xxl to 4rem
   */
-.ed-u-padding-right-xxl {
+.ed-u-padding-inline-end-xxl {
   padding-inline-end: calc(0.5rem * 8) !important;
 }
 
@@ -573,7 +573,7 @@ img {
   * Padding bottom none
   * 1) Forces padding bottom to 0
   */
-.ed-u-padding-bottom-none {
+.ed-u-padding-block-end-none {
   padding-block-end: 0 !important;
 }
 
@@ -581,7 +581,7 @@ img {
   * Padding bottom small
   * 1) Forces padding bottom to 0.5rem
   */
-.ed-u-padding-bottom-sm {
+.ed-u-padding-block-end-sm {
   padding-block-end: calc(0.5rem * 1) !important;
 }
 
@@ -589,7 +589,7 @@ img {
   * Padding bottom medium
   * 1) Forces padding bottom to 1rem
   */
-.ed-u-padding-bottom-md {
+.ed-u-padding-block-end-md {
   padding-block-end: calc(0.5rem * 2) !important;
 }
 
@@ -597,7 +597,7 @@ img {
   * Padding bottom large
   * 1) Forces padding bottom to size(3)
   */
-.ed-u-padding-bottom-lg {
+.ed-u-padding-block-end-lg {
   padding-block-end: calc(0.5rem * 3) !important;
 }
 
@@ -605,7 +605,7 @@ img {
   * Padding bottom xl
   * 1) Forces padding bottom to 2rem
   */
-.ed-u-padding-bottom-xl {
+.ed-u-padding-block-end-xl {
   padding-block-end: calc(0.5rem * 4) !important;
 }
 
@@ -613,7 +613,7 @@ img {
   * Padding bottom xxl
   * 1) Forces padding bottom xxl to 4rem
   */
-.ed-u-padding-bottom-xxl {
+.ed-u-padding-block-end-xxl {
   padding-block-end: calc(0.5rem * 8) !important;
 }
 
@@ -621,7 +621,7 @@ img {
   * Padding left none
   * 1) Forces padding left to 0
   */
-.ed-u-padding-left-none {
+.ed-u-padding-inline-start-none {
   padding-inline-start: 0 !important;
 }
 
@@ -629,7 +629,7 @@ img {
   * Padding left small
   * 1) Forces padding left to 0.5rem
   */
-.ed-u-padding-left-sm {
+.ed-u-padding-inline-start-sm {
   padding-inline-start: calc(0.5rem * 1) !important;
 }
 
@@ -637,7 +637,7 @@ img {
   * Padding left medium
   * 1) Forces padding left to 1rem
   */
-.ed-u-padding-left-md {
+.ed-u-padding-inline-start-md {
   padding-inline-start: calc(0.5rem * 2) !important;
 }
 
@@ -645,7 +645,7 @@ img {
   * Padding left large
   * 1) Forces padding left to 1.5rem
   */
-.ed-u-padding-left-lg {
+.ed-u-padding-inline-start-lg {
   padding-inline-start: calc(0.5rem * 3) !important;
 }
 
@@ -653,7 +653,7 @@ img {
   * Padding left xl
   * 1) Forces padding left to 2rem
   */
-.ed-u-padding-left-xl {
+.ed-u-padding-inline-start-xl {
   padding-inline-start: calc(0.5rem * 4) !important;
 }
 
@@ -661,7 +661,7 @@ img {
   * Padding left xxl
   * 1) Forces padding left xxl to 4rem
   */
-.ed-u-padding-left-xxl {
+.ed-u-padding-inline-start-xxl {
   padding-inline-start: calc(0.5rem * 8) !important;
 }
 
@@ -1373,6 +1373,238 @@ hr {
 }
 .resource-category__links a:hover {
   text-decoration: underline;
+}
+
+html {
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    transition: none;
+  }
+}
+.ed-r-c-chameleon {
+  display: grid;
+  gap: 1rem;
+}
+
+.ed-r-c-concierge {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.ed-r-c-concierge__suggestion-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ed-r-c-stage {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.ed-r-c-stage__surface {
+  display: grid;
+  gap: 2rem;
+}
+
+.ed-r-c-stage__node {
+  display: grid;
+  gap: 1rem;
+}
+
+.ed-r-c-stage--settled .ed-r-c-stage__node {
+  transition: opacity 0.7s ease, translate 0.7s ease;
+}
+
+.ed-r-c-stage--settling .ed-r-c-stage__node {
+  opacity: 0;
+  translate: 0 1rem;
+}
+
+.ed-r-c-stage--settled .ed-r-c-stage__node:nth-child(1) {
+  transition-delay: 0s;
+}
+
+.ed-r-c-stage--settled .ed-r-c-stage__node:nth-child(2) {
+  transition-delay: 0.09s;
+}
+
+.ed-r-c-stage--settled .ed-r-c-stage__node:nth-child(3) {
+  transition-delay: 0.18s;
+}
+
+.ed-r-c-stage--settled .ed-r-c-stage__node:nth-child(4) {
+  transition-delay: 0.27s;
+}
+
+.ed-r-c-stage--settled .ed-r-c-stage__node:nth-child(5) {
+  transition-delay: 0.36s;
+}
+
+.ed-r-c-stage--settled .ed-r-c-stage__node:nth-child(6) {
+  transition-delay: 0.45s;
+}
+
+.ed-r-c-stage--settled .ed-r-c-stage__node:nth-child(7) {
+  transition-delay: 0.54s;
+}
+
+.ed-r-c-stage--settled .ed-r-c-stage__node:nth-child(8) {
+  transition-delay: 0.63s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ed-r-c-stage--settling .ed-r-c-stage__node,
+  .ed-r-c-stage--settled .ed-r-c-stage__node {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+}
+.ed-r-c-stage__heading {
+  margin: 0;
+}
+
+.ed-r-c-stage__heading:focus {
+  outline: none;
+}
+
+.ed-r-c-stage--superposition {
+  text-align: center;
+  padding-block: 2rem;
+}
+
+.ed-r-c-stage__ghosts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-block-start: 1rem;
+}
+
+.ed-r-c-stage__ghosts ed-badge {
+  animation: ed-r-c-superpose 3.2s ease-in-out infinite;
+}
+
+.ed-r-c-stage__ghosts ed-badge:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.ed-r-c-stage__ghosts ed-badge:nth-child(2) {
+  animation-delay: 0.64s;
+}
+
+.ed-r-c-stage__ghosts ed-badge:nth-child(3) {
+  animation-delay: 1.28s;
+}
+
+.ed-r-c-stage__ghosts ed-badge:nth-child(4) {
+  animation-delay: 1.92s;
+}
+
+.ed-r-c-stage__ghosts ed-badge:nth-child(5) {
+  animation-delay: 2.56s;
+}
+
+@keyframes ed-r-c-superpose {
+  0%, 100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ed-r-c-stage__ghosts ed-badge {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+.ed-r-c-constellation {
+  position: relative;
+  min-height: 30rem;
+  border: 1px solid var(--ed-theme-color-border-default, currentColor);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: var(--ed-theme-color-background-knockout);
+}
+
+.ed-r-c-constellation__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.ed-r-c-constellation__lines line {
+  stroke: var(--ed-theme-color-content-knockout);
+  stroke-width: 0.15;
+  vector-effect: non-scaling-stroke;
+}
+
+.ed-r-c-constellation__star {
+  position: absolute;
+  translate: -50% -50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid var(--ed-theme-color-border-knockout);
+  border-radius: 2rem;
+  padding: 0.25rem 0.75rem;
+  background: var(--ed-theme-color-background-knockout);
+  color: var(--ed-theme-color-content-knockout);
+  font-family: var(--ed-theme-typography-body-default-font-family);
+  font-size: var(--ed-theme-typography-body-sm-font-size, 0.875rem);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.ed-r-c-constellation__star:hover {
+  background: var(--ed-theme-color-background-brand);
+  color: var(--ed-theme-color-content-brand-knockout);
+  border-color: transparent;
+}
+
+.ed-r-c-constellation__star:focus-visible {
+  outline: 0.125rem solid var(--ed-theme-focus-ring-color-border-knockout);
+  outline-offset: 0.125rem;
+}
+
+.ed-r-c-constellation__star--md {
+  font-size: var(--ed-theme-typography-body-default-font-size, 1rem);
+}
+
+.ed-r-c-constellation__star--lg {
+  font-size: var(--ed-theme-typography-title-sm-font-size, 1.25rem);
+  font-weight: 600;
+}
+
+.ed-r-c-constellation__star--xl {
+  font-size: var(--ed-theme-typography-title-default-font-size, 1.5rem);
+  font-weight: 700;
+}
+
+.ed-r-c-constellation__count {
+  opacity: 0.7;
+  font-size: 0.75em;
+}
+
+.ed-r-c-pixels-demo {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.ed-r-c-pixels-demo canvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 /*# sourceMappingURL=styles.tmp.css.map */

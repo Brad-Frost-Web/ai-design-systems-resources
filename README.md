@@ -186,7 +186,7 @@ See [open issues](https://github.com/Brad-Frost-Web/ai-design-systems-resources/
 - [#9](https://github.com/Brad-Frost-Web/ai-design-systems-resources/issues/9) AI-powered contextual search
 - [#8](https://github.com/Brad-Frost-Web/ai-design-systems-resources/issues/8) Typeahead search
 - [#3](https://github.com/Brad-Frost-Web/ai-design-systems-resources/issues/3) Links section
-- [#13](https://github.com/Brad-Frost-Web/ai-design-systems-resources/issues/13) Adaptive / sentient UI
+- [#13](https://github.com/Brad-Frost-Web/ai-design-systems-resources/issues/13) Adaptive UI
 
 ---
 

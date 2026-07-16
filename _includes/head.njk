@@ -33,5 +33,25 @@
     <link rel="canonical" href="https://aianddesign.systems" />
 
     <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/themes.generated.css" />
+    <script>
+      // Restore the theme chosen in Eddie's theme customizer before paint, and
+      // persist any change so it sticks across pages.
+      (function () {
+        var KEY = "ai-ds-theme";
+        try {
+          var saved = localStorage.getItem(KEY);
+          if (saved) document.documentElement.className = saved;
+          new MutationObserver(function () {
+            try {
+              localStorage.setItem(KEY, document.documentElement.className);
+            } catch (e) {}
+          }).observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["class"],
+          });
+        } catch (e) {}
+      })();
+    </script>
     {% include "analytics.njk" %}
   </head>

@@ -19,4 +19,26 @@ import "@brad-frost-web/eddie-web-components/components/accordion/accordion.js";
 import "@brad-frost-web/eddie-web-components/components/accordion-panel/accordion-panel.js";
 import "@brad-frost-web/eddie-web-components/components/toolbar/toolbar.js";
 import "@brad-frost-web/eddie-web-components/components/select-field/select-field.js";
+
+// Adaptive layer — Eddie components composed by the resource surfaces
+import "@brad-frost-web/eddie-web-components/components/section/section.js";
+import "@brad-frost-web/eddie-web-components/components/band/band.js";
+import "@brad-frost-web/eddie-web-components/components/search-form/search-form.js";
+import "@brad-frost-web/eddie-web-components/components/radio-field/radio-field.js";
+import "@brad-frost-web/eddie-web-components/components/radio-field-item/radio-field-item.js";
+import "@brad-frost-web/eddie-web-components/components/timeline/timeline.js";
+import "@brad-frost-web/eddie-web-components/components/timeline-node/timeline-node.js";
+import "@brad-frost-web/eddie-web-components/components/key-value-table/key-value-table.js";
+import "@brad-frost-web/eddie-web-components/components/key-value-table-row/key-value-table-row.js";
+import "@brad-frost-web/eddie-web-components/components/code/code.js";
+import "@brad-frost-web/eddie-web-components/components/alert/alert.js";
+import "@brad-frost-web/eddie-web-components/components/skeleton/skeleton.js";
+
+// Eddie's theme switcher/customizer recipe (floating trigger in base.njk)
+import "@brad-frost-web/eddie-recipes/recipes/tools/theme-customizer/theme-customizer.js";
+
+// Project-local recipes (light-DOM Lit compositions of the above)
 import "./course-hero.js";
+import "./recipes/concierge.js";
+import "./recipes/adaptive-stage.js";
+import "./recipes/constellation.js";

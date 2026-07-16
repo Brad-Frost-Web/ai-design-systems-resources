@@ -3,8 +3,60 @@ layout: base.njk
 ---
 <ed-main>
 	<ed-layout-container class="ed-u-padding-top-xl">
-		{% include "resource-toolbar.njk" %}
-		{% include "resource-card-grid.njk" %}
-		{% include "resource-category-list.njk" %}
+
+		{# ------------------------------------------------------------------ #}
+		{# Ask: one prompt, one field. The engine composes the answer.         #}
+		{# ------------------------------------------------------------------ #}
+		<ed-section id="concierge">
+			<ed-heading slot="header" tagName="h1" variant="display-sm">
+				What do you need help with about AI &amp; Design Systems?
+			</ed-heading>
+			<ed-r-c-concierge></ed-r-c-concierge>
+			<ed-r-c-adaptive-stage></ed-r-c-adaptive-stage>
+		</ed-section>
+
+		{# ------------------------------------------------------------------ #}
+		{# Constellation: the reference-weighted topic graph                    #}
+		{# ------------------------------------------------------------------ #}
+		<ed-section id="constellation">
+			<ed-heading slot="header" tagName="h2" variant="headline-sm">Explore by topic</ed-heading>
+			<ed-text-passage capLinelength slot="header">
+				<p>
+					Every topic in the collection, sized by how many resources reference it.
+					Tap a star to ask about it.
+				</p>
+			</ed-text-passage>
+			<ed-r-c-constellation>
+				<ed-text-passage size="sm">
+					<p>
+						This graph is drawn with JavaScript. The same topics are listed,
+						unglamorously but completely, in <a href="#collection">the collection</a> below.
+					</p>
+				</ed-text-passage>
+			</ed-r-c-constellation>
+		</ed-section>
+
+		{# ------------------------------------------------------------------ #}
+		{# The collection: the progressive-enhancement floor. Works with JS off #}
+		{# ------------------------------------------------------------------ #}
+		<ed-section id="collection">
+			<ed-heading slot="header" tagName="h2" variant="headline-sm">The whole collection</ed-heading>
+			<ed-text-passage capLinelength slot="header">
+				<p>
+					Everything, newest first — {{ resources.length }} resources curated by
+					humans in the course Slack, plus {{ glossary.length }} glossary terms
+					wired back to specific lessons. Works with JavaScript switched off.
+				</p>
+			</ed-text-passage>
+			{% include "resource-toolbar.njk" %}
+			{% include "resource-card-grid.njk" %}
+			<ed-accordion class="ed-u-margin-block-start-lg">
+				<ed-accordion-panel>
+					<span slot="header">Browse the same collection grouped by tag</span>
+					{% include "resource-category-list.njk" %}
+				</ed-accordion-panel>
+			</ed-accordion>
+		</ed-section>
+
 	</ed-layout-container>
 </ed-main>

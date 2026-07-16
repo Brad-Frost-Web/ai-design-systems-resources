@@ -72,3 +72,25 @@
 		button.setAttribute("aria-expanded", String(isActive));
 	});
 })();
+
+/**
+ * Adaptive layer plumbing: the concierge emits declarative UI specs, the
+ * adaptive stage renders them, and the constellation feeds asks back into
+ * the concierge. All wiring is event-based so each recipe stays a
+ * self-contained composition.
+ */
+(function () {
+	const stage = document.querySelector("ed-r-c-adaptive-stage");
+	if (!stage) return;
+
+	document.addEventListener("concierge-spec", (event) => {
+		stage.show(event.detail.spec, event.detail.intel);
+	});
+
+	document.addEventListener("constellation-ask", (event) => {
+		const concierge = document.querySelector("ed-r-c-concierge");
+		if (!concierge) return;
+		concierge.scrollIntoView({ behavior: "smooth", block: "center" });
+		concierge._suggest(event.detail.ask);
+	});
+})();
