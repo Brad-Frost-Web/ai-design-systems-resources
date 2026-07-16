@@ -29,6 +29,15 @@ html {
 }
 
 // ---------------------------------------------------------------------------
+// Hero — centered heading + lead above the concierge, inside the top band.
+.ed-r-c-hero {
+	display: grid;
+	gap: 0.5rem;
+	text-align: center;
+	margin-block-end: 1.5rem;
+}
+
+// ---------------------------------------------------------------------------
 // Concierge
 .ed-r-c-concierge {
 	display: grid;

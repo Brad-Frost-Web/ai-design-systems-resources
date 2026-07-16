@@ -2,18 +2,24 @@
 layout: base.njk
 ---
 <ed-main>
-	<ed-layout-container class="ed-u-padding-top-xl">
 
-		{# ------------------------------------------------------------------ #}
-		{# Ask: one prompt, one field. The engine composes the answer.         #}
-		{# ------------------------------------------------------------------ #}
-		<ed-section id="concierge">
-			<ed-heading slot="header" tagName="h1" variant="display-sm">
-				What do you need help with about AI &amp; Design Systems?
-			</ed-heading>
+	{# ------------------------------------------------------------------ #}
+	{# Hero band: centered prompt + one field. The engine composes below.  #}
+	{# ------------------------------------------------------------------ #}
+	<ed-band id="concierge">
+		<ed-layout-container class="ed-u-padding-top-xl ed-u-padding-bottom-lg">
+			<div class="ed-r-c-hero">
+				<ed-heading tagName="h1" variant="display-default">Get help with AI &amp; Design Systems</ed-heading>
+				<ed-text-passage>
+					<p>{{ resources.length }} resources, course videos, the glossary, and more.</p>
+				</ed-text-passage>
+			</div>
 			<ed-r-c-concierge></ed-r-c-concierge>
-			<ed-r-c-adaptive-stage></ed-r-c-adaptive-stage>
-		</ed-section>
+		</ed-layout-container>
+	</ed-band>
+
+	<ed-layout-container class="ed-u-padding-top-lg">
+		<ed-r-c-adaptive-stage></ed-r-c-adaptive-stage>
 
 		{# ------------------------------------------------------------------ #}
 		{# Constellation: the reference-weighted topic graph                    #}

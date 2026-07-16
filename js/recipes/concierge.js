@@ -115,7 +115,7 @@ export class EdRCConcierge extends LitElement {
 				<ed-search-form
 					label="Search AI &amp; Design Systems resources"
 					hideLabel
-					placeholder="Search 280+ resources, course videos, the glossary, and more"
+					placeholder="Search or describe what you're working on"
 					clearButtonText="Clear"
 					variant="display"
 				></ed-search-form>

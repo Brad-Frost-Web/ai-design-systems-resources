@@ -1821,6 +1821,12 @@ html {
   display: grid;
   gap: 1rem;
 }
+.ed-r-c-hero {
+  display: grid;
+  gap: 0.5rem;
+  text-align: center;
+  margin-block-end: 1.5rem;
+}
 .ed-r-c-concierge {
   display: grid;
   gap: 1.5rem;
