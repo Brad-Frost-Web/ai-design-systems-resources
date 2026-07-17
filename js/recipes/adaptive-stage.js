@@ -128,6 +128,11 @@ export class EdRCAdaptiveStage extends LitElement {
 							return html`<ed-grid-item>
 								<ed-card>
 									<ed-heading variant="title-sm" tagName="h4">${t.term}</ed-heading>
+									${t.status === "in-progress"
+										? html`<div class="resource-tags">
+												<ed-badge variant="info" text="In Progress"></ed-badge>
+										  </div>`
+										: nothing}
 									<ed-text-passage size="sm"><p>${t.definition}</p></ed-text-passage>
 									${t.lessons.length
 										? html`<ed-text-passage size="sm">

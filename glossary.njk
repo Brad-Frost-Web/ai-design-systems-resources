@@ -36,6 +36,9 @@ permalink: /glossary/
 							<div class="glossary-term" id="{{ item.slug }}">
 								<dt class="glossary-term__name">
 									{{ item.term }}
+									{% if item.status == "in-progress" %}
+										<ed-badge variant="info" text="In Progress"></ed-badge>
+									{% endif %}
 									{% if item.aliases.length %}
 										<span class="glossary-term__aliases">{{ item.aliases | join(", ") }}</span>
 									{% endif %}

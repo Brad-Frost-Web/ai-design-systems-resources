@@ -28,6 +28,7 @@ module.exports = function () {
 		aliases: t.aliases,
 		definition: t.definition,
 		tags: t.tags || [],
+		status: t.status || null,
 		lessons: (t.lessons || []).map((l) => ({
 			title: l.title,
 			chapter: l.chapter,

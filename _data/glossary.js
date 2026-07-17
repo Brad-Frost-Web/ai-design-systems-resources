@@ -39,6 +39,7 @@ module.exports = function () {
 			source: data.source || null,
 			lessons: data.lessons || [],
 			tags: data.tags || [],
+			status: data.status || null,
 		};
 	});
 

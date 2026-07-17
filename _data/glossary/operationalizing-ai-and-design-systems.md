@@ -1,5 +1,6 @@
 ---
 term: "Operationalizing AI and Design Systems"
+status: "in-progress"
 source:
   type: "course"
   name: "AI & Design Systems Course"
