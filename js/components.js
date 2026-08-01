@@ -17,6 +17,7 @@ import "@brad-frost-web/eddie-web-components/components/main/main.js";
 import "@brad-frost-web/eddie-web-components/components/grid/grid.js";
 import "@brad-frost-web/eddie-web-components/components/grid-item/grid-item.js";
 import "@brad-frost-web/eddie-web-components/components/badge/badge.js";
+import "@brad-frost-web/eddie-web-components/components/inline-checkbox/inline-checkbox.js";
 import "@brad-frost-web/eddie-web-components/components/accordion/accordion.js";
 import "@brad-frost-web/eddie-web-components/components/accordion-panel/accordion-panel.js";
 import "@brad-frost-web/eddie-web-components/components/toolbar/toolbar.js";

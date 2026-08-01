@@ -313,7 +313,19 @@
 	grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
 	gap: var(--ed-theme-space-md, 1rem);
 }
-.wo-card { display: block; position: relative; transition: opacity 0.15s ease; }
+.wo-card {
+	// Flex column so the "Mark as read" footer pins to the bottom and all
+	// cards in a row (equal height via the grid) line their footers up.
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	block-size: 100%;
+	position: relative;
+	padding: var(--ed-theme-space-lg, 1.5rem);
+	border: 1px solid var(--ed-theme-color-border-default, #d0d0d0);
+	border-radius: var(--ed-theme-border-radius-md, 8px);
+	transition: opacity 0.15s ease;
+}
 .wo-card.is-read { opacity: 0.5; }
 .wo-card.is-read:hover { opacity: 0.85; }
 .wo-card.is-read ed-heading a { text-decoration: line-through; }
@@ -336,21 +348,14 @@
 	z-index: 1;
 }
 
-// "Read" checkbox, top-right of each card.
+// "Mark as read" — Eddie's ed-inline-checkbox, pinned to the card bottom.
 .wo-read {
-	position: absolute;
-	inset-block-start: 0.6rem;
-	inset-inline-end: 0.6rem;
-	display: inline-flex;
-	align-items: center;
-	gap: 0.3rem;
-	font-size: 0.75rem;
-	opacity: 0.7;
-	cursor: pointer;
-	z-index: 1;
-	user-select: none;
+	display: block;
+	margin-block-start: var(--ed-theme-space-md, 1rem);
+	padding-block-start: 0.75rem;
+	border-block-start: 1px solid var(--ed-theme-color-border-subtle, #e5e5e5);
 }
-.wo-read input { cursor: pointer; }
+.wo-card__body { min-inline-size: 0; }
 .wo-reasons { margin: 0.5rem 0; font-size: 0.8rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
 .wo-reasons__label { opacity: 0.7; }
 .wo-reason { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.75rem; border: 1px solid transparent; }

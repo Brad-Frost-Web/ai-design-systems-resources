@@ -244,12 +244,15 @@
 			? `<ed-text-passage size="sm"><p>${SENTIMENT[r.sentiment] || "💬"} ${esc(r.summary)}</p>${
 				r.slackUrl ? `<p><a href="${esc(r.slackUrl)}" target="_blank" rel="noopener">View in Slack →</a></p>` : ""}</ed-text-passage>`
 			: "";
-		return `<ed-card class="wo-card${isRead ? " is-read" : ""}">
+		return `<article class="wo-card${isRead ? " is-read" : ""}">
 			<span class="wo-card__order" aria-label="Reading order ${order}">${order}</span>
-			<label class="wo-read"><input type="checkbox" class="wo-read__box" data-href="${esc(r.href)}"${isRead ? " checked" : ""}> Read</label>
-			<ed-heading variant="title-sm"><a href="${esc(r.href)}" target="_blank" rel="noopener">${esc(r.title)}</a></ed-heading>
-			<div class="wo-reasons"><span class="wo-reasons__label">Helps with:</span> ${reasons}</div>
-			${summary}</ed-card>`;
+			<div class="wo-card__body">
+				<ed-heading variant="title-sm"><a href="${esc(r.href)}" target="_blank" rel="noopener">${esc(r.title)}</a></ed-heading>
+				<div class="wo-reasons"><span class="wo-reasons__label">Helps with:</span> ${reasons}</div>
+				${summary}
+			</div>
+			<ed-inline-checkbox class="wo-read" data-href="${esc(r.href)}"${isRead ? " checked" : ""}>Mark as read</ed-inline-checkbox>
+		</article>`;
 	}
 
 	// One flagged station: heading, the concrete problem (its inspection
@@ -354,6 +357,26 @@
 		list.innerHTML =
 			tier("red", "Fix now", "Broken — the light is on", reds, profile) +
 			tier("yellow", "Schedule next", "Drift or gaps — worth a look", yellows, profile);
+		wireRead();
+	}
+
+	// Wire the freshly-rendered read checkboxes. ed-inline-checkbox is shadow-DOM
+	// and toggles its own `checked` on the internal input's change, which doesn't
+	// cross the shadow boundary — so we listen for the (composed) click on the
+	// host and read the settled `checked` on the next frame.
+	function wireRead() {
+		list.querySelectorAll("ed-inline-checkbox.wo-read").forEach((el) => {
+			const href = el.getAttribute("data-href");
+			el.checked = readSet.has(href); // ensure initial state is applied
+			el.addEventListener("click", () => {
+				requestAnimationFrame(() => {
+					const isRead = !!el.checked;
+					setRead(href, isRead);
+					const woCard = el.closest(".wo-card");
+					if (woCard) woCard.classList.toggle("is-read", isRead);
+				});
+			});
+		});
 	}
 
 	// --- wizard control ------------------------------------------------------
@@ -376,15 +399,6 @@
 		modeManual.setAttribute("aria-selected", String(manual));
 		modePaste.setAttribute("aria-selected", String(!manual));
 	}
-
-	// Read/unread checkboxes (delegated — the work order re-renders often).
-	list.addEventListener("change", (e) => {
-		const box = e.target.closest && e.target.closest(".wo-read__box");
-		if (!box) return;
-		setRead(box.getAttribute("data-href"), box.checked);
-		const woCard = box.closest(".wo-card");
-		if (woCard) woCard.classList.toggle("is-read", box.checked);
-	});
 
 	// --- wire up -------------------------------------------------------------
 	if (startBtn) startBtn.addEventListener("click", openWizard);
