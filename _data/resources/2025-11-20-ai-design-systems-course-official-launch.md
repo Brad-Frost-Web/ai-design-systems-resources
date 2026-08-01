@@ -10,4 +10,6 @@ slackSummary: "Official announcement of the AI & Design Systems course by Brad F
 slackSentiment: "excited"
 tags:
   - "course|green"
+stations: []
+stationsConfidence: high
 ---

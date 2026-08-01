@@ -10,4 +10,8 @@ slackSentiment: "excited"
 tags:
   - "figma|brown"
   - "mcp|purple"
+stations:
+  - orchestration
+  - agent-access
+stationsConfidence: high
 ---

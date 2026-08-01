@@ -10,4 +10,9 @@ tags:
   - "course|yellow"
   - "figma|brown"
   - "mcp|purple"
+stations:
+  - machine-readable-docs
+  - agent-access
+  - orchestration
+stationsConfidence: high
 ---

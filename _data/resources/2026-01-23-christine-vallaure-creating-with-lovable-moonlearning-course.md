@@ -12,4 +12,7 @@ tags:
   - "tool|orange"
   - "course|green"
   - "ai-coding|pink"
+stations:
+  - agent-access
+stationsConfidence: medium
 ---

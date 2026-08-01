@@ -43,6 +43,10 @@ module.exports = function () {
 			type: data.type || null,
 			created: data.created || null,
 			notionId: data.notionId || null,
+			// Inspection-station classification (see _data/stations.js).
+			// `stations` is a list of station slugs, most-relevant first.
+			stations: Array.isArray(data.stations) ? data.stations : [],
+			stationsConfidence: data.stationsConfidence || null,
 		};
 
 		// Pass through Slack-specific fields when present

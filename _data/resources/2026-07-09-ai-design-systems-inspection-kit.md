@@ -10,4 +10,7 @@ tags:
   - "course|yellow"
   - "claude|default"
   - "tools|teal"
+stations:
+  - testing-validation
+stationsConfidence: high
 ---
