@@ -112,13 +112,13 @@
 	const browseAll = document.getElementById("browse-all");
 
 	const STORE_KEY = "ds-inspection-profile";
-	const SEVERITY = { red: 3, yellow: 1, green: 0 };
 	const CONFIDENCE = { high: 1, medium: 0.7, low: 0.4 };
-	const MAX_RESULTS = 24;
+	const PER_STATION_MAX = 12;
 
 	const resources = readJSON("resource-data") || [];
 	const stationMeta = readJSON("station-meta") || [];
 	const stationName = Object.fromEntries(stationMeta.map((s) => [s.slug, s.name]));
+	const stationById = Object.fromEntries(stationMeta.map((s) => [s.slug, s]));
 	const byId = Object.fromEntries(stationMeta.map((s) => [s.id, s.slug]));
 	const byName = Object.fromEntries(stationMeta.map((s) => [s.name.toLowerCase(), s.slug]));
 
@@ -189,32 +189,40 @@
 	}
 
 	// --- ranking -------------------------------------------------------------
-	function rank(profile) {
-		const flagged = Object.entries(profile).filter(([, v]) => v === "red" || v === "yellow");
-		if (!flagged.length) return { items: [], flagged: [] };
-		const scored = resources.map((r) => {
-			let score = 0; const hits = [];
-			for (const [slug, sev] of flagged) {
-				if (r.stations.includes(slug)) {
-					score += SEVERITY[sev] * (CONFIDENCE[r.confidence] ?? 0.6);
-					hits.push({ slug, sev });
-				}
-			}
-			return { r, score, hits };
-		}).filter((x) => x.score > 0);
-		scored.sort((a, b) => {
-			const aRed = a.hits.some((h) => h.sev === "red") ? 1 : 0;
-			const bRed = b.hits.some((h) => h.sev === "red") ? 1 : 0;
-			if (aRed !== bRed) return bRed - aRed;
-			return b.score - a.score;
-		});
-		return { items: scored.slice(0, MAX_RESULTS), flagged };
+	// Flagged stations in the order to work them: reds first, then yellows,
+	// then by station number — so the work order reads as a sequential plan.
+	function orderedFlagged(profile) {
+		return Object.entries(profile)
+			.filter(([, v]) => v === "red" || v === "yellow")
+			.sort(([sa, va], [sb, vb]) => {
+				const sev = (va === "red" ? 0 : 1) - (vb === "red" ? 0 : 1);
+				if (sev) return sev;
+				return (stationById[sa]?.id || 0) - (stationById[sb]?.id || 0);
+			});
+	}
+
+	// Resources for one station, in recommended reading order: classification
+	// confidence first, with a small boost for resources that also cover the
+	// user's other flagged stations (cross-cutting reads surface earlier).
+	function rankForStation(slug, profile) {
+		const flaggedSlugs = Object.keys(profile).filter((s) => profile[s] === "red" || profile[s] === "yellow");
+		return resources
+			.filter((r) => r.stations.includes(slug))
+			.map((r) => {
+				const conf = CONFIDENCE[r.confidence] ?? 0.6;
+				const hits = r.stations
+					.filter((s) => flaggedSlugs.includes(s))
+					.map((s) => ({ slug: s, sev: profile[s] }));
+				return { r, hits, score: conf * (1 + 0.25 * (hits.length - 1)) };
+			})
+			.sort((a, b) => b.score - a.score)
+			.slice(0, PER_STATION_MAX);
 	}
 
 	// --- rendering -----------------------------------------------------------
 	const SENTIMENT = { excited: "🔥", useful: "💡", question: "❓", cautious: "🤔", discussion: "💬" };
 
-	function card({ r, hits }) {
+	function card({ r, hits }, order) {
 		const reasons = hits.sort((a, b) => (a.sev === "red" ? -1 : 1))
 			.map((h) => `<span class="wo-reason wo-reason--${h.sev}">${esc(stationName[h.slug] || h.slug)}</span>`).join("");
 		const summary = r.summary
@@ -222,9 +230,27 @@
 				r.slackUrl ? `<p><a href="${esc(r.slackUrl)}" target="_blank" rel="noopener">View in Slack →</a></p>` : ""}</ed-text-passage>`
 			: "";
 		return `<ed-card class="wo-card">
+			<span class="wo-card__order" aria-label="Reading order ${order}">${order}</span>
 			<ed-heading variant="title-sm"><a href="${esc(r.href)}" target="_blank" rel="noopener">${esc(r.title)}</a></ed-heading>
 			<div class="wo-reasons"><span class="wo-reasons__label">Helps with:</span> ${reasons}</div>
 			${summary}</ed-card>`;
+	}
+
+	// One flagged station: a heading/divider, then its resources in reading order.
+	function stationGroup([slug, sev], profile) {
+		const st = stationById[slug] || { id: "", name: slug };
+		const items = rankForStation(slug, profile);
+		const body = items.length
+			? `<div class="work-order__list">${items.map((it, i) => card(it, i + 1)).join("")}</div>`
+			: `<p class="station__empty">No classified resources for this station yet — a content gap worth filling.</p>`;
+		return `<section class="wo-station">
+			<h3 class="wo-station__head">
+				<span class="wo-light wo-light--${sev}">${sev}</span>
+				<span class="wo-station__name">Station ${st.id} · ${esc(st.name)}</span>
+				<span class="wo-station__count">${items.length} resource${items.length === 1 ? "" : "s"}</span>
+			</h3>
+			${body}
+		</section>`;
 	}
 
 	function reflectOnBrowse(profile) {
@@ -279,7 +305,7 @@
 
 	function render(profile) {
 		const configured = Object.keys(profile).length > 0;
-		const { items, flagged } = rank(profile);
+		const flagged = orderedFlagged(profile);
 		// "Actionable" = at least one red/yellow to prescribe against. Only then do
 		// we show the compact bar + work order; otherwise the prominent CTA panel.
 		const actionable = flagged.length > 0;
@@ -295,10 +321,10 @@
 
 		const reds = flagged.filter(([, v]) => v === "red").length;
 		const yellows = flagged.filter(([, v]) => v === "yellow").length;
-		lead.textContent = items.length
-			? `${items.length} recommended resource${items.length === 1 ? "" : "s"} for your ${reds} red and ${yellows} yellow station${reds + yellows === 1 ? "" : "s"}, reds first.`
-			: "No classified resources match your flagged stations yet — a content gap worth filling.";
-		list.innerHTML = items.map(card).join("");
+		lead.textContent =
+			`${flagged.length} flagged station${flagged.length === 1 ? "" : "s"} — ${reds} red, ${yellows} yellow, reds first.` +
+			` Each station lists its resources in a recommended reading order.`;
+		list.innerHTML = flagged.map((f) => stationGroup(f, profile)).join("");
 	}
 
 	// --- wizard control ------------------------------------------------------

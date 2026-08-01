@@ -258,12 +258,60 @@
 .work-order { margin-block-end: var(--ed-theme-space-2xl, 3.5rem); scroll-margin-top: 5rem; }
 .work-order__title { margin: 0; font-size: 1.7rem; }
 .work-order__lead { margin: 0.35rem 0 var(--ed-theme-space-lg, 1.5rem); opacity: 0.85; }
+.work-order__groups {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ed-theme-space-2xl, 3rem);
+}
+
+// A flagged station: heading + divider, then its resources.
+.wo-station__head {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+	flex-wrap: wrap;
+	margin: 0 0 var(--ed-theme-space-md, 1rem);
+	padding-block-end: 0.5rem;
+	font-size: 1.3rem;
+	border-block-end: 2px solid var(--ed-theme-color-border-default, #d0d0d0);
+}
+.wo-light {
+	font-size: 0.68rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	padding: 0.12rem 0.5rem;
+	border-radius: 999px;
+}
+.wo-light--red { background: #e5484d; color: #fff; }
+.wo-light--yellow { background: #e0a020; color: #1a1a1a; }
+.wo-station__name { font-weight: 600; }
+.wo-station__count { font-size: 0.8rem; font-weight: 400; opacity: 0.6; }
+
 .work-order__list {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
 	gap: var(--ed-theme-space-md, 1rem);
 }
-.wo-card { display: block; }
+.wo-card { display: block; position: relative; }
+
+// Reading-order badge in each card corner.
+.wo-card__order {
+	position: absolute;
+	inset-block-start: -0.6rem;
+	inset-inline-start: -0.6rem;
+	inline-size: 1.7rem;
+	block-size: 1.7rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background: var(--ed-theme-color-action-default, #1a1a1a);
+	color: var(--ed-theme-color-on-action, #fff);
+	font-size: 0.85rem;
+	font-weight: 700;
+	z-index: 1;
+}
 .wo-reasons { margin: 0.5rem 0; font-size: 0.8rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
 .wo-reasons__label { opacity: 0.7; }
 .wo-reason { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.75rem; border: 1px solid transparent; }
