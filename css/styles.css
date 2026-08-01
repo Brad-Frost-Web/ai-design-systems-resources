@@ -1727,163 +1727,123 @@ hr {
   display: block;
   margin-block-end: var(--ed-theme-space-lg, 1.5rem);
 }
-.stations-index {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--ed-theme-space-xs, 0.5rem);
-  margin-block-end: var(--ed-theme-space-xl, 2.5rem);
+.stations-layout {
+  --ed-sidebar-width: 21rem;
 }
-.stations-index a {
-  display: inline-block;
-  padding: 0.25rem 0.6rem;
-  border: 1px solid var(--ed-theme-color-border-default, #d0d0d0);
-  border-radius: var(--ed-theme-border-radius-sm, 4px);
-  font-size: 0.85rem;
-  text-decoration: none;
-}
-.station-quality {
-  margin-block-end: var(--ed-theme-space-2xl, 3.5rem);
-  padding-block-start: var(--ed-theme-space-lg, 1.5rem);
-  border-block-start: 2px solid var(--ed-theme-color-border-default, #d0d0d0);
-}
-.station-quality__num {
-  display: block;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  opacity: 0.65;
-}
-.station-quality__name {
-  margin: 0;
-  font-size: 1.9rem;
-}
-.station-quality__question {
-  margin: 0.25rem 0 var(--ed-theme-space-lg, 1.5rem);
-  font-size: 1.15rem;
-  font-style: italic;
-  opacity: 0.85;
-}
-.station {
-  margin-block-end: var(--ed-theme-space-xl, 2.5rem);
-  scroll-margin-top: 6rem;
-}
-.station__head {
-  display: flex;
-  align-items: baseline;
-  gap: var(--ed-theme-space-sm, 0.75rem);
-  flex-wrap: wrap;
-}
-.station__num {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  opacity: 0.6;
-  margin-inline-end: 0.4rem;
-}
-.station__name {
-  margin: 0;
-  font-size: 1.3rem;
-}
-.station__question {
-  margin: 0.2rem 0 var(--ed-theme-space-md, 1rem);
-  max-inline-size: 72ch;
-  opacity: 0.8;
-}
-.station__empty {
+.diagnose-panel {
   padding: var(--ed-theme-space-md, 1rem);
-  border: 1px dashed var(--ed-theme-color-border-default, #d0d0d0);
-  border-radius: var(--ed-theme-border-radius-sm, 4px);
-  font-size: 0.9rem;
-  opacity: 0.7;
-}
-.diagnose {
-  margin-block-end: var(--ed-theme-space-xl, 2.5rem);
-  padding: var(--ed-theme-space-lg, 1.5rem);
   border: 1px solid var(--ed-theme-color-border-default, #d0d0d0);
   border-radius: var(--ed-theme-border-radius-md, 8px);
   background: var(--ed-theme-color-surface-raised, #f7f7f8);
+  max-block-size: calc(100vh - 3rem);
+  overflow: auto;
 }
-.diagnose__head {
+.diagnose-panel__head {
   display: flex;
+  align-items: baseline;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: var(--ed-theme-space-md, 1rem);
-  flex-wrap: wrap;
-  margin-block-end: var(--ed-theme-space-lg, 1.5rem);
+  gap: 0.5rem;
 }
-.diagnose__title {
+.diagnose-panel__title {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
-.diagnose__hint {
+.diagnose-panel__hint {
   margin: 0.35rem 0 0;
-  max-inline-size: 70ch;
-  font-size: 0.95rem;
-  opacity: 0.8;
+  font-size: 0.85rem;
+  opacity: 0.75;
 }
 .diagnose__reset {
   flex: none;
-  padding: 0.4rem 0.9rem;
+  padding: 0.3rem 0.7rem;
   border: 1px solid var(--ed-theme-color-border-default, #d0d0d0);
   border-radius: var(--ed-theme-border-radius-sm, 4px);
   background: transparent;
   font: inherit;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   cursor: pointer;
 }
 .diagnose__reset:hover {
   background: var(--ed-theme-color-surface-default, #fff);
 }
-.diagnose__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-  gap: var(--ed-theme-space-md, 1rem);
+.diagnose-tally {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0.75rem 0 0;
 }
-.diagnose-station {
-  margin: 0;
-  padding: var(--ed-theme-space-sm, 0.75rem);
+.tally {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
   border: 1px solid var(--ed-theme-color-border-subtle, #e5e5e5);
-  border-radius: var(--ed-theme-border-radius-sm, 4px);
-  background: var(--ed-theme-color-surface-default, #fff);
 }
-.diagnose-station__legend {
+.tally--red {
+  background: rgba(229, 72, 77, 0.14);
+  border-color: #e5484d;
+}
+.tally--yellow {
+  background: rgba(224, 160, 32, 0.16);
+  border-color: #e0a020;
+}
+.tally--rest {
+  opacity: 0.6;
+}
+.diagnose-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-block-start: var(--ed-theme-space-md, 1rem);
+}
+.diag-row {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.diag-row__name {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0;
+  padding: 0 0 0.3rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  font-size: 0.95rem;
 }
-.diagnose-station__num {
+.diag-row__num {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  inline-size: 1.4rem;
-  block-size: 1.4rem;
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
   border-radius: 50%;
   background: var(--ed-theme-color-surface-sunken, #ececec);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
+  flex: none;
 }
 .rating {
   display: flex;
-  gap: 0.3rem;
-  margin-block-start: 0.5rem;
+  gap: 0.25rem;
 }
 .rating__opt {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
-  padding: 0.3rem 0.2rem;
+  gap: 0.2rem;
+  padding: 0.25rem 0.15rem;
   border: 1px solid var(--ed-theme-color-border-default, #d0d0d0);
   border-radius: var(--ed-theme-border-radius-sm, 4px);
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   cursor: pointer;
   user-select: none;
+  background: var(--ed-theme-color-surface-default, #fff);
 }
 .rating__opt input {
   margin: 0;
+  position: absolute;
+  opacity: 0;
+  inline-size: 1px;
+  block-size: 1px;
 }
 .rating__opt--green:has(input:checked) {
   background: #1f9d57;
@@ -1909,6 +1869,7 @@ hr {
   padding: var(--ed-theme-space-lg, 1.5rem);
   border: 2px solid var(--ed-theme-color-border-strong, #333);
   border-radius: var(--ed-theme-border-radius-md, 8px);
+  scroll-margin-top: 1.5rem;
 }
 .work-order__title {
   margin: 0;
@@ -1920,7 +1881,7 @@ hr {
 }
 .work-order__list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
   gap: var(--ed-theme-space-md, 1rem);
 }
 .wo-card {
@@ -1953,35 +1914,63 @@ hr {
   border-color: #e0a020;
 }
 .stations-browse-h {
-  margin-block-start: var(--ed-theme-space-xl, 2.5rem);
+  margin: 0 0 var(--ed-theme-space-lg, 1.5rem);
   font-size: 1.7rem;
 }
-.diagnose__actions {
+.station-quality {
+  margin-block-end: var(--ed-theme-space-2xl, 3.5rem);
+  padding-block-start: var(--ed-theme-space-lg, 1.5rem);
+  border-block-start: 2px solid var(--ed-theme-color-border-default, #d0d0d0);
+}
+.station-quality__num {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.65;
+}
+.station-quality__name {
+  margin: 0;
+  font-size: 1.6rem;
+}
+.station-quality__question {
+  margin: 0.25rem 0 var(--ed-theme-space-lg, 1.5rem);
+  font-size: 1.1rem;
+  font-style: italic;
+  opacity: 0.85;
+}
+.station {
+  margin-block-end: var(--ed-theme-space-xl, 2.5rem);
+  scroll-margin-top: 1.5rem;
+}
+.station__head {
   display: flex;
-  gap: 0.5rem;
-  flex: none;
-}
-.diagnose__toggle {
-  padding: 0.4rem 0.9rem;
-  border: 1px solid var(--ed-theme-color-border-default, #d0d0d0);
-  border-radius: var(--ed-theme-border-radius-sm, 4px);
-  background: transparent;
-  font: inherit;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-.diagnose__toggle:hover {
-  background: var(--ed-theme-color-surface-default, #fff);
-}
-.diagnose__summary {
-  display: flex;
+  align-items: baseline;
+  gap: var(--ed-theme-space-sm, 0.75rem);
   flex-wrap: wrap;
-  gap: 0.35rem;
-  margin: 0.6rem 0 0;
-  font-size: 0.85rem;
 }
-.diagnose-summary__empty {
+.station__num {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   opacity: 0.6;
+  margin-inline-end: 0.4rem;
+}
+.station__name {
+  margin: 0;
+  font-size: 1.25rem;
+}
+.station__question {
+  margin: 0.2rem 0 var(--ed-theme-space-md, 1rem);
+  max-inline-size: 72ch;
+  opacity: 0.8;
+}
+.station__empty {
+  padding: var(--ed-theme-space-md, 1rem);
+  border: 1px dashed var(--ed-theme-color-border-default, #d0d0d0);
+  border-radius: var(--ed-theme-border-radius-sm, 4px);
+  font-size: 0.9rem;
+  opacity: 0.7;
 }
 .station.is-flagged-red {
   border-inline-start: 4px solid #e5484d;

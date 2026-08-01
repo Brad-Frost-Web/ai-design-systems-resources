@@ -8,6 +8,8 @@ import "@brad-frost-web/eddie-web-components/components/nav-container/nav-contai
 import "@brad-frost-web/eddie-web-components/components/primary-nav/primary-nav.js";
 import "@brad-frost-web/eddie-web-components/components/primary-nav-item/primary-nav-item.js";
 import "@brad-frost-web/eddie-web-components/components/layout-container/layout-container.js";
+import "@brad-frost-web/eddie-web-components/components/layout/layout.js";
+import "@brad-frost-web/eddie-web-components/components/layout-section/layout-section.js";
 import "@brad-frost-web/eddie-web-components/components/card/card.js";
 import "@brad-frost-web/eddie-web-components/components/heading/heading.js";
 import "@brad-frost-web/eddie-web-components/components/text-passage/text-passage.js";

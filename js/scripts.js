@@ -88,9 +88,7 @@
 	const list = document.getElementById("work-order-list");
 	const lead = document.getElementById("work-order-lead");
 	const resetBtn = document.getElementById("diagnose-reset");
-	const toggleBtn = document.getElementById("diagnose-toggle");
-	const grid = document.getElementById("diagnose-grid");
-	const summaryEl = document.getElementById("diagnose-summary");
+	const tallyEl = document.getElementById("diagnose-tally");
 	if (!form || !out || !list) return;
 
 	const STORE_KEY = "ds-inspection-profile";
@@ -184,18 +182,18 @@
 		</ed-card>`;
 	}
 
-	// Live readout of what's set, shown in the panel head.
-	function renderSummary(selections) {
-		if (!summaryEl) return;
-		const flagged = Object.entries(selections).filter(([, v]) => v === "red" || v === "yellow");
-		if (!flagged.length) {
-			summaryEl.innerHTML = '<span class="diagnose-summary__empty">No lights set yet.</span>';
-			return;
-		}
-		flagged.sort((a, b) => (a[1] === "red" ? -1 : 1));
-		summaryEl.innerHTML = flagged
-			.map(([slug, sev]) => `<span class="wo-reason wo-reason--${sev}">${esc(stationName[slug] || slug)}</span>`)
-			.join("");
+	// Compact tally in the sidebar head: how many reds / yellows / unset.
+	function renderTally(selections) {
+		if (!tallyEl) return;
+		const vals = Object.values(selections);
+		const red = vals.filter((v) => v === "red").length;
+		const yellow = vals.filter((v) => v === "yellow").length;
+		const green = vals.filter((v) => v === "green").length;
+		const total = stationMeta.length || 10;
+		tallyEl.innerHTML =
+			`<span class="tally tally--red">${red} red</span>` +
+			`<span class="tally tally--yellow">${yellow} yellow</span>` +
+			`<span class="tally tally--rest">${total - red - yellow - green} unset</span>`;
 	}
 
 	// Reflect flagged stations onto the browse list so the whole page responds.
@@ -221,7 +219,7 @@
 	function update(fromUser) {
 		const selections = currentSelections();
 		saveProfile(selections);
-		renderSummary(selections);
+		renderTally(selections);
 		reflectOnBrowse(selections);
 		const { items, flagged } = rank(selections);
 
@@ -251,14 +249,6 @@
 			form.reset();
 			saveProfile({});
 			update(false);
-		});
-	}
-	if (toggleBtn && grid) {
-		toggleBtn.addEventListener("click", () => {
-			const expanded = toggleBtn.getAttribute("aria-expanded") === "true";
-			toggleBtn.setAttribute("aria-expanded", String(!expanded));
-			grid.hidden = expanded;
-			toggleBtn.textContent = expanded ? "Edit lights" : "Collapse";
 		});
 	}
 	restore(loadProfile());
