@@ -29,11 +29,15 @@ permalink: /stations/
 				<div>
 					<h2 class="diagnose__title" id="diagnose-h">Set your check-engine lights</h2>
 					<p class="diagnose__hint">Mark the stations where your system needs work. <strong>Red</strong> = broken, <strong>Yellow</strong> = watch. We rank the reds first. Your selections are saved on this device.</p>
+					<p class="diagnose__summary" id="diagnose-summary" aria-live="polite"></p>
 				</div>
-				<button type="button" class="diagnose__reset" id="diagnose-reset">Reset</button>
+				<div class="diagnose__actions">
+					<button type="button" class="diagnose__toggle" id="diagnose-toggle" aria-expanded="true" aria-controls="diagnose-grid">Collapse</button>
+					<button type="button" class="diagnose__reset" id="diagnose-reset">Reset</button>
+				</div>
 			</div>
 
-			<div class="diagnose__grid">
+			<div class="diagnose__grid" id="diagnose-grid">
 				{% for station in stations.stations %}
 				<fieldset class="diagnose-station" data-station="{{ station.slug }}">
 					<legend class="diagnose-station__legend">

@@ -88,6 +88,9 @@
 	const list = document.getElementById("work-order-list");
 	const lead = document.getElementById("work-order-lead");
 	const resetBtn = document.getElementById("diagnose-reset");
+	const toggleBtn = document.getElementById("diagnose-toggle");
+	const grid = document.getElementById("diagnose-grid");
+	const summaryEl = document.getElementById("diagnose-summary");
 	if (!form || !out || !list) return;
 
 	const STORE_KEY = "ds-inspection-profile";
@@ -181,14 +184,52 @@
 		</ed-card>`;
 	}
 
-	function update() {
+	// Live readout of what's set, shown in the panel head.
+	function renderSummary(selections) {
+		if (!summaryEl) return;
+		const flagged = Object.entries(selections).filter(([, v]) => v === "red" || v === "yellow");
+		if (!flagged.length) {
+			summaryEl.innerHTML = '<span class="diagnose-summary__empty">No lights set yet.</span>';
+			return;
+		}
+		flagged.sort((a, b) => (a[1] === "red" ? -1 : 1));
+		summaryEl.innerHTML = flagged
+			.map(([slug, sev]) => `<span class="wo-reason wo-reason--${sev}">${esc(stationName[slug] || slug)}</span>`)
+			.join("");
+	}
+
+	// Reflect flagged stations onto the browse list so the whole page responds.
+	function reflectOnBrowse(selections) {
+		document.querySelectorAll(".station__flag").forEach((el) => el.remove());
+		document.querySelectorAll(".station").forEach((s) => s.classList.remove("is-flagged-red", "is-flagged-yellow"));
+		for (const [slug, sev] of Object.entries(selections)) {
+			if (sev !== "red" && sev !== "yellow") continue;
+			const sec = document.getElementById("station-" + slug);
+			if (!sec) continue;
+			sec.classList.add("is-flagged-" + sev);
+			const head = sec.querySelector(".station__head");
+			if (head) {
+				const flag = document.createElement("span");
+				flag.className = "station__flag station__flag--" + sev;
+				flag.textContent = sev === "red" ? "You marked this red" : "You marked this yellow";
+				head.appendChild(flag);
+			}
+		}
+	}
+
+	let prevHidden = true;
+	function update(fromUser) {
 		const selections = currentSelections();
 		saveProfile(selections);
+		renderSummary(selections);
+		reflectOnBrowse(selections);
 		const { items, flagged } = rank(selections);
 
-		if (!flagged.length) {
+		const nowHidden = !flagged.length;
+		if (nowHidden) {
 			out.hidden = true;
 			list.innerHTML = "";
+			prevHidden = true;
 			return;
 		}
 		out.hidden = false;
@@ -198,18 +239,28 @@
 			? `${items.length} recommended resource${items.length === 1 ? "" : "s"} for your ${reds} red and ${yellows} yellow station${reds + yellows === 1 ? "" : "s"}, reds first.`
 			: `No classified resources match your flagged stations yet — a content gap worth filling.`;
 		list.innerHTML = items.map(card).join("");
-		out.setAttribute("aria-busy", "false");
+		// When the work order first appears after a user action, bring it into view.
+		if (fromUser && prevHidden) out.scrollIntoView({ behavior: "smooth", block: "start" });
+		prevHidden = false;
 	}
 
 	// --- wire up -------------------------------------------------------------
-	form.addEventListener("change", update);
+	form.addEventListener("change", () => update(true));
 	if (resetBtn) {
 		resetBtn.addEventListener("click", () => {
 			form.reset();
 			saveProfile({});
-			update();
+			update(false);
+		});
+	}
+	if (toggleBtn && grid) {
+		toggleBtn.addEventListener("click", () => {
+			const expanded = toggleBtn.getAttribute("aria-expanded") === "true";
+			toggleBtn.setAttribute("aria-expanded", String(!expanded));
+			grid.hidden = expanded;
+			toggleBtn.textContent = expanded ? "Edit lights" : "Collapse";
 		});
 	}
 	restore(loadProfile());
-	update();
+	update(false);
 })();

@@ -1559,6 +1559,67 @@ hr {
   font-size: 1.7rem;
 }
 
+.diagnose__actions {
+  display: flex;
+  gap: 0.5rem;
+  flex: none;
+}
+
+.diagnose__toggle {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--ed-theme-color-border-default, #d0d0d0);
+  border-radius: var(--ed-theme-border-radius-sm, 4px);
+  background: transparent;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.diagnose__toggle:hover {
+  background: var(--ed-theme-color-surface-default, #fff);
+}
+
+.diagnose__summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.6rem 0 0;
+  font-size: 0.85rem;
+}
+
+.diagnose-summary__empty {
+  opacity: 0.6;
+}
+
+.station.is-flagged-red {
+  border-inline-start: 4px solid #e5484d;
+  padding-inline-start: var(--ed-theme-space-md, 1rem);
+}
+
+.station.is-flagged-yellow {
+  border-inline-start: 4px solid #e0a020;
+  padding-inline-start: var(--ed-theme-space-md, 1rem);
+}
+
+.station__flag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.station__flag--red {
+  background: #e5484d;
+  color: #fff;
+}
+
+.station__flag--yellow {
+  background: #e0a020;
+  color: #1a1a1a;
+}
+
 .resource-tags {
   display: flex;
   flex-wrap: wrap;
