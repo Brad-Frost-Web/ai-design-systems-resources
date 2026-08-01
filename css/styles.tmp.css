@@ -1689,11 +1689,9 @@ hr {
   margin-block-start: var(--ed-theme-space-xl, 2.5rem);
 }
 
-.browse-all__summary {
-  font-size: 1.2rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding-block: 0.5rem;
+.stations-browse-h {
+  margin: 0 0 var(--ed-theme-space-lg, 1.5rem);
+  font-size: 1.7rem;
 }
 
 .station-quality {

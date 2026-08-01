@@ -53,9 +53,9 @@ permalink: /stations/
 			<div class="work-order__list" id="work-order-list"></div>
 		</section>
 
-		{# ---------- Browse-all (secondary, collapsed) ---------- #}
-		<details class="browse-all" id="browse-all">
-			<summary class="browse-all__summary">Browse every station</summary>
+		{# ---------- All stations (always visible) ---------- #}
+		<section class="browse-all" id="browse-all" aria-label="All stations">
+			<h2 class="stations-browse-h">Browse every station</h2>
 			{% for quality in stations.byQuality %}
 			<section class="station-quality" aria-labelledby="quality-{{ quality.slug }}">
 				<h3 class="station-quality__name" id="quality-{{ quality.slug }}">
@@ -89,13 +89,13 @@ permalink: /stations/
 						{% endfor %}
 					</ed-grid>
 					{% else %}
-					<p class="station__empty">No resources classified for this station yet.</p>
+					<p class="station__empty">Currently no recommendations for this station.</p>
 					{% endif %}
 				</section>
 				{% endfor %}
 			</section>
 			{% endfor %}
-		</details>
+		</section>
 	</ed-layout-container>
 
 	{# ---------- Wizard dialog ---------- #}
