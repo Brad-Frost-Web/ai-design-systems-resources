@@ -81,8 +81,6 @@
 }
 
 .inspection-start {
-	max-inline-size: 60ch;
-	margin-inline: auto;
 	padding: var(--ed-theme-space-2xl, 3rem) var(--ed-theme-space-xl, 2rem);
 	text-align: center;
 	border: 1px dashed var(--ed-theme-color-border-default, #d0d0d0);
@@ -91,8 +89,21 @@
 }
 .inspection-start p { margin: 0.75rem 0; }
 .inspection-start__title { margin: 0 0 0.5rem; font-size: 2rem; }
-.inspection-start__lead { max-inline-size: 48ch; margin-inline: auto; }
+.inspection-start__lead { max-inline-size: 52ch; margin-inline: auto; }
+.inspection-start__actions {
+	display: flex;
+	gap: 0.75rem;
+	justify-content: center;
+	flex-wrap: wrap;
+	margin-block: var(--ed-theme-space-md, 1rem);
+}
 .inspection-start__note { font-size: 0.85rem; opacity: 0.7; }
+
+// Secondary link-out button (to the ds-inspection kit repo).
+.btn--link {
+	border-color: var(--ed-theme-color-border-strong, #333);
+	font-weight: 600;
+}
 
 // --- Wizard dialog ---------------------------------------------------------
 

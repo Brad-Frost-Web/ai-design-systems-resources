@@ -40,9 +40,11 @@ permalink: /stations/
 		<div class="inspection-start" id="inspection-start">
 			<h2 class="inspection-start__title" id="start-title">Start your inspection</h2>
 			<p class="inspection-start__lead">Set your ten check-engine lights by hand, or paste a report from the
-				<a href="https://github.com/Brad-Frost-Web/ai-design-systems-inspection-kit"><code>ds-inspection</code> agent</a>
-				and we'll set them for you. You'll get a prioritized work order of resources.</p>
-			<button type="button" class="btn btn--primary btn--lg" id="start-btn">Start inspection</button>
+				<code>ds-inspection</code> agent and we'll set them for you. You'll get a prioritized work order of resources.</p>
+			<div class="inspection-start__actions">
+				<button type="button" class="btn btn--primary btn--lg" id="start-btn">Start inspection</button>
+				<a class="btn btn--lg btn--link" href="https://github.com/Brad-Frost-Web/ai-design-systems-inspection-kit" target="_blank" rel="noopener">Get the ds-inspection kit&nbsp;↗</a>
+			</div>
 			<p class="inspection-start__note">{{ taggedCount }} of {{ resources.length }} resources classified so far — recommendations draw from the classified set.</p>
 		</div>
 

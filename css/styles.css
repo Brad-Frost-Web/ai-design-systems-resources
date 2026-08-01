@@ -1817,8 +1817,6 @@ hr {
   line-height: 1.5;
 }
 .inspection-start {
-  max-inline-size: 60ch;
-  margin-inline: auto;
   padding: var(--ed-theme-space-2xl, 3rem) var(--ed-theme-space-xl, 2rem);
   text-align: center;
   border: 1px dashed var(--ed-theme-color-border-default, #d0d0d0);
@@ -1833,12 +1831,23 @@ hr {
   font-size: 2rem;
 }
 .inspection-start__lead {
-  max-inline-size: 48ch;
+  max-inline-size: 52ch;
   margin-inline: auto;
+}
+.inspection-start__actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-block: var(--ed-theme-space-md, 1rem);
 }
 .inspection-start__note {
   font-size: 0.85rem;
   opacity: 0.7;
+}
+.btn--link {
+  border-color: var(--ed-theme-color-border-strong, #333);
+  font-weight: 600;
 }
 .wizard {
   inline-size: min(46rem, 94vw);
