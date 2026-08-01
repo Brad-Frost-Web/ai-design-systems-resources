@@ -23,6 +23,14 @@
  *
  * Matching key: a page and a file are "the same resource" if they share a
  * notionId, or (failing that) the same URL. URL is unique in the database.
+ *
+ * Station classification: `npm run sync` runs this, then `classify-stations.js`.
+ * The classifier only touches files without a `stations:` field, so new
+ * resources get auto-classified while existing ones are left untouched. Note:
+ * `toMarkdown()` below regenerates Notion-*originated* files and does not emit a
+ * `stations:` field — for those, the classifier re-adds it on the same run. All
+ * current resources are Slack-sourced (they carry `source:`) and are never
+ * regenerated here, so their classification is stable.
  */
 
 const { Client } = require("@notionhq/client");

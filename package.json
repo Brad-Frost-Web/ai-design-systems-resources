@@ -10,7 +10,8 @@
 		"build": "npm run build:css && npm run build:eleventy",
 		"build:css": "sass --load-path=node_modules css/styles.scss css/styles.tmp.css && postcss css/styles.tmp.css -o css/styles.css",
 		"build:eleventy": "ELEVENTY_ENV=production npx @11ty/eleventy",
-		"sync": "node scripts/sync-notion.js",
+		"sync": "node scripts/sync-notion.js && npm run classify",
+		"classify": "node scripts/classify-stations.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
