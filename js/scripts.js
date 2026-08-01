@@ -265,23 +265,34 @@
 		}
 	}
 
+	function updateStartPanel(configured) {
+		const title = document.getElementById("start-title");
+		const btn = document.getElementById("start-btn");
+		if (configured) {
+			if (title) title.textContent = "No lights flagged yet";
+			if (btn) btn.textContent = "Edit inspection";
+		} else {
+			if (title) title.textContent = "Start your inspection";
+			if (btn) btn.textContent = "Start inspection";
+		}
+	}
+
 	function render(profile) {
 		const configured = Object.keys(profile).length > 0;
-		if (startPanel) startPanel.hidden = configured;
-		if (bar) bar.hidden = !configured;
+		const { items, flagged } = rank(profile);
+		// "Actionable" = at least one red/yellow to prescribe against. Only then do
+		// we show the compact bar + work order; otherwise the prominent CTA panel.
+		const actionable = flagged.length > 0;
 
 		reflectOnBrowse(profile);
 		renderBar(profile);
+		updateStartPanel(configured);
 
-		const { items, flagged } = rank(profile);
-		if (!configured) { out.hidden = true; list.innerHTML = ""; return; }
+		if (startPanel) startPanel.hidden = actionable;
+		if (bar) bar.hidden = !actionable;
+		out.hidden = !actionable;
+		if (!actionable) { list.innerHTML = ""; return; }
 
-		out.hidden = false;
-		if (!flagged.length) {
-			lead.textContent = "No red or yellow lights — nothing to prescribe. Green across the board (or all unset).";
-			list.innerHTML = "";
-			return;
-		}
 		const reds = flagged.filter(([, v]) => v === "red").length;
 		const yellows = flagged.filter(([, v]) => v === "yellow").length;
 		lead.textContent = items.length

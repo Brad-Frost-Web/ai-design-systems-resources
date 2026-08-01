@@ -1828,6 +1828,14 @@ hr {
 .inspection-start p {
   margin: 0.75rem 0;
 }
+.inspection-start__title {
+  margin: 0 0 0.5rem;
+  font-size: 2rem;
+}
+.inspection-start__lead {
+  max-inline-size: 48ch;
+  margin-inline: auto;
+}
 .inspection-start__note {
   font-size: 0.85rem;
   opacity: 0.7;
