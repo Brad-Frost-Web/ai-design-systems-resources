@@ -8,106 +8,153 @@ permalink: /stations/
 		<p style="font-size: 1.6rem; margin: 0.5rem 0 0;">Find resources by the design-system problem they solve</p>
 	</ed-r-course-hero>
 
+	{# ---------- Sticky status bar (shown once configured) ---------- #}
+	<div class="inspection-bar" id="inspection-bar" hidden>
+		<ed-layout-container>
+			<div class="inspection-bar__inner">
+				<div class="inspection-bar__status">
+					<span class="inspection-bar__label">Check-engine:</span>
+					<span class="inspection-bar__tally" id="bar-tally"></span>
+					<span class="inspection-bar__chips" id="bar-chips"></span>
+				</div>
+				<div class="inspection-bar__actions">
+					<button type="button" class="btn" id="bar-edit">Edit inspection</button>
+					<button type="button" class="btn btn--bare" id="bar-clear">Clear</button>
+				</div>
+			</div>
+		</ed-layout-container>
+	</div>
+
 	<ed-layout-container class="ed-u-padding-top-xl">
 		<p class="stations-intro">
 			The <a href="https://github.com/Brad-Frost-Web/ai-design-systems-inspection-kit">Multi-Point Inspection</a>
 			from the <a href="https://aianddesign.systems">AI &amp; Design Systems course</a> checks a design system across
 			<strong>{{ stations.qualities.length }} qualities</strong> and <strong>{{ stations.stations.length }} stations</strong>.
-			Set your check-engine lights in the sidebar to get a prioritized work order.
+			Set your check-engine lights, and we'll hand back the resources that turn them off.
 		</p>
 
 		{% set taggedCount = 0 %}
 		{% for r in resources %}{% if r.stations.length %}{% set taggedCount = taggedCount + 1 %}{% endif %}{% endfor %}
-		<ed-alert variant="info" class="stations-sample-note">
-			<strong>Sample stage:</strong> {{ taggedCount }} of {{ resources.length }} resources are classified so far.
-			Recommendations draw only from the classified set for now.
-		</ed-alert>
 
-		<ed-layout variant="left-sidebar" gap="xl" class="stations-layout">
-			{# ---------- Sidebar: sticky check-engine control ---------- #}
-			<ed-layout-section behavior="sticky" top="1.5rem">
-				<form class="diagnose-panel" id="diagnose" aria-labelledby="diagnose-h">
-					<div class="diagnose-panel__head">
-						<h2 class="diagnose-panel__title" id="diagnose-h">Check-engine lights</h2>
-						<button type="button" class="diagnose__reset" id="diagnose-reset">Reset</button>
+		{# ---------- Empty state / start (shown when not configured) ---------- #}
+		<div class="inspection-start" id="inspection-start">
+			<ed-heading variant="title-md" tagName="h2">Start your inspection</ed-heading>
+			<p>Set your ten check-engine lights by hand, or paste a report from the
+				<a href="https://github.com/Brad-Frost-Web/ai-design-systems-inspection-kit"><code>ds-inspection</code> agent</a>
+				and we'll set them for you. You'll get a prioritized work order of resources.</p>
+			<button type="button" class="btn btn--primary btn--lg" id="start-btn">Start inspection</button>
+			<p class="inspection-start__note">{{ taggedCount }} of {{ resources.length }} resources classified so far — recommendations draw from the classified set.</p>
+		</div>
+
+		{# ---------- Work order (the filtered content, shown once configured) ---------- #}
+		<section class="work-order" id="work-order" aria-labelledby="work-order-h" hidden>
+			<h2 class="work-order__title" id="work-order-h">Your work order</h2>
+			<p class="work-order__lead" id="work-order-lead"></p>
+			<div class="work-order__list" id="work-order-list"></div>
+		</section>
+
+		{# ---------- Browse-all (secondary, collapsed) ---------- #}
+		<details class="browse-all" id="browse-all">
+			<summary class="browse-all__summary">Browse every station</summary>
+			{% for quality in stations.byQuality %}
+			<section class="station-quality" aria-labelledby="quality-{{ quality.slug }}">
+				<h3 class="station-quality__name" id="quality-{{ quality.slug }}">
+					<span class="station-quality__num">Quality {{ quality.id }}</span>
+					{{ quality.name }}
+				</h3>
+				<p class="station-quality__question">{{ quality.question }}</p>
+
+				{% for station in quality.stations %}
+				{% set matches = [] %}
+				{% for r in resources %}
+					{% if station.slug in r.stations %}{% set matches = (matches.push(r), matches) %}{% endif %}
+				{% endfor %}
+
+				<section class="station" id="station-{{ station.slug }}" aria-labelledby="station-{{ station.slug }}-h">
+					<div class="station__head">
+						<h4 class="station__name" id="station-{{ station.slug }}-h">
+							<span class="station__num">Station {{ station.id }}</span>
+							{{ station.name }}
+						</h4>
+						<ed-badge text="{{ matches.length }} resource{% if matches.length != 1 %}s{% endif %}"></ed-badge>
 					</div>
-					<p class="diagnose-panel__hint">Mark where your system needs work. We rank reds first.</p>
-					<p class="diagnose-tally" id="diagnose-tally" aria-live="polite"></p>
+					<p class="station__question">{{ station.question }}</p>
 
-					<div class="diagnose-rows">
-						{% for station in stations.stations %}
-						<fieldset class="diag-row" data-station="{{ station.slug }}">
-							<legend class="diag-row__name">
-								<span class="diag-row__num">{{ station.id }}</span>{{ station.name }}
-							</legend>
-							<div class="rating rating--compact" role="radiogroup" aria-label="{{ station.name }} status">
-								<label class="rating__opt rating__opt--green" title="Green — healthy">
-									<input type="radio" name="s-{{ station.slug }}" value="green"> <span>Green</span>
-								</label>
-								<label class="rating__opt rating__opt--yellow" title="Yellow — watch">
-									<input type="radio" name="s-{{ station.slug }}" value="yellow"> <span>Yellow</span>
-								</label>
-								<label class="rating__opt rating__opt--red" title="Red — broken">
-									<input type="radio" name="s-{{ station.slug }}" value="red"> <span>Red</span>
-								</label>
-							</div>
-						</fieldset>
+					{% if matches.length %}
+					<ed-grid variant="3up">
+						{% for resource in matches %}
+						<ed-grid-item class="resource-grid-item">
+							{% include "resource-card.njk" %}
+						</ed-grid-item>
 						{% endfor %}
-					</div>
-				</form>
-			</ed-layout-section>
-
-			{# ---------- Main column: work order + browse ---------- #}
-			<ed-layout-section>
-				<section class="work-order" id="work-order" aria-labelledby="work-order-h" hidden>
-					<h2 class="work-order__title" id="work-order-h">Your work order</h2>
-					<p class="work-order__lead" id="work-order-lead"></p>
-					<div class="work-order__list" id="work-order-list"></div>
-				</section>
-
-				<h2 class="stations-browse-h">Browse every station</h2>
-				{% for quality in stations.byQuality %}
-				<section class="station-quality" aria-labelledby="quality-{{ quality.slug }}">
-					<h3 class="station-quality__name" id="quality-{{ quality.slug }}">
-						<span class="station-quality__num">Quality {{ quality.id }}</span>
-						{{ quality.name }}
-					</h3>
-					<p class="station-quality__question">{{ quality.question }}</p>
-
-					{% for station in quality.stations %}
-					{% set matches = [] %}
-					{% for r in resources %}
-						{% if station.slug in r.stations %}{% set matches = (matches.push(r), matches) %}{% endif %}
-					{% endfor %}
-
-					<section class="station" id="station-{{ station.slug }}" aria-labelledby="station-{{ station.slug }}-h">
-						<div class="station__head">
-							<h4 class="station__name" id="station-{{ station.slug }}-h">
-								<span class="station__num">Station {{ station.id }}</span>
-								{{ station.name }}
-							</h4>
-							<ed-badge text="{{ matches.length }} resource{% if matches.length != 1 %}s{% endif %}"></ed-badge>
-						</div>
-						<p class="station__question">{{ station.question }}</p>
-
-						{% if matches.length %}
-						<ed-grid variant="2up">
-							{% for resource in matches %}
-							<ed-grid-item class="resource-grid-item">
-								{% include "resource-card.njk" %}
-							</ed-grid-item>
-							{% endfor %}
-						</ed-grid>
-						{% else %}
-						<p class="station__empty">No resources classified for this station yet.</p>
-						{% endif %}
-					</section>
-					{% endfor %}
+					</ed-grid>
+					{% else %}
+					<p class="station__empty">No resources classified for this station yet.</p>
+					{% endif %}
 				</section>
 				{% endfor %}
-			</ed-layout-section>
-		</ed-layout>
+			</section>
+			{% endfor %}
+		</details>
 	</ed-layout-container>
+
+	{# ---------- Wizard dialog ---------- #}
+	<dialog class="wizard" id="wizard" aria-labelledby="wizard-h">
+		<form class="wizard__form" id="diagnose">
+			<header class="wizard__head">
+				<h2 class="wizard__title" id="wizard-h">Set your check-engine lights</h2>
+				<button type="button" class="wizard__close" id="wizard-close" aria-label="Close">&times;</button>
+			</header>
+
+			<div class="wizard__modes" role="tablist" aria-label="How to set your lights">
+				<button type="button" class="wizard__mode is-active" id="mode-manual" role="tab" aria-selected="true">Set manually</button>
+				<button type="button" class="wizard__mode" id="mode-paste" role="tab" aria-selected="false">Paste inspection report</button>
+			</div>
+
+			{# Manual panel #}
+			<div class="wizard__panel" id="panel-manual">
+				{% for quality in stations.byQuality %}
+				<fieldset class="wizard-quality">
+					<legend class="wizard-quality__legend">Q{{ quality.id }} · {{ quality.name }}</legend>
+					{% for station in quality.stations %}
+					<div class="diag-row" data-station="{{ station.slug }}">
+						<span class="diag-row__name"><span class="diag-row__num">{{ station.id }}</span>{{ station.name }}</span>
+						<div class="rating rating--compact" role="radiogroup" aria-label="{{ station.name }} status">
+							<label class="rating__opt rating__opt--green" title="Green — healthy">
+								<input type="radio" name="s-{{ station.slug }}" value="green"> <span>Green</span>
+							</label>
+							<label class="rating__opt rating__opt--yellow" title="Yellow — watch">
+								<input type="radio" name="s-{{ station.slug }}" value="yellow"> <span>Yellow</span>
+							</label>
+							<label class="rating__opt rating__opt--red" title="Red — broken">
+								<input type="radio" name="s-{{ station.slug }}" value="red"> <span>Red</span>
+							</label>
+						</div>
+					</div>
+					{% endfor %}
+				</fieldset>
+				{% endfor %}
+			</div>
+
+			{# Paste panel #}
+			<div class="wizard__panel" id="panel-paste" hidden>
+				<p class="wizard__paste-intro">
+					Run the <a href="https://github.com/Brad-Frost-Web/ai-design-systems-inspection-kit"><code>ds-inspection</code></a>
+					skill in your design system, then paste its report below — we'll read the inspection sheet and set every light for you.
+				</p>
+				<textarea class="wizard__textarea" id="report-input" rows="9" placeholder="Paste your Multi-Point Inspection report (the whole thing is fine — we'll find the inspection sheet)…"></textarea>
+				<div class="wizard__paste-actions">
+					<button type="button" class="btn" id="parse-report">Read report</button>
+					<span class="wizard__parse-msg" id="parse-msg" aria-live="polite"></span>
+				</div>
+			</div>
+
+			<footer class="wizard__foot">
+				<button type="button" class="btn btn--bare" id="wizard-cancel">Cancel</button>
+				<button type="button" class="btn btn--primary" id="wizard-confirm">Confirm &amp; see resources</button>
+			</footer>
+		</form>
+	</dialog>
 </ed-main>
 
 {# Data island: classified resources for the client-side recommender. #}
