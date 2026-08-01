@@ -1,0 +1,25 @@
+---
+layout: base.njk
+permalink: /timeline/
+---
+<ed-main>
+	<ed-r-course-hero compact>
+		<ed-heading tagName="h1">TIMELINE</ed-heading>
+		<p style="font-size: 1.6rem; margin: 0.5rem 0 0;">How the AI &amp; design-systems space has unfolded</p>
+	</ed-r-course-hero>
+
+	<ed-layout-container class="ed-u-padding-top-xl">
+		<p class="timeline-intro">
+			The most recent activity first — each day branches into everything shared that day.
+			Scroll down to travel back in time.
+		</p>
+
+		<div class="gt" id="gt">
+			<ol class="gt-list" id="gt-list"></ol>
+			<div class="gt-sentinel" id="gt-sentinel" hidden></div>
+			<button type="button" class="btn gt-more" id="gt-more" hidden>Show older</button>
+		</div>
+	</ed-layout-container>
+</ed-main>
+
+<script type="application/json" id="timeline-data">{{ timeline | dump | safe }}</script>

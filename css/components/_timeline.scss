@@ -1,0 +1,154 @@
+// Vertical "git-graph" timeline (/timeline/, issue #5). A left rail with a node
+// per day; the day's resources branch off underneath it. Uses Eddie tokens.
+
+.timeline-intro {
+	max-inline-size: 68ch;
+	margin-block-end: var(--ed-theme-space-xl, 2.5rem);
+	font-size: 1.1rem;
+	line-height: 1.5;
+}
+
+$rail: 1.75rem; // x-position of the main rail line
+
+.gt-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+
+// The continuous main rail line.
+.gt-list::before {
+	content: "";
+	position: absolute;
+	inset-block: 0.4rem 0;
+	inset-inline-start: $rail;
+	inline-size: 2px;
+	background: var(--ed-theme-color-border-default, #d0d0d0);
+}
+
+// --- Month milestone ------------------------------------------------------
+.gt-month {
+	position: relative;
+	padding-inline-start: calc(#{$rail} + 1.5rem);
+	padding-block-start: var(--ed-theme-space-xl, 2.5rem);
+	margin-block-end: var(--ed-theme-space-md, 1rem);
+}
+.gt-list > .gt-month:first-child { padding-block-start: 0.4rem; }
+.gt-month__label { margin: 0; font-size: 1.8rem; }
+.gt-month__marker {
+	position: absolute;
+	inset-inline-start: calc(#{$rail} - 0.62rem);
+	inset-block-start: calc(var(--ed-theme-space-xl, 2.5rem) + 0.2rem);
+	inline-size: 1.3rem;
+	block-size: 1.3rem;
+	border-radius: 50%;
+	background: var(--ed-theme-color-action-default, #1a1a1a);
+	border: 3px solid var(--ed-theme-color-surface-default, #fefce8);
+	box-shadow: 0 0 0 3px var(--ed-theme-color-action-default, #1a1a1a);
+}
+.gt-list > .gt-month:first-child .gt-month__marker { inset-block-start: 0.6rem; }
+
+// --- Day node -------------------------------------------------------------
+.gt-day { position: relative; padding-block-end: var(--ed-theme-space-lg, 1.5rem); }
+
+.gt-day__head {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	min-block-size: 1.75rem;
+	padding-inline-start: calc(#{$rail} + 1.25rem);
+	margin-block-end: 0.35rem;
+}
+
+.gt-day__dot {
+	position: absolute;
+	inset-inline-start: calc(#{$rail} - 0.44rem);
+	inline-size: 1rem;
+	block-size: 1rem;
+	border-radius: 50%;
+	background: var(--ed-theme-color-action-default, #1a1a1a);
+	border: 3px solid var(--ed-theme-color-surface-default, #fefce8);
+	box-shadow: 0 0 0 1px var(--ed-theme-color-border-default, #d0d0d0);
+}
+
+.gt-day__date { margin: 0; font-size: 1.25rem; }
+.gt-day__count {
+	font-size: 0.72rem;
+	font-weight: 700;
+	padding: 0.05rem 0.5rem;
+	border-radius: 999px;
+	background: var(--ed-theme-color-surface-sunken, #ececec);
+	opacity: 0.8;
+}
+
+// --- Items branching off the day -----------------------------------------
+.gt-items {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+$branch: 1.4rem;     // curve size (both the horizontal reach and the radius)
+$node-top: 1.85rem;  // vertical centre of the branch node — aligned to the title's first line
+
+.gt-item {
+	position: relative;
+	padding-inline-start: calc(#{$rail} + #{$branch} + 0.15rem);
+	padding-block: 0.55rem;
+}
+
+// A clean quarter-circle branch: vertical where it leaves the rail (top),
+// horizontal where it meets the node (right). Radius == box size == $branch.
+.gt-item::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: $rail;
+	inset-block-start: calc(#{$node-top} - #{$branch});
+	inline-size: $branch;
+	block-size: $branch;
+	border-inline-start: 2px solid var(--ed-theme-color-border-default, #d0d0d0);
+	border-block-end: 2px solid var(--ed-theme-color-border-default, #d0d0d0);
+	border-end-start-radius: $branch;
+}
+// The node where the branch meets the card / title.
+.gt-item::after {
+	content: "";
+	position: absolute;
+	inset-inline-start: calc(#{$rail} + #{$branch} - 0.31rem);
+	inset-block-start: calc(#{$node-top} - 0.31rem);
+	inline-size: 0.62rem;
+	block-size: 0.62rem;
+	border-radius: 50%;
+	background: var(--ed-theme-color-surface-default, #fefce8);
+	border: 2px solid var(--ed-theme-color-action-default, #1a1a1a);
+}
+
+// Match the resource cards: border + padding, page background, DS components.
+.gt-card {
+	padding: 0.9rem 1.15rem;
+	border: 1px solid var(--ed-theme-color-border-default, #d0d0d0);
+	border-radius: var(--ed-theme-border-radius-md, 8px);
+	background: transparent;
+	transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.gt-card:hover {
+	border-color: var(--ed-theme-color-border-strong, #333);
+	background: var(--ed-theme-color-surface-default, #fffdf3);
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+	transform: translateY(-1px);
+}
+.gt-card ed-text-passage { display: block; margin-block-start: 0.35rem; }
+.gt-card .resource-tags { margin-block-start: 0.5rem; }
+
+.gt-more {
+	margin-block-start: var(--ed-theme-space-md, 1rem);
+	margin-inline-start: calc(#{$rail} + 1.25rem);
+	padding: 0.45rem 1rem;
+	border: 1px solid var(--ed-theme-color-border-default, #d0d0d0);
+	border-radius: var(--ed-theme-border-radius-sm, 4px);
+	background: var(--ed-theme-color-surface-default, #fff);
+	font: inherit;
+	cursor: pointer;
+}
+.gt-sentinel { block-size: 1px; }

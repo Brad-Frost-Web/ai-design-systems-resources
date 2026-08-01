@@ -11,6 +11,6 @@ module.exports = {
 		{ text: "Resources", url: "/" },
 		{ text: "Links", placeholder: true },
 		{ text: "Glossary", url: "/glossary/" },
-		{ text: "Timeline", placeholder: true },
+		{ text: "Timeline", url: "/timeline/" },
 	],
 };
