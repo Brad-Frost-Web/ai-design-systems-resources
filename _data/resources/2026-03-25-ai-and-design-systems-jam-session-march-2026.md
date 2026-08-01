@@ -10,4 +10,6 @@ slackSentiment: "excited"
 tags:
   - "course|yellow"
   - "community|default"
+stations: []
+stationsConfidence: low
 ---

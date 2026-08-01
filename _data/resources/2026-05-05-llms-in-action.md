@@ -11,4 +11,8 @@ tags:
   - "course|yellow"
   - "claude|default"
   - "figma|brown"
+stations:
+  - agent-access
+  - orchestration
+stationsConfidence: high
 ---

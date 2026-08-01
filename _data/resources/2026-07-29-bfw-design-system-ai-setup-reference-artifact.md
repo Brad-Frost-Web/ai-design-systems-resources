@@ -9,4 +9,7 @@ slackSentiment: "useful"
 tags:
   - "claude|default"
   - "course|yellow"
+stations:
+  - agent-access
+stationsConfidence: high
 ---

@@ -12,4 +12,8 @@ tags:
   - "a2ui|yellow"
   - "mcp|purple"
   - "concepts|default"
+stations:
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

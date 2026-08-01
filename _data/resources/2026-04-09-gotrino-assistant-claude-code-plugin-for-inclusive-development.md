@@ -11,4 +11,7 @@ tags:
   - "claude|default"
   - "tools|teal"
   - "community|default"
+stations:
+  - agent-access
+stationsConfidence: high
 ---

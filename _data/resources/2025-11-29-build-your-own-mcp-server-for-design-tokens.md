@@ -9,4 +9,9 @@ tags:
   - "mcp|purple"
   - "claude|gray"
 source: "course"
+stations:
+  - orchestration
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

@@ -11,4 +11,9 @@ tags:
   - "community|default"
   - "documentation|green"
   - "course|yellow"
+stations:
+  - machine-readable-docs
+  - testing-validation
+  - agent-access
+stationsConfidence: high
 ---

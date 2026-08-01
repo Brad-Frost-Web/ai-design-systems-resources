@@ -10,4 +10,8 @@ slackSentiment: "excited"
 tags:
   - "documentation|green"
   - "concepts|default"
+stations:
+  - machine-readable-docs
+  - testing-validation
+stationsConfidence: high
 ---

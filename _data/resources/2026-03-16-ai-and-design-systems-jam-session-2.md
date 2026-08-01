@@ -10,4 +10,8 @@ slackSentiment: "excited"
 tags:
   - "video|red"
   - "course|yellow"
+stations:
+  - orchestration
+  - agent-access
+stationsConfidence: medium
 ---

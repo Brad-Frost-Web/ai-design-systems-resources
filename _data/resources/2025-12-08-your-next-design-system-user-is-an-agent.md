@@ -9,4 +9,8 @@ tags:
   - "context engineering|purple"
   - "process|green"
 source: "course"
+stations:
+  - machine-readable-docs
+  - governance-version-control
+stationsConfidence: high
 ---

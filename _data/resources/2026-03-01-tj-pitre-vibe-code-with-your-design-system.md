@@ -12,4 +12,9 @@ tags:
   - "ai-coding|pink"
   - "mcp|purple"
   - "workflow|default"
+stations:
+  - agent-access
+  - machine-readable-docs
+  - orchestration
+stationsConfidence: high
 ---

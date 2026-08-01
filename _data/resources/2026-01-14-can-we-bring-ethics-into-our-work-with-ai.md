@@ -11,4 +11,7 @@ slackSentiment: "discussion"
 tags:
   - "ethics|red"
   - "concepts|default"
+stations:
+  - agent-access
+stationsConfidence: medium
 ---

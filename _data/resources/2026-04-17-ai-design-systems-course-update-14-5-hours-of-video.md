@@ -9,4 +9,6 @@ slackSummary: "Brad Frost shared a course update newsletter announcing the AI & 
 slackSentiment: "excited"
 tags:
   - "course|yellow"
+stations: []
+stationsConfidence: low
 ---

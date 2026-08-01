@@ -9,4 +9,9 @@ tags:
   - "mcp|purple"
   - "api|yellow"
 source: "course"
+stations:
+  - agent-access
+  - machine-readable-docs
+  - shared-language
+stationsConfidence: high
 ---

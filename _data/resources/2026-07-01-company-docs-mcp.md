@@ -9,4 +9,8 @@ slackSentiment: "question"
 tags:
   - "mcp|purple"
   - "tools|teal"
+stations:
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

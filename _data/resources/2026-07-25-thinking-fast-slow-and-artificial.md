@@ -8,4 +8,6 @@ slackSummary: "Academic paper coining 'cognitive surrender' — the passive, unc
 slackSentiment: "discussion"
 tags:
   - "concepts|default"
+stations: []
+stationsConfidence: low
 ---

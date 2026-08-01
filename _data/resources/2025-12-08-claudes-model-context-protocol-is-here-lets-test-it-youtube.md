@@ -8,4 +8,8 @@ tags:
   - "ai|blue"
   - "mcp|purple"
 source: "course"
+stations:
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

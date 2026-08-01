@@ -10,4 +10,7 @@ slackSentiment: "question"
 tags:
   - "documentation|green"
   - "concepts|default"
+stations:
+  - machine-readable-docs
+stationsConfidence: high
 ---

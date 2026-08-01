@@ -10,4 +10,6 @@ slackSummary: "Brad's 2013 commentary on the WIRED 'Better Than Human' article â
 slackSentiment: "discussion"
 tags:
   - "concepts|default"
+stations: []
+stationsConfidence: low
 ---

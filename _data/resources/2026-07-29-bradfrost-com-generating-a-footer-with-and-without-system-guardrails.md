@@ -9,4 +9,7 @@ slackSentiment: "excited"
 tags:
   - "course|yellow"
   - "claude|gray"
+stations:
+  - agent-access
+stationsConfidence: high
 ---

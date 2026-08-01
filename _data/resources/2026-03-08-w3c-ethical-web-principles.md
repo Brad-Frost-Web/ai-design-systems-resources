@@ -11,4 +11,7 @@ slackSentiment: "useful"
 tags:
   - "ethics|red"
   - "standards|default"
+stations:
+  - best-practices
+stationsConfidence: high
 ---

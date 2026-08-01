@@ -10,4 +10,7 @@ slackSentiment: "discussion"
 tags:
   - "concepts|default"
   - "community|default"
+stations:
+  - feedback-adoption
+stationsConfidence: medium
 ---

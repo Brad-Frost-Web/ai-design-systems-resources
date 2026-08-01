@@ -8,4 +8,7 @@ tags:
   - "context engineering|purple"
   - "code|purple"
 source: "course"
+stations:
+  - machine-readable-docs
+stationsConfidence: high
 ---

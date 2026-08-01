@@ -10,4 +10,7 @@ slackSentiment: "discussion"
 tags:
   - "claude|default"
   - "ai-coding|pink"
+stations:
+  - agent-access
+stationsConfidence: high
 ---

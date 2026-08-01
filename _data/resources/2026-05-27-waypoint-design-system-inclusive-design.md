@@ -11,4 +11,9 @@ tags:
   - "concepts|default"
   - "documentation|green"
   - "claude|default"
+stations:
+  - machine-readable-docs
+  - agent-access
+  - accessibility
+stationsConfidence: high
 ---

@@ -9,4 +9,6 @@ slackSummary: "Brad, Ian, and TJ announced that Chapter 1 of the AI & Design Sys
 slackSentiment: "excited"
 tags:
   - "course|yellow"
+stations: []
+stationsConfidence: low
 ---

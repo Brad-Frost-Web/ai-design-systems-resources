@@ -10,4 +10,7 @@ slackSentiment: "excited"
 tags:
   - "tools|teal"
   - "ai-coding|pink"
+stations:
+  - agent-access
+stationsConfidence: high
 ---

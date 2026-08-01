@@ -10,4 +10,6 @@ slackSentiment: "excited"
 tags:
   - "course|yellow"
   - "tools|teal"
+stations: []
+stationsConfidence: low
 ---

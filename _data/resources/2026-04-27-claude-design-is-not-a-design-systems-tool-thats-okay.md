@@ -10,4 +10,7 @@ slackSentiment: "discussion"
 tags:
   - "claude|default"
   - "concepts|default"
+stations:
+  - agent-access
+stationsConfidence: high
 ---

@@ -12,4 +12,8 @@ tags:
   - "mcp|purple"
   - "documentation|green"
   - "prompting|default"
+stations:
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

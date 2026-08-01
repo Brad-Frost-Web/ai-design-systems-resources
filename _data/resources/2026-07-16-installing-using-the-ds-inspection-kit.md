@@ -8,4 +8,6 @@ slackSummary: "Brad announced that a Chapter 3 demo video — the walkthrough of
 slackSentiment: "useful"
 tags:
   - "course|yellow"
+stations: []
+stationsConfidence: low
 ---

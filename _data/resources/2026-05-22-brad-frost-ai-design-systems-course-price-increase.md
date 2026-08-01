@@ -10,4 +10,6 @@ slackSentiment: "useful"
 tags:
   - "course|yellow"
   - "community|default"
+stations: []
+stationsConfidence: low
 ---

@@ -8,4 +8,7 @@ slackSummary: "Brad Frost announced the completion of Chapter 3 of the AI & Desi
 slackSentiment: "excited"
 tags:
   - "course|yellow"
+stations:
+  - orchestration
+stationsConfidence: medium
 ---

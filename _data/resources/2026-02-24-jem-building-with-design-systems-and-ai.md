@@ -11,4 +11,8 @@ slackSentiment: "useful"
 tags:
   - "ai-coding|pink"
   - "workflow|default"
+stations:
+  - agent-access
+  - orchestration
+stationsConfidence: high
 ---

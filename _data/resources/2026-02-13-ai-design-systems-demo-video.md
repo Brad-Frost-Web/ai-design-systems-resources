@@ -11,4 +11,8 @@ slackSentiment: "useful"
 tags:
   - "course|green"
   - "workflow|default"
+stations:
+  - orchestration
+  - agent-access
+stationsConfidence: high
 ---

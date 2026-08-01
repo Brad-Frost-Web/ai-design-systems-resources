@@ -11,4 +11,7 @@ tags:
   - "video|red"
   - "ai-coding|pink"
   - "concepts|default"
+stations:
+  - agent-access
+stationsConfidence: high
 ---

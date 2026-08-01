@@ -7,4 +7,6 @@ notionId: "2e33c932-3e86-80d6-a513-f0a588d39f2a"
 tags:
   - "tool|default"
 source: "course"
+stations: []
+stationsConfidence: low
 ---

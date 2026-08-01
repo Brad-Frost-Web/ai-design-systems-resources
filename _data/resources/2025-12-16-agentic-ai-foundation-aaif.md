@@ -9,4 +9,7 @@ tags:
   - "ethics|yellow"
   - "ai|blue"
 source: "course"
+stations:
+  - feedback-adoption
+stationsConfidence: high
 ---

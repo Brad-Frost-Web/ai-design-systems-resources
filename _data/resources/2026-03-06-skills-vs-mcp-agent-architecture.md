@@ -12,4 +12,8 @@ tags:
   - "mcp|purple"
   - "ai-architecture|pink"
   - "concepts|default"
+stations:
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

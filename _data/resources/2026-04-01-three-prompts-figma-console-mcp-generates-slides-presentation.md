@@ -11,4 +11,9 @@ tags:
   - "figma|brown"
   - "mcp|purple"
   - "tokens|orange"
+stations:
+  - orchestration
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

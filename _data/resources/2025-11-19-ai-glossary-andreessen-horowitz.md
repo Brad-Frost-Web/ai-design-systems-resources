@@ -10,4 +10,7 @@ tags:
   - "terminology|pink"
   - "language|yellow"
 source: "course"
+stations:
+  - shared-language
+stationsConfidence: high
 ---

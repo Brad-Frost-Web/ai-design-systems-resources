@@ -12,4 +12,8 @@ tags:
   - "mcp|purple"
   - "tool|orange"
   - "open-source|default"
+stations:
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

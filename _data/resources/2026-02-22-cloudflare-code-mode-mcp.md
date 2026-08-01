@@ -11,4 +11,8 @@ slackSentiment: "useful"
 tags:
   - "mcp|purple"
   - "tool|orange"
+stations:
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

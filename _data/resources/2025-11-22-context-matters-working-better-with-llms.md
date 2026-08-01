@@ -11,4 +11,7 @@ slackSentiment: "useful"
 tags:
   - "prompting|default"
   - "concepts|default"
+stations:
+  - agent-access
+stationsConfidence: high
 ---

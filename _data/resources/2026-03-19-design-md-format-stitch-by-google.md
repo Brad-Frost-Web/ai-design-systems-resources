@@ -11,4 +11,9 @@ tags:
   - "documentation|green"
   - "ai-coding|pink"
   - "tools|teal"
+stations:
+  - machine-readable-docs
+  - agent-access
+  - orchestration
+stationsConfidence: high
 ---

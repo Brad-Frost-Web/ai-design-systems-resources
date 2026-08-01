@@ -7,4 +7,7 @@ notionId: "2c33c932-3e86-8122-8fb0-d00c97e9c9a3"
 tags:
   - "ai|blue"
 source: "course"
+stations:
+  - agent-access
+stationsConfidence: medium
 ---

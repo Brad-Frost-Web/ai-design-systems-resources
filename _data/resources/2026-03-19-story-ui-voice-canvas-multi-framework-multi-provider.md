@@ -11,4 +11,8 @@ tags:
   - "tools|teal"
   - "mcp|purple"
   - "community|default"
+stations:
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

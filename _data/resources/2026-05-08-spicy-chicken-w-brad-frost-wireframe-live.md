@@ -10,4 +10,6 @@ slackSentiment: "excited"
 tags:
   - "video|red"
   - "community|default"
+stations: []
+stationsConfidence: low
 ---

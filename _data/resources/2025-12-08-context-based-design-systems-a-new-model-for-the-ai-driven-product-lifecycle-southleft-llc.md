@@ -11,4 +11,9 @@ tags:
   - "workflow|default"
   - "process|green"
 source: "course"
+stations:
+  - machine-readable-docs
+  - orchestration
+  - governance-version-control
+stationsConfidence: high
 ---

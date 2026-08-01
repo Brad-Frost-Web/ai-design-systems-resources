@@ -9,4 +9,8 @@ tags:
   - "nathan curtis|pink"
   - "documentation|red"
 source: "course"
+stations:
+  - orchestration
+  - machine-readable-docs
+stationsConfidence: high
 ---

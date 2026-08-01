@@ -12,4 +12,10 @@ tags:
   - "figma|brown"
   - "mcp|purple"
   - "case-study|blue"
+stations:
+  - orchestration
+  - agent-access
+  - machine-readable-docs
+  - feedback-adoption
+stationsConfidence: high
 ---

@@ -12,4 +12,9 @@ tags:
   - "mcp|purple"
   - "tool|orange"
   - "workflow|default"
+stations:
+  - agent-access
+  - machine-readable-docs
+  - orchestration
+stationsConfidence: high
 ---

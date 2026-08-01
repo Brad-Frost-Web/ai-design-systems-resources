@@ -9,4 +9,7 @@ slackSentiment: "useful"
 tags:
   - "tools|teal"
   - "documentation|green"
+stations:
+  - machine-readable-docs
+stationsConfidence: high
 ---

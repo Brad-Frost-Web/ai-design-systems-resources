@@ -11,4 +11,7 @@ tags:
   - "documentation|green"
   - "concepts|default"
   - "community|default"
+stations:
+  - machine-readable-docs
+stationsConfidence: high
 ---

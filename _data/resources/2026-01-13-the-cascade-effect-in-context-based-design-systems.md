@@ -8,4 +8,7 @@ tags:
   - "southleft|red"
   - "context-based design systems|blue"
 source: "course"
+stations:
+  - machine-readable-docs
+stationsConfidence: high
 ---

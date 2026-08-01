@@ -8,4 +8,6 @@ slackSummary: "Brad announced jam session #10 is live, where TJ digs into Compon
 slackSentiment: "excited"
 tags:
   - "course|yellow"
+stations: []
+stationsConfidence: low
 ---

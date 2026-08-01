@@ -8,4 +8,7 @@ tags:
   - "ai|blue"
   - "process|green"
 source: "course"
+stations:
+  - governance-version-control
+stationsConfidence: high
 ---

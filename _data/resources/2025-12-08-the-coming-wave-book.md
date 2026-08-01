@@ -10,4 +10,6 @@ tags:
   - "strategy|purple"
   - "technology|pink"
 source: "course"
+stations: []
+stationsConfidence: low
 ---

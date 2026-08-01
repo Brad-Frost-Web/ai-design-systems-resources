@@ -10,4 +10,8 @@ tags:
   - "assessment|yellow"
   - "handoff|blue"
 source: "course"
+stations:
+  - orchestration
+  - testing-validation
+stationsConfidence: high
 ---

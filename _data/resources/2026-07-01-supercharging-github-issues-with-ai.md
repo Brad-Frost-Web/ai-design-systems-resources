@@ -9,4 +9,8 @@ slackSentiment: "useful"
 tags:
   - "course|yellow"
   - "claude|default"
+stations:
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

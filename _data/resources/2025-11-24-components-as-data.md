@@ -10,4 +10,8 @@ tags:
   - "props|pink"
   - "components|green"
 source: "course"
+stations:
+  - shared-language
+  - coverage-gaps
+stationsConfidence: high
 ---

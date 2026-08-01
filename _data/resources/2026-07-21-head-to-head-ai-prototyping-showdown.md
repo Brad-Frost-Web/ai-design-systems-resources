@@ -9,4 +9,7 @@ slackSentiment: "excited"
 tags:
   - "course|yellow"
   - "ai-coding|pink"
+stations:
+  - agent-access
+stationsConfidence: high
 ---

@@ -10,4 +10,6 @@ slackSentiment: "useful"
 tags:
   - "video|red"
   - "community|default"
+stations: []
+stationsConfidence: low
 ---

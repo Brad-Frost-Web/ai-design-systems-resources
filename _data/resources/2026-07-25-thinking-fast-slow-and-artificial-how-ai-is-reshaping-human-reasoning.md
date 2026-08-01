@@ -8,4 +8,6 @@ slackSummary: "Lauren shared this Wharton research paper on 'cognitive surrender
 slackSentiment: "cautious"
 tags:
   - "concepts|default"
+stations: []
+stationsConfidence: low
 ---

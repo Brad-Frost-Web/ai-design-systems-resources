@@ -12,4 +12,9 @@ tags:
   - "design-tokens|teal"
   - "mcp|purple"
   - "workflow|default"
+stations:
+  - orchestration
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

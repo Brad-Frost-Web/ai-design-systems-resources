@@ -9,4 +9,8 @@ slackSummary: "TJ Pitre from Southleft revisits Context-Based Design Systems, ou
 slackSentiment: "excited"
 tags:
   - "concepts|default"
+stations:
+  - accessibility
+  - machine-readable-docs
+stationsConfidence: medium
 ---

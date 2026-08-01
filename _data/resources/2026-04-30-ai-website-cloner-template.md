@@ -10,4 +10,8 @@ slackSentiment: "cautious"
 tags:
   - "ai-coding|pink"
   - "tools|teal"
+stations:
+  - agent-access
+  - accessibility
+stationsConfidence: high
 ---

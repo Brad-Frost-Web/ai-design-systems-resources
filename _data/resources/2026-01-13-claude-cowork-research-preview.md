@@ -11,4 +11,7 @@ slackSentiment: "excited"
 tags:
   - "tool|orange"
   - "ai-coding|pink"
+stations:
+  - agent-access
+stationsConfidence: high
 ---

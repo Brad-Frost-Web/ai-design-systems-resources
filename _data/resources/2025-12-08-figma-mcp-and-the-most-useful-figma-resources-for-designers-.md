@@ -9,4 +9,9 @@ tags:
   - "process|green"
   - "mcp|purple"
 source: "course"
+stations:
+  - governance-version-control
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

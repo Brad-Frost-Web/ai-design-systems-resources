@@ -10,4 +10,6 @@ tags:
   - "ethics|yellow"
   - "ai|blue"
 source: "course"
+stations: []
+stationsConfidence: low
 ---

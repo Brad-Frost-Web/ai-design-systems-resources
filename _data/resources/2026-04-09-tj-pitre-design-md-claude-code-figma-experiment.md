@@ -11,4 +11,10 @@ tags:
   - "claude|default"
   - "figma|brown"
   - "community|default"
+stations:
+  - agent-access
+  - orchestration
+  - testing-validation
+  - machine-readable-docs
+stationsConfidence: high
 ---

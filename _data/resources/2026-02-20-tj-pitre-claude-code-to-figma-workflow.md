@@ -12,4 +12,9 @@ tags:
   - "figma|brown"
   - "ai-coding|pink"
   - "mcp|purple"
+stations:
+  - orchestration
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

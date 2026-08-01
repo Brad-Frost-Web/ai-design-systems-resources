@@ -11,4 +11,7 @@ tags:
   - "ai-coding|pink"
   - "concepts|default"
   - "claude|default"
+stations:
+  - agent-access
+stationsConfidence: high
 ---

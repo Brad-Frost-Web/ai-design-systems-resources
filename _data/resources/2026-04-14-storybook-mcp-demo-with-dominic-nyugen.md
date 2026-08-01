@@ -11,4 +11,8 @@ tags:
   - "video|red"
   - "documentation|green"
   - "mcp|purple"
+stations:
+  - machine-readable-docs
+  - agent-access
+stationsConfidence: high
 ---

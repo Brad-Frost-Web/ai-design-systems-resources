@@ -10,4 +10,8 @@ slackSentiment: "cautious"
 tags:
   - "documentation|green"
   - "concepts|default"
+stations:
+  - machine-readable-docs
+  - accessibility
+stationsConfidence: high
 ---

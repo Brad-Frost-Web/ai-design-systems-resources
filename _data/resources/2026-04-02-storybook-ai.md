@@ -10,4 +10,8 @@ slackSentiment: "excited"
 tags:
   - "mcp|purple"
   - "documentation|green"
+stations:
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

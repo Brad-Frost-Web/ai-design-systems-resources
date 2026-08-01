@@ -11,4 +11,8 @@ slackSentiment: "excited"
 tags:
   - "case-study|blue"
   - "workflow|default"
+stations:
+  - feedback-adoption
+  - orchestration
+stationsConfidence: high
 ---

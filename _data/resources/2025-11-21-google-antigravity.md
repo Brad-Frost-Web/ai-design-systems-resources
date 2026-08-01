@@ -8,4 +8,6 @@ tags:
   - "ai|blue"
   - "tool|default"
 source: "course"
+stations: []
+stationsConfidence: low
 ---

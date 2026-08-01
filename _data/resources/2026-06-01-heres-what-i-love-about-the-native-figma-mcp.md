@@ -11,4 +11,10 @@ tags:
   - "figma|brown"
   - "mcp|purple"
   - "community|default"
+stations:
+  - orchestration
+  - agent-access
+  - machine-readable-docs
+  - accessibility
+stationsConfidence: high
 ---

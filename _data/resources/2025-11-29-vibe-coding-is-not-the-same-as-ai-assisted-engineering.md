@@ -7,4 +7,7 @@ notionId: "2ba3c932-3e86-8147-bb73-fbf41c037506"
 tags:
   - "vibe coding|green"
 source: "course"
+stations:
+  - agent-access
+stationsConfidence: high
 ---

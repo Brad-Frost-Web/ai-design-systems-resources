@@ -10,4 +10,7 @@ slackSentiment: "discussion"
 tags:
   - "concepts|default"
   - "community|default"
+stations:
+  - machine-readable-docs
+stationsConfidence: medium
 ---

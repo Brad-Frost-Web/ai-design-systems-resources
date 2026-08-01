@@ -11,4 +11,7 @@ slackSentiment: "useful"
 tags:
   - "documentation|green"
   - "tool|orange"
+stations:
+  - machine-readable-docs
+stationsConfidence: high
 ---

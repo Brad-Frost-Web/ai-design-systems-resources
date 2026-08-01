@@ -9,4 +9,9 @@ tags:
   - "storybook|green"
   - "mcp|purple"
 source: "course"
+stations:
+  - orchestration
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

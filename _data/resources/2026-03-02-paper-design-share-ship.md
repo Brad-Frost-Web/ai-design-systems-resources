@@ -12,4 +12,8 @@ tags:
   - "mcp|purple"
   - "visual builder|orange"
 source: "course"
+stations:
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

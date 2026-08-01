@@ -10,4 +10,7 @@ slackSentiment: "excited"
 tags:
   - "course|yellow"
   - "claude|default"
+stations:
+  - agent-access
+stationsConfidence: high
 ---

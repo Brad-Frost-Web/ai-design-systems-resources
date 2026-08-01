@@ -10,4 +10,7 @@ slackSentiment: "useful"
 tags:
   - "ai-coding|pink"
   - "tools|teal"
+stations:
+  - agent-access
+stationsConfidence: high
 ---

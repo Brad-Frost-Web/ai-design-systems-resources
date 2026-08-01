@@ -12,4 +12,8 @@ tags:
   - "cursor|blue"
   - "tool|orange"
   - "design-tokens|teal"
+stations:
+  - agent-access
+  - orchestration
+stationsConfidence: high
 ---

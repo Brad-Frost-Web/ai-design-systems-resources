@@ -10,4 +10,8 @@ slackSentiment: "useful"
 tags:
   - "concepts|default"
   - "community|default"
+stations:
+  - best-practices
+  - feedback-adoption
+stationsConfidence: medium
 ---

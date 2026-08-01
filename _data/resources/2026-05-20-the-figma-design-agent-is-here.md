@@ -10,4 +10,8 @@ slackSentiment: "excited"
 tags:
   - "figma|brown"
   - "ai-coding|pink"
+stations:
+  - orchestration
+  - agent-access
+stationsConfidence: high
 ---

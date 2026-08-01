@@ -9,4 +9,7 @@ slackSentiment: "question"
 tags:
   - "claude|default"
   - "community|default"
+stations:
+  - agent-access
+stationsConfidence: high
 ---

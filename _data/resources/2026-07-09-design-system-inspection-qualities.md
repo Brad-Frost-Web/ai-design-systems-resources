@@ -9,4 +9,10 @@ slackSentiment: "excited"
 tags:
   - "course|yellow"
   - "concepts|default"
+stations:
+  - accessibility
+  - testing-validation
+  - governance-version-control
+  - shared-language
+stationsConfidence: medium
 ---

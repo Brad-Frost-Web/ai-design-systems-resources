@@ -10,4 +10,8 @@ slackSentiment: "useful"
 tags:
   - "video|red"
   - "mcp|purple"
+stations:
+  - agent-access
+  - machine-readable-docs
+stationsConfidence: high
 ---

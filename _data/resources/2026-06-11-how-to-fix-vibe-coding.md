@@ -10,4 +10,8 @@ slackSentiment: "useful"
 tags:
   - "ai-coding|pink"
   - "concepts|default"
+stations:
+  - agent-access
+  - shared-language
+stationsConfidence: high
 ---

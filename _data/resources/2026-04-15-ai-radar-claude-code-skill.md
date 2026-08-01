@@ -10,4 +10,7 @@ slackSentiment: "useful"
 tags:
   - "claude|default"
   - "tools|teal"
+stations:
+  - agent-access
+stationsConfidence: high
 ---

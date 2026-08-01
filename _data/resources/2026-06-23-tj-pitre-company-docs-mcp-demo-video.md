@@ -11,4 +11,9 @@ tags:
   - "figma|brown"
   - "documentation|green"
   - "video|red"
+stations:
+  - agent-access
+  - machine-readable-docs
+  - orchestration
+stationsConfidence: high
 ---
