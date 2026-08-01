@@ -87,9 +87,8 @@
 	border-radius: var(--ed-theme-border-radius-md, 8px);
 	background: var(--ed-theme-color-surface-raised, #f7f7f8);
 }
-.inspection-start p { margin: 0.75rem 0; }
 .inspection-start__title { margin: 0 0 0.5rem; font-size: 2rem; }
-.inspection-start__lead { max-inline-size: 52ch; margin-inline: auto; }
+.inspection-start__lead { max-inline-size: 52ch; margin: 0.75rem auto; }
 .inspection-start__actions {
 	display: flex;
 	gap: 0.75rem;
@@ -97,7 +96,7 @@
 	flex-wrap: wrap;
 	margin-block: var(--ed-theme-space-md, 1rem);
 }
-.inspection-start__note { font-size: 0.85rem; opacity: 0.7; }
+.inspection-start__note { max-inline-size: 60ch; margin: 0.75rem auto 0; font-size: 0.85rem; opacity: 0.7; }
 
 // Secondary link-out button (to the ds-inspection kit repo).
 .btn--link {
