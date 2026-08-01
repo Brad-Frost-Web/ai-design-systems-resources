@@ -1655,7 +1655,7 @@ hr {
 
 .work-order__title {
   margin: 0;
-  font-size: 1.7rem;
+  font-size: 2.4rem;
 }
 
 .work-order__lead {
@@ -1671,42 +1671,75 @@ hr {
 
 .wo-station__head {
   display: flex;
-  align-items: center;
-  gap: 0.55rem;
+  align-items: baseline;
+  gap: 0.75rem;
   flex-wrap: wrap;
-  margin: 0 0 var(--ed-theme-space-md, 1rem);
-  padding-block-end: 0.5rem;
-  font-size: 1.3rem;
-  border-block-end: 2px solid var(--ed-theme-color-border-default, #d0d0d0);
+  margin: 0 0 var(--ed-theme-space-lg, 1.5rem);
+  padding-block-end: 0.6rem;
+  font-size: 2.4rem;
+  line-height: 1.1;
+  border-block-end: 3px solid var(--ed-theme-color-border-strong, #333);
 }
 
-.wo-light {
-  font-size: 0.68rem;
+.wo-station__name {
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 0.12rem 0.5rem;
-  border-radius: 999px;
 }
 
-.wo-light--red {
+.wo-station__count {
+  font-size: 0.95rem;
+  font-weight: 400;
+  opacity: 0.6;
+  align-self: center;
+}
+
+.wo-station {
+  margin-block-end: var(--ed-theme-space-2xl, 3rem);
+}
+
+.wo-station__head--red {
+  border-block-end-color: #e5484d;
+}
+
+.wo-station__head--yellow {
+  border-block-end-color: #e0a020;
+}
+
+.wo-station__q {
+  margin: -0.75rem 0 var(--ed-theme-space-lg, 1.5rem);
+  font-size: 1.15rem;
+  font-style: italic;
+  opacity: 0.8;
+  max-inline-size: 74ch;
+}
+
+.wo-tier {
+  margin-block-end: var(--ed-theme-space-2xl, 3.5rem);
+}
+
+.wo-tier__label {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.4rem 1rem;
+  border-radius: var(--ed-theme-border-radius-sm, 4px);
+}
+
+.wo-tier__label--red {
   background: #e5484d;
   color: #fff;
 }
 
-.wo-light--yellow {
+.wo-tier__label--yellow {
   background: #e0a020;
   color: #1a1a1a;
 }
 
-.wo-station__name {
-  font-weight: 600;
-}
-
-.wo-station__count {
-  font-size: 0.8rem;
-  font-weight: 400;
-  opacity: 0.6;
+.wo-tier__note {
+  margin: 0.6rem 0 var(--ed-theme-space-xl, 2rem);
+  font-size: 1rem;
+  opacity: 0.75;
 }
 
 .work-order__list {
@@ -1718,6 +1751,19 @@ hr {
 .wo-card {
   display: block;
   position: relative;
+  transition: opacity 0.15s ease;
+}
+
+.wo-card.is-read {
+  opacity: 0.5;
+}
+
+.wo-card.is-read:hover {
+  opacity: 0.85;
+}
+
+.wo-card.is-read ed-heading a {
+  text-decoration: line-through;
 }
 
 .wo-card__order {
@@ -1735,6 +1781,24 @@ hr {
   font-size: 0.85rem;
   font-weight: 700;
   z-index: 1;
+}
+
+.wo-read {
+  position: absolute;
+  inset-block-start: 0.6rem;
+  inset-inline-end: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  opacity: 0.7;
+  cursor: pointer;
+  z-index: 1;
+  user-select: none;
+}
+
+.wo-read input {
+  cursor: pointer;
 }
 
 .wo-reasons {

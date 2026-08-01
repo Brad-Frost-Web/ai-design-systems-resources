@@ -112,6 +112,7 @@
 	const browseAll = document.getElementById("browse-all");
 
 	const STORE_KEY = "ds-inspection-profile";
+	const READ_KEY = "ds-inspection-read";
 	const CONFIDENCE = { high: 1, medium: 0.7, low: 0.4 };
 	const PER_STATION_MAX = 12;
 
@@ -154,6 +155,19 @@
 			const input = form.querySelector(`input[name="s-${slug}"][value="${value}"]`);
 			if (input) input.checked = true;
 		});
+	}
+
+	// --- read/unread tracking (per resource, persisted) ----------------------
+	let readSet = (function () {
+		try { return new Set(JSON.parse(localStorage.getItem(READ_KEY)) || []); }
+		catch (e) { return new Set(); }
+	})();
+	function saveRead() {
+		try { localStorage.setItem(READ_KEY, JSON.stringify([...readSet])); } catch (e) {}
+	}
+	function setRead(href, isRead) {
+		if (isRead) readSet.add(href); else readSet.delete(href);
+		saveRead();
 	}
 
 	// --- report parsing (the "let the agent set it" path) --------------------
@@ -223,33 +237,46 @@
 	const SENTIMENT = { excited: "🔥", useful: "💡", question: "❓", cautious: "🤔", discussion: "💬" };
 
 	function card({ r, hits }, order) {
+		const isRead = readSet.has(r.href);
 		const reasons = hits.sort((a, b) => (a.sev === "red" ? -1 : 1))
 			.map((h) => `<span class="wo-reason wo-reason--${h.sev}">${esc(stationName[h.slug] || h.slug)}</span>`).join("");
 		const summary = r.summary
 			? `<ed-text-passage size="sm"><p>${SENTIMENT[r.sentiment] || "💬"} ${esc(r.summary)}</p>${
 				r.slackUrl ? `<p><a href="${esc(r.slackUrl)}" target="_blank" rel="noopener">View in Slack →</a></p>` : ""}</ed-text-passage>`
 			: "";
-		return `<ed-card class="wo-card">
+		return `<ed-card class="wo-card${isRead ? " is-read" : ""}">
 			<span class="wo-card__order" aria-label="Reading order ${order}">${order}</span>
+			<label class="wo-read"><input type="checkbox" class="wo-read__box" data-href="${esc(r.href)}"${isRead ? " checked" : ""}> Read</label>
 			<ed-heading variant="title-sm"><a href="${esc(r.href)}" target="_blank" rel="noopener">${esc(r.title)}</a></ed-heading>
 			<div class="wo-reasons"><span class="wo-reasons__label">Helps with:</span> ${reasons}</div>
 			${summary}</ed-card>`;
 	}
 
-	// One flagged station: a heading/divider, then its resources in reading order.
+	// One flagged station: heading, the concrete problem (its inspection
+	// question), then its resources in recommended reading order.
 	function stationGroup([slug, sev], profile) {
-		const st = stationById[slug] || { id: "", name: slug };
+		const st = stationById[slug] || { id: "", name: slug, question: "" };
 		const items = rankForStation(slug, profile);
 		const body = items.length
 			? `<div class="work-order__list">${items.map((it, i) => card(it, i + 1)).join("")}</div>`
 			: `<p class="station__empty">No classified resources for this station yet — a content gap worth filling.</p>`;
-		return `<section class="wo-station">
-			<h3 class="wo-station__head">
-				<span class="wo-light wo-light--${sev}">${sev}</span>
+		return `<section class="wo-station wo-station--${sev}">
+			<h4 class="wo-station__head wo-station__head--${sev}">
 				<span class="wo-station__name">Station ${st.id} · ${esc(st.name)}</span>
 				<span class="wo-station__count">${items.length} resource${items.length === 1 ? "" : "s"}</span>
-			</h3>
+			</h4>
+			<p class="wo-station__q">${esc(st.question)}</p>
 			${body}
+		</section>`;
+	}
+
+	// A severity tier: "Fix now" for reds, "Schedule next" for yellows.
+	function tier(sev, label, note, stations, profile) {
+		if (!stations.length) return "";
+		return `<section class="wo-tier wo-tier--${sev}">
+			<div class="wo-tier__label wo-tier__label--${sev}">${label}</div>
+			<p class="wo-tier__note">${note} — ${stations.length} ${sev} station${stations.length === 1 ? "" : "s"}.</p>
+			${stations.map((f) => stationGroup(f, profile)).join("")}
 		</section>`;
 	}
 
@@ -319,12 +346,14 @@
 		out.hidden = !actionable;
 		if (!actionable) { list.innerHTML = ""; return; }
 
-		const reds = flagged.filter(([, v]) => v === "red").length;
-		const yellows = flagged.filter(([, v]) => v === "yellow").length;
+		const reds = flagged.filter(([, v]) => v === "red");
+		const yellows = flagged.filter(([, v]) => v === "yellow");
 		lead.textContent =
-			`${flagged.length} flagged station${flagged.length === 1 ? "" : "s"} — ${reds} red, ${yellows} yellow, reds first.` +
-			` Each station lists its resources in a recommended reading order.`;
-		list.innerHTML = flagged.map((f) => stationGroup(f, profile)).join("");
+			`${reds.length} red and ${yellows.length} yellow station${flagged.length === 1 ? "" : "s"} flagged.` +
+			` Fix the reds first; each station lists its resources in a recommended reading order.`;
+		list.innerHTML =
+			tier("red", "Fix now", "Broken — the light is on", reds, profile) +
+			tier("yellow", "Schedule next", "Drift or gaps — worth a look", yellows, profile);
 	}
 
 	// --- wizard control ------------------------------------------------------
@@ -347,6 +376,15 @@
 		modeManual.setAttribute("aria-selected", String(manual));
 		modePaste.setAttribute("aria-selected", String(!manual));
 	}
+
+	// Read/unread checkboxes (delegated — the work order re-renders often).
+	list.addEventListener("change", (e) => {
+		const box = e.target.closest && e.target.closest(".wo-read__box");
+		if (!box) return;
+		setRead(box.getAttribute("data-href"), box.checked);
+		const woCard = box.closest(".wo-card");
+		if (woCard) woCard.classList.toggle("is-read", box.checked);
+	});
 
 	// --- wire up -------------------------------------------------------------
 	if (startBtn) startBtn.addEventListener("click", openWizard);
