@@ -13,32 +13,71 @@ permalink: /stations/
 			The <a href="https://github.com/Brad-Frost-Web/ai-design-systems-inspection-kit">Multi-Point Inspection</a>
 			from the <a href="https://aianddesign.systems">AI &amp; Design Systems course</a> checks a design system across
 			<strong>{{ stations.qualities.length }} qualities</strong> and <strong>{{ stations.stations.length }} stations</strong>.
-			Run the inspection, see which stations are red, then browse the resources here that help you turn those lights off.
+			Set your check-engine lights below to get a prioritized work order, or scroll to browse every station.
 		</p>
 
-		{# Count how many resources are station-tagged so far (sample-stage banner). #}
 		{% set taggedCount = 0 %}
 		{% for r in resources %}{% if r.stations.length %}{% set taggedCount = taggedCount + 1 %}{% endif %}{% endfor %}
 		<ed-alert variant="info" class="stations-sample-note">
 			<strong>Sample stage:</strong> {{ taggedCount }} of {{ resources.length }} resources are classified so far.
-			Stations reading “no resources yet” are either genuine content gaps or simply not classified yet.
+			Recommendations draw only from the classified set for now.
 		</ed-alert>
 
-		{# Jump index by station. #}
+		{# ---------- Diagnose panel: set red/yellow/green per station ---------- #}
+		<form class="diagnose" id="diagnose" aria-labelledby="diagnose-h">
+			<div class="diagnose__head">
+				<div>
+					<h2 class="diagnose__title" id="diagnose-h">Set your check-engine lights</h2>
+					<p class="diagnose__hint">Mark the stations where your system needs work. <strong>Red</strong> = broken, <strong>Yellow</strong> = watch. We rank the reds first. Your selections are saved on this device.</p>
+				</div>
+				<button type="button" class="diagnose__reset" id="diagnose-reset">Reset</button>
+			</div>
+
+			<div class="diagnose__grid">
+				{% for station in stations.stations %}
+				<fieldset class="diagnose-station" data-station="{{ station.slug }}">
+					<legend class="diagnose-station__legend">
+						<span class="diagnose-station__num">{{ station.id }}</span>
+						{{ station.name }}
+					</legend>
+					<div class="rating" role="radiogroup" aria-label="{{ station.name }} status">
+						<label class="rating__opt rating__opt--green">
+							<input type="radio" name="s-{{ station.slug }}" value="green"> <span>Green</span>
+						</label>
+						<label class="rating__opt rating__opt--yellow">
+							<input type="radio" name="s-{{ station.slug }}" value="yellow"> <span>Yellow</span>
+						</label>
+						<label class="rating__opt rating__opt--red">
+							<input type="radio" name="s-{{ station.slug }}" value="red"> <span>Red</span>
+						</label>
+					</div>
+				</fieldset>
+				{% endfor %}
+			</div>
+		</form>
+
+		{# ---------- Work order: JS renders ranked recommendations here ---------- #}
+		<section class="work-order" id="work-order" aria-labelledby="work-order-h" hidden>
+			<h2 class="work-order__title" id="work-order-h">Your work order</h2>
+			<p class="work-order__lead" id="work-order-lead"></p>
+			<div class="work-order__list" id="work-order-list"></div>
+		</section>
+
+		{# ---------- Browse every station ---------- #}
+		<h2 class="stations-browse-h">Browse every station</h2>
 		<nav class="stations-index" aria-label="Jump to a station">
 			{% for station in stations.stations %}<a href="#station-{{ station.slug }}">{{ station.id }}. {{ station.name }}</a>{% endfor %}
 		</nav>
 
 		{% for quality in stations.byQuality %}
 		<section class="station-quality" aria-labelledby="quality-{{ quality.slug }}">
-			<h2 class="station-quality__name" id="quality-{{ quality.slug }}">
+			<h3 class="station-quality__name" id="quality-{{ quality.slug }}">
 				<span class="station-quality__num">Quality {{ quality.id }}</span>
 				{{ quality.name }}
-			</h2>
+			</h3>
 			<p class="station-quality__question">{{ quality.question }}</p>
 
 			{% for station in quality.stations %}
-			{# Resources tagged with this station, and a total count for the badge. #}
 			{% set matches = [] %}
 			{% for r in resources %}
 				{% if station.slug in r.stations %}{% set matches = (matches.push(r), matches) %}{% endif %}
@@ -46,10 +85,10 @@ permalink: /stations/
 
 			<section class="station" id="station-{{ station.slug }}" aria-labelledby="station-{{ station.slug }}-h">
 				<div class="station__head">
-					<h3 class="station__name" id="station-{{ station.slug }}-h">
+					<h4 class="station__name" id="station-{{ station.slug }}-h">
 						<span class="station__num">Station {{ station.id }}</span>
 						{{ station.name }}
-					</h3>
+					</h4>
 					<ed-badge text="{{ matches.length }} resource{% if matches.length != 1 %}s{% endif %}"></ed-badge>
 				</div>
 				<p class="station__question">{{ station.question }}</p>
@@ -71,3 +110,13 @@ permalink: /stations/
 		{% endfor %}
 	</ed-layout-container>
 </ed-main>
+
+{# Data island: classified resources for the client-side recommender. #}
+{%- set recData = [] -%}
+{%- for r in resources -%}
+	{%- if r.stations.length -%}
+		{%- set _ = recData.push({ title: r.title, href: r.href, stations: r.stations, confidence: r.stationsConfidence, summary: r.slackSummary, sentiment: r.slackSentiment, slackUrl: r.slackMessageUrl }) -%}
+	{%- endif -%}
+{%- endfor -%}
+<script type="application/json" id="resource-data">{{ recData | dump | safe }}</script>
+<script type="application/json" id="station-meta">{{ stations.stations | dump | safe }}</script>
