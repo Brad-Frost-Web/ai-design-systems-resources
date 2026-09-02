@@ -17,8 +17,9 @@
  * of the viewport, invisible until hovered — an affordance for the person
  * recording, not part of the page's accessible content.
  *
- * Light-DOM Lit composition: ed-search-form, ed-toolbar, ed-select-field,
- * ed-toggle.
+ * Light-DOM Lit composition: ed-r-search-form (a real <form> — Enter and
+ * the button submit natively, typed text is read from the submit event),
+ * ed-toolbar, ed-select-field, ed-toggle.
  */
 import { LitElement, html, render } from "lit";
 import { loadIntel } from "../intel-store.js";
@@ -174,25 +175,33 @@ export class EdRCConcierge extends LitElement {
 		}
 	}
 
-	_onSubmit(event) {
-		event.preventDefault();
-		const field = this.querySelector("ed-search-form");
-		this._ask(field?.value ?? "");
+	/** The inner ed-single-field-form owns the typed value. */
+	_form() {
+		return this.querySelector("ed-r-search-form")?.shadowRoot?.querySelector("ed-single-field-form") || null;
 	}
 
-	firstUpdated() {
-		// ed-search-form doesn't wrap a native <form>, so Enter and its
-		// internal Search button need explicit wiring (per its guidelines:
-		// "handle submission in JavaScript").
-		const field = this.querySelector("ed-search-form");
-		if (field) {
-			field.addEventListener("keydown", (e) => {
-				if (e.key === "Enter") this._onSubmit(e);
-			});
-			field.addEventListener("click", (e) => {
-				const hit = e.composedPath().find((el) => el.classList?.contains("ed-c-search-form__button"));
-				if (hit) this._onSubmit(e);
-			});
+	_readField() {
+		return this._form()?.value ?? this.querySelector("ed-r-search-form")?.value ?? "";
+	}
+
+	/**
+	 * ed-single-field-form dispatches a `submit` custom event carrying the
+	 * typed value (and, with no `action`, cancels native navigation). Read the
+	 * value from the event — never from the recipe host's `value` property,
+	 * which only flows downward and never reflects what was typed.
+	 */
+	_onSubmit(event) {
+		event.preventDefault?.();
+		const value = event.detail?.value ?? this._readField();
+		this._ask(value);
+	}
+
+	async firstUpdated() {
+		const recipe = this.querySelector("ed-r-search-form");
+		if (recipe) {
+			await recipe.updateComplete;
+			const form = this._form();
+			(form || recipe).addEventListener("submit", (e) => this._onSubmit(e));
 		}
 		this._watchToggles();
 	}
@@ -202,8 +211,8 @@ export class EdRCConcierge extends LitElement {
 		if (value === (this._lens || "")) return;
 		this._lens = value || null;
 		// A lens change re-runs the current ask so the stage stays honest.
-		const field = this.querySelector("ed-search-form");
-		if (field?.value) this._ask(field.value);
+		const current = this._readField();
+		if (current) this._ask(current);
 	}
 
 	_watchToggles() {
@@ -243,22 +252,27 @@ export class EdRCConcierge extends LitElement {
 		</div>`;
 	}
 
-	/** Programmatic ask — used by the constellation and the demo script. */
+	/** Programmatic ask — used by the constellation. */
 	_suggest(text) {
-		const field = this.querySelector("ed-search-form");
-		if (field) field.value = text;
+		const recipe = this.querySelector("ed-r-search-form");
+		if (recipe) recipe.value = text;
+		const form = this._form();
+		if (form) form.value = text;
 		this._ask(text);
 	}
 
 	render() {
 		return html`
-			<form class="ed-r-c-concierge" @submit=${this._onSubmit}>
-				<ed-search-form
+			<div class="ed-r-c-concierge">
+				<ed-r-search-form
+					fieldId="concierge-ask"
+					name="q"
 					label="Search AI &amp; Design Systems resources"
 					hideLabel
 					placeholder="What would you like help with around AI &amp; Design Systems?"
+					buttonText="Search"
 					clearButtonText="Clear"
-				></ed-search-form>
+				></ed-r-search-form>
 
 				<ed-show-hide
 					class="ed-r-c-concierge__more"

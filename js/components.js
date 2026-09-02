@@ -22,7 +22,8 @@ import "@brad-frost-web/eddie-web-components/components/select-field/select-fiel
 // Adaptive layer — Eddie components composed by the resource surfaces
 import "@brad-frost-web/eddie-web-components/components/section/section.js";
 import "@brad-frost-web/eddie-web-components/components/band/band.js";
-import "@brad-frost-web/eddie-web-components/components/search-form/search-form.js";
+import "@brad-frost-web/eddie-web-components/components/single-field-form/single-field-form.js";
+import "@brad-frost-web/eddie-recipes/recipes/common/search-form/search-form.js";
 import "@brad-frost-web/eddie-web-components/components/radio-field/radio-field.js";
 import "@brad-frost-web/eddie-web-components/components/radio-field-item/radio-field-item.js";
 import "@brad-frost-web/eddie-web-components/components/timeline/timeline.js";

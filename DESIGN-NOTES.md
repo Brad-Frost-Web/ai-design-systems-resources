@@ -32,8 +32,15 @@ preserved (collection is server-rendered semantic HTML).
    container-level click/keyup + checked-state polling (see
    `chameleon-conductor.js`, `concierge.js`). Same pattern issue:
    `ed-search-form` exposes no submit/search event; consumers must wire
-   Enter + shadow-button clicks by hand (its docs say as much, but an event
-   would be kinder).
+   Enter + shadow-button clicks by hand — and, worse, its `value` property
+   only flows DOWN into the input and never reflects what was typed, so a
+   consumer reading `field.value` on submit gets the last programmatic
+   value, not the user's text (2026-09-02: every typed ask came back
+   empty while scripted asks worked). It is deprecated (removal
+   2026-10-18, #1167); the site now uses `ed-r-search-form` →
+   `ed-single-field-form`, whose `submit` event carries `detail.value`.
+   The recipe host's `value` has the same one-way limitation — read the
+   event, not the property.
 2. **Upstream, eddie-recipes packaging:** eddie-brain indexes `ed-r-stat-card`
    and `ed-r-theme-customizer`, but the published npm package ships neither.
    Stat cards were composed per the canonical pattern project-locally
