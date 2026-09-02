@@ -47,7 +47,13 @@ preserved (collection is server-rendered semantic HTML).
    course-hero recipe) doesn't exist in the token set — the real token is
    `--ed-theme-color-content-knockout`. Course-hero currently inherits by
    luck.
-5. **Recipe candidates for upstreaming if this promotes:** concierge,
+5. **Upstream, eddie-web-components:** `ed-tag-list` sets `display: flex` with
+   no `flex-wrap`, so a set of tags overflows its container instead of
+   wrapping. eddie-brain documents the opposite — its intent says tags "wrap
+   naturally across lines" and the list "supplies spacing, wrapping, and list
+   semantics" — so the CSS contradicts the component's own contract. One line
+   (`flex-wrap: wrap`) upstream.
+6. **Recipe candidates for upstreaming if this promotes:** concierge,
    adaptive-stage (A2UI-style renderer), constellation, chameleon-conductor —
    all follow `ed-r-c-*` conventions, tokens-only, light-DOM Lit.
 
@@ -71,6 +77,12 @@ proxies the Eleventy server on 8080 so `/.netlify/functions/compose` resolves).
 
 ## Known rough edges
 
+- Project-local recipe hosts must declare `display: block` in
+  `_adaptive.scss`. A custom element defaults to `display: inline`, which
+  gives a `display: grid` child no definite width — its `auto` column then
+  sizes to the widest descendant. One long JSON line in the "view the
+  messages" panel stretched the stage to 6295px. Single-column grids in this
+  layer use `grid-template-columns: minmax(0, 1fr)` for the same reason.
 - The on-device engine is deterministic keyword heuristics — the honest floor.
   The Netlify compose function is the real-model path on the same contract.
 - Compose latency measured 2026-09-02 (Sonnet 5, effort low, cached system

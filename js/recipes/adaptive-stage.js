@@ -224,13 +224,13 @@ export class EdRCAdaptiveStage extends LitElement {
 					<ed-text-passage capLinelength><p>${t.definition}</p></ed-text-passage>
 					${t.lessons?.length
 						? html`<p class="ed-r-c-definition__label">Taught in</p>
-								<ed-tag-list>
+								<ed-link-list size="sm" spacing="condensed">
 									${t.lessons.map(
-										(l) => html`<ed-tag behavior="link"
-											><a href=${l.url} target="_blank" rel="noopener">${l.number ? `${l.number} · ` : ""}${l.title}</a></ed-tag
-										>`,
+										(l) => html`<ed-link-list-item>
+											<a href=${l.url} target="_blank" rel="noopener">${l.number ? `${l.number} · ` : ""}${l.title}</a>
+										</ed-link-list-item>`,
 									)}
-								</ed-tag-list>`
+								</ed-link-list>`
 						: nothing}
 				</article>
 			`,

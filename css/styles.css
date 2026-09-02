@@ -1905,6 +1905,24 @@ hr {
 .resource-category__links a:hover {
   text-decoration: underline;
 }
+ed-r-c-adaptive-stage,
+ed-r-c-concierge,
+ed-r-c-constellation,
+ed-r-c-chameleon {
+  display: block;
+}
+.ed-r-c-stage,
+.ed-r-c-stage__surface,
+.ed-r-c-stage__node,
+.ed-r-c-summary,
+.ed-r-c-definition,
+.ed-r-c-concierge,
+.ed-r-c-concierge__engine,
+.ed-r-c-chameleon,
+.ed-r-c-pixels-demo {
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+}
 html {
   transition: background-color 0.4s ease, color 0.4s ease;
 }

@@ -42,6 +42,8 @@ import "@brad-frost-web/eddie-web-components/components/tabs/tabs.js";
 import "@brad-frost-web/eddie-web-components/components/tab/tab.js";
 import "@brad-frost-web/eddie-web-components/components/toggle/toggle.js";
 import "@brad-frost-web/eddie-web-components/components/tag-list/tag-list.js";
+import "@brad-frost-web/eddie-web-components/components/link-list/link-list.js";
+import "@brad-frost-web/eddie-web-components/components/link-list-item/link-list-item.js";
 import "@brad-frost-web/eddie-web-components/components/text-link/text-link.js";
 import "@brad-frost-web/eddie-web-components/components/loading-indicator/loading-indicator.js";
 

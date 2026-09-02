@@ -8,6 +8,39 @@
 // the site's light-DOM glue (see _site-header.scss).
 
 // ---------------------------------------------------------------------------
+// Recipe hosts are block boxes.
+//
+// A custom element with no `display` rule is `display: inline`, and an inline
+// box has no definite width for its children to resolve against. A single
+// `display: grid` child then sizes its implicit `auto` column to the widest
+// thing inside it — one 743-character line of JSON in the "view the messages"
+// panel stretched the whole stage to 6295px and pushed the results off-screen.
+// Declaring the hosts as blocks is the fix at the root.
+ed-r-c-adaptive-stage,
+ed-r-c-concierge,
+ed-r-c-constellation,
+ed-r-c-chameleon {
+	display: block;
+}
+
+// The companion rule: every single-column grid in this layer gets an explicit
+// `minmax(0, 1fr)` track. `auto` (the default) may exceed its container to fit
+// a wide child; `minmax(0, …)` may not, so wide content — code blocks, tables,
+// charts — scrolls inside its own box instead of widening the page.
+.ed-r-c-stage,
+.ed-r-c-stage__surface,
+.ed-r-c-stage__node,
+.ed-r-c-summary,
+.ed-r-c-definition,
+.ed-r-c-concierge,
+.ed-r-c-concierge__engine,
+.ed-r-c-chameleon,
+.ed-r-c-pixels-demo {
+	grid-template-columns: minmax(0, 1fr);
+	min-width: 0;
+}
+
+// ---------------------------------------------------------------------------
 // Theme morph: when the chameleon swaps data-theme, token-driven properties
 // glide instead of snapping. View Transitions handle the full morph where
 // supported; this is the graceful floor.
