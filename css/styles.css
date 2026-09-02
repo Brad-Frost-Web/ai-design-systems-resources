@@ -1822,6 +1822,9 @@ hr {
   gap: 0.5rem;
   margin-block: 1rem;
 }
+.resource-tags--flush {
+  margin-block: 0;
+}
 .resource-tag {
   display: inline-block;
   padding: 0.25rem 0.5rem;
@@ -2244,6 +2247,19 @@ ed-band#concierge {
   font-family: var(--ed-theme-typography-label-sm-font-family, var(--ed-theme-typography-body-default-font-family));
   font-size: var(--ed-theme-typography-label-sm-font-size, 0.75rem);
   color: var(--ed-theme-color-content-subtle, currentColor);
+}
+.ed-r-c-lesson {
+  position: relative;
+}
+.ed-r-c-lesson ed-heading > a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.ed-r-c-lesson ed-heading > a:focus-visible::after {
+  outline: var(--ed-theme-border-width-lg, 0.125rem) solid var(--ed-theme-focus-ring-color-border-default, currentColor);
+  outline-offset: 0.125rem;
+  border-radius: inherit;
 }
 .ed-r-c-lesson__eyebrow,
 .ed-r-c-lesson__meta {

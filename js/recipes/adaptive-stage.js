@@ -104,6 +104,17 @@ export class EdRCAdaptiveStage extends LitElement {
 	/* Shared pieces                                                           */
 	/* ---------------------------------------------------------------------- */
 
+	/** Topic tags as links into the collection's tag filter. */
+	_topicTags(tags, limit = 3) {
+		return (tags || []).slice(0, limit).map(
+			(t) => html`<ed-tag behavior="link" size="sm"><a href="/?tag=${encodeURIComponent(t)}#collection">${t}</a></ed-tag>`,
+		);
+	}
+
+	_recommendedTag() {
+		return html`<ed-tag text="Recommended" variant="brand" size="sm"></ed-tag>`;
+	}
+
 	_freshnessTag(created) {
 		const f = freshness(created);
 		if (!f.label) return nothing;
@@ -112,7 +123,9 @@ export class EdRCAdaptiveStage extends LitElement {
 
 	/**
 	 * A lesson pointer as a compact card: chapter, title (the link), presenter.
-	 * No lesson number — Thinkific never shows it to students. No summary — the card's job is to be recognisable at a glance
+	 * No lesson number — Thinkific never shows it to students. The card has
+	 * exactly one action, so the heading link's ::after covers the whole card
+	 * (per Eddie's card guidance: one primary action, then the card may act). No summary — the card's job is to be recognisable at a glance
 	 * in a strip; the lesson itself is one click away.
 	 */
 	_lessonCard(id, { compact = true } = {}) {
@@ -124,10 +137,10 @@ export class EdRCAdaptiveStage extends LitElement {
 				<p class="ed-r-c-lesson__eyebrow">
 					${l.chapter ? html`<ed-tag text=${l.chapter} size="sm"></ed-tag>` : nothing}
 				</p>
-				<ed-heading variant="title-sm" tagName="h4">
+				<ed-heading variant="title-default" tagName="h4">
 					<a href=${l.url} target="_blank" rel="noopener">${l.title}</a>
 				</ed-heading>
-				${presenters ? html`<p class="ed-r-c-lesson__meta">with ${presenters} · opens the lesson ↗</p>` : nothing}
+				${presenters ? html`<p class="ed-r-c-lesson__meta">with ${presenters}</p>` : nothing}
 				${!compact && l.summary ? html`<ed-text-passage size="sm"><p>${clip(l.summary, 170)}</p></ed-text-passage>` : nothing}
 			</ed-card>
 		`;
@@ -267,10 +280,10 @@ export class EdRCAdaptiveStage extends LitElement {
 						headingTagName="h4"
 					>
 						<div class="resource-tags">
-							${r.essential ? html`<ed-tag text="Essential reading" variant="brand" size="sm"></ed-tag>` : nothing}
+							${r.essential ? this._recommendedTag() : nothing}
 							${this._freshnessTag(r.created)}
 							${r.type ? html`<ed-tag text=${r.type} size="sm"></ed-tag>` : nothing}
-							${(r.tags || []).slice(0, 3).map((t) => html`<ed-tag text=${t} size="sm"></ed-tag>`)}
+							${this._topicTags(r.tags)}
 						</div>
 						${r.summary ? html`<ed-text-passage size="sm"><p>${clip(r.summary, 220)}</p></ed-text-passage>` : nothing}
 					</ed-r-timeline-node-link>`;
@@ -283,26 +296,26 @@ export class EdRCAdaptiveStage extends LitElement {
 		const items = (p.items || []).filter((id) => this._resource(id));
 		if (!items.length) return nothing;
 		return html`
-			<ed-heading variant="title" tagName="h3">${p.heading || "Side by side"}</ed-heading>
-			<ed-table variant="zebra" hoverRows fullWidth label=${p.heading || "Comparison"}>
+			<ed-heading variant="title" tagName="h3">Links &amp; Resources</ed-heading>
+			<ed-table variant="zebra" hoverRows fullWidth label="Links and resources">
 				<ed-table-header>
 					<ed-table-row>
 						<ed-table-header-cell>Resource</ed-table-header-cell>
 						<ed-table-header-cell>Type</ed-table-header-cell>
 						<ed-table-header-cell>Topics</ed-table-header-cell>
 						<ed-table-header-cell>Added</ed-table-header-cell>
-						<ed-table-header-cell>Essential</ed-table-header-cell>
+						<ed-table-header-cell>Recommended</ed-table-header-cell>
 					</ed-table-row>
 				</ed-table-header>
 				<ed-table-body>
 					${items.map((id) => {
 						const r = this._resource(id);
 						return html`<ed-table-row>
-							<ed-table-cell><a href=${r.url} target="_blank" rel="noopener">${r.title}</a></ed-table-cell>
+							<ed-table-cell><strong><a href=${r.url} target="_blank" rel="noopener">${r.title}</a></strong></ed-table-cell>
 							<ed-table-cell>${r.type || "—"}</ed-table-cell>
-							<ed-table-cell>${(r.tags || []).slice(0, 4).join(", ") || "—"}</ed-table-cell>
+							<ed-table-cell><div class="resource-tags resource-tags--flush">${this._topicTags(r.tags, 4)}</div></ed-table-cell>
 							<ed-table-cell>${shortDate(r.created) || "—"}</ed-table-cell>
-							<ed-table-cell>${r.essential ? "★ yes" : ""}</ed-table-cell>
+							<ed-table-cell>${r.essential ? this._recommendedTag() : ""}</ed-table-cell>
 						</ed-table-row>`;
 					})}
 				</ed-table-body>

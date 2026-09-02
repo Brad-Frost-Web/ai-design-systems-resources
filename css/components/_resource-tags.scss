@@ -5,6 +5,11 @@
   margin-block: 1rem;
 }
 
+// Inside a table cell or a card body the wrapper owns no vertical rhythm.
+.resource-tags--flush {
+  margin-block: 0;
+}
+
 .resource-tag {
   display: inline-block;
   padding: 0.25rem 0.5rem;

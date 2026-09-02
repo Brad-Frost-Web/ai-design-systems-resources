@@ -53,6 +53,14 @@
 	filterType.addEventListener("change", applyFilters);
 	filterTag.addEventListener("change", applyFilters);
 	if (filterSource) filterSource.addEventListener("change", applyFilters);
+
+	// Deep link: /?tag=mcp#collection preselects the tag filter. Topic tags in
+	// the composed views point here.
+	const wanted = new URLSearchParams(window.location.search).get("tag");
+	if (wanted) {
+		filterTag.value = wanted;
+		applyFilters();
+	}
 })();
 
 /**
