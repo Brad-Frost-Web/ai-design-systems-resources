@@ -7,7 +7,9 @@ let intelPromise = null;
 
 export function loadIntel() {
 	if (!intelPromise) {
-		intelPromise = fetch("/intel.json").then((res) => {
+		// no-cache: the corpus is rebuilt often; a stale copy silently drops whole
+		// node types (lessons, terms) from every composed view.
+		intelPromise = fetch("/intel.json", { cache: "no-cache" }).then((res) => {
 			if (!res.ok) throw new Error(`intel.json ${res.status}`);
 			return res.json();
 		});
