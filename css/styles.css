@@ -2282,6 +2282,16 @@ ed-band#concierge {
   text-transform: none;
   letter-spacing: normal;
 }
+.ed-r-c-lesson__excerpt {
+  margin: 0;
+  font-size: var(--ed-theme-typography-body-sm-font-size, 0.875rem);
+  line-height: var(--ed-theme-typography-body-sm-line-height, 1.5);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
 .ed-r-c-definition {
   display: grid;
   align-content: start;

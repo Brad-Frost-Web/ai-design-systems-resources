@@ -122,8 +122,9 @@ export class EdRCAdaptiveStage extends LitElement {
 	}
 
 	/**
-	 * A lesson pointer as a compact card: chapter, title (the link), presenter.
-	 * No lesson number — Thinkific never shows it to students. The card has
+	 * A lesson pointer as a compact card: chapter, title (the link), presenter,
+	 * and a three-line excerpt of the Notion summary when the lesson has one
+	 * (about half do). No lesson number — Thinkific never shows it to students. The card has
 	 * exactly one action, so the heading link's ::after covers the whole card
 	 * (per Eddie's card guidance: one primary action, then the card may act). No summary — the card's job is to be recognisable at a glance
 	 * in a strip; the lesson itself is one click away.
@@ -141,7 +142,7 @@ export class EdRCAdaptiveStage extends LitElement {
 					<a href=${l.url} target="_blank" rel="noopener">${l.title}</a>
 				</ed-heading>
 				${presenters ? html`<p class="ed-r-c-lesson__meta">with ${presenters}</p>` : nothing}
-				${!compact && l.summary ? html`<ed-text-passage size="sm"><p>${clip(l.summary, 170)}</p></ed-text-passage>` : nothing}
+				${l.summary ? html`<p class="ed-r-c-lesson__excerpt">${clip(l.summary, compact ? 260 : 400)}</p>` : nothing}
 			</ed-card>
 		`;
 	}
