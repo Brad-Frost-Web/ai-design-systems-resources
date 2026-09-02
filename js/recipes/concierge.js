@@ -12,15 +12,17 @@
  * and the stage says so.
  *
  * The panel is deliberately short: the composed view is the point, and it
- * has to land above the fold. Suggested asks live in SUGGESTED_ASKS (the
- * demo script) but are not rendered.
+ * has to land above the fold. The suggested asks (SUGGESTED_ASKS, the demo
+ * script) render as a presentation-only prompter fixed to the bottom-right
+ * of the viewport, invisible until hovered — an affordance for the person
+ * recording, not part of the page's accessible content.
  *
  * Light-DOM Lit composition: ed-search-form, ed-toolbar, ed-select-field,
  * ed-toggle.
  */
-import { LitElement, html } from "lit";
+import { LitElement, html, render } from "lit";
 import { loadIntel } from "../intel-store.js";
-import { composeSpec, hydrate, LENSES } from "../intent-engine.js";
+import { composeSpec, hydrate, LENSES, SUGGESTED_ASKS } from "../intent-engine.js";
 
 const COMPOSE_URL = "/.netlify/functions/compose";
 const STORAGE_KEY = "resources-concierge-engine";
@@ -72,6 +74,36 @@ export class EdRCConcierge extends LitElement {
 		super.connectedCallback();
 		// Clear the no-JS fallback content (light-DOM Lit appends, not replaces).
 		this.replaceChildren();
+		// The prompter is fixed to the viewport, so it renders at the end of
+		// <body>: inside the hero band it would sit in the band's stacking
+		// context (isolation: isolate) and later, transformed stage nodes would
+		// paint over it.
+		if (!this._prompterHost) {
+			this._prompterHost = document.createElement("div");
+			this._prompterHost.className = "ed-r-c-prompter-host";
+			document.body.appendChild(this._prompterHost);
+		}
+		render(this._prompterTemplate(), this._prompterHost);
+	}
+
+	disconnectedCallback() {
+		super.disconnectedCallback();
+		this._prompterHost?.remove();
+		this._prompterHost = null;
+	}
+
+	/** The demo script: presentation-only, hover to reveal, click to ask. */
+	_prompterTemplate() {
+		return html`<div class="ed-r-c-prompter" aria-hidden="true">
+			<p class="ed-r-c-prompter__label">Try asking</p>
+			<ul class="ed-r-c-prompter__list">
+				${SUGGESTED_ASKS.map(
+					(ask) => html`<li>
+						<button type="button" class="ed-r-c-prompter__ask" tabindex="-1" @click=${() => this._suggest(ask)}>${ask}</button>
+					</li>`,
+				)}
+			</ul>
+		</div>`;
 	}
 
 	_emit(spec, intel) {
@@ -238,6 +270,7 @@ export class EdRCConcierge extends LitElement {
 					</ed-toolbar>
 				</ed-show-hide>
 			</form>
+
 		`;
 	}
 }
