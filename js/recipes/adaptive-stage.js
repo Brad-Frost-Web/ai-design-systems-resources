@@ -136,7 +136,7 @@ export class EdRCAdaptiveStage extends LitElement {
 		return html`
 			<ed-card class="ed-r-c-lesson">
 				<p class="ed-r-c-lesson__eyebrow">
-					${l.chapter ? html`<ed-tag text=${l.chapter} size="sm"></ed-tag>` : nothing}
+					${l.chapter ? html`<ed-tag text=${l.chapter} iconName="play" size="sm"></ed-tag>` : nothing}
 				</p>
 				<ed-heading variant="title-default" tagName="h4">
 					<a href=${l.url} target="_blank" rel="noopener">${l.title}</a>
