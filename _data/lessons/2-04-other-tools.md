@@ -7,5 +7,9 @@ notionId: "3c23c9323e8681548fb2dbe0f9e94001"
 created: "2026-08-20 01:39:41Z"
 presenters:
   - "TJ Pitre"
-tags: []
+tags:
+  - "tools"
+  - "ai-coding"
+  - "southleft"
+  - "cursor"
 ---

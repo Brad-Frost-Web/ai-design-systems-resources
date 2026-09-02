@@ -7,6 +7,9 @@ notionId: "39d3c9323e868185a0cceb9d945ebe7a"
 created: "2026-07-14 18:27:44Z"
 presenters:
   - "TJ Pitre"
-tags: []
+tags:
+  - "documentation"
+  - "tools"
+  - "southleft"
 ---
 TJ shows the released docs rendered in Mintlify, a free documentation host similar to Docusaurus, running locally from the same repo as the components. The text area page mirrors the generated markdown — Figma and source links, anatomy, states in tabular form, token specs, usage guidelines, and accessibility rules — and can be published to a customizable live URL as the human-readable half of the docs pipeline.

@@ -7,6 +7,10 @@ notionId: "39d3c9323e8681cf9b1dc465a1a343de"
 created: "2026-07-14 18:26:32Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "synchronization"
+  - "culture"
+  - "workflow"
+  - "agents"
 ---
 Recaps Station 6: orchestration is ultimately a culture and workflow problem that tooling alone can't solve, but AI can analyze human processes, let agents cross-reference assets beyond old-fashioned hyperlinks, and enforce a definition of done spanning design library, code library, and documentation — while avoiding duplicated sources of truth and adopting TJ's context-based design system workflow.

@@ -7,5 +7,8 @@ notionId: "3663c9323e8681cba9aaca4ba6092563"
 created: "2026-05-20 16:28:57Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "code"
+  - "cursor"
+  - "tools"
 ---

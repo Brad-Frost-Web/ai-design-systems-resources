@@ -7,6 +7,9 @@ notionId: "34a3c9323e868171bca2d96140088d05"
 created: "2026-04-22 19:24:31Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "concepts"
+  - "strategy"
+  - "advocacy"
 ---
 Makes the case for why design systems are worth the investment. Without them: inconsistent, inaccessible, low‑quality experiences, a maintenance nightmare, and a very expensive problem that everyone pays for. With a central source of truth: higher‑quality, more cohesive UX for users; teams freed from rebuilding the button for the 70th time; and faster big initiatives like rebrands — especially valuable as we enter the agentic age.

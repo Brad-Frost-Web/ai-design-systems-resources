@@ -7,6 +7,10 @@ notionId: "3563c9323e8681e18ef5fa40a4752734"
 created: "2026-05-04 16:22:08Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "assessment"
+  - "concepts"
+  - "design tokens"
+  - "components"
 ---
 Frames Chapter 3 with a car metaphor: most design systems run fine on the surface, but the check engine light is on. Maps three damage tiers — loose gas cap (cosmetic: layer names, off tokens, components that don't follow the rules), alternator (detached instances, hardcoded values, missing component properties — slowly losing the structure that makes the system useful), and transmission (no semantic structure, no metadata, no connection to code — the kind of damage that makes AI tools generate garbage and cause more harm than good).

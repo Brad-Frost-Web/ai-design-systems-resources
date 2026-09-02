@@ -7,6 +7,9 @@ notionId: "39d3c9323e86817ca562eb3941aa6321"
 created: "2026-07-14 18:27:28Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "assessment"
+  - "ai"
+  - "concepts"
 ---
 Opens the assessment arc: manually auditing a design system is slow, tedious, and quickly stale because assets are siloed and expertise is uneven across design, code, and docs. Positions AI as the fix — it can crawl the engine, check assets against organizational standards and industry best practices, surface drift, gaps, and contradictions humans miss, and uniquely evaluate the relationships between assets, then turn the corner and help make improvements.

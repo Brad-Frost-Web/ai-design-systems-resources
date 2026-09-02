@@ -7,6 +7,10 @@ notionId: "34a3c9323e868145b1aef25140bbc152"
 created: "2026-04-22 19:13:18Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "course"
+  - "tools"
+  - "api"
+  - "mcp"
 ---
 Introduces Chapter 2: Environments and Tools Setup. Covers installing AI tooling, demystifying API keys and the terminal, configuring MCPs and command line tools, and setting up a sturdy AI dev environment — for all skill levels, not just developers.

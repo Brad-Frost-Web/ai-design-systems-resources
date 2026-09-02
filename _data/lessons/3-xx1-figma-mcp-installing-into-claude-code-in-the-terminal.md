@@ -7,6 +7,10 @@ notionId: "3563c9323e868157ad71d28464757663"
 created: "2026-05-04 16:22:08Z"
 presenters:
   - "Ian Frost"
-tags: []
+tags:
+  - "figma"
+  - "mcp"
+  - "claude"
+  - "tools"
 ---
 Sets up the Figma MCP for Claude Code running in a terminal (Warp). Launches Claude with --dangerously-skip-permissions, finds no MCP servers configured, runs the install command from the Figma MCP guide, re‑launches Claude Code, verifies the figma‑builtin MCP is connected, re‑authenticates, and confirms it works by passing a Figma component link via right‑click → Copy → 'Copy link to selection' and asking 'what component am I on in Figma?'

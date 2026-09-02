@@ -7,6 +7,10 @@ notionId: "39d3c9323e86814cbd1be87f1b6d5ab7"
 created: "2026-07-14 18:27:44Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "agents"
+  - "mcp"
+  - "code connect"
+  - "assessment"
 ---
 Introduces Station 10, the final inspection station: agent access — whether your design system is actually exposed to AI agents via MCP servers, knowledge graphs, and integrations into design tools and code IDEs. AI can assess existing MCP servers, Figma Code Connect, and documentation, then help create the MCP server and skills needed — though the tooling landscape is moving fast, so carry the spirit rather than the specifics.

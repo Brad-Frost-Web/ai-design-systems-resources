@@ -7,6 +7,10 @@ notionId: "39d3c9323e8681b8904dc16ec4fe5a2d"
 created: "2026-07-14 18:26:32Z"
 presenters:
   - "TJ Pitre"
-tags: []
+tags:
+  - "figmalint"
+  - "testing"
+  - "evals"
+  - "southleft"
 ---
 TJ introduces AI-forward ways of testing design systems, using FigmaLint as an example of deterministic testing — checking whether component properties and values are present and correct — plus a language-model-as-a-judge step that makes subjective recommendations, like suggesting a size variant and icon position property for an alert component.

@@ -9,6 +9,10 @@ presenters:
   - "Brad Frost"
   - "TJ Pitre"
   - "Ian Frost"
-tags: []
+tags:
+  - "course"
+  - "southleft"
+  - "figmalint"
+  - "community"
 ---
 Multi‑speaker segment introducing the three teachers behind the course — TJ Pitre (founder/CEO of Southleft), Brad Frost (web designer/developer in Pittsburgh, teaching for 13+ years), and Ian Frost (front‑end architect, working alongside Brad for a decade+) — collectively 50+ years of professional web experience. Covers industry contributions (Atomic Design), in‑house tools (Figma Lint, Story UI), and the breadth of major DS work they've shipped: Helix (Pfizer), NASDAQ Experience Framework, Atmos (United Airlines), Sparky (Pitre Sparks), Blocks (Caterpillar), Novartis, Rally, and more.

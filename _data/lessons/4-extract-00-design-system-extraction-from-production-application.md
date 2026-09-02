@@ -7,5 +7,10 @@ notionId: "3c03c9323e8681e3b970f2755fcd9429"
 created: "2026-08-18 00:13:22Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "figma console mcp"
+  - "storybook"
+  - "design tokens"
+  - "vibe coding"
+  - "southleft"
 ---

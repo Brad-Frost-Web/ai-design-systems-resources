@@ -7,6 +7,11 @@ notionId: "34a3c9323e86812087abfd8f9d50bfa6"
 created: "2026-04-22 19:31:55Z"
 presenters:
   - "Ian Frost"
-tags: []
+tags:
+  - "documentation"
+  - "zeroheight"
+  - "storybook"
+  - "figma"
+  - "tools"
 ---
 The third leg of the asset stool. Uses a 'shelving unit without instructions' metaphor to argue documentation is the set of instructions that lets both makers and users wield the system's materials. Tours documentation as it lives in‑line in Figma, as code comments surfaced through Storybook auto‑docs, and — because those tend to silo — on consolidated reference sites (Zero Height, Mintlify with AI, IBM Carbon) that bring design + dev + usage + a11y docs into one place for technical and non‑technical consumers alike.

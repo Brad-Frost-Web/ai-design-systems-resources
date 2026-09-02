@@ -7,6 +7,10 @@ notionId: "34a3c9323e8681d4b8f5d76e1a3dd523"
 created: "2026-04-22 19:13:18Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "course"
+  - "assessment"
+  - "synchronization"
+  - "documentation"
 ---
 Introduces Chapter 3: Make Better Design Systems with AI. Covers using AI to assess and strengthen existing DS assets (Figma, code, docs), improve quality/accessibility/testing, normalize APIs, translate design↔code, sync design and code, and modernize documentation.

@@ -7,5 +7,10 @@ notionId: "3b93c9323e8681b59770f08ce4b76790"
 created: "2026-08-11 00:27:21Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "eddie"
+  - "code"
+  - "accessibility"
+  - "claude"
+  - "architecture"
 ---

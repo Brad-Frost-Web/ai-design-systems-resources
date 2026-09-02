@@ -7,5 +7,10 @@ notionId: "3663c9323e86819b877dd2bd02a64444"
 created: "2026-05-20 16:30:23Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "ai-coding"
+  - "cursor"
+  - "claude"
+  - "code"
+  - "vibe coding"
 ---

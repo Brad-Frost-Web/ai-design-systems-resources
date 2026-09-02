@@ -7,6 +7,11 @@ notionId: "3573c9323e8681428d74d0461a7c31b1"
 created: "2026-05-05 14:07:58Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "ai"
+  - "claude"
+  - "figma console mcp"
+  - "vibe coding"
+  - "figma"
 ---
 Brad runs a wild LLM lightning tour: Wispr Flow → Claude poem ('medieval poem about atomic design') → ChatGPT image → Suno rock opera → Da Vinci video clip → Warp + Claude Code + Figma + TJ's Figma Console MCP to design and ship a working interactive website with the audio/video wired up — then duplicates everything for a space‑ballet sequel set in 3087. Lands the course's central thesis ('is it good?') and frames why design systems matter more, not less, in an LLM‑powered world: organizational standards are the bar of quality that turn LLM speed into real value, not just stuff lobbed onto the internet.

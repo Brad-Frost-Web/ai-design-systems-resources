@@ -7,6 +7,10 @@ notionId: "39d3c9323e8681259095edd3a2803c9d"
 created: "2026-07-14 18:26:32Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "assessment"
+  - "data"
+  - "agents"
+  - "culture"
 ---
 Recaps Station 8: adoption analytics numbers (how many times a button is used and by whom) are only part of the picture. AI plugged into product landscapes can act as eyes in the sky to understand how teams actually use the design system, where they succeed, and what frustrates them, then feed that back to inform the system's priorities and roadmap — bringing the historically distant worlds of product and system closer together.

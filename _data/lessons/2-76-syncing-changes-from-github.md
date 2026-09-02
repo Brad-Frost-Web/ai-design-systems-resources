@@ -7,5 +7,9 @@ notionId: "3663c9323e8681d8a18cd6bd803bd3be"
 created: "2026-05-20 16:31:53Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "code"
+  - "claude"
+  - "workflow"
+  - "synchronization"
 ---

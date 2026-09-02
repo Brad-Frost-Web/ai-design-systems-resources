@@ -7,5 +7,9 @@ notionId: "3663c9323e86814fa114fc5f5605fbe6"
 created: "2026-05-20 16:27:31Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "governance"
+  - "code"
+  - "tools"
+  - "culture"
 ---

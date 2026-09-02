@@ -7,5 +7,10 @@ notionId: "3663c9323e868162b409fdd099f15e16"
 created: "2026-05-20 16:33:26Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "figma"
+  - "mcp"
+  - "claude"
+  - "soul patrol"
+  - "synchronization"
 ---

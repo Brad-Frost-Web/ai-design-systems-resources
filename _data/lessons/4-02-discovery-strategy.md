@@ -7,5 +7,9 @@ notionId: "3c13c9323e8681b59a70dd23efa1a8b0"
 created: "2026-08-19 00:13:01Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "strategy"
+  - "assessment"
+  - "process"
+  - "context engineering"
 ---

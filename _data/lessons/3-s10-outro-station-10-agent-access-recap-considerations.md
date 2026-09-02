@@ -7,6 +7,10 @@ notionId: "39d3c9323e86818ab702ea406b469f5c"
 created: "2026-07-14 18:27:44Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "agents"
+  - "mcp"
+  - "documentation"
+  - "assessment"
 ---
 Wraps up Station 10 and the full multi-point inspection: machine-readable docs (Station 9) are only the first step — real success comes from connecting your design system to the actual tooling environments your organization uses. Agent-access tools and techniques are still emerging, so this is not set-it-and-forget-it; expect to revisit how you expose your design system to AI agents as the landscape evolves.

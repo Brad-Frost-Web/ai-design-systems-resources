@@ -7,6 +7,10 @@ notionId: "34a3c9323e8681f38873f69b2d35d6d6"
 created: "2026-04-22 19:31:55Z"
 presenters:
   - "Ian Frost"
-tags: []
+tags:
+  - "code"
+  - "components"
+  - "eddie"
+  - "tools"
 ---
 How design system assets actually get from a repo into downstream product teams' hands. Walks through running a build command to produce a transpiled distribution folder, then publishing that folder as a package via NPM — illustrated with Brad Frost's Eddie web components and IBM Carbon's web components install commands.

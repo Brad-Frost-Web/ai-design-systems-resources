@@ -7,5 +7,9 @@ notionId: "3663c9323e8681619d36d8a35af93ad6"
 created: "2026-05-20 16:35:31Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "storybook"
+  - "soul patrol"
+  - "prototyping"
+  - "components"
 ---

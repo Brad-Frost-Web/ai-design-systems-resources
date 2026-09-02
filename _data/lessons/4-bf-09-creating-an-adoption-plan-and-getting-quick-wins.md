@@ -7,5 +7,10 @@ notionId: "3b93c9323e8681ae9766f409ecc8d659"
 created: "2026-08-11 00:27:21Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "eddie"
+  - "skills"
+  - "assessment"
+  - "claude"
+  - "components"
 ---

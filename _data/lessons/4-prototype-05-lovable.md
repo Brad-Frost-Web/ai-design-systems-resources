@@ -7,5 +7,9 @@ notionId: "3a43c9323e8681d383aed5d20587645b"
 created: "2026-07-21 00:23:00Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "prototyping"
+  - "figma console mcp"
+  - "altitude"
+  - "southleft"
 ---

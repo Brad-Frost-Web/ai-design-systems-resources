@@ -7,5 +7,9 @@ notionId: "3c23c9323e868121988bcdbc514feb29"
 created: "2026-08-20 01:39:47Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "process"
+  - "workflow"
+  - "concepts"
+  - "strategy"
 ---

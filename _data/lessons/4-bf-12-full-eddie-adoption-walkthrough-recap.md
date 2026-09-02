@@ -7,5 +7,9 @@ notionId: "3bd3c9323e86816d830dc2d629fdbcc1"
 created: "2026-08-15 00:13:45Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "eddie"
+  - "case-study"
+  - "design tokens"
+  - "workflow"
 ---

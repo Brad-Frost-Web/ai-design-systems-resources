@@ -7,5 +7,9 @@ notionId: "3c23c9323e86816c8480c6a393f7a08c"
 created: "2026-08-20 01:39:48Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "assessment"
+  - "eddie"
+  - "governance"
+  - "accessibility"
 ---

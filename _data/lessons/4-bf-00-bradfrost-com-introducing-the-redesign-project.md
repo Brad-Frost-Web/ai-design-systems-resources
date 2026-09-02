@@ -7,5 +7,9 @@ notionId: "3a23c9323e8681378e57d21ce76982a9"
 created: "2026-07-19 00:23:44Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "eddie"
+  - "case-study"
+  - "strategy"
+  - "process"
 ---

@@ -7,5 +7,10 @@ notionId: "3c23c9323e8681bb80c7d4ebee191240"
 created: "2026-08-20 01:39:53Z"
 presenters:
   - "Ian Frost"
-tags: []
+tags:
+  - "figma console mcp"
+  - "storybook"
+  - "code"
+  - "soul patrol"
+  - "claude"
 ---

@@ -7,6 +7,8 @@ notionId: "34a3c9323e86819d83b5cc53e7887c99"
 created: "2026-04-22 19:45:26Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "course"
+  - "community"
 ---
 Sets practical expectations for the course experience: self‑paced video, choose‑your‑own‑adventure; demos, exercises, and a course FigJam; a resources hub (resources.ai and design systems); a Slack workspace community of fellow travelers; a certificate of completion for LinkedIn/resume; lifetime access with change notifications; and a warning about weird jokes and dated pop culture references ('sorry, not sorry').

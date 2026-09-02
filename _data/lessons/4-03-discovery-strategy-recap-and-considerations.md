@@ -7,5 +7,8 @@ notionId: "3c13c9323e868148a81dd302c076e3a3"
 created: "2026-08-19 00:13:18Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "strategy"
+  - "process"
+  - "assessment"
 ---

@@ -7,6 +7,11 @@ notionId: "34a3c9323e86814a8f12c0b8bcad17bb"
 created: "2026-04-22 19:13:18Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "course"
+  - "culture"
+  - "politics"
+  - "governance"
+  - "strategy"
 ---
 Introduces Chapter 6: Operationalizing AI and Design Systems. Covers navigating organizational buy-in, rolling out AI+DS programs from crawl to walk to run, and the human terrain — relationships, culture, and politics — that determines real-world success.

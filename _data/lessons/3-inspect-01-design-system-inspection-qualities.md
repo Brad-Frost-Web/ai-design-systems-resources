@@ -7,6 +7,10 @@ notionId: "39d3c9323e868118b181cc515e5ab293"
 created: "2026-07-14 18:27:28Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "assessment"
+  - "concepts"
+  - "synchronization"
+  - "governance"
 ---
 Walks through the five qualities the multi-point inspection assesses: completeness (all the tokens, components, variants, and docs your org needs), soundness (is what's there actually good, accessible, tested), synchronization (are design, code, and docs orchestrated together), extensibility (governance, measured adoption, the virtuous system-product cycle), and AI readiness — can LLMs actually read and wield the system's ingredients.

@@ -7,5 +7,9 @@ notionId: "3c23c9323e8681368e06f34ca83795be"
 created: "2026-08-20 01:39:38Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "concepts"
+  - "course"
+  - "ai"
+  - "strategy"
 ---

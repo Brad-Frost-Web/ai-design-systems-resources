@@ -7,6 +7,10 @@ notionId: "34a3c9323e8681228238e5f75c052a53"
 created: "2026-04-22 19:45:26Z"
 presenters:
   - "Brad Frost"
-tags: []
+tags:
+  - "course"
+  - "strategy"
+  - "workflow"
+  - "concepts"
 ---
 Lays out what this course is here to do: help teams navigate a fast‑moving digital landscape full of hype and snake oil; give practitioners solid ground to stand on; teach how to use design systems and AI together to work with the grain of organizational standards (not generate off‑the‑cuff); unlock new levels of efficiency; show real, hands‑on, practical implementations from basic to advanced; and establish more collaborative workflows across design, development, product, and all the other stakeholders involved in digital success.

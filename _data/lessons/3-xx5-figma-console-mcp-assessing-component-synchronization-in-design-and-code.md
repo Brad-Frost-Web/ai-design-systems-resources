@@ -7,5 +7,10 @@ notionId: "3663c9323e8681bc9b98f125e0a90c8b"
 created: "2026-05-20 16:35:31Z"
 presenters:
   - "TJ Pitre"
-tags: []
+tags:
+  - "figma console mcp"
+  - "synchronization"
+  - "assessment"
+  - "soul patrol"
+  - "southleft"
 ---

@@ -7,5 +7,10 @@ notionId: "3c23c9323e8681c3af68dc5c3a0accb8"
 created: "2026-08-20 01:39:45Z"
 presenters:
   - "TJ Pitre"
-tags: []
+tags:
+  - "mcp"
+  - "figma"
+  - "skills"
+  - "claude"
+  - "southleft"
 ---
