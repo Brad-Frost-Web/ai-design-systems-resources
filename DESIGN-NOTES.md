@@ -1,7 +1,11 @@
 # Design exploration: the chameleon resources site
 
 **Branch:** `design/13-chameleon-resources` · **Issue:** #13 (Explore: adaptive UI)
-**Status:** exploratory sketch — never merges; promote via `bfw-process design promote`
+**Status:** **promoting.** Started as an exploratory sketch that never merges;
+Brad recorded the Chapter 5 generative UI lesson against it on 2026-09-02 and
+decided its fate is promotion (resources#25). The work itself is not scheduled
+yet — until it happens, this branch is footage of record, so treat drift from
+`main` as a cost, not a curiosity.
 
 ## What this is
 
@@ -25,6 +29,15 @@ only — animating `filter` stalls compositors on tall pages), freshness badges
 preserved (collection is server-rendered semantic HTML).
 
 ## Deviation / gap cohort (file as issues on promotion — dual-file per §9.4.1)
+
+**Promotion checklist** (2026-09-02, unscheduled): file items 1–4 upstream — 5
+and the tag-list wrap are already filed as
+[eddie#1814](https://github.com/Brad-Frost-Web/eddie-design-system/issues/1814)
+and [eddie#1815](https://github.com/Brad-Frost-Web/eddie-design-system/issues/1815);
+put `ANTHROPIC_API_KEY` in the Netlify site env; raise the site's function
+timeout above compose's 7–9s (default is 10s) or make compose streaming; give
+the compose rate limit a durable store. Item 2 is stale — `ed-r-stat-card`
+ships in eddie-recipes 0.60 and the site uses it.
 
 1. **Upstream, eddie-web-components:** `ed-radio-field-item` swallows its
    native change event (preventDefault, no re-dispatch) and doesn't reflect
