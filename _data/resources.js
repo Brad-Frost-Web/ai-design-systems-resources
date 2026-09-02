@@ -43,6 +43,7 @@ module.exports = function () {
 			type: data.type || null,
 			created: data.created || null,
 			notionId: data.notionId || null,
+			essential: data.essential === true,
 		};
 
 		// Pass through Slack-specific fields when present

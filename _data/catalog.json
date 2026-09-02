@@ -1,0 +1,551 @@
+{
+	"source": "https://ds.bradfrost.com/mcp",
+	"server": "eddie-brain 0.60.0",
+	"generated": "2026-09-02T13:41:19.344Z",
+	"nodes": [
+		{
+			"node": "summary",
+			"components": [
+				"ed-text-passage"
+			],
+			"primary": "ed-text-passage",
+			"use": "Always first: one short paragraph framing everything the reader is about to see. Never more than one paragraph.",
+			"props": {
+				"text": "string"
+			},
+			"eddie": {
+				"displayName": "Text Passage",
+				"atomicLevel": "organism",
+				"package": "eddie-web-components",
+				"intent": "Container for rich text content from CMS or markdown sources.",
+				"use": [
+					"Rendering CMS-sourced or markdown-generated rich text where you don't control the inner HTML structure",
+					"Blog post bodies, article content, product descriptions, and any long-form prose that includes mixed elements (paragraphs, lists, blockquotes)",
+					"Wrapping user-generated content to apply consistent typography and spacing without per-element component composition"
+				],
+				"dontUse": [
+					"For single paragraphs or short strings that don't need rich-text styling — use a plain `<p>` or `<span>` instead",
+					"As a layout container — text-passage styles typography, not spatial layout. Use `ed-layout-container` or `ed-grid` for structural concerns",
+					"For content you're already composing with Eddie components (ed-heading, ed-list, etc.) — text-passage is for unstructured HTML, not component-composed content"
+				],
+				"properties": [
+					{
+						"name": "knockout",
+						"type": "boolean"
+					},
+					{
+						"name": "inverted",
+						"type": "boolean"
+					},
+					{
+						"name": "size",
+						"type": "string",
+						"options": [
+							"sm",
+							"lg",
+							"xl"
+						]
+					},
+					{
+						"name": "capLinelength",
+						"type": "boolean"
+					}
+				]
+			}
+		},
+		{
+			"node": "videoGrid",
+			"components": [
+				"ed-grid",
+				"ed-card",
+				"ed-tag"
+			],
+			"primary": "ed-card",
+			"use": "Course video lessons that answer the ask. A grid of cards, each opening the lesson in a new tab. Lead with this whenever lessons match — lessons outrank everything else.",
+			"props": {
+				"heading": "string",
+				"items": "lesson ids (3–9)"
+			},
+			"eddie": {
+				"displayName": "Card",
+				"atomicLevel": "molecule",
+				"package": "eddie-web-components",
+				"intent": "A flexible container component that organizes content into three distinct zones: a visual media region, a core content body, and an actions region. Cards are ideal for grouping related information, creating visual blocks on a page, and building modular layouts.",
+				"use": [
+					"Grouping related content into visually distinct blocks on a page",
+					"Building product listings, article summaries, or dashboard widgets where each item is self-contained",
+					"Creating modular, reusable layouts where each card has its own concerns and can be rearranged independently"
+				],
+				"dontUse": [
+					"Put a heading (`<ed-heading>`) inside the `header` slot — headings belong in the default body slot. The `header` slot is exclusively for media/imagery/visual content above the body",
+					"Put text, labels, or metadata inside the `footer` slot — the footer slot is exclusively for actions (buttons, button groups). Textual metadata goes in the default body slot",
+					"As a generic wrapper when no visual separation is needed — use a plain container or `ed-layout-container` instead"
+				],
+				"properties": [
+					{
+						"name": "variant",
+						"type": "string",
+						"options": [
+							"bare"
+						]
+					},
+					{
+						"name": "align",
+						"type": "string",
+						"options": [
+							"center"
+						]
+					}
+				]
+			}
+		},
+		{
+			"node": "definition",
+			"components": [
+				"ed-heading",
+				"ed-text-passage",
+				"ed-tag-list",
+				"ed-tag"
+			],
+			"primary": "ed-text-passage",
+			"use": "A glossary term the ask names or clearly circles. Dictionary-entry treatment: the term, its definition, the lessons where it's taught. Distinct from a link card on purpose.",
+			"props": {
+				"terms": "term slugs (1–3)"
+			},
+			"eddie": {
+				"displayName": "Text Passage",
+				"atomicLevel": "organism",
+				"package": "eddie-web-components",
+				"intent": "Container for rich text content from CMS or markdown sources.",
+				"use": [
+					"Rendering CMS-sourced or markdown-generated rich text where you don't control the inner HTML structure",
+					"Blog post bodies, article content, product descriptions, and any long-form prose that includes mixed elements (paragraphs, lists, blockquotes)",
+					"Wrapping user-generated content to apply consistent typography and spacing without per-element component composition"
+				],
+				"dontUse": [
+					"For single paragraphs or short strings that don't need rich-text styling — use a plain `<p>` or `<span>` instead",
+					"As a layout container — text-passage styles typography, not spatial layout. Use `ed-layout-container` or `ed-grid` for structural concerns",
+					"For content you're already composing with Eddie components (ed-heading, ed-list, etc.) — text-passage is for unstructured HTML, not component-composed content"
+				],
+				"properties": [
+					{
+						"name": "knockout",
+						"type": "boolean"
+					},
+					{
+						"name": "inverted",
+						"type": "boolean"
+					},
+					{
+						"name": "size",
+						"type": "string",
+						"options": [
+							"sm",
+							"lg",
+							"xl"
+						]
+					},
+					{
+						"name": "capLinelength",
+						"type": "boolean"
+					}
+				]
+			}
+		},
+		{
+			"node": "resourceTimeline",
+			"components": [
+				"ed-timeline",
+				"ed-r-timeline-node-link"
+			],
+			"primary": "ed-timeline",
+			"use": "Articles, tools, and links from the collection, newest first, with essential reading marked. The default shape for resources — a dated list, not a grid of identical cards. Also the shape for 'what's new' asks.",
+			"props": {
+				"heading": "string",
+				"items": "resource ids (4–12)"
+			},
+			"eddie": {
+				"displayName": "Timeline",
+				"atomicLevel": "molecule",
+				"package": "eddie-web-components",
+				"intent": "A timeline that displays a chronological sequence of entries along a shared connecting line. Wraps `ed-timeline-node` children — bare, content-agnostic containers — to give them the line, correctly-sized markers, and consistent spacing. Sits between a page section and its entry content: entries are composed by slotting content (or, preferably, a timeline node recipe) into each node.",
+				"use": [
+					"Displaying a chronological sequence of events, milestones, or entries (career history, project phases, changelog, release feed, mixed-content activity spine)",
+					"Wrapping multiple `ed-timeline-node` elements so they share a connecting line, marker sizing, and consistent spacing",
+					"Building \"about\" or \"history\" page sections where temporal order carries meaning — `arrangement=\"alternating\"` gives the dramatic flanking layout common on personal/portfolio sites"
+				],
+				"dontUse": [
+					"For non-chronological lists — use `ed-link-list` or `ed-list` instead; the visual line implies a time-based sequence",
+					"With only a single `ed-timeline-node` — a timeline of one entry has no meaningful progression; use a card or text passage instead",
+					"As a generic vertical/horizontal list layout — the timeline marker and connecting line carry specific temporal semantics"
+				],
+				"properties": [
+					{
+						"name": "orientation",
+						"type": "string",
+						"options": [
+							"vertical",
+							"horizontal"
+						]
+					},
+					{
+						"name": "arrangement",
+						"type": "string",
+						"options": [
+							"stacked",
+							"alternating"
+						]
+					},
+					{
+						"name": "behavior",
+						"type": "string",
+						"options": [
+							"stacked",
+							"alternating"
+						]
+					},
+					{
+						"name": "size",
+						"type": "string",
+						"options": [
+							"sm",
+							"md",
+							"lg",
+							"xl"
+						]
+					},
+					{
+						"name": "layout",
+						"type": "string",
+						"options": [
+							"snake"
+						]
+					},
+					{
+						"name": "runLength",
+						"type": "number"
+					},
+					{
+						"name": "motion",
+						"type": "string",
+						"options": [
+							"draw"
+						]
+					},
+					{
+						"name": "scrollable",
+						"type": "boolean"
+					}
+				]
+			}
+		},
+		{
+			"node": "table",
+			"components": [
+				"ed-table",
+				"ed-table-header",
+				"ed-table-body",
+				"ed-table-row",
+				"ed-table-cell"
+			],
+			"primary": "ed-table",
+			"use": "Comparison asks — 'which tools', 'compare X and Y', 'what are my options'. Rows are resources, columns are the facts that separate them (type, tags, added). Never for layout.",
+			"props": {
+				"heading": "string",
+				"items": "resource ids (3–12)",
+				"columns": "optional column keys"
+			},
+			"eddie": {
+				"displayName": "Table",
+				"atomicLevel": "organism",
+				"package": "eddie-web-components",
+				"intent": "A semantic table component for displaying structured data in rows and columns. Tables support variants for visual styling (zebra striping, hover effects) and full-width layouts. Use compound children (table-header, table-body, table-row, table-cell, table-header-cell) to structure tabular content with proper semantic HTML.",
+				"use": [
+					"Displaying structured, tabular datasets where rows and columns create meaningful relationships — financial reports, inventory lists, comparison grids",
+					"Enabling scannable dense data with `variant=\"zebra\"` for alternating row colors that improve readability in long tables",
+					"Adding `hoverRows` to interactive data tables where users need to visually track a row across many columns"
+				],
+				"dontUse": [
+					"For layout purposes — tables are for data, not for positioning elements on a page; use `ed-grid` or `ed-layout-container` for layout",
+					"For key-value pairs or simple label/value displays — use `ed-key-value-table` instead, which is designed for that pattern",
+					"For content that is not genuinely tabular — if the data does not have row/column relationships, use `ed-link-list`, `ed-card`, or plain markup instead"
+				],
+				"properties": [
+					{
+						"name": "variant",
+						"type": "string",
+						"options": [
+							"zebra"
+						]
+					},
+					{
+						"name": "hoverRows",
+						"type": "boolean"
+					},
+					{
+						"name": "fullWidth",
+						"type": "boolean"
+					},
+					{
+						"name": "label",
+						"type": "string"
+					}
+				]
+			}
+		},
+		{
+			"node": "tabs",
+			"components": [
+				"ed-tabs",
+				"ed-tab",
+				"ed-card"
+			],
+			"primary": "ed-tabs",
+			"use": "Lessons that span several chapters, or an ask about a learning path — one tab per chapter so the reader can see the shape of the course.",
+			"props": {
+				"heading": "string",
+				"groups": "[{label, items: lesson ids}]"
+			},
+			"eddie": {
+				"displayName": "Tabs",
+				"atomicLevel": "organism",
+				"package": "eddie-web-components",
+				"intent": "A tabbed interface component that organizes content into multiple panels. Only one tab is active at a time; clicking a tab label shows its content panel. Supports keyboard navigation (arrow keys), knockout styling for dark backgrounds, and alignment control.",
+				"use": [
+					"Organizing related content into switchable panels where only one panel is relevant at a time (e.g., account settings, billing, notifications)",
+					"Reducing vertical scrolling by grouping information into labeled categories that users can browse without leaving the page",
+					"Composing with `ed-tab` children — each `ed-tab` provides a `label` (rendered as the tab trigger) and slot content (rendered as the panel)"
+				],
+				"dontUse": [
+					"For sequential steps or wizards where order matters — tabs imply equal-weight, non-sequential content. Use a stepper or multi-step form pattern instead",
+					"When all content sections should be visible simultaneously — tabs hide inactive panels. Use `ed-section` or an accordion if all content must be scannable",
+					"For primary navigation between different pages or routes — tabs are for in-page content switching, not URL-level navigation"
+				],
+				"properties": [
+					{
+						"name": "knockout",
+						"type": "boolean"
+					},
+					{
+						"name": "inverted",
+						"type": "boolean"
+					},
+					{
+						"name": "activeIndex",
+						"type": "number"
+					},
+					{
+						"name": "align",
+						"type": "string",
+						"options": [
+							"center",
+							"right"
+						]
+					}
+				]
+			}
+		},
+		{
+			"node": "barChart",
+			"components": [
+				"ed-r-bar-chart"
+			],
+			"primary": "ed-r-bar-chart",
+			"use": "Quantitative asks about the collection itself — counts per month, per tag, per type. The chart carries its own accessible data table. Only when the ask is genuinely about numbers.",
+			"props": {
+				"heading": "string",
+				"labels": "string[]",
+				"datasets": "[{label, values}]",
+				"chartLabel": "string"
+			},
+			"eddie": {
+				"displayName": "R Bar Chart",
+				"atomicLevel": "recipe",
+				"package": "eddie-charts",
+				"intent": "Bar chart recipe — categorical data rendered with Chart.js 4.",
+				"use": [
+					"For comparing 3–20 discrete categories along one numeric dimension (monthly revenue, spend by department, project progress).",
+					"For grouped or stacked comparison of 2–4 related series per category.",
+					"When labels need to read like regular text (not dates or a continuum)."
+				],
+				"dontUse": [
+					"For time-series with a continuous temporal axis — use `ed-r-line-chart`.",
+					"For proportion-of-whole with ≤6 slices — use `ed-r-doughnut`.",
+					"For actual-versus-projected overlays — use `ed-r-projection`."
+				],
+				"properties": [
+					{
+						"name": "data",
+						"type": "BarChartData"
+					},
+					{
+						"name": "orientation",
+						"type": "string",
+						"options": [
+							"vertical",
+							"horizontal"
+						]
+					},
+					{
+						"name": "variant",
+						"type": "string",
+						"options": [
+							"grouped",
+							"stacked"
+						]
+					},
+					{
+						"name": "chartLabel",
+						"type": "string"
+					},
+					{
+						"name": "dataTable",
+						"type": "boolean"
+					},
+					{
+						"name": "yFormat",
+						"type": "(v: number)"
+					}
+				]
+			}
+		},
+		{
+			"node": "statRow",
+			"components": [
+				"ed-grid",
+				"ed-r-stat-card"
+			],
+			"primary": "ed-r-stat-card",
+			"use": "Three headline numbers about the result or the collection. Closes a view; never opens one.",
+			"props": {
+				"stats": "[{label, value, meta}] (exactly 3)"
+			},
+			"eddie": {
+				"displayName": "R Stat Card",
+				"atomicLevel": "recipe",
+				"package": "eddie-recipes",
+				"intent": "A compact KPI display composed of `ed-card` + two `ed-heading`s + `ed-text-passage`. The label is the card's semantic heading; the value is a display-sized sub-heading; the meta line is supporting body text. Designed to sit as a peer of other stat cards inside an `ed-grid`, forming a dashboard or summary surface.",
+				"use": [
+					"At the top of a dashboard page to present KPIs as a grid of cards",
+					"On a landing page to show at-a-glance metrics",
+					"In an admin or settings page to summarize account-level quantities"
+				],
+				"dontUse": [
+					"For longer-form content with multiple paragraphs — use `ed-card` with `ed-text-passage` directly",
+					"As a decorative label-only element — use `ed-tag`",
+					"As a single interactive link wrapper — do not make the whole card one clickable element"
+				],
+				"properties": [
+					{
+						"name": "label",
+						"type": "string"
+					},
+					{
+						"name": "meta",
+						"type": "string"
+					},
+					{
+						"name": "variant",
+						"type": "string",
+						"options": [
+							"default",
+							"positive",
+							"warning",
+							"danger"
+						]
+					},
+					{
+						"name": "headingTagName",
+						"type": "string",
+						"options": [
+							"h2",
+							"h3",
+							"h4",
+							"h5",
+							"h6"
+						]
+					}
+				]
+			}
+		},
+		{
+			"node": "note",
+			"components": [
+				"ed-alert"
+			],
+			"primary": "ed-alert",
+			"use": "Low confidence, or an ask the collection genuinely can't answer. Say so plainly instead of guessing.",
+			"props": {
+				"heading": "string",
+				"text": "string"
+			},
+			"eddie": {
+				"displayName": "Alert",
+				"atomicLevel": "molecule",
+				"package": "eddie-web-components",
+				"intent": "An alert banner for displaying important messages with semantic meaning. Alerts communicate status, warnings, errors, and success states with appropriate icons and styling. Can be dismissible (when onDismiss callback is provided) or persistent.",
+				"use": [
+					"Displaying system-level status messages that require immediate user attention — errors after form submission, success confirmations after saving, or warnings about expiring sessions",
+					"Communicating validation summaries at the top of a form before the user scrolls to individual field errors",
+					"Providing persistent compliance or legal notices (non-dismissible) that must remain visible throughout the user's session"
+				],
+				"dontUse": [
+					"For inline field-level validation messages — use `ed-field-note` with `isError` on individual form fields instead of a page-level alert",
+					"As a promotional banner or marketing callout — alerts carry semantic urgency; use `ed-hero`, `ed-section`, or a custom banner for non-critical messaging",
+					"Stacking multiple alerts of the same variant simultaneously — consolidate related messages into a single alert with a list to avoid alert fatigue"
+				],
+				"properties": [
+					{
+						"name": "iconName",
+						"type": "string"
+					},
+					{
+						"name": "headingVariant",
+						"type": "string",
+						"options": [
+							"headline-lg",
+							"headline",
+							"headline-sm",
+							"title-lg",
+							"title",
+							"title-sm"
+						]
+					},
+					{
+						"name": "tagName",
+						"type": "string",
+						"options": [
+							"h1",
+							"h2",
+							"h3",
+							"h4",
+							"h5",
+							"h6"
+						]
+					},
+					{
+						"name": "heading",
+						"type": "string"
+					},
+					{
+						"name": "dismissed",
+						"type": "boolean"
+					},
+					{
+						"name": "variant",
+						"type": "string",
+						"options": [
+							"success",
+							"error",
+							"warning"
+						]
+					},
+					{
+						"name": "onDismiss",
+						"type": "()"
+					}
+				]
+			}
+		}
+	]
+}

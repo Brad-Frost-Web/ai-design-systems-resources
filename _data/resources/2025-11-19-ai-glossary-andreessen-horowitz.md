@@ -10,4 +10,5 @@ tags:
   - "terminology|pink"
   - "language|yellow"
 source: "course"
+essential: true
 ---

@@ -12,4 +12,5 @@ tags:
   - "mcp|purple"
   - "ai-architecture|pink"
   - "concepts|default"
+essential: true
 ---

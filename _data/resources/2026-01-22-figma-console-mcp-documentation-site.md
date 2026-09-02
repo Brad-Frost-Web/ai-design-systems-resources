@@ -12,4 +12,5 @@ tags:
   - "figma|brown"
   - "mcp|purple"
   - "documentation|green"
+essential: true
 ---

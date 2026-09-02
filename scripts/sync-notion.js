@@ -61,6 +61,7 @@ function toMarkdown(resource) {
 	if (resource.type) yaml += `type: ${yamlQuote(resource.type)}\n`;
 	if (resource.created) yaml += `created: ${yamlQuote(resource.created)}\n`;
 	if (resource.notionId) yaml += `notionId: ${yamlQuote(resource.notionId)}\n`;
+	if (resource.essential) yaml += "essential: true\n";
 	if (resource.tags.length > 0) {
 		yaml += "tags:\n";
 		resource.tags.forEach((tag) => {
@@ -117,6 +118,9 @@ function pageToResource(page) {
 			})) || [],
 		type: properties.Type?.select?.name || null,
 		created: properties.Created?.created_time || null,
+		// Human-set "essential reading / core tool" flag — weighted heavily by
+		// the resource explorer's ranking and badged on the card.
+		essential: properties.Essential?.checkbox === true,
 		notionId: page.id,
 	};
 }
@@ -145,6 +149,7 @@ async function createNotionPage(notion, databaseId, fm, tagNames) {
 	};
 	if (fm.url && fm.url !== "#") properties["URL"] = { url: fm.url };
 	if (fm.type) properties["Type"] = { select: { name: fm.type } };
+	if (fm.essential === "true") properties["Essential"] = { checkbox: true };
 	if (tagNames.length > 0) {
 		properties["Tags"] = { multi_select: tagNames.map((name) => ({ name })) };
 	}
