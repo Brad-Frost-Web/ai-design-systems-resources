@@ -1565,6 +1565,11 @@ ed-band#concierge {
   background: var(--ed-theme-color-background-subtle);
 }
 
+.ed-r-c-prompter__ask[data-copied]::after {
+  content: " — copied";
+  color: var(--ed-theme-color-content-subtle, currentColor);
+}
+
 .ed-r-c-stage {
   display: grid;
   gap: 1rem;

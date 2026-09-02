@@ -22,7 +22,7 @@
  */
 import { LitElement, html, render } from "lit";
 import { loadIntel } from "../intel-store.js";
-import { composeSpec, hydrate, LENSES, SUGGESTED_ASKS } from "../intent-engine.js";
+import { canonicalAsk, composeSpec, hydrate, LENSES, SUGGESTED_ASKS } from "../intent-engine.js";
 
 const COMPOSE_URL = "/.netlify/functions/compose";
 const STORAGE_KEY = "resources-concierge-engine";
@@ -92,14 +92,28 @@ export class EdRCConcierge extends LitElement {
 		this._prompterHost = null;
 	}
 
-	/** The demo script: presentation-only, hover to reveal, click to ask. */
+	/**
+	 * The demo script: presentation-only, hover to reveal, click to COPY the
+	 * ask to the clipboard. The person recording pastes it into the field like
+	 * anyone else would — the engine matches the typed text, which is the
+	 * honest demonstration.
+	 */
 	_prompterTemplate() {
+		const copy = async (ask, button) => {
+			try {
+				await navigator.clipboard.writeText(ask);
+				button.dataset.copied = "true";
+				setTimeout(() => delete button.dataset.copied, 1200);
+			} catch (err) {
+				console.warn("prompter: clipboard unavailable —", err.message);
+			}
+		};
 		return html`<div class="ed-r-c-prompter" aria-hidden="true">
-			<p class="ed-r-c-prompter__label">Try asking</p>
+			<p class="ed-r-c-prompter__label">Click to copy</p>
 			<ul class="ed-r-c-prompter__list">
 				${SUGGESTED_ASKS.map(
 					(ask) => html`<li>
-						<button type="button" class="ed-r-c-prompter__ask" tabindex="-1" @click=${() => this._suggest(ask)}>${ask}</button>
+						<button type="button" class="ed-r-c-prompter__ask" tabindex="-1" @click=${(e) => copy(ask, e.currentTarget)}>${ask}</button>
 					</li>`,
 				)}
 			</ul>
@@ -133,7 +147,9 @@ export class EdRCConcierge extends LitElement {
 					const res = await fetch(COMPOSE_URL, {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify({ ask, lens: this._lens, useBrain: this._useBrain }),
+						// Claude gets the canonical ask too, so a typed variant and the
+						// scripted line compose the same view on both engines.
+						body: JSON.stringify({ ask: canonicalAsk(ask).ask, typed: ask, lens: this._lens, useBrain: this._useBrain }),
 					});
 					if (requestId !== this._requestId) return; // a newer ask superseded this one
 					if (!res.ok) throw new Error(`compose ${res.status}`);

@@ -210,6 +210,11 @@ ed-band#concierge {
 	background: var(--ed-theme-color-background-subtle);
 }
 
+.ed-r-c-prompter__ask[data-copied]::after {
+	content: " — copied";
+	color: var(--ed-theme-color-content-subtle, currentColor);
+}
+
 // ---------------------------------------------------------------------------
 // Adaptive stage — the diffusion-flavored settle. Content arrives blurred
 // and slightly displaced, then resolves. Reduced motion renders instantly.

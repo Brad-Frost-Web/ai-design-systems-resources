@@ -101,6 +101,63 @@ export function freshness(iso) {
 
 const STOP = new Set(["what", "does", "with", "that", "this", "from", "have", "into", "your", "when", "which", "should", "where", "about", "using", "like", "look", "make", "need", "want", "them", "they", "there", "their", "will", "just", "really", "much", "more", "some", "than", "then", "also", "been", "being", "were", "would", "could", "know", "help", "show", "give", "tell", "find", "resources", "added", "website", "site"]);
 
+/* ------------------------------------------------------------------------ */
+/* Canonical asks — a typed question resolves to the same ask as the script   */
+/* ------------------------------------------------------------------------ */
+
+const PREAMBLES = [
+	"can you tell me about", "could you tell me about", "tell me more about", "tell me about", "tell me",
+	"what do you know about", "i want to know about", "i'd like to know about", "i want to learn about",
+	"help me understand", "help me with", "teach me about", "learn about", "everything about", "more about",
+	"anything about", "information about", "info on", "what about", "how about", "show me", "explain",
+	"what is", "what's", "what are", "about",
+];
+
+/** Strip conversational preamble + trailing punctuation: "Tell me about X?" → "x". */
+function coreOf(ask) {
+	let q = norm(ask).replace(/[?.!]+$/g, "").trim();
+	let stripped = true;
+	while (stripped) {
+		stripped = false;
+		for (const p of PREAMBLES) {
+			if (q.startsWith(p + " ")) {
+				q = q.slice(p.length + 1).trim();
+				stripped = true;
+			}
+		}
+	}
+	return q.replace(/^(the|a|an)\s+/, "");
+}
+
+/**
+ * Resolve an ask to its canonical form when it is clearly one of the known
+ * asks phrased differently. "Tell me about Figma Console MCP" → "Figma
+ * Console MCP"; "how do I keep design and code in sync with AI" → the
+ * scripted sentence. Exact-core matches always win; otherwise the content
+ * words must overlap heavily (Jaccard ≥ 0.6, at least two shared words).
+ */
+export function canonicalAsk(ask) {
+	const core = coreOf(ask);
+	if (!core) return { ask, matched: null };
+	let best = null;
+	for (const known of SUGGESTED_ASKS) {
+		const kcore = coreOf(known);
+		if (kcore === core) return { ask: known, matched: known, how: "exact" };
+		const a = new Set(askWords(core));
+		const b = new Set(askWords(kcore));
+		if (a.size < 1 || b.size < 1) continue;
+		const shared = [...a].filter((w) => b.has(w)).length;
+		const jaccard = shared / new Set([...a, ...b]).size;
+		if (shared >= 2 && jaccard >= 0.6 && (!best || jaccard > best.jaccard)) best = { known, jaccard };
+		// A short core that is contained whole in a known ask (or vice versa)
+		if (core.length > 8 && (kcore.includes(core) || core.includes(kcore)) && (!best || best.jaccard < 0.95)) best = { known, jaccard: 0.95 };
+	}
+	if (best) return { ask: best.known, matched: best.known, how: "fuzzy" };
+	// No scripted match: still use the stripped core so "tell me about X"
+	// and "X" score identically.
+	return { ask: core === norm(ask).replace(/[?.!]+$/g, "").trim() ? ask : core, matched: null };
+}
+
 function askWords(ask) {
 	return norm(ask)
 		.split(" ")
@@ -245,6 +302,9 @@ function chartFor(ask, intel) {
 
 export function composeSpec({ ask = "", lens = null, intel }) {
 	const started = performance.now();
+	const typed = ask;
+	const canon = canonicalAsk(ask);
+	ask = canon.ask;
 	const q = norm(ask);
 	const topics = detectTopics(ask);
 	const terms = matchTerms(ask, intel.terms);
@@ -255,6 +315,7 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 	const wantPath = PATH_WORDS.some((w) => q.includes(w));
 	const reasoning = [];
 
+	if (canon.matched && norm(typed) !== norm(canon.matched)) reasoning.push(`Read “${typed.trim()}” as “${canon.matched}”.`);
 	if (lens && LENSES[lens]) reasoning.push(`Lens: ${LENSES[lens].label} — related topics weigh more.`);
 	for (const t of topics) reasoning.push(`Detected topic: ${t.label}.`);
 	for (const t of terms) reasoning.push(`“${t.term}” is a course glossary term — surfacing its definition and lessons.`);
@@ -364,6 +425,7 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 			trace: [],
 		},
 		ask,
+		typedAsk: typed,
 		lens,
 		shape,
 		confidence: Math.round(confidence * 100) / 100,
