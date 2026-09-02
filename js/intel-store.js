@@ -9,7 +9,7 @@ export function loadIntel() {
 	if (!intelPromise) {
 		// no-cache: the corpus is rebuilt often; a stale copy silently drops whole
 		// node types (lessons, terms) from every composed view.
-		intelPromise = fetch("/intel.json", { cache: "no-cache" }).then((res) => {
+		intelPromise = fetch(`/intel.json?v=${document.documentElement.dataset.build || Date.now().toString(36)}`, { cache: "no-cache" }).then((res) => {
 			if (!res.ok) throw new Error(`intel.json ${res.status}`);
 			return res.json();
 		});
