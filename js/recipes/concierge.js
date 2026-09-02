@@ -149,12 +149,14 @@ export class EdRCConcierge extends LitElement {
 	_watchLens() {
 		// ed-radio-field-item doesn't re-dispatch its shadow change event
 		// (upstream gap — filed): detect selection by reading checked state.
+		// setTimeout, not requestAnimationFrame: rAF never fires in a hidden
+		// tab, so a toggle flipped there would silently do nothing.
 		const onInteract = () => {
-			requestAnimationFrame(() => {
+			setTimeout(() => {
 				const checked = [...this.querySelectorAll('ed-radio-field-item[name="concierge-lens"]')].find((item) => item.checked);
 				const value = checked?.getAttribute("value") ?? "";
 				if (value !== (this._lens || "")) this._setLens(value);
-			});
+			}, 0);
 		};
 		const lenses = this.querySelector(".ed-r-c-concierge__lenses");
 		lenses?.addEventListener("click", onInteract);
@@ -164,7 +166,7 @@ export class EdRCConcierge extends LitElement {
 	_watchToggles() {
 		// Same defensive pattern for ed-toggle: read state after interaction.
 		const onInteract = () => {
-			requestAnimationFrame(() => {
+			setTimeout(() => {
 				const model = this.querySelector("#engine-model");
 				const brain = this.querySelector("#engine-brain");
 				const useModel = Boolean(model?.checked);
@@ -174,7 +176,7 @@ export class EdRCConcierge extends LitElement {
 					this._useBrain = useBrain && useModel;
 					writePrefs({ useModel: this._useModel, useBrain: this._useBrain });
 				}
-			});
+			}, 0);
 		};
 		const engine = this.querySelector(".ed-r-c-concierge__engine");
 		engine?.addEventListener("click", onInteract);

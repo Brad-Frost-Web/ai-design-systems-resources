@@ -262,7 +262,10 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 	const lessons = scoreLessons({ ask, topics, lessons: intel.lessons });
 	const ranked = scoreResources({ ask, lens, topics, resources: intel.resources, wantLatest });
 	const essentialHits = ranked.slice(0, 12).filter((s) => s.r.essential).length;
-	const shownLessons = lessons.slice(0, 9);
+	// How many lessons the chosen shape will actually show — the summary must
+	// not promise nine when the grid renders six.
+	const lessonCap = wantPath ? 15 : wantCompare || wantLatest ? 3 : wantStart ? 3 : 6;
+	const shownLessons = lessons.slice(0, lessonCap);
 	const tjCount = shownLessons.filter((s) => (s.l.presenters || []).some((p) => /tj/i.test(p))).length;
 
 	const components = [];
@@ -339,7 +342,7 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 			if (essentialHits) reasoning.push(`${essentialHits} of the matching resources are flagged essential reading — they float up.`);
 			summary = `For “${ask.trim()}”, here's ${lead}. ${lessons.length ? "Course lessons come first because they're the deepest treatment; " : ""}${terms.length ? "the glossary anchors the vocabulary; " : ""}the resources ${lessons.length || terms.length ? "round it out" : "are ranked by fit"}${wantStart ? ", starting with the orientation pieces" : ""}.`;
 			add("summary", "summary", { text: summary });
-			if (lessons.length) add("videos", "videoGrid", { heading: wantStart ? "Start with these lessons" : "Course lessons", items: lessons.slice(0, wantStart ? 3 : 6).map((s) => s.l.id) });
+			if (lessons.length) add("videos", "videoGrid", { heading: wantStart ? "Start with these lessons" : "Course lessons", items: shownLessons.map((s) => s.l.id) });
 			if (terms.length) add("terms", "definition", { terms: terms.map((t) => t.slug) });
 			if (ranked.length) add("reading", "resourceTimeline", { heading: wantStart ? "Then read these" : "From the collection", items: ranked.slice(0, wantStart ? 6 : 8).map((s) => s.r.id) });
 		}

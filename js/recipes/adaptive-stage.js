@@ -72,11 +72,11 @@ export class EdRCAdaptiveStage extends LitElement {
 		this._spec = spec;
 		this.busy = false;
 		this.hidden = false;
-		requestAnimationFrame(() =>
-			requestAnimationFrame(() => {
-				this._settling = false;
-			}),
-		);
+		// setTimeout rather than requestAnimationFrame: rAF never fires in a
+		// hidden tab, which would leave the nodes parked at opacity 0.
+		setTimeout(() => {
+			this._settling = false;
+		}, 40);
 		setTimeout(() => this.querySelector(".ed-r-c-stage__heading")?.focus(), 60);
 	}
 
