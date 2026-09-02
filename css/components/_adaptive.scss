@@ -255,10 +255,24 @@ ed-band#concierge {
 	gap: 0.75rem;
 	overflow-x: auto;
 	scroll-snap-type: x proximity;
-	scrollbar-width: thin;
-	// Let the strip's scrollbar reach the container edges on both sides
-	// without the cards themselves touching them.
 	scroll-padding-inline: 0.125rem;
+	// A discreet scrollbar until Eddie ships a strip component (filed
+	// upstream): thin, tinted like a border, no track.
+	scrollbar-width: thin;
+	scrollbar-color: var(--ed-theme-color-border-default, currentColor) transparent;
+
+	&::-webkit-scrollbar {
+		height: 0.375rem;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: var(--ed-theme-color-border-default, currentColor);
+		border-radius: 0.375rem;
+	}
 }
 
 .ed-r-c-strip__item {
@@ -449,11 +463,6 @@ ed-band#concierge {
 	letter-spacing: normal;
 }
 
-
-.ed-r-c-lesson__number {
-	font-variant-numeric: tabular-nums;
-	opacity: 0.8;
-}
 
 // ---------------------------------------------------------------------------
 // Definition — a glossary term as a dictionary entry, not a link card.

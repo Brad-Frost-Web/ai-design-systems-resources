@@ -111,8 +111,8 @@ export class EdRCAdaptiveStage extends LitElement {
 	}
 
 	/**
-	 * A lesson pointer as a compact card: chapter, number, title (the link),
-	 * presenter. No summary — the card's job is to be recognisable at a glance
+	 * A lesson pointer as a compact card: chapter, title (the link), presenter.
+	 * No lesson number — Thinkific never shows it to students. No summary — the card's job is to be recognisable at a glance
 	 * in a strip; the lesson itself is one click away.
 	 */
 	_lessonCard(id, { compact = true } = {}) {
@@ -123,7 +123,6 @@ export class EdRCAdaptiveStage extends LitElement {
 			<ed-card class="ed-r-c-lesson">
 				<p class="ed-r-c-lesson__eyebrow">
 					${l.chapter ? html`<ed-tag text=${l.chapter} size="sm"></ed-tag>` : nothing}
-					<span class="ed-r-c-lesson__number">${l.number}</span>
 				</p>
 				<ed-heading variant="title-sm" tagName="h4">
 					<a href=${l.url} target="_blank" rel="noopener">${l.title}</a>
@@ -144,7 +143,7 @@ export class EdRCAdaptiveStage extends LitElement {
 	_stripHeading(text, count, hint) {
 		return html`<div class="ed-r-c-strip__heading">
 			<ed-heading variant="title-sm" tagName="h3">${text}</ed-heading>
-			<span class="ed-r-c-strip__meta">${count} ${hint}${count > 3 ? " · scroll →" : ""}</span>
+			<span class="ed-r-c-strip__meta">${count} ${hint}</span>
 		</div>`;
 	}
 
@@ -211,8 +210,8 @@ export class EdRCAdaptiveStage extends LitElement {
 		const items = (p.items || []).filter((id) => this._lesson(id));
 		if (!items.length) return nothing;
 		return html`
-			${this._stripHeading(p.heading || "Course lessons", items.length, items.length === 1 ? "lesson" : "lessons")}
-			${this._strip(items, (id) => this._lessonCard(id), p.heading || "Course lessons")}
+			${this._stripHeading("Course Video Lessons", items.length, items.length === 1 ? "lesson" : "lessons")}
+			${this._strip(items, (id) => this._lessonCard(id), "Course Video Lessons")}
 		`;
 	}
 
@@ -434,11 +433,11 @@ export class EdRCAdaptiveStage extends LitElement {
 				<div aria-live="polite" class="ed-u-is-vishidden">Assembled a view for “${spec.ask || "your lens"}”.</div>
 				<h2 class="ed-r-c-stage__heading ed-u-is-vishidden" tabindex="-1">Results for “${spec.ask}”</h2>
 				<p class="ed-r-c-stage__engine">
+					<span>Generated${e.latencyMs != null ? ` in ${(e.latencyMs / 1000).toFixed(e.latencyMs < 1000 ? 2 : 1)}s` : ""} using</span>
 					<ed-tag text=${e.label || "Engine"} variant=${e.kind === "claude" ? "brand" : "info"} size="sm"></ed-tag>
 					${e.kind === "claude" && e.trace?.length
 						? html`<ed-tag text="${e.trace.length} eddie-brain call${e.trace.length === 1 ? "" : "s"}" size="sm"></ed-tag>`
 						: nothing}
-					<span>${e.latencyMs != null ? `${(e.latencyMs / 1000).toFixed(e.latencyMs < 1000 ? 2 : 1)}s` : ""}</span>
 				</p>
 
 				${this.busy

@@ -4,6 +4,13 @@ a:not([class]) {
 	color: var(--ed-theme-color-content-brand);
 }
 
+// Links slotted into ed-heading take the heading's color and a thin brand
+// underline on hover/focus — Eddie ships that via ::slotted(a), but an outer
+// rule like the one above outranks slotted styles, so hand the color back.
+ed-heading > a:not([class]) {
+	color: inherit;
+}
+
 a {
 	&:focus-visible {
 		@include focus();

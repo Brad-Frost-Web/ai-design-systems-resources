@@ -1120,6 +1120,10 @@ a:not([class]) {
   color: var(--ed-theme-color-content-brand);
 }
 
+ed-heading > a:not([class]) {
+  color: inherit;
+}
+
 a:focus-visible {
   outline: var(--ed-theme-border-width-lg) solid var(--ed-theme-focus-ring-color-border-default);
   outline-offset: var(--ed-theme-focus-ring-offset, 0.25rem);
@@ -1593,8 +1597,19 @@ ed-band#concierge {
   gap: 0.75rem;
   overflow-x: auto;
   scroll-snap-type: x proximity;
-  scrollbar-width: thin;
   scroll-padding-inline: 0.125rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ed-theme-color-border-default, currentColor) transparent;
+}
+.ed-r-c-strip::-webkit-scrollbar {
+  height: 0.375rem;
+}
+.ed-r-c-strip::-webkit-scrollbar-track {
+  background: transparent;
+}
+.ed-r-c-strip::-webkit-scrollbar-thumb {
+  background: var(--ed-theme-color-border-default, currentColor);
+  border-radius: 0.375rem;
 }
 
 .ed-r-c-strip__item {
@@ -1794,11 +1809,6 @@ ed-band#concierge {
 .ed-r-c-lesson__meta {
   text-transform: none;
   letter-spacing: normal;
-}
-
-.ed-r-c-lesson__number {
-  font-variant-numeric: tabular-nums;
-  opacity: 0.8;
 }
 
 .ed-r-c-definition {
