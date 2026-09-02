@@ -73,6 +73,11 @@ proxies the Eleventy server on 8080 so `/.netlify/functions/compose` resolves).
 
 - The on-device engine is deterministic keyword heuristics — the honest floor.
   The Netlify compose function is the real-model path on the same contract.
+- Compose latency measured 2026-09-02 (Sonnet 5, effort low, cached system
+  prompt): 7–9s per ask, ~16s with the eddie-brain live toggle. Netlify's
+  default sync-function timeout is 10s — before the model path goes public,
+  raise the function timeout in the Netlify site settings (Pro allows 26s)
+  or move compose to a streaming function.
 - The compose function's rate limit and daily cap are in-memory per function
   instance — a floor against casual abuse, not a wall. A durable counter
   (Netlify Blobs) is the next step if the model path goes public.

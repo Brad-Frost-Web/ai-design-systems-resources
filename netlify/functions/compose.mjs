@@ -24,6 +24,9 @@
 import Anthropic from "@anthropic-ai/sdk";
 
 const MODEL = process.env.COMPOSE_MODEL || "claude-sonnet-5";
+// Routing + JSON is a low-effort job; effort is the latency lever (Netlify
+// sync functions must answer well inside 26s).
+const EFFORT = process.env.COMPOSE_EFFORT || "low";
 const DAILY_CAP = Number(process.env.COMPOSE_DAILY_CAP || 400);
 const PER_MINUTE = Number(process.env.COMPOSE_PER_MINUTE || 8);
 const BRAIN_URL = process.env.EDDIE_BRAIN_URL || "https://ds.bradfrost.com/mcp";
@@ -75,7 +78,41 @@ function digestOf(intel) {
 	const catalog = intel.catalog.nodes
 		.map((n) => `- ${n.node} → ${n.components.join(", ")}\n  use: ${n.use}\n  props: ${JSON.stringify(n.props)}\n  eddie says: ${n.eddie.intent}${n.eddie.dontUse?.length ? `\n  don't: ${n.eddie.dontUse.join(" / ")}` : ""}`)
 		.join("\n");
-	return { lessons, terms, resources, catalog, generated: intel.catalog.generated, server: intel.catalog.server };
+	return { lessons, terms, resources, catalog, stats: statsOf(intel), generated: intel.catalog.generated, server: intel.catalog.server };
+}
+
+/**
+ * Pre-aggregated numbers about the collection, so a quantitative ask is a
+ * lookup rather than the model counting 300 dates by hand (slow, and off by
+ * one). Month, type, and tag counts, overall and per year.
+ */
+function statsOf(intel) {
+	const byMonth = new Map();
+	const byType = new Map();
+	const byTag = new Map();
+	const byYear = new Map();
+	for (const r of intel.resources) {
+		if (!r.created) continue;
+		const d = new Date(r.created);
+		if (Number.isNaN(d.getTime())) continue;
+		const y = d.getFullYear();
+		const m = `${y}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+		byMonth.set(m, (byMonth.get(m) || 0) + 1);
+		byYear.set(y, (byYear.get(y) || 0) + 1);
+		byType.set(r.type || "untyped", (byType.get(r.type || "untyped") || 0) + 1);
+		for (const t of r.tags || []) byTag.set(t, (byTag.get(t) || 0) + 1);
+	}
+	const fmt = (map, limit) => [...map.entries()].sort((a, b) => (typeof a[0] === "string" && /^\d{4}-\d\d$/.test(a[0]) ? a[0].localeCompare(b[0]) : b[1] - a[1])).slice(0, limit).map(([k, v]) => `${k}: ${v}`).join(", ");
+	const lessonsByChapter = new Map();
+	for (const l of intel.lessons) lessonsByChapter.set(l.chapter || "?", (lessonsByChapter.get(l.chapter || "?") || 0) + 1);
+	return [
+		`Resources added per month (YYYY-MM: count): ${fmt(byMonth, 40)}`,
+		`Resources per year: ${[...byYear.entries()].sort().map(([k, v]) => `${k}: ${v}`).join(", ")}`,
+		`Resources by type: ${fmt(byType, 20)}`,
+		`Top tags (tag: count): ${fmt(byTag, 25)}`,
+		`Lessons per chapter: ${[...lessonsByChapter.entries()].sort().map(([k, v]) => `${k}: ${v}`).join(", ")}`,
+		`Totals: ${intel.counts.resources} resources (${intel.counts.essential} essential), ${intel.counts.lessons} lessons, ${intel.counts.terms} terms`,
+	].join("\n");
 }
 
 function systemPrompt(d) {
@@ -89,15 +126,19 @@ RULES
 - Always start with exactly one "summary" component: one short paragraph (2–4 sentences) framing everything the visitor is about to see. Never more than one paragraph. Speak plainly, no hype.
 - Weighting: course lessons outrank everything (surface them whenever they genuinely answer the ask — as videoGrid, or tabs when they span chapters); glossary terms rank next; resources marked ESSENTIAL rank above other resources. TJ Pitre presents the Figma Console MCP, FigmaLint, Company Docs, and testing lessons — when the ask is about those, lead with his lessons.
 - Only use ids that appear in the digests below. Never invent records. 3–9 items per component; fewer, better.
-- For barChart, compute the numbers yourself from the resources digest (dates are YYYY-MM-DD; group by month, tag, or type as the ask implies) and put them in props.labels / props.datasets. Set chartLabel to a full accessible sentence.
+- For barChart, take the numbers from COLLECTION STATS below (already aggregated — never recount the digest by hand) and put them in props.labels / props.datasets. Filter to the year or slice the ask implies. Set chartLabel to a full accessible sentence.
 - End with one "statRow" ({"stats":"result","counts":{"lessons":N,"terms":N,"resources":N}}) unless the view is a chart, in which case use {"stats":"collection"}.
 - If nothing fits with confidence, say so with a "note" and a low confidence — honesty over hallucination.
-- Give 2–5 short "reasoning" bullets in the second person ("You asked about… so…"). If you consulted eddie-brain, say what you learned in one bullet.
+- Give 2–4 "reasoning" bullets in the second person ("You asked about… so…"), each under 20 words. If you consulted eddie-brain, say what you learned in one bullet.
+- Be fast: decide the shape, pick the ids, write the JSON. No deliberation in the output.
 - Confidence is 0–1.
 
 OUTPUT: respond with ONLY a JSON object, no prose, no code fence:
 {"summary": "...", "shape": "default|chart|compare|path|latest|none", "confidence": 0.0, "reasoning": ["..."], "components": [{"id": "summary", "component": "summary", "props": {"text": "..."}}, {"id": "...", "component": "<catalog node>", "props": {...}}]}
 Component props follow the catalog: videoGrid {heading, items:[lesson ids]}; definition {terms:[slugs]}; resourceTimeline {heading, items:[resource ids]}; table {heading, items:[resource ids]}; tabs {heading, groups:[{label, items:[lesson ids]}]}; barChart {heading, chartLabel, orientation, labels:[...], datasets:[{label, values:[...]}]}; statRow as above; note {heading, text}.
+
+COLLECTION STATS (pre-aggregated; use these for any chart or count):
+${d.stats}
 
 COURSE LESSONS (id | number | title | chapter | presenters | tags | summary):
 ${d.lessons}
@@ -158,7 +199,8 @@ export const handler = async (event) => {
 		if (useBrain) {
 			response = await client.beta.messages.create({
 				model: MODEL,
-				max_tokens: 6000,
+				max_tokens: 4000,
+				output_config: { effort: EFFORT },
 				betas: ["mcp-client-2025-11-20"],
 				system,
 				mcp_servers: [{ type: "url", url: BRAIN_URL, name: "eddie-brain" }],
@@ -166,14 +208,15 @@ export const handler = async (event) => {
 				messages: [
 					{
 						role: "user",
-						content: `${user}\n\nYou may call eddie-brain (eddie_search, eddie_get_component) to check which component fits before you choose — at most two calls, then answer with the JSON object only.`,
+						content: `${user}\n\nCall eddie-brain exactly once (eddie_search with a short phrase describing the shape you're considering, e.g. "compare tabular data") to check the fit, then answer with the JSON object only.`,
 					},
 				],
 			});
 		} else {
 			response = await client.messages.create({
 				model: MODEL,
-				max_tokens: 6000,
+				max_tokens: 4000,
+				output_config: { effort: EFFORT },
 				system,
 				messages: [{ role: "user", content: user }],
 			});
