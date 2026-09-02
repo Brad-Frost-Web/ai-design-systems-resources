@@ -198,19 +198,11 @@ export class EdRCAdaptiveStage extends LitElement {
 	}
 
 	_renderSummary(p) {
-		const e = this._spec.engine || {};
 		return html`
 			<div class="ed-r-c-summary">
 				<ed-text-passage capLinelength>
 					<p>${p.text}</p>
 				</ed-text-passage>
-				<p class="ed-r-c-summary__engine">
-					<ed-tag text=${e.label || "Engine"} variant=${e.kind === "claude" ? "brand" : "info"} size="sm"></ed-tag>
-					${e.kind === "claude" && e.trace?.length
-						? html`<ed-tag text="${e.trace.length} eddie-brain call${e.trace.length === 1 ? "" : "s"}" size="sm"></ed-tag>`
-						: nothing}
-					<span>${e.latencyMs != null ? `${(e.latencyMs / 1000).toFixed(e.latencyMs < 1000 ? 2 : 1)}s` : ""}</span>
-				</p>
 			</div>
 		`;
 	}
@@ -440,9 +432,14 @@ export class EdRCAdaptiveStage extends LitElement {
 		return html`
 			<div class="ed-r-c-stage ${this._settling ? "ed-r-c-stage--settling" : "ed-r-c-stage--settled"}">
 				<div aria-live="polite" class="ed-u-is-vishidden">Assembled a view for “${spec.ask || "your lens"}”.</div>
-				<h2 class="ed-r-c-stage__heading" tabindex="-1">
-					<span class="ed-r-c-stage__eyebrow">Assembled for you, just now</span>
-				</h2>
+				<h2 class="ed-r-c-stage__heading ed-u-is-vishidden" tabindex="-1">Results for “${spec.ask}”</h2>
+				<p class="ed-r-c-stage__engine">
+					<ed-tag text=${e.label || "Engine"} variant=${e.kind === "claude" ? "brand" : "info"} size="sm"></ed-tag>
+					${e.kind === "claude" && e.trace?.length
+						? html`<ed-tag text="${e.trace.length} eddie-brain call${e.trace.length === 1 ? "" : "s"}" size="sm"></ed-tag>`
+						: nothing}
+					<span>${e.latencyMs != null ? `${(e.latencyMs / 1000).toFixed(e.latencyMs < 1000 ? 2 : 1)}s` : ""}</span>
+				</p>
 
 				${this.busy
 					? html`<div class="ed-r-c-stage__busy" role="status">
@@ -459,6 +456,7 @@ export class EdRCAdaptiveStage extends LitElement {
 						<ed-text-passage size="sm">
 							<ul>
 								<li>Engine: ${e.label}${e.model ? ` (${e.model})` : ""} — ${e.detail || ""}</li>
+								${spec.summary && !this._component("summary") ? html`<li>${spec.summary}</li>` : nothing}
 								${spec.reasoning.map((r) => html`<li>${r}</li>`)}
 								${this._renderTrace()}
 								<li>

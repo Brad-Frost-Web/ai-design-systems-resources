@@ -1573,6 +1573,10 @@ ed-band#concierge {
   gap: 0.75rem;
 }
 
+.ed-r-c-stage__engine {
+  margin: 0;
+}
+
 .ed-r-c-stage__eyebrow {
   font-family: var(--ed-theme-typography-label-sm-font-family, var(--ed-theme-typography-body-default-font-family));
   font-size: var(--ed-theme-typography-label-sm-font-size, 0.75rem);
@@ -1762,6 +1766,7 @@ ed-band#concierge {
   gap: 0.5rem;
 }
 
+.ed-r-c-stage__engine,
 .ed-r-c-summary__engine {
   display: flex;
   align-items: center;

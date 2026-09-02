@@ -283,14 +283,12 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 		const chart = chartFor(ask, intel);
 		reasoning.push("You asked about numbers — composing a chart, not a list. The chart carries its own data table.");
 		summary = `A numbers question gets a chart, not a list: ${chart.chartLabel.toLowerCase()}. Every bar is backed by the collection below.`;
-		add("summary", "summary", { text: summary });
 		add("chart", "barChart", chart);
 		add("stats", "statRow", { stats: "collection" });
 	} else if (!lessons.length && !terms.length && !ranked.length) {
 		shape = "none";
 		reasoning.push("No confident match — showing the shape of the collection instead of guessing.");
 		summary = "Nothing in the collection matched that with confidence. Low confidence gets honesty, not hallucination — try rephrasing, or browse the collection below.";
-		add("summary", "summary", { text: summary });
 		add("note", "note", { heading: "Low confidence, high honesty", text: summary });
 		add("stats", "statRow", { stats: "collection" });
 	} else {
@@ -304,8 +302,7 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 			shape = "path";
 			reasoning.push("You asked about a path through the course — grouping lessons by chapter in tabs.");
 			summary = `The course itself answers this best: ${lead}, grouped by chapter so you see the path, not just a list.`;
-			add("summary", "summary", { text: summary });
-			const groups = new Map();
+				const groups = new Map();
 			for (const s of lessons.slice(0, 15)) {
 				const key = s.l.chapter || "Other";
 				if (!groups.has(key)) groups.set(key, []);
@@ -321,8 +318,7 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 			shape = "compare";
 			reasoning.push("You're comparing options — a table makes the differences scannable.");
 			summary = `A comparison reads best as a table: ${lead}. Rows are the candidates, columns are what separates them.`;
-			add("summary", "summary", { text: summary });
-			if (lessons.length) add("videos", "videoGrid", { heading: "Watch first", items: lessons.slice(0, 3).map((s) => s.l.id) });
+				if (lessons.length) add("videos", "videoGrid", { heading: "Watch first", items: lessons.slice(0, 3).map((s) => s.l.id) });
 			const tools = ranked.filter((s) => s.r.type === "tool" || s.r.tags.includes("tool") || s.r.tags.includes("tools"));
 			const rows = (tools.length >= 3 ? tools : ranked).slice(0, 10).map((s) => s.r.id);
 			add("compare", "table", { heading: "Side by side", items: rows });
@@ -331,8 +327,7 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 			shape = "latest";
 			reasoning.push("You asked for recency — composing a timeline, newest first.");
 			summary = `What's new${topics.length ? ` on ${topics.map((t) => t.label.toLowerCase()).join(", ")}` : ""}: ${lead}, newest first.`;
-			add("summary", "summary", { text: summary });
-			const items = (ranked.length ? ranked : intel.resources.map((r) => ({ r }))).slice(0, 12).map((s) => s.r.id);
+				const items = (ranked.length ? ranked : intel.resources.map((r) => ({ r }))).slice(0, 12).map((s) => s.r.id);
 			add("latest", "resourceTimeline", { heading: topics.length ? `Latest on ${topics.map((t) => t.label.toLowerCase()).join(", ")}` : "The latest, newest first", items });
 			if (lessons.length) add("videos", "videoGrid", { heading: "Recently relevant lessons", items: lessons.slice(0, 3).map((s) => s.l.id) });
 		} else {
@@ -341,8 +336,7 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 			if (lessons.length) reasoning.push(`${lessons.length} course lesson${lessons.length === 1 ? "" : "s"} match — lessons lead.`);
 			if (essentialHits) reasoning.push(`${essentialHits} of the matching resources are flagged essential reading — they float up.`);
 			summary = `${lead.charAt(0).toUpperCase()}${lead.slice(1)}. ${lessons.length ? "Lessons first — the deepest treatment" : "Ranked by fit"}${terms.length ? ", then the vocabulary" : ""}${ranked.length && (lessons.length || terms.length) ? ", then the reading" : ""}${wantStart ? ", orientation pieces first" : ""}.`;
-			add("summary", "summary", { text: summary });
-			if (lessons.length) add("videos", "videoGrid", { heading: wantStart ? "Start with these lessons" : "Course lessons", items: shownLessons.map((s) => s.l.id) });
+				if (lessons.length) add("videos", "videoGrid", { heading: wantStart ? "Start with these lessons" : "Course lessons", items: shownLessons.map((s) => s.l.id) });
 			if (terms.length) add("terms", "definition", { terms: terms.map((t) => t.slug) });
 			if (ranked.length) add("reading", "resourceTimeline", { heading: wantStart ? "Then read these" : "From the collection", items: ranked.slice(0, wantStart ? 6 : 8).map((s) => s.r.id) });
 		}
@@ -354,8 +348,13 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 		0.25 + topics.length * 0.2 + (terms.length ? 0.2 : 0) + (lessons.length ? 0.2 : 0) + (ranked.length > 3 ? 0.1 : 0),
 	);
 
+	// The heuristics' summary is templated, so it isn't rendered as a node —
+	// a fill-in-the-blanks sentence above every view is noise. It rides along
+	// in the spec (the "why" panel shows it) and the model path, whose
+	// summary is a real framing, emits its own summary node.
 	const spec = {
 		version: SPEC_VERSION,
+		summary,
 		engine: {
 			kind: "heuristics",
 			label: "On-device heuristics",
