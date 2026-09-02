@@ -62,18 +62,24 @@ export const LENSES = {
 
 /** Keyword clusters → corpus tags. Grounded in the actual tag vocabulary. */
 const TOPICS = [
-	{ id: "mcp", words: ["mcp", "server", "protocol", "connect", "wire up", "hook up", "llm"], tags: ["mcp", "api", "claude"], label: "MCP & connecting systems to LLMs" },
-	{ id: "figma", words: ["figma", "variables", "code connect", "design file", "figma make"], tags: ["figma"], label: "Figma & AI" },
-	{ id: "tokens", words: ["token", "dtcg", "style dictionary", "pipeline", "theming", "dark mode"], tags: ["tokens", "design-tokens"], label: "Design tokens" },
-	{ id: "docs", words: ["documentation", "docs", "machine-readable", "machine readability", "component.md", "design.md", "metadata", "readme", "ai-ready", "description"], tags: ["documentation"], label: "Machine-readable documentation" },
+	{ id: "mcp", words: ["mcp", "server", "protocol", "connect", "wire up", "hook up", "llm"], tags: ["mcp", "api", "claude", "figma console mcp"], titleWords: ["mcp"], label: "MCP & connecting systems to LLMs" },
+	{ id: "figma", words: ["figma", "variables", "code connect", "design file", "figma make", "plugin"], tags: ["figma", "figmalint", "figma make", "code connect"], titleWords: ["figma", "figmalint"], label: "Figma & AI" },
+	{ id: "tokens", words: ["token", "dtcg", "style dictionary", "pipeline", "theming", "dark mode"], tags: ["tokens", "design-tokens", "design tokens"], titleWords: ["token", "theme", "dark mode"], label: "Design tokens" },
+	{ id: "docs", words: ["documentation", "docs", "machine-readable", "machine readability", "component.md", "design.md", "metadata", "readme", "ai-ready", "description"], tags: ["documentation"], titleWords: ["docs", "documentation", "readme", "description"], label: "Machine-readable documentation" },
 	{ id: "governance", words: ["boss", "manager", "leadership", "business case", "sunset", "ammunition", "pushback", "stakeholder", "obsolete", "roi", "politics", "convince", "governance"], tags: ["culture", "ethics", "strategy", "politics", "concepts", "process"], label: "Governance & making the case" },
-	{ id: "genui", words: ["generative ui", "a2ui", "adaptive", "dynamic ui", "dynamic uis", "diffusion", "gen ui", "generated interface"], tags: ["a2ui", "concepts", "visual builder"], label: "Generative & adaptive UI" },
-	{ id: "coding", words: ["claude code", "cursor", "vibe", "agent", "coding", "prompt", "skill", "skills", "subagent", "workflow", "rules", "agents.md"], tags: ["ai-coding", "claude", "prompting", "workflow", "context engineering", "cursor"], label: "Agentic coding workflows" },
-	{ id: "storybook", words: ["storybook", "story ui", "stories"], tags: ["storybook"], label: "Storybook" },
-	{ id: "sync", words: ["sync", "synchroniz", "in sync", "drift", "parity", "design and code", "design & code"], tags: ["figma", "mcp", "code"], label: "Keeping design and code in sync" },
-	{ id: "testing", words: ["test", "testing", "qa", "eval", "lint", "audit"], tags: ["linting", "assessment"], label: "Testing & evaluation" },
+	{ id: "genui", words: ["generative ui", "a2ui", "adaptive", "dynamic ui", "dynamic uis", "diffusion", "gen ui", "generated interface", "generate"], tags: ["a2ui", "generative ui", "visual builder", "prototyping"], titleWords: ["generat", "adaptive", "dynamic", "a2ui", "prototyp"], label: "Generative & adaptive UI" },
+	{ id: "coding", words: ["claude code", "cursor", "vibe", "agent", "coding", "prompt", "skill", "skills", "subagent", "workflow", "rules", "agents.md"], tags: ["ai-coding", "claude", "prompting", "workflow", "context engineering", "cursor", "skills", "agents"], titleWords: ["claude code", "cursor", "skill", "agent", "rules", "guardrail"], label: "Agentic coding workflows" },
+	{ id: "storybook", words: ["storybook", "story ui", "stories"], tags: ["storybook"], titleWords: ["storybook"], label: "Storybook" },
+	{ id: "sync", words: ["sync", "synchroniz", "in sync", "drift", "parity", "design and code", "design & code"], tags: ["synchronization", "drift", "code connect"], titleWords: ["sync", "bidirectional", "translat", "drift", "parity"], label: "Keeping design and code in sync" },
+	{ id: "testing", words: ["test", "testing", "qa", "eval", "lint", "audit"], tags: ["linting", "assessment", "testing", "evals"], titleWords: ["test", "lint", "eval", "audit", "inspection"], label: "Testing & evaluation" },
 	{ id: "community", words: ["community", "slack", "who else", "people"], tags: ["community"], label: "Community" },
 ];
+
+/** Multi-word phrases: an ask that names one and a title that carries it is a strong match. */
+const PHRASES = ["figma console mcp", "figma make", "storybook mcp", "code connect", "design tokens", "claude code", "company docs", "dark mode", "login page", "login form", "generative ui", "figma mcp"];
+
+/** Words in nearly every title in this corpus — they barely discriminate. */
+const GENERIC = new Set(["design", "system", "systems", "ai", "build", "building", "use", "using", "tools", "tool", "component", "components", "course", "intro", "introduction"]);
 
 const LATEST_WORDS = ["latest", "what's new", "whats new", "recent", "this week", "this month", "catch up", "stay current", "keep up", "newest", "fresh"];
 const START_WORDS = ["start", "begin", "new to", "beginner", "overwhelmed", "where do i", "first step", "basics"];
@@ -165,6 +171,8 @@ function askWords(ask) {
 		.filter((w) => w.length > 3 && !STOP.has(w));
 }
 
+const GENERIC_TERMS = new Set(["design-system", "design-systems", "figma", "ai", "artificial-intelligence", "component", "agent", "code", "design"]);
+
 function matchTerms(ask, terms) {
 	const q = norm(ask);
 	if (!q) return [];
@@ -173,8 +181,11 @@ function matchTerms(ask, terms) {
 		const names = [t.term, ...(t.aliases || [])].map(norm).filter(Boolean);
 		if (names.some((n) => n.length > 2 && q.includes(n))) hits.push(t);
 	}
-	// Longest term match first — "generative ui" beats "ui"
-	return hits.sort((a, b) => b.term.length - a.term.length).slice(0, 3);
+	// Longest term match first — "generative ui" beats "ui". Umbrella terms
+	// ("Design System", "Figma", "AI") only surface when nothing sharper did.
+	const sorted = hits.sort((a, b) => b.term.length - a.term.length);
+	const specific = sorted.filter((t) => !GENERIC_TERMS.has(t.slug));
+	return (specific.length ? specific : sorted).slice(0, 3);
 }
 
 function detectTopics(ask) {
@@ -182,11 +193,17 @@ function detectTopics(ask) {
 	return TOPICS.filter((t) => t.words.some((w) => q.includes(w)));
 }
 
-function scoreLessons({ ask, topics, lessons }) {
+function scoreLessons({ ask, topics, lessons, termLessonUrls = new Set() }) {
 	const q = norm(ask);
 	const words = askWords(ask);
 	const topicTags = new Set(topics.flatMap((t) => t.tags));
 	const wantsTJ = /\btj\b|pitre|southleft/.test(q);
+	const phrases = PHRASES.filter((ph) => q.includes(ph));
+	// Rarity-weighted tags: "generative ui" on two lessons says far more than
+	// "mcp" on forty. Weight runs from ~5.5 (rare) down to 1.5 (everywhere).
+	const tagFreq = new Map();
+	for (const l of lessons) for (const t of l.tags || []) tagFreq.set(norm(t), (tagFreq.get(norm(t)) || 0) + 1);
+	const tagWeight = (t) => 1.5 + 4 * (1 - Math.min(1, (tagFreq.get(t) || 0) / 25));
 	return lessons
 		.map((l) => {
 			let score = 0;
@@ -195,12 +212,21 @@ function scoreLessons({ ask, topics, lessons }) {
 			const summary = norm(l.summary || "");
 			const tags = (l.tags || []).map(norm);
 			if (q.length > 6 && title.includes(q)) { score += 8; why.push("title matches the ask"); }
+			// Named phrases beat everything: the ask says "Figma Make", the title says "Figma Make".
+			for (const ph of phrases) if (title.includes(ph)) { score += 10; why.push(ph); }
+			// The glossary says this term is taught here — the strongest link we have.
+			if (termLessonUrls.has(l.url)) { score += 5; why.push("taught in (glossary)"); }
 			for (const w of words) {
-				if (title.includes(w)) score += 3;
-				else if (tags.some((t) => t.includes(w))) score += 2;
-				else if (summary.includes(w)) score += 1;
+				const weight = GENERIC.has(w) ? 0.5 : 1;
+				if (title.includes(w)) score += 3 * weight;
+				else if (tags.some((t) => t.includes(w))) score += 2 * weight;
+				else if (summary.includes(w)) score += 1 * weight;
 			}
-			for (const t of tags) if (topicTags.has(t)) score += 1.5;
+			// Topic-specific words in the title (one hit per topic), then topic tags.
+			for (const topic of topics) {
+				if ((topic.titleWords || []).some((tw) => title.includes(tw))) { score += 4; why.push(topic.id); }
+			}
+			for (const t of tags) if (topicTags.has(t)) score += tagWeight(t);
 			if (wantsTJ && (l.presenters || []).some((p) => /tj/i.test(p))) { score += 3; why.push("TJ's lesson"); }
 			return { l, score, why };
 		})
@@ -320,7 +346,8 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 	for (const t of topics) reasoning.push(`Detected topic: ${t.label}.`);
 	for (const t of terms) reasoning.push(`“${t.term}” is a course glossary term — surfacing its definition and lessons.`);
 
-	const lessons = scoreLessons({ ask, topics, lessons: intel.lessons });
+	const termLessonUrls = new Set(terms.flatMap((t) => (t.lessons || []).map((l) => l.url)));
+	const lessons = scoreLessons({ ask, topics, lessons: intel.lessons, termLessonUrls });
 	const ranked = scoreResources({ ask, lens, topics, resources: intel.resources, wantLatest });
 	const essentialHits = ranked.slice(0, 12).filter((s) => s.r.essential).length;
 	// How many lessons the chosen shape will actually show — the summary must
@@ -390,7 +417,7 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 			summary = `What's new${topics.length ? ` on ${topics.map((t) => t.label.toLowerCase()).join(", ")}` : ""}: ${lead}, newest first.`;
 				const items = (ranked.length ? ranked : intel.resources.map((r) => ({ r }))).slice(0, 12).map((s) => s.r.id);
 			add("latest", "resourceTimeline", { heading: topics.length ? `Latest on ${topics.map((t) => t.label.toLowerCase()).join(", ")}` : "The latest, newest first", items });
-			if (lessons.length) add("videos", "videoGrid", { heading: "Recently relevant lessons", items: lessons.slice(0, 3).map((s) => s.l.id) });
+			if (lessons.length && topics.length) add("videos", "videoGrid", { heading: "Recently relevant lessons", items: lessons.slice(0, 3).map((s) => s.l.id) });
 		} else {
 			shape = "default";
 			if (wantStart) reasoning.push("Sounds like a starting point — leading with orientation, not depth.");

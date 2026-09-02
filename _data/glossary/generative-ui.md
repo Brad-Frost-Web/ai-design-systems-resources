@@ -1,5 +1,13 @@
 ---
 term: "Generative UI"
+aliases:
+  - "gen UI"
+  - "adaptive UI"
+  - "dynamic UI"
+  - "adaptive, dynamic UIs"
+  - "generative interfaces"
+  - "adaptive interfaces"
+  - "A2UI"
 source:
   type: "course"
   name: "AI & Design Systems Course"
