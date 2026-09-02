@@ -37,7 +37,7 @@ permalink: /glossary/
 								<dt class="glossary-term__name">
 									{{ item.term }}
 									{% if item.status == "in-progress" %}
-										<ed-badge variant="info" text="In Progress"></ed-badge>
+										<ed-tag variant="info" text="In Progress"></ed-tag>
 									{% endif %}
 									{% if item.aliases.length %}
 										<span class="glossary-term__aliases">{{ item.aliases | join(", ") }}</span>

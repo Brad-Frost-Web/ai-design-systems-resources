@@ -9,3 +9,4 @@ node_modules
 # Generated at build time by scripts/build-themes.js
 /css/themes.generated.css
 /css/theme-fonts/
+.netlify

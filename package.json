@@ -11,6 +11,8 @@
 		"build:css": "sass --load-path=node_modules css/styles.scss css/styles.tmp.css && postcss css/styles.tmp.css -o css/styles.css",
 		"build:eleventy": "ELEVENTY_ENV=production npx @11ty/eleventy",
 		"sync": "node scripts/sync-notion.js",
+		"sync:lessons": "node scripts/sync-lessons.js",
+		"build:catalog": "node scripts/build-catalog.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
@@ -18,9 +20,11 @@
 	"license": "ISC",
 	"dependencies": {
 		"@11ty/eleventy": "^3.0.0",
-		"@brad-frost-web/eddie-design-tokens": "^0.38.0",
-		"@brad-frost-web/eddie-recipes": "^0.38.0",
-		"@brad-frost-web/eddie-web-components": "^0.38.0",
+		"@anthropic-ai/sdk": "^0.123.0",
+		"@brad-frost-web/eddie-charts": "^0.60.0",
+		"@brad-frost-web/eddie-design-tokens": "^0.60.0",
+		"@brad-frost-web/eddie-recipes": "^0.60.0",
+		"@brad-frost-web/eddie-web-components": "^0.60.0",
 		"@notionhq/client": "^2.2.15",
 		"dotenv": "^16.4.5",
 		"gray-matter": "^4.0.3",

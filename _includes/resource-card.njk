@@ -5,10 +5,10 @@
   {% if resource.type or resource.tags.length %}
   <div class="resource-tags">
     {% if resource.type %}
-    <ed-badge text="{{ resource.type }}"></ed-badge>
+    <ed-tag text="{{ resource.type }}"></ed-tag>
     {% endif %}
     {% for tag in resource.tags %}
-    <ed-badge text="{{ tag.name }}"></ed-badge>
+    <ed-tag text="{{ tag.name }}"></ed-tag>
     {% endfor %}
   </div>
   {% endif %}

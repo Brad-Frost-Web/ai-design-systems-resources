@@ -1,5 +1,54 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css2?family=League+Gothic&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@font-face {
+  font-family: "League Gothic";
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("../../core/fonts/league-gothic-normal-400-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "League Gothic";
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("../../core/fonts/league-gothic-normal-400-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Montserrat";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../../core/fonts/montserrat-italic-variable-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Montserrat";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../../core/fonts/montserrat-italic-variable-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../../core/fonts/montserrat-normal-variable-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../../core/fonts/montserrat-normal-variable-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 :root {
   --ed-color-brand-mustard-100: #f5f1db;
   --ed-color-brand-mustard-200: #eae1b3;
@@ -19,15 +68,15 @@
   --ed-color-brand-brown-700: #4a3620;
   --ed-color-brand-brown-800: #2d2013;
   --ed-color-brand-brown-900: #110000;
-  --ed-color-brand-cream-100: #f6f5de;
-  --ed-color-brand-cream-200: #efeed4;
-  --ed-color-brand-cream-300: #dedcb9;
-  --ed-color-brand-cream-400: #ddd79a;
-  --ed-color-brand-cream-500: #cfc578;
-  --ed-color-brand-cream-600: #a29e5e;
-  --ed-color-brand-cream-700: #8e7d58;
-  --ed-color-brand-cream-800: #5c5329;
-  --ed-color-brand-cream-900: #2e2a15;
+  --ed-color-brand-cream-100: #fcfcf1;
+  --ed-color-brand-cream-200: #f9f8e8;
+  --ed-color-brand-cream-300: #f6f5de;
+  --ed-color-brand-cream-400: #efeed4;
+  --ed-color-brand-cream-500: #dedcb9;
+  --ed-color-brand-cream-600: #ddd79a;
+  --ed-color-brand-cream-700: #cfc578;
+  --ed-color-brand-cream-800: #a29e5e;
+  --ed-color-brand-cream-900: #8e7d58;
   --ed-color-brand-orange-100: #ffc175;
   --ed-color-brand-orange-200: #ffb357;
   --ed-color-brand-orange-300: #ffa438;
@@ -112,24 +161,25 @@
   --ed-theme-color-background-diagram-repo: var(--ed-color-diagram-orange-500);
   --ed-theme-color-background-diagram-package: var(--ed-color-diagram-gold-500);
   --ed-theme-color-background-diagram-product: var(--ed-color-diagram-green-500);
-  --ed-theme-color-background-default: var(--ed-color-brand-cream-100);
-  --ed-theme-color-background-default-hover: var(--ed-color-brand-cream-200);
+  --ed-theme-color-background-default: var(--ed-color-brand-cream-300);
+  --ed-theme-color-background-default-hover: var(--ed-color-brand-cream-400);
   --ed-theme-color-background-subtle: #eeeccd;
-  --ed-theme-color-background-subtle-hover: var(--ed-color-brand-cream-300);
+  --ed-theme-color-background-subtle-hover: var(--ed-color-brand-cream-500);
+  --ed-theme-color-background-surface: var(--ed-color-brand-cream-100);
   --ed-theme-color-background-knockout: var(--ed-color-brand-brown-900);
-  --ed-theme-color-background-brand: var(--ed-color-brand-orange-700);
-  --ed-theme-color-background-brand-hover: var(--ed-color-brand-orange-800);
+  --ed-theme-color-background-brand: var(--ed-color-brand-orange-800);
+  --ed-theme-color-background-brand-hover: var(--ed-color-brand-orange-900);
   --ed-theme-color-background-brand-disabled: var(--ed-color-brand-orange-100);
-  --ed-theme-color-background-brand-knockout: var(--ed-color-brand-orange-700);
-  --ed-theme-color-background-brand-knockout-hover: var(--ed-color-brand-orange-800);
+  --ed-theme-color-background-brand-knockout: var(--ed-color-brand-orange-800);
+  --ed-theme-color-background-brand-knockout-hover: var(--ed-color-brand-orange-900);
   --ed-theme-color-background-accent-1: var(--ed-color-brand-orange-700);
   --ed-theme-color-background-accent-2: var(--ed-color-brand-blue-light-500);
   --ed-theme-color-background-accent-3: var(--ed-color-brand-blue-dark-800);
   --ed-theme-color-background-accent-4: var(--ed-color-brand-mustard-500);
   --ed-theme-color-background-accent-5: var(--ed-color-brand-brown-900);
-  --ed-theme-color-background-accent-6: var(--ed-color-brand-cream-200);
-  --ed-theme-color-background-accent-7: var(--ed-color-brand-cream-300);
-  --ed-theme-color-background-accent-8: var(--ed-color-brand-cream-600);
+  --ed-theme-color-background-accent-6: var(--ed-color-brand-cream-400);
+  --ed-theme-color-background-accent-7: var(--ed-color-brand-cream-500);
+  --ed-theme-color-background-accent-8: var(--ed-color-brand-cream-800);
   --ed-theme-color-background-utility-error: var(--ed-color-utility-red-100);
   --ed-theme-color-background-utility-error-knockout: var(--ed-color-utility-red-600);
   --ed-theme-color-background-utility-warning: var(--ed-color-utility-yellow-100);
@@ -156,27 +206,30 @@
   --ed-theme-color-content-on-diagram-design: #ffffff;
   --ed-theme-color-content-on-diagram-repo: #110000;
   --ed-theme-color-content-on-diagram-package: #110000;
-  --ed-theme-color-content-on-diagram-product: #ffffff;
+  --ed-theme-color-content-on-diagram-product: #110000;
   --ed-theme-color-content-default: var(--ed-color-brand-brown-900);
   --ed-theme-color-content-default-hover: var(--ed-color-brand-brown-700);
   --ed-theme-color-content-subtle: var(--ed-color-brand-orange-800);
-  --ed-theme-color-content-knockout: var(--ed-color-brand-cream-100);
-  --ed-theme-color-content-brand: var(--ed-color-brand-orange-700);
+  --ed-theme-color-content-knockout: var(--ed-color-brand-cream-300);
+  --ed-theme-color-content-brand: var(--ed-color-brand-orange-800);
   --ed-theme-color-content-brand-hover: var(--ed-color-brand-brown-800);
-  --ed-theme-color-content-brand-knockout: var(--ed-color-brand-cream-100);
+  --ed-theme-color-content-brand-knockout: var(--ed-theme-color-content-on-brand);
+  --ed-theme-color-content-brand-on-knockout: var(--ed-color-brand-orange-700);
+  --ed-theme-color-content-on-brand: var(--ed-color-brand-cream-300);
   --ed-theme-color-content-accent-1: var(--ed-color-brand-orange-700);
   --ed-theme-color-content-accent-2: var(--ed-color-brand-blue-light-500);
   --ed-theme-color-content-accent-3: var(--ed-color-brand-blue-dark-800);
   --ed-theme-color-content-accent-4: var(--ed-color-brand-mustard-500);
   --ed-theme-color-content-accent-5: var(--ed-color-brand-brown-900);
-  --ed-theme-color-content-accent-6: var(--ed-color-brand-cream-200);
-  --ed-theme-color-content-accent-7: var(--ed-color-brand-cream-300);
-  --ed-theme-color-content-accent-8: var(--ed-color-brand-cream-600);
-  --ed-theme-color-content-on-accent-1: var(--ed-color-brand-cream-100);
+  --ed-theme-color-content-accent-6: var(--ed-color-brand-cream-400);
+  --ed-theme-color-content-accent-7: var(--ed-color-brand-cream-500);
+  --ed-theme-color-content-accent-8: var(--ed-color-brand-cream-800);
+  --ed-theme-color-content-on-surface: var(--ed-theme-color-content-default);
+  --ed-theme-color-content-on-accent-1: var(--ed-color-brand-brown-900);
   --ed-theme-color-content-on-accent-2: var(--ed-color-brand-brown-900);
-  --ed-theme-color-content-on-accent-3: var(--ed-color-brand-cream-100);
+  --ed-theme-color-content-on-accent-3: var(--ed-color-brand-cream-300);
   --ed-theme-color-content-on-accent-4: var(--ed-color-brand-brown-900);
-  --ed-theme-color-content-on-accent-5: var(--ed-color-brand-cream-100);
+  --ed-theme-color-content-on-accent-5: var(--ed-color-brand-cream-300);
   --ed-theme-color-content-on-accent-6: var(--ed-color-brand-brown-900);
   --ed-theme-color-content-on-accent-7: var(--ed-color-brand-brown-900);
   --ed-theme-color-content-on-accent-8: var(--ed-color-brand-brown-900);
@@ -188,7 +241,7 @@
   --ed-theme-color-content-viz-label: var(--ed-theme-color-content-default);
   --ed-theme-color-border-default: var(--ed-color-brand-brown-700);
   --ed-theme-color-border-default-hover: var(--ed-color-neutral-500);
-  --ed-theme-color-border-subtle: var(--ed-color-brand-cream-600);
+  --ed-theme-color-border-subtle: var(--ed-color-brand-cream-800);
   --ed-theme-color-border-strong: var(--ed-color-neutral-900);
   --ed-theme-color-border-knockout: var(--ed-color-neutral-400);
   --ed-theme-color-border-brand: var(--ed-color-brand-orange-700);
@@ -198,14 +251,14 @@
   --ed-theme-color-border-accent-3: var(--ed-color-brand-blue-dark-800);
   --ed-theme-color-border-accent-4: var(--ed-color-brand-mustard-500);
   --ed-theme-color-border-accent-5: var(--ed-color-brand-brown-900);
-  --ed-theme-color-border-accent-6: var(--ed-color-brand-cream-200);
-  --ed-theme-color-border-accent-7: var(--ed-color-brand-cream-300);
-  --ed-theme-color-border-accent-8: var(--ed-color-brand-cream-600);
-  --ed-theme-color-border-on-accent-1: var(--ed-color-brand-cream-300);
+  --ed-theme-color-border-accent-6: var(--ed-color-brand-cream-400);
+  --ed-theme-color-border-accent-7: var(--ed-color-brand-cream-500);
+  --ed-theme-color-border-accent-8: var(--ed-color-brand-cream-800);
+  --ed-theme-color-border-on-accent-1: var(--ed-color-brand-cream-500);
   --ed-theme-color-border-on-accent-2: var(--ed-color-brand-brown-700);
-  --ed-theme-color-border-on-accent-3: var(--ed-color-brand-cream-300);
+  --ed-theme-color-border-on-accent-3: var(--ed-color-brand-cream-500);
   --ed-theme-color-border-on-accent-4: var(--ed-color-brand-brown-700);
-  --ed-theme-color-border-on-accent-5: var(--ed-color-brand-cream-300);
+  --ed-theme-color-border-on-accent-5: var(--ed-color-brand-cream-500);
   --ed-theme-color-border-on-accent-6: var(--ed-color-brand-brown-700);
   --ed-theme-color-border-on-accent-7: var(--ed-color-brand-brown-700);
   --ed-theme-color-border-on-accent-8: var(--ed-color-brand-brown-900);
@@ -237,6 +290,12 @@
   --ed-theme-spacing-lg: var(--ed-spacing-24);
   --ed-theme-spacing-xl: var(--ed-spacing-32);
   --ed-theme-spacing-xxl: var(--ed-spacing-64);
+  --ed-theme-spacing-region: var(--ed-theme-spacing-xl);
+  --ed-theme-spacing-section: var(--ed-theme-spacing-xxl);
+  --ed-theme-spacing-block: var(--ed-theme-spacing-lg);
+  --ed-theme-spacing-flow: var(--ed-theme-spacing-md);
+  --ed-theme-spacing-field: var(--ed-theme-spacing-lg);
+  --ed-theme-spacing-inline: var(--ed-theme-spacing-sm);
   --ed-z-index-0: 0;
   --ed-z-index-100: 100;
   --ed-z-index-200: 200;
@@ -245,12 +304,19 @@
   --ed-z-index-500: 500;
   --ed-z-index-top: 99999;
   --ed-z-index-bottom: -100;
+  --ed-theme-layer-sticky: var(--ed-z-index-100);
+  --ed-theme-layer-dropdown: var(--ed-z-index-200);
+  --ed-theme-layer-drawer: var(--ed-z-index-300);
+  --ed-theme-layer-modal: var(--ed-z-index-400);
+  --ed-theme-layer-toast: var(--ed-z-index-500);
   --ed-theme-typography-viz-label-font-family: var(--ed-theme-typography-display-default-font-family);
   --ed-theme-typography-viz-label-font-weight: var(--ed-theme-typography-display-default-font-weight);
   --ed-theme-typography-viz-label-font-size: clamp(10cqi, calc(130cqi / var(--_label-length, 6)), 24cqi);
   --ed-theme-typography-viz-label-line-height: 1.1;
   --ed-theme-typography-viz-label-letter-spacing: 0.02em;
   --ed-theme-typography-viz-label-text-transform: lowercase;
+  --ed-theme-typography-code-font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  --ed-theme-typography-code-font-size: var(--ed-theme-typography-body-sm-font-size);
   --ed-typography-font-family-league-gothic: League Gothic;
   --ed-typography-font-family-montserrat: Montserrat;
   --ed-typography-font-weight-400: 400;
@@ -414,10 +480,16 @@
   --ed-theme-typography-label-sm-line-height: 1.43;
   --ed-theme-typography-label-sm-letter-spacing: var(--ed-typography-letter-spacing-0);
   --ed-theme-typography-label-sm-text-transform: var(--ed-typography-text-transform-none);
+  --ed-theme-typography-body-xl-font-family: var(--ed-typography-font-family-montserrat);
+  --ed-theme-typography-body-xl-font-weight: var(--ed-typography-font-weight-400);
+  --ed-theme-typography-body-xl-font-size: clamp(1.5rem, 1.167rem + 1.111vw, 2rem);
+  --ed-theme-typography-body-xl-line-height: 1.5;
+  --ed-theme-typography-body-xl-letter-spacing: var(--ed-typography-letter-spacing-0);
+  --ed-theme-typography-body-xl-text-transform: var(--ed-typography-text-transform-none);
   --ed-theme-typography-body-lg-font-family: var(--ed-typography-font-family-montserrat);
   --ed-theme-typography-body-lg-font-weight: var(--ed-typography-font-weight-400);
-  --ed-theme-typography-body-lg-font-size: var(--ed-typography-font-size-20);
-  --ed-theme-typography-body-lg-line-height: 1.40;
+  --ed-theme-typography-body-lg-font-size: clamp(1.25rem, 1.083rem + 0.556vw, 1.5rem);
+  --ed-theme-typography-body-lg-line-height: 1.5;
   --ed-theme-typography-body-lg-letter-spacing: var(--ed-typography-letter-spacing-0);
   --ed-theme-typography-body-lg-text-transform: var(--ed-typography-text-transform-none);
   --ed-theme-typography-body-default-font-family: var(--ed-typography-font-family-montserrat);
@@ -446,8 +518,8 @@
   --ed-theme-typography-meta-sm-text-transform: var(--ed-typography-text-transform-uppercase);
   --ed-theme-typography-button-lg-font-family: var(--ed-typography-font-family-league-gothic);
   --ed-theme-typography-button-lg-font-weight: var(--ed-typography-font-weight-400);
-  --ed-theme-typography-button-lg-font-size: var(--ed-typography-font-size-20);
-  --ed-theme-typography-button-lg-line-height: 1.40;
+  --ed-theme-typography-button-lg-font-size: var(--ed-typography-font-size-28);
+  --ed-theme-typography-button-lg-line-height: 1.00;
   --ed-theme-typography-button-lg-letter-spacing: var(--ed-typography-letter-spacing-0);
   --ed-theme-typography-button-lg-text-transform: var(--ed-typography-text-transform-lowercase);
   --ed-theme-typography-button-default-font-family: var(--ed-typography-font-family-league-gothic);
@@ -458,8 +530,8 @@
   --ed-theme-typography-button-default-text-transform: var(--ed-typography-text-transform-lowercase);
   --ed-theme-typography-button-sm-font-family: var(--ed-typography-font-family-league-gothic);
   --ed-theme-typography-button-sm-font-weight: var(--ed-typography-font-weight-400);
-  --ed-theme-typography-button-sm-font-size: var(--ed-typography-font-size-14);
-  --ed-theme-typography-button-sm-line-height: 1.43;
+  --ed-theme-typography-button-sm-font-size: var(--ed-typography-font-size-24);
+  --ed-theme-typography-button-sm-line-height: 1.00;
   --ed-theme-typography-button-sm-letter-spacing: var(--ed-typography-letter-spacing-0);
   --ed-theme-typography-button-sm-text-transform: var(--ed-typography-text-transform-lowercase);
   --ed-theme-typography-primary-nav-default-font-family: var(--ed-typography-font-family-league-gothic);
@@ -525,36 +597,38 @@
   --ed-theme-box-shadow-sm: 0rem 0.25rem 0rem -0.125rem var(--ed-theme-color-background-subtle);
   --ed-theme-box-shadow-md: 0rem 0.5rem 0rem -0.25rem var(--ed-theme-color-background-subtle);
   --ed-theme-box-shadow-bold: 0rem 0.5rem 0rem -0.25rem var(--ed-theme-color-background-accent-1), 0rem 1rem 0rem -0.5rem var(--ed-theme-color-background-accent-2), 0rem 1.5rem 0rem -0.75rem var(--ed-theme-color-background-subtle);
+  --ed-theme-shadow-clearance-bold: 0.75rem;
   --ed-theme-button-color-background-default: var(--ed-color-brand-orange-700);
-  --ed-theme-button-color-background-hover: var(--ed-color-brand-orange-600);
-  --ed-theme-button-color-background-active: var(--ed-color-brand-orange-600);
+  --ed-theme-button-color-background-hover: var(--ed-color-brand-orange-800);
+  --ed-theme-button-color-background-active: var(--ed-color-brand-orange-800);
   --ed-theme-button-color-background-disabled: var(--ed-color-neutral-300);
-  --ed-theme-button-color-content-default: var(--ed-color-brand-cream-100);
-  --ed-theme-button-color-content-hover: var(--ed-color-brand-cream-100);
-  --ed-theme-button-color-content-active: var(--ed-color-brand-cream-100);
+  --ed-theme-button-color-content-default: var(--ed-color-brand-cream-300);
+  --ed-theme-button-color-content-hover: var(--ed-color-brand-cream-300);
+  --ed-theme-button-color-content-active: var(--ed-color-brand-cream-300);
   --ed-theme-button-color-content-disabled: var(--ed-color-neutral-white);
   --ed-theme-button-color-border-default: var(--ed-color-brand-orange-700);
-  --ed-theme-button-color-border-hover: var(--ed-color-brand-orange-600);
-  --ed-theme-button-color-border-active: var(--ed-color-brand-orange-600);
+  --ed-theme-button-color-border-hover: var(--ed-color-brand-orange-800);
+  --ed-theme-button-color-border-active: var(--ed-color-brand-orange-800);
   --ed-theme-button-color-border-disabled: var(--ed-color-neutral-300);
   --ed-theme-button-primary-color-background-default: var(--ed-color-brand-orange-700);
-  --ed-theme-button-primary-color-background-hover: var(--ed-color-brand-orange-600);
-  --ed-theme-button-primary-color-background-active: var(--ed-color-brand-orange-600);
+  --ed-theme-button-primary-color-background-hover: var(--ed-color-brand-orange-800);
+  --ed-theme-button-primary-color-background-active: var(--ed-color-brand-orange-800);
   --ed-theme-button-primary-color-background-disabled: var(--ed-color-neutral-300);
-  --ed-theme-button-primary-color-content-default: var(--ed-color-brand-cream-100);
-  --ed-theme-button-primary-color-content-hover: var(--ed-color-brand-cream-100);
-  --ed-theme-button-primary-color-content-active: var(--ed-color-brand-cream-100);
+  --ed-theme-button-primary-color-content-default: var(--ed-color-brand-cream-300);
+  --ed-theme-button-primary-color-content-hover: var(--ed-color-brand-cream-300);
+  --ed-theme-button-primary-color-content-active: var(--ed-color-brand-cream-300);
   --ed-theme-button-primary-color-content-disabled: var(--ed-color-neutral-white);
   --ed-theme-button-primary-color-border-default: var(--ed-color-brand-orange-700);
-  --ed-theme-button-primary-color-border-hover: var(--ed-color-brand-orange-600);
-  --ed-theme-button-primary-color-border-active: var(--ed-color-brand-orange-600);
+  --ed-theme-button-primary-color-border-hover: var(--ed-color-brand-orange-800);
+  --ed-theme-button-primary-color-border-active: var(--ed-color-brand-orange-800);
   --ed-theme-button-primary-color-border-disabled: var(--ed-color-neutral-300);
   --ed-theme-button-bare-color-content-default: var(--ed-color-brand-brown-900);
   --ed-theme-button-bare-color-content-hover: var(--ed-color-brand-brown-900);
   --ed-theme-button-bare-color-content-active: var(--ed-color-brand-brown-900);
   --ed-theme-button-bare-color-content-disabled: var(--ed-color-neutral-700);
   --ed-theme-focus-ring-color-border-default: var(--ed-color-neutral-black);
-  --ed-theme-focus-ring-color-border-knockout: var(--ed-color-brand-cream-100);
+  --ed-theme-focus-ring-color-border-knockout: var(--ed-color-brand-cream-300);
+  --ed-theme-focus-ring-offset: var(--ed-spacing-4);
   --ed-theme-form-color-background-default: var(--ed-color-neutral-900);
   --ed-theme-form-color-background-focus: var(--ed-color-neutral-900);
   --ed-theme-form-color-background-hover: var(--ed-color-neutral-900);
@@ -563,11 +637,11 @@
   --ed-theme-form-color-border-focus: var(--ed-color-brand-mustard-600);
   --ed-theme-form-color-border-hover: var(--ed-color-brand-mustard-600);
   --ed-theme-form-color-border-active: var(--ed-color-brand-mustard-600);
-  --ed-theme-form-color-content-default: var(--ed-color-brand-cream-100);
-  --ed-theme-form-color-content-focus: var(--ed-color-brand-cream-100);
-  --ed-theme-form-color-content-hover: var(--ed-color-brand-cream-100);
-  --ed-theme-form-color-content-active: var(--ed-color-brand-cream-100);
-  --ed-theme-form-color-content-subtle: var(--ed-color-brand-cream-600);
+  --ed-theme-form-color-content-default: var(--ed-color-brand-cream-300);
+  --ed-theme-form-color-content-focus: var(--ed-color-brand-cream-300);
+  --ed-theme-form-color-content-hover: var(--ed-color-brand-cream-300);
+  --ed-theme-form-color-content-active: var(--ed-color-brand-cream-300);
+  --ed-theme-form-color-content-subtle: var(--ed-color-brand-cream-800);
   --ed-theme-link-color-content-default: var(--ed-color-brand-orange-800);
   --ed-theme-link-color-content-hover: var(--ed-color-brand-orange-900);
   --ed-theme-link-color-content-active: var(--ed-color-brand-orange-800);
@@ -576,6 +650,10 @@
   --ed-theme-link-color-content-knockout-hover: var(--ed-color-brand-orange-600);
   --ed-theme-link-color-content-knockout-active: var(--ed-color-brand-orange-600);
   --ed-theme-link-color-content-knockout-visited: var(--ed-color-brand-orange-600);
+  --ed-theme-progress-color-fill-primary: var(--ed-theme-color-background-brand);
+  --ed-theme-progress-color-fill-success: var(--ed-color-utility-green-600);
+  --ed-theme-progress-color-fill-warning: var(--ed-color-utility-yellow-600);
+  --ed-theme-progress-color-fill-error: var(--ed-color-utility-red-600);
 }
 /*------------------------------------*\
     #BREAKPOINT VARIABLES
@@ -741,35 +819,35 @@ img {
   * 1) Forces margin small to 0.5rem
   */
 .ed-u-margin-sm {
-  margin: calc(0.5rem * 1) !important;
+  margin: 0.5rem !important;
 }
 /**
   * Margin medium
   * 1) Forces margin medium to 1rem
   */
 .ed-u-margin-md {
-  margin: calc(0.5rem * 2) !important;
+  margin: 1rem !important;
 }
 /**
   * Margin large
   * 1) Forces margin large to size(3)
   */
 .ed-u-margin-lg {
-  margin: calc(0.5rem * 3) !important;
+  margin: 1.5rem !important;
 }
 /**
   * Margin xl
   * 1) Forces margin xl to 2rem
   */
 .ed-u-margin-xl {
-  margin: calc(0.5rem * 4) !important;
+  margin: 2rem !important;
 }
 /**
   * Margin xxl
   * 1) Forces margin to 4rem
   */
 .ed-u-margin-xxl {
-  margin: calc(0.5rem * 8) !important;
+  margin: 4rem !important;
 }
 /**
   * Margin top none
@@ -783,35 +861,35 @@ img {
   * 1) Forces margin top to 0.5rem
   */
 .ed-u-margin-block-start-sm {
-  margin-block-start: calc(0.5rem * 1) !important;
+  margin-block-start: 0.5rem !important;
 }
 /**
   * Margin top medium
   * 1) Forces margin top to 1rem
   */
 .ed-u-margin-block-start-md {
-  margin-block-start: calc(0.5rem * 2) !important;
+  margin-block-start: 1rem !important;
 }
 /**
   * Margin top large
   * 1) Forces margin top to size(3)
   */
 .ed-u-margin-block-start-lg {
-  margin-block-start: calc(0.5rem * 3) !important;
+  margin-block-start: 1.5rem !important;
 }
 /**
   * Margin top xl
   * 1) Forces margin top to 2rem
   */
 .ed-u-margin-block-start-xl {
-  margin-block-start: calc(0.5rem * 4) !important;
+  margin-block-start: 2rem !important;
 }
 /**
   * Margin top xxl
   * 1) Forces margin top to 4rem
   */
 .ed-u-margin-block-start-xxl {
-  margin-block-start: calc(0.5rem * 8) !important;
+  margin-block-start: 4rem !important;
 }
 /**
     * Margin right none
@@ -825,35 +903,35 @@ img {
   * 1) Forces margin right to 0.5rem
   */
 .ed-u-margin-inline-end-sm {
-  margin-inline-end: calc(0.5rem * 1) !important;
+  margin-inline-end: 0.5rem !important;
 }
 /**
   * Margin right medium
   * 1) Forces margin right to 1rem
   */
 .ed-u-margin-inline-end-md {
-  margin-inline-end: calc(0.5rem * 2) !important;
+  margin-inline-end: 1rem !important;
 }
 /**
     * Margin right large
     * 1) Forces margin right to size(3)
     */
 .ed-u-margin-inline-end-lg {
-  margin-inline-end: calc(0.5rem * 3) !important;
+  margin-inline-end: 1.5rem !important;
 }
 /**
     * Margin right xl
     * 1) Forces margin right to 2rem
     */
 .ed-u-margin-inline-end-xl {
-  margin-inline-end: calc(0.5rem * 4) !important;
+  margin-inline-end: 2rem !important;
 }
 /**
   * Margin right xxl
   * 1) Forces margin right to 4rem
   */
 .ed-u-margin-inline-end-xxl {
-  margin-inline-end: calc(0.5rem * 8) !important;
+  margin-inline-end: 4rem !important;
 }
 /**
   * Margin bottom none
@@ -867,46 +945,46 @@ img {
   * 1) Forces margin bottom to 0.5rem
   */
 .ed-u-margin-block-end-sm {
-  margin-block-end: calc(0.5rem * 1) !important;
+  margin-block-end: 0.5rem !important;
 }
 /**
   * Margin bottom medium
   * 1) Forces margin bottom to 1rem
   */
 .ed-u-margin-block-end-md {
-  margin-block-end: calc(0.5rem * 2) !important;
+  margin-block-end: 1rem !important;
 }
 /**
   * Margin bottom large
   * 1) Forces margin bottom to size(3)
   */
 .ed-u-margin-block-end-lg {
-  margin-block-end: calc(0.5rem * 3) !important;
+  margin-block-end: 1.5rem !important;
 }
 /**
   * Margin bottom xl
   * 1) Forces margin bottom to 2rem
   */
 .ed-u-margin-block-end-xl {
-  margin-block-end: calc(0.5rem * 4) !important;
+  margin-block-end: 2rem !important;
 }
 /**
   * Margin bottom xxl
   * 1) Forces margin bottom to 4rem
   */
 .ed-u-margin-block-end-xxl {
-  margin-block-end: calc(0.5rem * 8) !important;
+  margin-block-end: 4rem !important;
 }
 /**
   * Margin bottom xl
   * 1) Forces margin bottom to 2rem on small screens and 4rem on large screens
   */
 .ed-u-margin-block-end-xl-xxl {
-  margin-block-end: calc(0.5rem * 4) !important;
+  margin-block-end: 2rem !important;
 }
 @media all and (min-width: 48rem) {
   .ed-u-margin-block-end-xl-xxl {
-    margin-block-end: calc(0.5rem * 8) !important;
+    margin-block-end: 4rem !important;
   }
 }
 /**
@@ -921,35 +999,35 @@ img {
   * 1) Forces margin left to 0.5rem
   */
 .ed-u-margin-inline-start-sm {
-  margin-inline-start: calc(0.5rem * 1) !important;
+  margin-inline-start: 0.5rem !important;
 }
 /**
   * Margin left medium
   * 1) Forces margin left to 1rem
   */
 .ed-u-margin-inline-start-md {
-  margin-inline-start: calc(0.5rem * 2) !important;
+  margin-inline-start: 1rem !important;
 }
 /**
   * Margin left large
   * 1) Forces margin left to 1.5rem
   */
 .ed-u-margin-inline-start-lg {
-  margin-inline-start: calc(0.5rem * 3) !important;
+  margin-inline-start: 1.5rem !important;
 }
 /**
   * Margin left xl
   * 1) Forces margin left to 2rem
   */
 .ed-u-margin-inline-start-xl {
-  margin-inline-start: calc(0.5rem * 4) !important;
+  margin-inline-start: 2rem !important;
 }
 /**
   * Margin left xxl
   * 1) Forces margin left to 4rem
   */
 .ed-u-margin-inline-start-xxl {
-  margin-inline-start: calc(0.5rem * 8) !important;
+  margin-inline-start: 4rem !important;
 }
 /*------------------------------------*\
     #PADDING
@@ -966,35 +1044,35 @@ img {
   * 1) Forces padding small to 0.5rem
   */
 .ed-u-padding-sm {
-  padding: calc(0.5rem * 1) !important;
+  padding: 0.5rem !important;
 }
 /**
   * Padding medium
   * 1) Forces padding medium to 1rem
   */
 .ed-u-padding-md {
-  padding: calc(0.5rem * 2) !important;
+  padding: 1rem !important;
 }
 /**
   * Padding large
   * 1) Forces padding large to size(3)
   */
 .ed-u-padding-lg {
-  padding: calc(0.5rem * 3) !important;
+  padding: 1.5rem !important;
 }
 /**
   * Padding xl
   * 1) Forces padding xl to 2rem
   */
 .ed-u-padding-xl {
-  padding: calc(0.5rem * 4) !important;
+  padding: 2rem !important;
 }
 /**
   * Padding xxl
   * 1) Forces padding xxl to 4rem
   */
 .ed-u-padding-xxl {
-  padding: calc(0.5rem * 8) !important;
+  padding: 4rem !important;
 }
 /**
   * Padding top none
@@ -1008,35 +1086,35 @@ img {
   * 1) Forces padding top to 0.5rem
   */
 .ed-u-padding-block-start-sm {
-  padding-block-start: calc(0.5rem * 1) !important;
+  padding-block-start: 0.5rem !important;
 }
 /**
   * Padding top medium
   * 1) Forces padding top to 1rem
   */
 .ed-u-padding-block-start-md {
-  padding-block-start: calc(0.5rem * 2) !important;
+  padding-block-start: 1rem !important;
 }
 /**
   * Padding top large
   * 1) Forces padding top to size(3)
   */
 .ed-u-padding-block-start-lg {
-  padding-block-start: calc(0.5rem * 3) !important;
+  padding-block-start: 1.5rem !important;
 }
 /**
   * Padding top xl
   * 1) Forces padding top to 2rem
   */
 .ed-u-padding-block-start-xl {
-  padding-block-start: calc(0.5rem * 4) !important;
+  padding-block-start: 2rem !important;
 }
 /**
   * Padding top xxl
   * 1) Forces padding top xxl to 4rem
   */
 .ed-u-padding-block-start-xxl {
-  padding-block-start: calc(0.5rem * 8) !important;
+  padding-block-start: 4rem !important;
 }
 /**
     * Padding right none
@@ -1050,35 +1128,35 @@ img {
   * 1) Forces padding right to 0.5rem
   */
 .ed-u-padding-inline-end-sm {
-  padding-inline-end: calc(0.5rem * 1) !important;
+  padding-inline-end: 0.5rem !important;
 }
 /**
   * Padding right medium
   * 1) Forces padding right to 1rem
   */
 .ed-u-padding-inline-end-md {
-  padding-inline-end: calc(0.5rem * 2) !important;
+  padding-inline-end: 1rem !important;
 }
 /**
     * Padding right large
     * 1) Forces padding right to size(3)
     */
 .ed-u-padding-inline-end-lg {
-  padding-inline-end: calc(0.5rem * 3) !important;
+  padding-inline-end: 1.5rem !important;
 }
 /**
     * Padding right xl
     * 1) Forces padding right to 2rem
     */
 .ed-u-padding-inline-end-xl {
-  padding-inline-end: calc(0.5rem * 4) !important;
+  padding-inline-end: 2rem !important;
 }
 /**
   * Padding right xxl
   * 1) Forces padding right xxl to 4rem
   */
 .ed-u-padding-inline-end-xxl {
-  padding-inline-end: calc(0.5rem * 8) !important;
+  padding-inline-end: 4rem !important;
 }
 /**
   * Padding bottom none
@@ -1092,35 +1170,35 @@ img {
   * 1) Forces padding bottom to 0.5rem
   */
 .ed-u-padding-block-end-sm {
-  padding-block-end: calc(0.5rem * 1) !important;
+  padding-block-end: 0.5rem !important;
 }
 /**
   * Padding bottom medium
   * 1) Forces padding bottom to 1rem
   */
 .ed-u-padding-block-end-md {
-  padding-block-end: calc(0.5rem * 2) !important;
+  padding-block-end: 1rem !important;
 }
 /**
   * Padding bottom large
   * 1) Forces padding bottom to size(3)
   */
 .ed-u-padding-block-end-lg {
-  padding-block-end: calc(0.5rem * 3) !important;
+  padding-block-end: 1.5rem !important;
 }
 /**
   * Padding bottom xl
   * 1) Forces padding bottom to 2rem
   */
 .ed-u-padding-block-end-xl {
-  padding-block-end: calc(0.5rem * 4) !important;
+  padding-block-end: 2rem !important;
 }
 /**
   * Padding bottom xxl
   * 1) Forces padding bottom xxl to 4rem
   */
 .ed-u-padding-block-end-xxl {
-  padding-block-end: calc(0.5rem * 8) !important;
+  padding-block-end: 4rem !important;
 }
 /**
   * Padding left none
@@ -1134,35 +1212,35 @@ img {
   * 1) Forces padding left to 0.5rem
   */
 .ed-u-padding-inline-start-sm {
-  padding-inline-start: calc(0.5rem * 1) !important;
+  padding-inline-start: 0.5rem !important;
 }
 /**
   * Padding left medium
   * 1) Forces padding left to 1rem
   */
 .ed-u-padding-inline-start-md {
-  padding-inline-start: calc(0.5rem * 2) !important;
+  padding-inline-start: 1rem !important;
 }
 /**
   * Padding left large
   * 1) Forces padding left to 1.5rem
   */
 .ed-u-padding-inline-start-lg {
-  padding-inline-start: calc(0.5rem * 3) !important;
+  padding-inline-start: 1.5rem !important;
 }
 /**
   * Padding left xl
   * 1) Forces padding left to 2rem
   */
 .ed-u-padding-inline-start-xl {
-  padding-inline-start: calc(0.5rem * 4) !important;
+  padding-inline-start: 2rem !important;
 }
 /**
   * Padding left xxl
   * 1) Forces padding left xxl to 4rem
   */
 .ed-u-padding-inline-start-xxl {
-  padding-inline-start: calc(0.5rem * 8) !important;
+  padding-inline-start: 4rem !important;
 }
 /*------------------------------------*\
     #DISPLAY UTILITIES
@@ -1565,12 +1643,30 @@ ed-heading.text-node__heading {
 /**
  * Visually hidden from displays
  */
+/**
+ * Form field size scale (#1553).
+ *
+ * Set on a field's ROOT element, not its input: custom properties inherit, so
+ * one declaration reaches the input, the label and the `ed-field-note` —
+ * including across the field-note's shadow boundary, since inherited custom
+ * properties cross it where a class never could. That is what makes the size
+ * cascade to a composed field rather than each part re-solving it.
+ *
+ * `md` is the default and is expressed as the fallbacks in `input-styles()` and
+ * `label-styles()`, so it needs no class and no override.
+ *
+ * **The touch target does not shrink with the box.** WCAG 2.5.8 asks for
+ * 24x24 CSS px; `sm` keeps the control comfortably above that floor
+ * (~32px tall) because the padding shrinks but the line box does not vanish.
+ * A tighter step than this would need a hit-area expansion rather than a
+ * smaller number, which is why the scale stops here.
+ */
 a:not([class]) {
   color: var(--ed-theme-color-content-brand);
 }
 a:focus-visible {
   outline: var(--ed-theme-border-width-lg) solid var(--ed-theme-focus-ring-color-border-default);
-  outline-offset: var(--ed-theme-offset-focus-ring, calc(0.5rem * 0.5));
+  outline-offset: var(--ed-theme-focus-ring-offset, 0.25rem);
 }
 img {
   max-width: 100%;
@@ -1964,6 +2060,86 @@ html {
   max-width: 100%;
   height: auto;
   display: block;
+}
+.ed-r-c-summary {
+  display: grid;
+  gap: 0.5rem;
+}
+.ed-r-c-summary__engine {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-family: var(--ed-theme-typography-label-sm-font-family, var(--ed-theme-typography-body-default-font-family));
+  font-size: var(--ed-theme-typography-label-sm-font-size, 0.75rem);
+  color: var(--ed-theme-color-content-subtle, currentColor);
+}
+.ed-r-c-lesson__eyebrow,
+.ed-r-c-lesson__meta {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--ed-theme-typography-label-sm-font-family, var(--ed-theme-typography-body-default-font-family));
+  font-size: var(--ed-theme-typography-label-sm-font-size, 0.75rem);
+  letter-spacing: var(--ed-theme-typography-label-sm-letter-spacing, 0.02em);
+  text-transform: var(--ed-theme-typography-label-sm-text-transform, uppercase);
+  color: var(--ed-theme-color-content-subtle, currentColor);
+}
+.ed-r-c-lesson__meta {
+  text-transform: none;
+  letter-spacing: normal;
+}
+.ed-r-c-lesson__meta--footer {
+  margin-block-start: auto;
+  opacity: 0.8;
+}
+.ed-r-c-lesson__number {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.8;
+}
+.ed-r-c-definition {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border-inline-start: 0.25rem solid var(--ed-theme-color-border-brand, var(--ed-theme-color-background-brand));
+  background: var(--ed-theme-color-background-subtle, transparent);
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+.ed-r-c-definition + .ed-r-c-definition {
+  margin-block-start: 1rem;
+}
+.ed-r-c-definition__eyebrow,
+.ed-r-c-definition__label,
+.ed-r-c-definition__aliases {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--ed-theme-typography-label-sm-font-family, var(--ed-theme-typography-body-default-font-family));
+  font-size: var(--ed-theme-typography-label-sm-font-size, 0.75rem);
+  letter-spacing: var(--ed-theme-typography-label-sm-letter-spacing, 0.02em);
+  text-transform: var(--ed-theme-typography-label-sm-text-transform, uppercase);
+  color: var(--ed-theme-color-content-subtle, currentColor);
+}
+.ed-r-c-definition__aliases {
+  text-transform: none;
+  letter-spacing: normal;
+  font-style: italic;
+}
+.ed-r-c-stage__busy {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px dashed var(--ed-theme-color-border-default, currentColor);
+  border-radius: 0.5rem;
+  font-size: var(--ed-theme-typography-body-sm-font-size, 0.875rem);
+}
+.ed-r-c-concierge__engine {
+  display: grid;
+  gap: 1rem;
 }
 
 /*# sourceMappingURL=styles.css.map */
