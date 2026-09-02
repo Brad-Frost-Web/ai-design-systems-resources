@@ -13,3 +13,4 @@ tags:
   - "governance"
   - "process"
 ---
+Brad opens a pull request the old-fashioned way on github.com: illustration-animation into main, reviews the diff, writes a title and description, and requests a review from the evil-twin account. Switches to that account to show the reviewer's side — the notification, the file-level view, an inline comment, and a "looks good to me" approval — then merges, confirms, and deletes the spent branch. Frames review gates and checks as optional but essential quality practice in an AI-powered age.

@@ -14,3 +14,4 @@ tags:
   - "soul patrol"
   - "storybook"
 ---
+Ian ships dark mode for Soul Patrol across Figma, Storybook, and a React Native music app in one prompt, powered by a Theme Orchestrator skill and a create-theme script. The skill already knows the tier one, two, and three token architecture, steers toward muted palettes instead of naive inversions, and audits for WCAG AA before output; the script derives a Soul Patrol Dark preset JSON and builds it through the code pipeline. Storybook's theme switcher and the React Native app pick it up immediately; Figma takes longest, gaining a dark tier one collection and dark modes on tiers two and three, applied after publishing the token library and updating the component file. Notes the demo skipped proper SemVer package publishing, and pitches the same flow for rebrands and multi-platform token distribution.

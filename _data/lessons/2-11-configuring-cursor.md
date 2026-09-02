@@ -14,3 +14,4 @@ tags:
   - "altitude"
   - "southleft"
 ---
+TJ configures Cursor's model selection with the Altitude design system open. Explains the Auto setting, which routes each prompt to a lighter or heavier model based on the task, then unchecks it to reveal the full model list, the custom-model option, and the bring-your-own-key slots for OpenAI, Anthropic, and Gemini keys from the previous lessons. Opens a model's per-model settings (Opus 4.7) to show throttles for token consumption and thinking effort, and encourages experimenting with them.

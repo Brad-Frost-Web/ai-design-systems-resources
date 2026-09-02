@@ -14,3 +14,4 @@ tags:
   - "tools"
   - "southleft"
 ---
+Brad introduces Story UI, TJ's tool for composing recipes and pages from a design system's actual components rather than an approximation. With the Soul Patrol text field now synchronized between Figma and Storybook, he explains why Story UI matters: it points at your real component directory and tokens, works with React, Vue, Angular, Svelte, or web components, supports Claude, OpenAI, or Gemini, validates the generated code, offers a voice canvas for cross-discipline sessions, and can lean on the Storybook MCP. No lock-in to Material or shadcn; your own system is the input.

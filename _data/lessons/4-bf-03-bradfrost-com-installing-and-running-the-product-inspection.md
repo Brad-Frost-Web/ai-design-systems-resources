@@ -13,3 +13,4 @@ tags:
   - "claude"
   - "eddie"
 ---
+Brad approves the SPEC in Claude Code, which flips it from draft to approved and opens the bfw-process gate to the evaluation phase. Claude notices the product inspection skill isn't installed, so he installs the multi-point inspection kit globally from the README (both DS inspection and product inspection), confirms /product-inspection appears in a fresh Claude Code session, and runs it against bradfrost.com. The inspection assesses ten product-facing stations and returns a 42 out of 100 — a score he grins at, since the site has barely been touched beyond the replatform and deliberately hasn't adopted Eddie yet.

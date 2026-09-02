@@ -13,3 +13,4 @@ tags:
   - "prototyping"
   - "southleft"
 ---
+TJ asks Claude Code, through the Storybook MCP, to generate a newsletter signup form for College Town. With the full component inventory, properties, and docs in reach, it writes a TypeScript component and a stories file and files them under a new Patterns section. The one-shot result is a solid, on-system form — heading, description, inputs, subscribe button — complete with loading, error, and subscribed states, and he notes it iterates readily if you want to add a button group or another field.

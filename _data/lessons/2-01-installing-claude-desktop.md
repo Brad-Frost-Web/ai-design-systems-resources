@@ -12,3 +12,4 @@ tags:
   - "tools"
   - "southleft"
 ---
+TJ opens the tool-installation run by previewing the three main platforms the course leans on — Claude Desktop, Cursor, and Claude Code — then installs Claude Desktop. Downloads the Mac DMG, logs in, and tours the sidebar that puts Claude Chat, Claude Cowork, and Claude Code in one app. Notes Cowork gets the least use in the course and Claude Code gets a lot.

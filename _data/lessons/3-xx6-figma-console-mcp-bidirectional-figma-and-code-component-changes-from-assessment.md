@@ -14,3 +14,4 @@ tags:
   - "claude"
   - "southleft"
 ---
+TJ feeds the first two audit findings back to Claude Code and Figma Console MCP and asks it to fix them in both places. In code it corrects a stale class name in the input mixin so success and error backgrounds and borders finally render; in Figma it repairs the property errors and adds the missing inverted and disabled combinations as new variants to the right of the set. Watches the variants appear (and briefly vanish) on the canvas, and marvels at editing design and code in one pass after a decade of doing it by hand, noting Storybook stories for the new states are one more prompt away.

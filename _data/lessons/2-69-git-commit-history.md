@@ -12,3 +12,4 @@ tags:
   - "workflow"
   - "tools"
 ---
+Brad makes the first commit in GitHub Desktop ("Create index.html"), admits he's historically bad at commit messages and that AI helps there, then edits the page's description and watches the diff appear: line ten, old words removed in red, new words added in green. Commits again and opens the History tab to step through both snapshots. That's the heart of Git — tracking files and their changes over time so you can undo, roll back, and revert.

@@ -14,3 +14,4 @@ tags:
   - "skills"
   - "southleft"
 ---
+TJ installs the Figma MCP in Claude Desktop via Customize, then Connectors (Claude's name for MCPs; skills wait for a later lesson). Browses the connector marketplace, picks the current Figma connector over the older Dev Mode one, and authenticates through the same OAuth bounce as Cursor. Shows both ways to use it — pull a component's data from its URL, or point Claude at a code directory and have it translate Figma components into code — and closes the environment-configuration segment.

@@ -13,3 +13,4 @@ tags:
   - "altitude"
   - "southleft"
 ---
+TJ sets up a head-to-head comparison of AI prototyping platforms that can leverage a design system: Figma Make, Bolt, Vercel's v0, Claude Design, and Lovable. To level the field, every tool gets the same prompt — generate only the UI for a newsletter subscription section for a culinary publication, no database or auth — with the caveat that some tools want to add infrastructure by default. Each generation will be walked through for process, interface, and output.

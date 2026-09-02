@@ -12,3 +12,4 @@ tags:
   - "workflow"
   - "terminology"
 ---
+Brad walks back through the cheat sheet against what the demo actually did: initialize a repo, commit and publish it to GitHub, branch for the animation tweak, commit and push, file a pull request, get it reviewed and merged, and pull main back down. Covers the one concept the demo skipped — git clone, via the green Code button — and invites students to clone the learning-git site as a safe sandbox to branch and break.

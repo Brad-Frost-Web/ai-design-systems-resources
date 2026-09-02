@@ -13,3 +13,4 @@ tags:
   - "agents"
   - "workflow"
 ---
+Brad publishes the repository to GitHub the agentic way. Instead of clicking New repository on github.com, he opens Claude Code in the project directory and asks it to create a repo in the Brad Frost Web organization and push the code. Claude drives GitHub CLI: checks gh auth status, asks for a name and public/private, then creates and pushes github.com/bradfrostweb/learning-git in seconds. An agent writing commands against the CLI, on his behalf, in his account.

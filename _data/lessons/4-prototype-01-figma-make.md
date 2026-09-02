@@ -13,3 +13,4 @@ tags:
   - "altitude"
   - "southleft"
 ---
+TJ runs the newsletter prompt through Figma Make using a custom Make Kit that encodes the Altitude design system's tokens and component guidance. Tours the options — model choice (Opus), build or plan mode, attaching designs, connectors including Figma Console Cloud, custom skills — and notes local Make can point directly at real component and token code. The generation comes back quickly and faithfully: Altitude's exact input, button, and badges, compared side by side with the library. Immediately what he expected; grade A.

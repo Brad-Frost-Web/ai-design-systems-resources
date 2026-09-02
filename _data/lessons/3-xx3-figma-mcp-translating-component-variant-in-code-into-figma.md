@@ -14,3 +14,4 @@ tags:
   - "soul patrol"
   - "synchronization"
 ---
+Brad runs the Figma MCP in reverse. Code has an inverted text field variant that Figma lacks, so he asks Claude Code to translate it into the Figma component set, placed to the right of the existing success, error, and disabled states, with a link to the component for context. Claude reads the knockout variables and focus states, clones the non-state variants, and adds a fifth column with a dark background, label and field note bound to the content knockout token. Reflects on MCPs as the tether that finally aligns design, code, and docs, whichever side you start from.

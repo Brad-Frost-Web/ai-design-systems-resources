@@ -13,3 +13,4 @@ tags:
   - "workflow"
   - "accessibility"
 ---
+Brad demonstrates GitHub issues, the last concept on the cheat sheet. From the Issues tab he files a task — check accessibility and confirm the site passes WCAG 2.1 AA before a real launch — labels it, and shows how issues become the project's running task list. Argues this matters more than ever now that non-developers can participate in the code process.

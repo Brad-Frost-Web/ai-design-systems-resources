@@ -13,3 +13,4 @@ tags:
   - "southleft"
   - "tools"
 ---
+TJ introduces the Storybook MCP server, which connects a Storybook instance to an AI agent so it can talk directly to your components: generate UI and stories, pull documentation, preview stories, and run story tests. Notes it's currently limited to React projects on the React flavor of Storybook, and previews installing and using it in the lessons that follow.

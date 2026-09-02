@@ -13,3 +13,4 @@ tags:
   - "tools"
   - "culture"
 ---
+Brad sets expectations before the GitHub signup. Teams may use other platforms, so sign up for whatever yours uses or find the IT person who can grant access — and expect some red tape, because designers and other disciplines asking for product repository access is exactly the new reality organizations are adapting to. Recommends a personal GitHub account regardless, since it's the industry standard for open-source work and what the course uses.

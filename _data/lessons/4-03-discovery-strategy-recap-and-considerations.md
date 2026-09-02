@@ -12,3 +12,4 @@ tags:
   - "process"
   - "assessment"
 ---
+Brad recaps the discovery demo: business context, product context, the product as it stands, and the design system all go into the stew, and AI helps define the work, snapshot the current state, and produce a plan of attack. Highlights AI tearing a product apart across dimensions of quality to expose stones the team didn't know to overturn, the relief for systems people who no longer have to sell the design system on trust alone, and the magic of dual-filing issues against product and system repos from day one. Insists AI facilitates kickoff and strategy rather than replacing human judgment: don't let it decide your strategy for you.

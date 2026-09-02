@@ -13,3 +13,4 @@ tags:
   - "strategy"
   - "advocacy"
 ---
+Brad lands the course's title thesis: design systems can't solve all of AI's hard, but they deliver quality at scale, and AI in turn delivers the speed and generative, connective superpowers that design systems' orchestration work demands. The agreed-upon standards and assets rein in AI's chaos while AI absorbs the labor — a one-two punch, peanut butter and jelly. Sets up the rest of the course as the how-to for using the two together.

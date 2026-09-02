@@ -12,3 +12,4 @@ tags:
   - "governance"
   - "workflow"
 ---
+Brad explains what publishing unlocks: the repository now lives in the cloud as a backup and source of truth, so if the laptop goes into the ocean the project can be cloned onto a new machine. Then adds collaborators — his brother Ian is already in the organization, and he invites TJ with write access — to show how GitHub and its peers manage the people working on a project.

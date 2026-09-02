@@ -14,3 +14,4 @@ tags:
   - "soul patrol"
   - "claude"
 ---
+Ian translates the design-approved Soul Patrol donate page from Figma into code with Figma Console MCP, passing a link to the Figma selection for context and leaning on component, recipe, and token docs the MCP had written earlier. Explains why not Story UI here: the design already exists and has been reviewed, so translating the actual Figma nodes keeps design and development aligned. Claude scaffolds donate.ts, an SCSS file, and a stories file; after a Storybook restart the page matches Figma, using the site header recipe, band, buttons, and the title-large heading, with responsive behavior inherited from the components. Under five minutes versus the copy-paste-from-Storybook manual path, with a full-width button prop as the only obvious tweak.

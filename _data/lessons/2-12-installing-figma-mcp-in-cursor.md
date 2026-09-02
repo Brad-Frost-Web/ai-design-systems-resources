@@ -13,3 +13,4 @@ tags:
   - "cursor"
   - "southleft"
 ---
+TJ installs the Figma MCP in Cursor. Points to Figma's MCP server guide, which covers every client, then uses Cursor's agent-mode marketplace: filter to Figma, click Get, authenticate through Figma's OAuth flow, and land back in Cursor ready to go. Demonstrates the payoff by asking the agent for all the data on a Figma component via its URL.

@@ -14,3 +14,4 @@ tags:
   - "mcp"
   - "testing"
 ---
+Brad asks Claude to diagram every mechanism that keeps it from hallucinating UI, then walks the left-to-right pipeline. bfw-process is the versioned rulebook (full mode's phased gates or quick mode for prototyping); his global Claude settings hard-code the non-negotiables — Eddie is the UI layer, no custom components, no Tailwind or shadcn, tokens only; project rule files and agents.md frame the context; a mandatory preamble forces an Eddie Brain check-health before any markup; the brain answers from the knowledge graph with real props, slots, and tokens; composition starts from page templates; a post-generation hook runs validate-file and a headless-browser visual check; deterministic CI gates guard main; and the new Eddie Reporter package feeds adoption data back upstream. Closes by converting the diagram page itself into an Eddie-powered version as a live demonstration.

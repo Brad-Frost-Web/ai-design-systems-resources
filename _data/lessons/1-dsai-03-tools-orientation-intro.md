@@ -12,3 +12,4 @@ tags:
   - "course"
   - "concepts"
 ---
+Brad introduces the tooling orientation that follows: a walkthrough of the design system tooling and AI tooling used throughout the rest of the course. Frames it as a refresher for whichever area is already your wheelhouse and a primer for the others, since the design, code, and AI worlds are converging and understanding the whole terrain matters.

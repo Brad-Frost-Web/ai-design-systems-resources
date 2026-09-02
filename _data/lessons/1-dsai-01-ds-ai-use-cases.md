@@ -13,3 +13,4 @@ tags:
   - "ai"
   - "strategy"
 ---
+Brad lays out the three broad categories of AI + design system use the course is organized around: using AI to address the design system's check engine light and sturdy up its foundations in design, code, and documentation so it's AI-ready; using AI and the system together to deliver quality products at scale faster than ever; and using the combination to invent the next generation of user experience. Notes the first category is the required groundwork for the other two.

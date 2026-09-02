@@ -12,3 +12,4 @@ tags:
   - "tools"
   - "southleft"
 ---
+TJ installs Cursor, the VS Code-like IDE, and walks through its three flavors: the traditional desktop editor (a DMG download), a terminal-based CLI that behaves like Claude Code, and a browser-only web version the course won't use. Inside the desktop app he shows the classic file-editor view alongside the newer agent view, which pushes the chat forward and de-emphasizes files; the course toggles between both.

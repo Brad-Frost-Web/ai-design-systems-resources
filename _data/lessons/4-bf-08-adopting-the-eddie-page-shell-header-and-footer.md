@@ -13,3 +13,4 @@ tags:
   - "claude"
   - "code"
 ---
+Brad starts full Eddie adoption from the outside in with the page shell. Shows Eddie's existing page templates (article, dashboard, form, grid, homepage), then asks Claude Code to adopt the page shell, header, footer, and main while preserving the current positioning. The browser-default nav links become the Eddie primary navigation and header; a second pass rebuilds the footer from sections, a three-up card grid for courses, the newsletter form, link lists, and a media block for the Carbon ad. The process surfaces a link-list rendering bug, filed automatically against Eddie, and a plan to turn the JavaScript-injected Carbon ad into its own recipe. With the shell systematized, the guts of the pages are next.

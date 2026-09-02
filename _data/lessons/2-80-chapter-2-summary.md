@@ -13,3 +13,4 @@ tags:
   - "code"
   - "api"
 ---
+Brad recaps Chapter 2: TJ's walkthrough of installing and configuring AI tools — Claude, ChatGPT, IDEs like Cursor, and terminal tools like Claude Code — plus finding and wiring up API keys; and Brad's tour of Git core concepts for working safely with AI, from cloning and branching to pushing, pulling, and merging. Reiterates the role of services like GitHub and GitLab for issues, pull requests, and code review, and how tools like Claude Code are changing the way we interact with them.

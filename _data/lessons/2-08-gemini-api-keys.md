@@ -12,3 +12,4 @@ tags:
   - "tools"
   - "southleft"
 ---
+TJ creates a Gemini API key in Google AI Studio (aistudio.google.com): Get API key, Create API key, name it and note its purpose, then copy and store it securely for any software that needs Gemini access. Mirrors the Claude and OpenAI flows, and he removes the demo key afterward.

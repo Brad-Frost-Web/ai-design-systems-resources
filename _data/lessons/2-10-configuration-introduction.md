@@ -14,3 +14,4 @@ tags:
   - "claude"
   - "southleft"
 ---
+TJ previews the configuration segment: how to pick among language models inside Cursor, and how to install an MCP — specifically the Figma MCP — in both Cursor and Claude Desktop.

@@ -13,3 +13,4 @@ tags:
   - "workflow"
   - "synchronization"
 ---
+Brad brings the merged work back down to the local machine. Notes the options — Fetch origin in GitHub Desktop, a pull in the terminal, or the IDE — then closes the loop by asking Claude Code to switch to main and pull the latest via GitHub CLI. The IDE's history graph now shows the branch splitting off and merging back, the X-ray view of every commit and branch that Git gives a team over time.

@@ -12,3 +12,4 @@ tags:
   - "claude"
   - "southleft"
 ---
+TJ creates a Claude API key in the Claude console: Get API key, pick a workspace, name it, copy the generated key, and stash it somewhere secure like 1Password. Recommends minting a separate key for each application that needs one rather than sharing a single universal key, so access can be scoped and revoked per app.

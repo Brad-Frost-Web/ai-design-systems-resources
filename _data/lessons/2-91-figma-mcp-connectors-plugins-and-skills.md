@@ -14,3 +14,4 @@ tags:
   - "claude"
   - "southleft"
 ---
+TJ untangles three things Anthropic doesn't explain well: connectors are MCPs (URL-based, authenticated against a platform), plugins bundle a connector with extras like markdown files and skills, and skills are slash-command instructions that shape how the AI behaves. Shows the Figma plugin's skills (figma-generate-design, and a community prototype-to-Figma skill he co-authored), explains why plugins and skills only work in local surfaces like Claude Code and Cowork while chat gets the connector alone, and suggests custom skills for tasks like renaming variables. Traces the Figma MCP's evolution from read-only Dev Mode to bidirectional writes, and recommends setting tool permissions to always allow so approvals don't stall the workflow.

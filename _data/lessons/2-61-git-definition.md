@@ -13,3 +13,4 @@ tags:
   - "terminology"
   - "open-source"
 ---
+Brad defines Git: free, open-source, distributed version control software that's been tracking code changes on developers' machines for about twenty years. Separates the technology from the services built around it — GitHub, GitLab, Bitbucket, Azure Repos, Codeberg — which host Git repositories in the cloud as a project's source of truth, where code from humans and agents alike ultimately lands, and layer on sharing, review, and collaboration features.

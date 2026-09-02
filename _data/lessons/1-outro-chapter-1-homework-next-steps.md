@@ -13,3 +13,4 @@ tags:
   - "terminology"
   - "vocabulary"
 ---
+Brad closes Chapter 1 with three homework prompts before the course gets hands-on. Identify the hard: name your team's biggest pain points with both the design system and the organization's AI efforts. Take stock of current tooling — what's worth preserving, what needs sturdying, what no longer serves — since the landscape is in flux. And bookmark the course resource site at resources.aianddesign.systems for the glossary, links, and case studies. Points ahead to Chapter 2's tool and environment setup.

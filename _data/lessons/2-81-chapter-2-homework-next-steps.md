@@ -13,3 +13,4 @@ tags:
   - "api"
   - "code"
 ---
+Brad assigns Chapter 2 homework: get an AI dev environment installed (and try a second tool if you already have one), wire up API keys so terminal tools like Claude Code can reach your accounts and bookmark where those keys live, create a GitHub account and a fresh sandbox repository, and configure GitHub CLI so agents can act on Git for you — then try filing an issue and opening a pull request. All of it gets used in Chapter 3 to address the design system's check engine light.

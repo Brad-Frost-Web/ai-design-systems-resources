@@ -14,3 +14,4 @@ tags:
   - "eddie"
   - "claude"
 ---
+Brad walks through the SPEC Claude wrote for the bradfrost.com redesign, starting with its draft status — the first human-in-the-loop gate, since nothing gets built until he approves it. The spec nails his mission (make things and help people), four derived truths about courses as North Star, the site as personal voice and permanent record, and "keep the joy, kill the chore," then lays out audiences, business and craft goals including genuine full Eddie adoption, explicit non-goals, core user flows, tech decisions, accessibility requirements, and concrete success criteria like zero orphan CSS classes and Eddie validate-file passing everywhere. Explains that the context came from his bf-brain identity layer and Notion, argues for feeding LLMs as much real context as you're comfortable with, and notes the spec is referenced by agents.md so every generation inherits it.

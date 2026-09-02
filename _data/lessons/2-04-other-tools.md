@@ -13,3 +13,4 @@ tags:
   - "southleft"
   - "cursor"
 ---
+TJ surveys the secondary tools students may encounter: Warp, the terminal-meets-IDE he personally uses to run Claude Code; Codex, OpenAI's agent editor; Antigravity, Google's Cursor-like environment shipping with Gemini; and Windsurf, another Cursor-style IDE. Observes that the UIs of these platforms are converging on a common pattern, and confirms the course itself will center on Claude Desktop with some Cursor.

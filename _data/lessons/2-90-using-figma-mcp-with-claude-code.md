@@ -13,3 +13,4 @@ tags:
   - "claude"
   - "southleft"
 ---
+TJ sets up the Figma MCP for use with Claude Code inside Claude Desktop. From Customize he adds the Figma connector, completes the OAuth handshake that grants Claude access to his Figma account and files, then goes back and installs the separate Figma plugin from the Plugins section so the bundled tooling is ready to use.

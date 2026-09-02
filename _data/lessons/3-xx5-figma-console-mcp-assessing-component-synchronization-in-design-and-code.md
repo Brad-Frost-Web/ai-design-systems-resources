@@ -14,3 +14,4 @@ tags:
   - "soul patrol"
   - "southleft"
 ---
+TJ asks Claude Code, via Figma Console MCP, to analyze the Soul Patrol text field in both Figma and code and flag misalignments before the library is published. The audit lists what lines up cleanly, then the blockers: error and success styles never reach the input in code, the Figma component set has inconsistent property combinations across variants, the inverted variant lacks a focus ring override, and the disabled label selector targets the wrong tree. Explains why Figma inspection runs slower than code, and argues for catching this upstream rather than after downstream teams find it, with the findings ready to become GitHub issues or to be fixed directly in the next lesson.

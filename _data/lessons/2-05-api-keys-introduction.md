@@ -12,3 +12,4 @@ tags:
   - "tools"
   - "southleft"
 ---
+TJ introduces API keys: what they are — essentially a password that lets an application authenticate against your account with a language model provider, usually entered once — and where to find them. Notes they sometimes go by "personal access token" instead, and previews the per-provider walkthroughs that follow.

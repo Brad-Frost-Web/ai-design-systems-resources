@@ -13,3 +13,4 @@ tags:
   - "tools"
   - "claude"
 ---
+Brad installs Story UI into Soul Patrol's web components package, where Storybook actually lives. Runs the install and init wizard, which detects a Vite web component Storybook with 58 stories, auto-configures the components path, and asks for the generated-stories location, MCP port, AI provider (Claude), and an API key. Reviews the resulting storyui.config.js, then hits a syntax error the wizard introduced in Storybook's main.ts, fixes the missing and stray commas, and gets Storybook running with the Story UI generator panel visible.

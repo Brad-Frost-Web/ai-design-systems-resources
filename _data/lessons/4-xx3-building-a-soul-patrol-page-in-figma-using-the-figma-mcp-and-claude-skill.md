@@ -14,3 +14,4 @@ tags:
   - "soul patrol"
   - "claude"
 ---
+Ian builds a Soul Patrol donate page in Figma with Claude Code and the Figma MCPs, after the system's check engine light work (FigmaLint, Console MCP sync) is done. Rather than a bare prompt, he feeds it a URL and screenshot of World Central Kitchen's high-converting donate page plus a custom Claude skill that encodes Soul Patrol conventions, core principles (use the real library components), and speed rules to beat the fifteen-minute generations he'd seen out of the box. Watches the header, footer, hero band, sidebar impact card, and donation form card assemble from actual library components, with FPO slot blocks replaced by real content. Close to the reference in minutes, ready for fine-grain sandpaper before it goes to code.

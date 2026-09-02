@@ -12,3 +12,4 @@ tags:
   - "tools"
   - "workflow"
 ---
+Brad initializes Git in the new project — cd into the folder, git init, a one-time step that creates the hidden .git directory — then shows the three ways to talk to Git from here on. The terminal (git status reveals the untracked index.html), the source-control panel built into IDEs like Cursor and VS Code, and GitHub Desktop, where he adds the existing local repository and admires the green lines of a first diff. Same Git underneath; pick the surface that suits you.

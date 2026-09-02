@@ -14,3 +14,4 @@ tags:
   - "claude"
   - "mcp"
 ---
+Brad sets up what he calls maybe the most important lesson of the course — getting AI to reliably wield the design system — with an A/B test. In a Cursor agent with the Eddie Brain check deliberately skipped, "add a simple footer that recreates the primary navigation" yields a hand-rolled homepage-footer component with custom styles that ignores Eddie entirely, the frustration teams everywhere feel. The identical prompt in Claude Code with bfw-process and the guardrails in place produces the Eddie site-footer recipe, built only from Eddie tokens, components, and recipes. Some visual polish is still needed, but the point stands, and the specific tactics come next.

@@ -14,3 +14,4 @@ tags:
   - "claude"
   - "components"
 ---
+Brad installs a new adoption-plan skill, a companion to the product inspection that produces a concrete plan for moving any codebase onto a design system, and runs it on bradfrost.com. It writes four files: a garage, a baseline (381 lines of custom CSS, 28 Eddie components in use, a catalog of orphaned and hand-rolled UI), a mapping of each existing component to its Eddie equivalent with gaps flagged, and a plan chunked into waves. He disagrees with some recommendations — the linked-list suggestion for post lists — and treats that as system-and-product sculpting to come. Has Claude ship wave one's safe swaps: the newsletter recipe, avatar, small buttons for feed links, and cleaned-up contact page, which also files four Eddie bugs including Eddie Brain not surfacing the visually-hidden utility. Progress, not perfection.

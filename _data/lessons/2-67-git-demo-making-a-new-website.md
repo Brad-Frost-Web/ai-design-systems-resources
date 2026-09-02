@@ -12,3 +12,4 @@ tags:
   - "cursor"
   - "tools"
 ---
+Brad starts the Git demo from scratch: a new empty Learning Git folder on the desktop, dragged into Cursor. Creates index.html, scaffolds the page with the Emmet shortcut (exclamation mark, Tab), adds an H1 and a paragraph, and opens it in the browser. Not beautiful, but a functioning website — which is all Git needs to start tracking changes over time.

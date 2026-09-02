@@ -13,3 +13,4 @@ tags:
   - "prototyping"
   - "components"
 ---
+Brad generates a sign-in page with Story UI: username, password, save-password checkbox, sign-in and clear buttons. The generated story initially fails because the config's import path is set to lit; once fixed, the page renders using real Soul Patrol ingredients — the card, logo, heading, text field, and alert component — with default, error, and prefilled variants from a single pass. Points to Story UI's docs for adding component markdown, code guidelines, and import examples so this doesn't need hand-fixing, and pitches the tool as a way for mixed-discipline groups to iterate on a design together instead of backlogging tweaks.

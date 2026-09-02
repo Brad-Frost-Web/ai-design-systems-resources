@@ -11,3 +11,4 @@ tags:
   - "code"
   - "tools"
 ---
+Brad installs Git on a Mac from git-scm.com. Notes the Windows, Mac, and Linux paths and that Apple's Xcode command line tools bundle Git, then goes with Homebrew: copy the command, paste it into a terminal, let it pull Git down. Confirms the install in a fresh terminal tab with git --version.

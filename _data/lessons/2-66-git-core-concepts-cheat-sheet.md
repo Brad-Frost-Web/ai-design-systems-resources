@@ -13,3 +13,4 @@ tags:
   - "workflow"
   - "vocabulary"
 ---
+Brad delivers the Git and GitHub cheat sheet, reassuring students that a handful of core concepts is enough to be effective. Defines repository, clone, branch (a safe parallel timeline where you can turn everything purple without touching main), commit, push and pull, diffs (red for removed lines, green for added), merge and rebase, merge conflicts, pull requests, and issues. Advises checking your team's preferred merge style with a friendly developer, and sets up the hands-on demo that puts the vocabulary to work.

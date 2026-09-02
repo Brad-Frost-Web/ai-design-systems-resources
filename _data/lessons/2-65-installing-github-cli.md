@@ -13,3 +13,4 @@ tags:
   - "claude"
   - "agents"
 ---
+Brad installs GitHub CLI with brew install gh and calls it a game changer: it's what lets agents like Claude Code act on GitHub from natural language — create a branch, open a pull request, file an issue for a bug. Verifies the install, points to the README for troubleshooting, and recaps the GitHub setup trio: a user account, the GitHub Desktop GUI, and the CLI that unlocks agent-driven workflows.

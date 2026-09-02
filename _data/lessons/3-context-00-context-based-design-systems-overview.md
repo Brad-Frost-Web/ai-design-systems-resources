@@ -14,3 +14,4 @@ tags:
   - "mcp"
   - "southleft"
 ---
+TJ defines the full context-based design system lifecycle. Design ideation loads a component with metadata, variants, states, and annotations; design QA lints it with FigmaLint or Check Designs; a design-to-development protocol via an MCP lets the product designer, now a design engineer, draft the code on their own branch; a context engineer reviews the pull request against organizational standards; then testing, versioning and publishing, a prototyping playground like Story UI, and approval and integration close the loop. Zooms into the artifact and human layers to show where designer ownership hands off to engineering, and argues the context lives in Figma descriptions, annotations, and metadata rather than in separate markdown kits.

@@ -12,3 +12,4 @@ tags:
   - "tools"
   - "southleft"
 ---
+TJ creates an OpenAI API key from platform.openai.com/settings: Create new key, name it, choose a project, set permissions, then copy the key from the one-time modal and store it safely. Same shape as the Claude flow, and he deletes the demo key on camera as a security habit.

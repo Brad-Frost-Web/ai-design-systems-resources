@@ -13,3 +13,4 @@ tags:
   - "strategy"
   - "process"
 ---
+Brad introduces the chapter-long case study: redesigning bradfrost.com, a legacy product rebuild he's put off for more than a decade. Explains what the site is — his home on the web and the lifeblood of his business since 2013 — why it stagnated on WordPress, and the recent replatform to Eleventy that produced a fast, flat, blank-canvas starting point. Notes the old site predated Atomic Design and any design system, making this both an Eddie adoption exercise and the moment to finally design Eddie's design language for Brad Frost Web, with the product-to-system feedback loop on display throughout.

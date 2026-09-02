@@ -13,3 +13,4 @@ tags:
   - "culture"
   - "strategy"
 ---
+Brad argues it's not just digital products changing but the entire process by which they're made, and that AI has the opportunity to transform all of it. Previews why the course spends time on operationalizing AI and design systems at an organization — evolving from the present state into an AI-and-design-system-powered future — and notes the constant: success still requires coordinating people, tools, technologies, and processes.

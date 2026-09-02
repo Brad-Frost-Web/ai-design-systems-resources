@@ -12,3 +12,4 @@ tags:
   - "figma"
   - "southleft"
 ---
+TJ generates a Figma personal access token, the API-key equivalent some Figma tooling requires: Settings, then the Security section, then Generate new token. Names the token, sets an expiration, and chooses which scopes the application may access — only the needed ones or all of them — before generating it. Wraps the API keys segment and hands off to configuration.

@@ -13,3 +13,4 @@ tags:
   - "history"
   - "terminology"
 ---
+Brad recaps Chapter 1's arc: the history of general-purpose technologies and the paradigms they introduced, from computing and user interfaces to AI; what design systems are, where they came from, their value, and what's hard about them; the same treatment for large language models; the central thesis of combining AI and design systems; and the tooling and terminology the rest of the course relies on. Positions the chapter as the foundational bed for everything that follows.
