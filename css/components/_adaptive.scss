@@ -189,3 +189,105 @@ html {
 	height: auto;
 	display: block;
 }
+
+// ---------------------------------------------------------------------------
+// Summary — the one paragraph that frames a composed view, plus the engine
+// chip so it's never a mystery who composed it.
+.ed-r-c-summary {
+	display: grid;
+	gap: 0.5rem;
+}
+
+.ed-r-c-summary__engine {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin: 0;
+	font-family: var(--ed-theme-typography-label-sm-font-family, var(--ed-theme-typography-body-default-font-family));
+	font-size: var(--ed-theme-typography-label-sm-font-size, 0.75rem);
+	color: var(--ed-theme-color-content-subtle, currentColor);
+}
+
+// ---------------------------------------------------------------------------
+// Lesson cards — pointers to course videos. The heading is the link; the
+// card is not (per Eddie's card guidance: one focusable action, not a wrapper).
+.ed-r-c-lesson__eyebrow,
+.ed-r-c-lesson__meta {
+	margin: 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem;
+	font-family: var(--ed-theme-typography-label-sm-font-family, var(--ed-theme-typography-body-default-font-family));
+	font-size: var(--ed-theme-typography-label-sm-font-size, 0.75rem);
+	letter-spacing: var(--ed-theme-typography-label-sm-letter-spacing, 0.02em);
+	text-transform: var(--ed-theme-typography-label-sm-text-transform, uppercase);
+	color: var(--ed-theme-color-content-subtle, currentColor);
+}
+
+.ed-r-c-lesson__meta {
+	text-transform: none;
+	letter-spacing: normal;
+}
+
+.ed-r-c-lesson__meta--footer {
+	margin-block-start: auto;
+	opacity: 0.8;
+}
+
+.ed-r-c-lesson__number {
+	font-variant-numeric: tabular-nums;
+	opacity: 0.8;
+}
+
+// ---------------------------------------------------------------------------
+// Definition — a glossary term as a dictionary entry, not a link card.
+.ed-r-c-definition {
+	display: grid;
+	gap: 0.75rem;
+	padding: 1.5rem;
+	border-inline-start: 0.25rem solid var(--ed-theme-color-border-brand, var(--ed-theme-color-background-brand));
+	background: var(--ed-theme-color-background-subtle, transparent);
+	border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.ed-r-c-definition + .ed-r-c-definition {
+	margin-block-start: 1rem;
+}
+
+.ed-r-c-definition__eyebrow,
+.ed-r-c-definition__label,
+.ed-r-c-definition__aliases {
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-family: var(--ed-theme-typography-label-sm-font-family, var(--ed-theme-typography-body-default-font-family));
+	font-size: var(--ed-theme-typography-label-sm-font-size, 0.75rem);
+	letter-spacing: var(--ed-theme-typography-label-sm-letter-spacing, 0.02em);
+	text-transform: var(--ed-theme-typography-label-sm-text-transform, uppercase);
+	color: var(--ed-theme-color-content-subtle, currentColor);
+}
+
+.ed-r-c-definition__aliases {
+	text-transform: none;
+	letter-spacing: normal;
+	font-style: italic;
+}
+
+// ---------------------------------------------------------------------------
+// Busy state — the model path is a second answer; say so while it's in flight.
+.ed-r-c-stage__busy {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.75rem 1rem;
+	border: 1px dashed var(--ed-theme-color-border-default, currentColor);
+	border-radius: 0.5rem;
+	font-size: var(--ed-theme-typography-body-sm-font-size, 0.875rem);
+}
+
+.ed-r-c-concierge__engine {
+	display: grid;
+	gap: 1rem;
+}

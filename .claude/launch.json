@@ -4,8 +4,20 @@
     {
       "name": "site",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["start"],
+      "runtimeArgs": [
+        "start"
+      ],
       "port": 8080,
+      "autoPort": false
+    },
+    {
+      "name": "netlify",
+      "runtimeExecutable": "netlify",
+      "runtimeArgs": [
+        "dev",
+        "--no-open"
+      ],
+      "port": 8888,
       "autoPort": false
     }
   ]

@@ -6,7 +6,19 @@
 [build.environment]
   NODE_VERSION = "20"
 
+[functions]
+  node_bundler = "esbuild"
+
+# `netlify dev` — proxies the Eleventy dev server so /.netlify/functions/* work locally
+[dev]
+  command = "npm start"
+  targetPort = 8080
+  port = 8888
+  autoLaunch = false
+
 # Environment variables needed:
 # - GITHUB_PAT: Personal Access Token with repo scope (for triggering Actions)
 # - GITHUB_REPO: Your repo in "owner/repo" format
+# - ANTHROPIC_API_KEY: for the compose function (js/recipes/concierge.js → netlify/functions/compose.mjs)
+# - COMPOSE_DAILY_CAP / COMPOSE_PER_MINUTE: optional abuse limits (defaults 400 / 8)
 

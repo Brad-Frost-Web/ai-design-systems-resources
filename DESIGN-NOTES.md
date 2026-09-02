@@ -51,11 +51,34 @@ preserved (collection is server-rendered semantic HTML).
    adaptive-stage (A2UI-style renderer), constellation, chameleon-conductor —
    all follow `ed-r-c-*` conventions, tokens-only, light-DOM Lit.
 
+## 2026-09-02 — the generative UI lesson build
+
+Recorded as the example for the Chapter 5 generative UI lesson. What changed:
+
+| Move | Where | Idea |
+|---|---|---|
+| **A2UI envelope** — the engine emits `beginRendering` → `surfaceUpdate` (flat adjacency list) → `dataModelUpdate`; the agent speaks structure + ids, the corpus fills the data model (`hydrate()`), Eddie renders | `js/intent-engine.js`, `js/recipes/adaptive-stage.js` | A2UI's own vocabulary, so the "relates to A2UI" claim is a side-by-side, not a metaphor |
+| **Catalog from eddie-brain** — `scripts/build-catalog.js` asks `ds.bradfrost.com/mcp` for each component's intent + guidelines and writes `_data/catalog.json`; the stage refuses anything not in it and shows the manifest in "The catalog" panel | `scripts/build-catalog.js`, `_data/catalog.json` | The design system defines the vocabulary; the agent chooses from it |
+| **Model path** — `netlify/functions/compose.mjs` sends Claude (Sonnet 5, cached system prompt) the catalog + a compact corpus digest and gets the same spec back; opt-in per visitor ("Compose with Claude"); a second toggle attaches eddie-brain through the Messages API MCP connector so Claude can call `eddie_search` / `eddie_get_component` live, and the stage shows the trace | `netlify/functions/compose.mjs`, `js/recipes/concierge.js` | Heuristics are the floor, the model is the enhancement, the contract is identical |
+| **Nine shapes** — summary (always first, one paragraph), videoGrid, definition, resourceTimeline, table, tabs, barChart (eddie-charts), statRow (`ed-r-stat-card`), note | `js/recipes/adaptive-stage.js` | The question leads the way: numbers → chart, comparison → table, path → tabs, recency → timeline |
+| **Course lessons as pointers** — `_data/lessons/` (title, number, chapter, Thinkific URL, presenters, tags, summary; never transcripts) synced from the Notion Transcripts DB by `scripts/sync-lessons.js`; lessons outrank everything in ranking | `_data/lessons.js`, `scripts/sync-lessons.js` | Point students at the right video without publishing the course |
+| **Essential reading** — `Essential` checkbox in the resources Notion DB → `essential: true` frontmatter → +4 in ranking + "Essential reading" tag | `scripts/sync-notion.js`, `_data/resources.js` | Human judgment as a ranking signal |
+| **Eddie 0.38 → 0.60** — `ed-badge` → `ed-tag`, timeline nodes → `ed-r-timeline-node-link`, self-hosted fonts passthrough, `eddie-charts` added | `js/components.js`, `eleventy.config.js` | Unlocked charts and the composable timeline |
+
+Recording runs on localhost. The on-device path needs nothing; the model
+path needs `ANTHROPIC_API_KEY` in `.env` and `netlify dev` (port 8888, which
+proxies the Eleventy server on 8080 so `/.netlify/functions/compose` resolves).
+
 ## Known rough edges
 
-- Intent engine is deterministic keyword heuristics — the honest floor.
-  Swapping in a real model (WebLLM on-device, or a Netlify function) keeps the
-  same spec contract; that's the point of the A2UI framing.
+- The on-device engine is deterministic keyword heuristics — the honest floor.
+  The Netlify compose function is the real-model path on the same contract.
+- The compose function's rate limit and daily cap are in-memory per function
+  instance — a floor against casual abuse, not a wall. A durable counter
+  (Netlify Blobs) is the next step if the model path goes public.
+- Lesson tags were backfilled once by an agent pass and are maintained by the
+  nightly transcript sweep skill; the sweep's tag vocabulary and the resources
+  DB's tag options must be kept in step by hand.
 - The `/intel.json` payload is ~400KB unminified; fine locally, worth trimming
   (drop definitions?) before anything public.
 - Theme CSS adds ~185KB raw (5 extra themes); gzips well, but a

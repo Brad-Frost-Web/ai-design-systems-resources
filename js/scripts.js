@@ -87,6 +87,14 @@
 		stage.show(event.detail.spec, event.detail.intel);
 	});
 
+	// The model path is a second, slower answer: keep the on-device view up
+	// and say what's happening until Claude's spec arrives (or doesn't).
+	document.addEventListener("concierge-busy", (event) => {
+		stage.busyLabel = event.detail.label;
+		stage.busy = true;
+		stage.hidden = false;
+	});
+
 	document.addEventListener("constellation-ask", (event) => {
 		const concierge = document.querySelector("ed-r-c-concierge");
 		if (!concierge) return;

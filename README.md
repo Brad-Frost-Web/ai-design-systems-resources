@@ -12,8 +12,10 @@ The site serves as a trusted reference where practitioners can find quality arti
 
 | Section | Status | Description |
 |---|---|---|
-| **Resources** | Live | ~300 curated articles, videos, and tools |
-| **Glossary** | Live | 115 key terms extracted from course transcripts |
+| **Resources** | Live | ~330 curated articles, videos, and tools, with human-flagged essential reading |
+| **Course lessons** | Live | Pointers to ~185 published course videos (title, chapter, presenter, summary, link — never transcripts) |
+| **Glossary** | Live | 127 key terms extracted from course transcripts, wired to lessons |
+| **Adaptive explorer** | In progress | Ask a question; the page composes an answer from Eddie components (A2UI-shaped spec, catalog from eddie-brain, optional Claude engine) |
 | **Links** | Planned | Course-specific and community links by chapter |
 | **Timeline** | Planned | Resources along a time axis |
 | **Graph** | In progress | Knowledge graph of resource relationships |
@@ -103,6 +105,33 @@ npm run build
 
 ---
 
+## The adaptive explorer
+
+The homepage search is a small generative UI: an agent composes a view from a
+fixed catalog of design-system components instead of returning a results list.
+
+- **Catalog** — `npm run build:catalog` asks eddie-brain (`ds.bradfrost.com/mcp`)
+  for each component's intent and guidelines and writes `_data/catalog.json`.
+  The renderer refuses anything not in it.
+- **Engine (on-device)** — `js/intent-engine.js` turns an ask into A2UI-shaped
+  messages (`beginRendering`, `surfaceUpdate`, `dataModelUpdate`) with
+  deterministic heuristics. No server sees the ask.
+- **Engine (Claude, opt-in)** — `netlify/functions/compose.mjs` sends the same
+  catalog plus a compact corpus digest to Claude and returns the same spec.
+  Needs `ANTHROPIC_API_KEY`; run locally with `netlify dev` (port 8888).
+  A second toggle lets Claude consult eddie-brain live via the MCP connector.
+- **Renderer** — `js/recipes/adaptive-stage.js` maps components onto Eddie:
+  summary, videoGrid, definition, resourceTimeline, table, tabs, barChart,
+  statRow, note.
+
+## How lessons get added
+
+`npm run sync:lessons` pulls every published lesson (rows with a Thinkific URL)
+from the Notion Transcripts database into `_data/lessons/`, one file per
+lesson. Needs `NOTION_API_KEY` (the Transcripts database must be shared with
+the integration) and optionally `NOTION_LESSONS_DATABASE_ID`. Only pointers
+are synced — transcripts stay in Notion.
+
 ## How resources get added
 
 Resources flow in two ways:
@@ -171,8 +200,11 @@ If you want to add resources to the collection, add them to the Notion database 
 
 | Variable | Required | Description |
 |---|---|---|
-| `NOTION_TOKEN` | For sync only | Notion integration secret |
+| `NOTION_API_KEY` | For sync only | Notion integration secret (`NOTION_TOKEN` also accepted) |
 | `NOTION_DATABASE_ID` | For sync only | ID of the resources Notion database |
+| `NOTION_LESSONS_DATABASE_ID` | For lesson sync | ID of the Transcripts database (defaults to the AI & DS one) |
+| `ANTHROPIC_API_KEY` | For the Claude engine | Used by `netlify/functions/compose.mjs`; locally via `netlify dev` |
+| `COMPOSE_DAILY_CAP`, `COMPOSE_PER_MINUTE` | Optional | Abuse limits for the compose function (defaults 400 / 8) |
 
 These are only needed if you're running `npm run sync` locally. The site builds fine without them — it reads the already-synced markdown files in `_data/resources/`.
 
