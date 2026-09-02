@@ -4,7 +4,7 @@ title: "Eddie: Fixing Modal Focus Trap"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76656769-eddie-fixing-modal-focus-trap"
 notionId: "39d3c9323e8681d69a95d994c042534f"
-created: "2026-07-14 18:27:14Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

@@ -4,7 +4,7 @@ title: "Generating documentation from Figma with Company Docs"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76168184-generating-documentation-from-figma-with-company-docs"
 notionId: "39d3c9323e86812b8d8cff5af73c74bc"
-created: "2026-07-14 18:27:44Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:

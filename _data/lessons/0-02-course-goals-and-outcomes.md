@@ -4,7 +4,7 @@ title: "Course Goals and Outcomes"
 chapter: "Chapter 0"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/72571447-course-goals-outcomes"
 notionId: "34a3c9323e8681228238e5f75c052a53"
-created: "2026-04-22 19:45:26Z"
+created: "2026-04-22T19:45:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

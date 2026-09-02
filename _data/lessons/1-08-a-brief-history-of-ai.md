@@ -4,7 +4,7 @@ title: "A Brief History of AI"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74925327-a-brief-history-of-ai"
 notionId: "3563c9323e8681db8393e822e6b02667"
-created: "2026-05-04 16:22:08Z"
+created: "2026-05-04T16:22:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

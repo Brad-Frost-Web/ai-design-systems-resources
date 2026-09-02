@@ -4,7 +4,7 @@ title: "Publishing a Component Library in Code"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74156274-publishing-a-component-library-in-code"
 notionId: "34a3c9323e8681f38873f69b2d35d6d6"
-created: "2026-04-22 19:31:55Z"
+created: "2026-04-22T19:31:00.000Z"
 presenters:
   - "Ian Frost"
 tags:

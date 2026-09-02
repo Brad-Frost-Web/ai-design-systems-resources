@@ -4,7 +4,7 @@ title: "Station 2: Recap & Considerations"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76512654-station-2-recap-considerations"
 notionId: "39d3c9323e868130b894d08850cce384"
-created: "2026-07-14 18:27:14Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

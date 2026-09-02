@@ -4,7 +4,7 @@ title: "Design System Inspection Qualities"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76487516-design-system-inspection-qualities"
 notionId: "39d3c9323e868118b181cc515e5ab293"
-created: "2026-07-14 18:27:28Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

@@ -4,7 +4,7 @@ title: "LLM Overview"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74519161-llm-overview"
 notionId: "3563c9323e8681c4ada9e1146bfce6ee"
-created: "2026-05-04 21:06:35Z"
+created: "2026-05-04T21:06:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

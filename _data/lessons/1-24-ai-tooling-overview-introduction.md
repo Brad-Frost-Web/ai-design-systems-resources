@@ -4,7 +4,7 @@ title: "AI Tooling Overview: Introduction"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74013967-ai-tooling-overview-introduction"
 notionId: "34a3c9323e86811e8675f127ebb59385"
-created: "2026-04-22 19:36:53Z"
+created: "2026-04-22T19:36:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:

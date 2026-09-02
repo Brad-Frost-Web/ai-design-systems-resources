@@ -4,7 +4,7 @@ title: "Figma MCP - Installing Into Claude Code in the Terminal"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74879752-figma-mcp-installing-into-claude-code-in-the-terminal"
 notionId: "3563c9323e868157ad71d28464757663"
-created: "2026-05-04 16:22:08Z"
+created: "2026-05-04T16:22:00.000Z"
 presenters:
   - "Ian Frost"
 tags:

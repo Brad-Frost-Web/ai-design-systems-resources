@@ -4,7 +4,7 @@ title: "Publishing & Using Company Docs MCP"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76168200-publishing-using-company-docs-mcp"
 notionId: "39d3c9323e8681b68fb2c1fbb301f3df"
-created: "2026-07-14 18:27:44Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:

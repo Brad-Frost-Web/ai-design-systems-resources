@@ -4,7 +4,7 @@ title: "History of Design Systems"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74085190-history-of-design-systems"
 notionId: "34a3c9323e8681f19853c139ba52db6b"
-created: "2026-04-22 19:24:31Z"
+created: "2026-04-22T19:24:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

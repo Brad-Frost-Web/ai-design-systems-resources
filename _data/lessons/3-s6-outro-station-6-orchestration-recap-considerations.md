@@ -4,7 +4,7 @@ title: "Station 6: Orchestration Recap & Considerations"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76552075-station-6-orchestration-recap-considerations"
 notionId: "39d3c9323e8681cf9b1dc465a1a343de"
-created: "2026-07-14 18:26:32Z"
+created: "2026-07-14T18:26:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

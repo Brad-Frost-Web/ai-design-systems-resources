@@ -4,7 +4,7 @@ title: "Station 8: Feedback & Adoption Recap & Considerations"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76569417-station-8-feedback-adoption-recap-considerations"
 notionId: "39d3c9323e8681259095edd3a2803c9d"
-created: "2026-07-14 18:26:32Z"
+created: "2026-07-14T18:26:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

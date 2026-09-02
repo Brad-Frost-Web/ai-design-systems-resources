@@ -4,7 +4,7 @@ title: "AI Supporting Tools: Introduction"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74427417-ai-supporting-tools-introduction"
 notionId: "34a3c9323e8681e79ffef496b8f3fc8a"
-created: "2026-04-22 19:36:53Z"
+created: "2026-04-22T19:36:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:

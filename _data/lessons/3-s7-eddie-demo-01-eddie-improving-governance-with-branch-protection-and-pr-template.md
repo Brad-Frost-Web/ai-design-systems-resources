@@ -4,7 +4,7 @@ title: "Eddie: Improving Governance with Branch Protection and PR Template"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76682204-eddie-improving-governance-with-branch-protection-and-pr-template"
 notionId: "39d3c9323e8681398e91f6863e4718dd"
-created: "2026-07-14 18:26:32Z"
+created: "2026-07-14T18:26:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

@@ -4,7 +4,7 @@ title: "Eddie: Publishing Eddie-Brain MCP"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76682338-eddie-publishing-eddie-brain-mcp"
 notionId: "39d3c9323e868159bf98e070f5045343"
-created: "2026-07-14 18:27:44Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

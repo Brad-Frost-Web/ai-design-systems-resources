@@ -4,7 +4,7 @@ title: "Principles and Our Approach to AI"
 chapter: "Chapter 0"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/72577755-principles-our-approach-to-ai"
 notionId: "34a3c9323e8681859a0fc379dd635f38"
-created: "2026-04-22 19:45:26Z"
+created: "2026-04-22T19:45:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

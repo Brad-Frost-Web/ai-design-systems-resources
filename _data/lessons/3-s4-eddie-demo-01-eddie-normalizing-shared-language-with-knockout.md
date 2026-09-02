@@ -4,7 +4,7 @@ title: "Eddie: Normalizing Shared Language with Knockout"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76661427-eddie-normalizing-shared-language-with-knockout"
 notionId: "39d3c9323e8681c2b2d2c115a0706df6"
-created: "2026-07-14 18:27:14Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

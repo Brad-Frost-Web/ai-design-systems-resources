@@ -4,7 +4,7 @@ title: "Station 3: Accessibility Recap & Considerations"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76519818-station-3-accessibility-recap-considerations"
 notionId: "39d3c9323e86815f91d9f627bbe30121"
-created: "2026-07-14 18:27:14Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

@@ -4,7 +4,7 @@ title: "Meet Your Teachers"
 chapter: "Chapter 0"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/72575089-meet-your-teachers"
 notionId: "34a3c9323e868141b6c6f6118e6fa80d"
-created: "2026-04-22 19:45:26Z"
+created: "2026-04-22T19:45:00.000Z"
 presenters:
   - "Brad Frost"
   - "TJ Pitre"

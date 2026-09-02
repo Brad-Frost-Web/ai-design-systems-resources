@@ -4,7 +4,7 @@ title: "Station 9: Machine-Readable Docs & Context Recap & Considerations"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76569510-station-9-machine-readable-docs-context-recap-considerations"
 notionId: "39d3c9323e8681a3b6d8e05b6865712b"
-created: "2026-07-14 18:26:32Z"
+created: "2026-07-14T18:26:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

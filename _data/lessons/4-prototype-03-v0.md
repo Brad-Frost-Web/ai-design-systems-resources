@@ -4,7 +4,7 @@ title: "v0"
 chapter: "Chapter 4"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76839332-v0"
 notionId: "3a43c9323e86812faf17cbbf2114ef17"
-created: "2026-07-21 00:23:00Z"
+created: "2026-07-21T00:23:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

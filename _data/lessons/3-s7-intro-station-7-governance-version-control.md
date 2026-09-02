@@ -4,7 +4,7 @@ title: "Station 7: Governance & Version Control"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76569362-station-7-governance-version-control"
 notionId: "39d3c9323e868197bac9f41a9f699cc9"
-created: "2026-07-14 18:26:32Z"
+created: "2026-07-14T18:26:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

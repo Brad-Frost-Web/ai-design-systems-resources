@@ -4,7 +4,7 @@ title: "A quick note about how we're creating this course"
 chapter: "Chapter 0"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74283694-a-quick-note-about-how-we-re-creating-this-course"
 notionId: "34a3c9323e8681b69280d31826e8c0a5"
-created: "2026-04-22 19:45:26Z"
+created: "2026-04-22T19:45:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

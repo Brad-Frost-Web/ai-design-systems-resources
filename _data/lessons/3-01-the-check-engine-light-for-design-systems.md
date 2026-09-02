@@ -4,7 +4,7 @@ title: "The Check Engine Light for Design Systems"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74521446-the-check-engine-light-for-design-systems"
 notionId: "3563c9323e8681e18ef5fa40a4752734"
-created: "2026-05-04 16:22:08Z"
+created: "2026-05-04T16:22:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

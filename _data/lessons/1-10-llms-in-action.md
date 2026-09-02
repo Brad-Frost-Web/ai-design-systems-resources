@@ -4,7 +4,7 @@ title: "LLMs in Action"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74964390-llms-in-action"
 notionId: "3573c9323e8681428d74d0461a7c31b1"
-created: "2026-05-05 14:07:58Z"
+created: "2026-05-05T14:07:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

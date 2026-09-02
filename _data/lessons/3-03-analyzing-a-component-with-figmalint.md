@@ -4,7 +4,7 @@ title: "Analyzing a Component with FigmaLint"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74881246-analyzing-a-component-with-figmalint"
 notionId: "3563c9323e868143bcacc3f810cdb908"
-created: "2026-05-04 16:22:08Z"
+created: "2026-05-04T16:22:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:

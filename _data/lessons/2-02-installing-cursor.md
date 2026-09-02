@@ -4,7 +4,7 @@ title: "Installing Cursor"
 chapter: "Chapter 2"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75184641-installing-cursor"
 notionId: "3c23c9323e868191b0d9e36b5fe1fc16"
-created: "2026-08-20 01:39:40Z"
+created: "2026-08-20T01:39:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:

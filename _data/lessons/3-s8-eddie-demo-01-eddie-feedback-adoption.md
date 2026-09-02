@@ -4,7 +4,7 @@ title: "Eddie: Feedback & Adoption"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76682258-eddie-feedback-adoption"
 notionId: "39d3c9323e86812e8fe3f86a3bbd63e2"
-created: "2026-07-14 18:26:32Z"
+created: "2026-07-14T18:26:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

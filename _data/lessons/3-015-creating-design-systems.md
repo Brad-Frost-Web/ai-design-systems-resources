@@ -4,7 +4,7 @@ title: "Creating Design Systems"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74521449-creating-design-systems"
 notionId: "39d3c9323e86815e8105e98078d750df"
-created: "2026-07-14 18:27:28Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

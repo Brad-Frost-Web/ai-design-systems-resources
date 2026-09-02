@@ -4,7 +4,7 @@ title: "What's Hard About AI"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75002391-what-s-hard-about-ai"
 notionId: "3593c9323e86812494a4daebc1a42eb3"
-created: "2026-05-07 15:34:23Z"
+created: "2026-05-07T15:34:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

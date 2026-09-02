@@ -4,7 +4,7 @@ title: "Agents"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74427427-agents"
 notionId: "34a3c9323e86819bb3cac64def0aa651"
-created: "2026-04-22 19:36:53Z"
+created: "2026-04-22T19:36:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:

@@ -4,7 +4,7 @@ title: "Eddie: Clarifying Architecture, Finding More Gaps, and Capturing Tickets
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76655536-eddie-clarifying-architecture-finding-more-gaps-and-capturing-tickets"
 notionId: "39d3c9323e8681ba9486c45a1daf6bea"
-created: "2026-07-14 18:27:28Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

@@ -4,7 +4,7 @@ title: "A design system's ingredients"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74085221-a-design-system-s-ingredients"
 notionId: "34a3c9323e8681f8bf0ef286e69be1e8"
-created: "2026-04-22 19:24:31Z"
+created: "2026-04-22T19:24:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

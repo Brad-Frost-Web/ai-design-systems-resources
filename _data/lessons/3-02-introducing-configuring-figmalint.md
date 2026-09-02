@@ -4,7 +4,7 @@ title: "Introducing & Configuring FigmaLint"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74881193-introducing-configuring-figmalint"
 notionId: "3563c9323e8681f59fcdc9b9b612e23c"
-created: "2026-05-04 16:22:08Z"
+created: "2026-05-04T16:22:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:

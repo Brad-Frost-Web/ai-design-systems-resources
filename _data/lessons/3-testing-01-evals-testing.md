@@ -4,7 +4,7 @@ title: "Evals Testing"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76603841-evals-testing"
 notionId: "39d3c9323e86811888bbe7e0b10aa9a3"
-created: "2026-07-14 18:26:32Z"
+created: "2026-07-14T18:26:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:

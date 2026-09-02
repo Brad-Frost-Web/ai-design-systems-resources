@@ -4,7 +4,7 @@ title: "Eddie: Fixing the Danger Button Dead Prop"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76655958-eddie-fixing-the-danger-button-dead-prop"
 notionId: "39d3c9323e86816c9c58f1d2c0f65c59"
-created: "2026-07-14 18:27:14Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

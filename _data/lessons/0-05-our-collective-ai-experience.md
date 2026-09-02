@@ -4,7 +4,7 @@ title: "Our Collective AI Experience"
 chapter: "Chapter 0"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/72575227-our-collective-ai-experience"
 notionId: "34a3c9323e86814b8650ff915a9bd71f"
-created: "2026-04-22 19:45:26Z"
+created: "2026-04-22T19:45:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

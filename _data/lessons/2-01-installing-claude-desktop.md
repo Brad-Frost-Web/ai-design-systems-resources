@@ -4,7 +4,7 @@ title: "Installing Claude Desktop"
 chapter: "Chapter 2"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74521414-installing-claude-desktop"
 notionId: "3c23c9323e8681ec9cb2ea3bee674f1f"
-created: "2026-08-20 01:39:40Z"
+created: "2026-08-20T01:39:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:

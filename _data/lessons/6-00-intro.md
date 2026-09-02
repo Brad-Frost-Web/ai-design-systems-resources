@@ -4,7 +4,7 @@ title: "Intro"
 chapter: "Chapter 6"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74285860-chapter-6-introduction"
 notionId: "34a3c9323e86814a8f12c0b8bcad17bb"
-created: "2026-04-22 19:13:18Z"
+created: "2026-04-22T19:13:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

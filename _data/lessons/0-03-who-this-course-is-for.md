@@ -4,7 +4,7 @@ title: "Who This Course Is For"
 chapter: "Chapter 0"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/72571808-who-this-course-is-for"
 notionId: "34a3c9323e868149b0e1da38918c4fe7"
-created: "2026-04-22 19:45:26Z"
+created: "2026-04-22T19:45:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

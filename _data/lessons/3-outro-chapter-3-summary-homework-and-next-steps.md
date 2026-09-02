@@ -4,7 +4,7 @@ title: "Chapter 3 Summary, Homework, and Next Steps"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76687329-chapter-3-summary-homework-and-next-steps"
 notionId: "39d3c9323e8681a6ad24ce52d17338c8"
-created: "2026-07-14 18:27:44Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

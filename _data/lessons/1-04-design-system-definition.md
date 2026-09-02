@@ -4,7 +4,7 @@ title: "Design system definition"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74085207-design-system-definition"
 notionId: "34a3c9323e868139afc2e206bf0c672d"
-created: "2026-04-22 19:24:31Z"
+created: "2026-04-22T19:24:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

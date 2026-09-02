@@ -4,7 +4,7 @@ title: "The Value of AI"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74995837-the-value-of-ai"
 notionId: "3593c9323e868160b726c84322a36a85"
-created: "2026-05-07 15:34:23Z"
+created: "2026-05-07T15:34:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

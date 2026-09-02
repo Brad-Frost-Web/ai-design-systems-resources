@@ -4,7 +4,7 @@ title: "Skills"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74427623-skills"
 notionId: "34a3c9323e86817b9a7aff094a41a422"
-created: "2026-04-22 19:36:53Z"
+created: "2026-04-22T19:36:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:

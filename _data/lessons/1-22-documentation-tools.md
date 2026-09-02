@@ -4,7 +4,7 @@ title: "Documentation Tools"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74156294-documentation-tools"
 notionId: "34a3c9323e86812087abfd8f9d50bfa6"
-created: "2026-04-22 19:31:55Z"
+created: "2026-04-22T19:31:00.000Z"
 presenters:
   - "Ian Frost"
 tags:

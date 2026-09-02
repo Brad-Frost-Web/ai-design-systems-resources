@@ -4,7 +4,7 @@ title: "Eddie: Fix Machine-Readable Docs & Context"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76682274-eddie-fix-machine-readable-docs-context"
 notionId: "39d3c9323e868107bd4cfc4d9438bb20"
-created: "2026-07-14 18:26:32Z"
+created: "2026-07-14T18:26:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

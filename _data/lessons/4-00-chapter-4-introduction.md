@@ -4,7 +4,7 @@ title: "Chapter 4 Introduction"
 chapter: "Chapter 4"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76755568-chapter-4-introduction"
 notionId: "34a3c9323e868153add9d60a439dac60"
-created: "2026-04-22 19:13:18Z"
+created: "2026-04-22T19:13:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

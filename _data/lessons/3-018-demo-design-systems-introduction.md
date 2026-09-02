@@ -4,7 +4,7 @@ title: "Demo Design Systems Introduction"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76319117-demo-design-systems-introduction"
 notionId: "39d3c9323e8681b781b1f7c82220c3dd"
-created: "2026-07-14 18:27:28Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

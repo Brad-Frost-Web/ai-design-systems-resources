@@ -4,7 +4,7 @@ title: "How AI Can Help With Assessing A Design System"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76487157-how-ai-can-help-with-asessing-a-design-system"
 notionId: "39d3c9323e86817ca562eb3941aa6321"
-created: "2026-07-14 18:27:28Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

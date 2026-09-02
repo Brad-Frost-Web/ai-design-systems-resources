@@ -4,7 +4,7 @@ title: "Major LLM Players: Overview and Features"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74427090-major-llm-players-overview-and-features"
 notionId: "34a3c9323e86812fab99e94ac4d97a1a"
-created: "2026-04-22 19:36:53Z"
+created: "2026-04-22T19:36:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:

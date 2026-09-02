@@ -4,7 +4,7 @@ title: "Station 6: Orchestration"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76552067-station-6-orchestration"
 notionId: "39d3c9323e8681268365f61f07bcb99b"
-created: "2026-07-14 18:26:32Z"
+created: "2026-07-14T18:26:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

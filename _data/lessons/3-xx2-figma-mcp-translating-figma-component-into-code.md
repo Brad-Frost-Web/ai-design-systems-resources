@@ -4,7 +4,7 @@ title: "Figma MCP - Translating Figma Component into Code"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74879780-figma-mcp-translating-figma-component-into-code"
 notionId: "3563c9323e8681689690dafac616c722"
-created: "2026-05-04 16:22:08Z"
+created: "2026-05-04T16:22:00.000Z"
 presenters:
   - "Ian Frost"
 tags:

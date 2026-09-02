@@ -4,7 +4,7 @@ title: "Claude Code"
 chapter: "Chapter 2"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75184644-claude-code"
 notionId: "3c23c9323e86811eb9daf67358de754b"
-created: "2026-08-20 01:39:41Z"
+created: "2026-08-20T01:39:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:

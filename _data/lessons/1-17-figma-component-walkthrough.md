@@ -4,7 +4,7 @@ title: "Figma Component Walkthrough"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74155915-figma-component-walkthrough"
 notionId: "34a3c9323e86817dba5fc64e4bf05999"
-created: "2026-04-22 19:31:55Z"
+created: "2026-04-22T19:31:00.000Z"
 presenters:
   - "Ian Frost"
 tags:

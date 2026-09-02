@@ -4,7 +4,7 @@ title: "Station 4: Shared Language Recap & Considerations"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76552051-station-4-shared-language-recap-considerations"
 notionId: "39d3c9323e8681a5b32cebed1360ad37"
-created: "2026-07-14 18:27:14Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

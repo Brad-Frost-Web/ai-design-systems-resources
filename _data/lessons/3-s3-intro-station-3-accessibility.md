@@ -4,7 +4,7 @@ title: "Station 3: Accessibility"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76519781-station-3-accessibility"
 notionId: "39d3c9323e8681e586c9d8994319b523"
-created: "2026-07-14 18:27:14Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

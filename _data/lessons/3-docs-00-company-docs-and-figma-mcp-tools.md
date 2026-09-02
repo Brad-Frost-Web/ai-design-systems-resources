@@ -4,7 +4,7 @@ title: "Company Docs and Figma MCP Tools"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76168173-company-docs-and-figma-mcp-tools"
 notionId: "39d3c9323e86812683cae3798398253b"
-created: "2026-07-14 18:27:44Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:

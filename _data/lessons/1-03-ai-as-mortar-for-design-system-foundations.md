@@ -4,7 +4,7 @@ title: "AI as Mortar for Design System Foundations"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74085197-ai-as-mortar-for-design-system-foundations"
 notionId: "34a3c9323e86815c945dc194dfa90afd"
-created: "2026-04-22 19:24:31Z"
+created: "2026-04-22T19:24:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

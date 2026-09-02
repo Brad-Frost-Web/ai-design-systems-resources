@@ -4,7 +4,7 @@ title: "Figma MCP - Installing into Claude Desktop App"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74879702-figma-mcp-installing-into-claude-desktop-app"
 notionId: "3563c9323e8681efa717f1d346547247"
-created: "2026-05-04 16:22:08Z"
+created: "2026-05-04T16:22:00.000Z"
 presenters:
   - "Ian Frost"
 tags:

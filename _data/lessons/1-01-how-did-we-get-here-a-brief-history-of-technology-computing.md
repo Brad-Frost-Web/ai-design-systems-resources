@@ -4,7 +4,7 @@ title: "How did we get here? A brief history of technology & computing"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/73788345-how-did-we-get-here-a-brief-history-of-technology-computing"
 notionId: "34a3c9323e8681e4a022ef0ecfe33a40"
-created: "2026-04-22 19:19:15Z"
+created: "2026-04-22T19:19:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

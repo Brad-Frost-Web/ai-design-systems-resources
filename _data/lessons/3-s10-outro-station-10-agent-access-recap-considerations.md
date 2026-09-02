@@ -4,7 +4,7 @@ title: "Station 10: Agent Access Recap & Considerations"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76569558-station-10-agent-access-recap-considerations"
 notionId: "39d3c9323e86818ab702ea406b469f5c"
-created: "2026-07-14 18:27:44Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

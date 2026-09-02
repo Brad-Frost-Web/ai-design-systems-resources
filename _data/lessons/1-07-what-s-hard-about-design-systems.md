@@ -4,7 +4,7 @@ title: "What's Hard About Design Systems?"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75961808-what-s-hard-about-design-systems"
 notionId: "34a3c9323e8681c7bdd7f0125b19a715"
-created: "2026-04-22 19:25:37Z"
+created: "2026-04-22T19:25:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

@@ -4,7 +4,7 @@ title: "Station 1: Coverage & Gaps"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76494809-station-1-coverage-gaps"
 notionId: "39d3c9323e8681be96dce735a81b9ff4"
-created: "2026-07-14 18:27:28Z"
+created: "2026-07-14T18:27:00.000Z"
 presenters:
   - "Brad Frost"
 tags:

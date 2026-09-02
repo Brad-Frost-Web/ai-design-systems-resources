@@ -4,7 +4,7 @@ title: "Why MCPs Matter"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74427618-why-mcps-matter"
 notionId: "34a3c9323e8681ea86d3d176c3794dc2"
-created: "2026-04-22 19:36:53Z"
+created: "2026-04-22T19:36:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:

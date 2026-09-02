@@ -4,7 +4,7 @@ title: "Fixing Component Issues with FigmaLint"
 chapter: "Chapter 3"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74881525-fixing-component-issues-with-figmalint"
 notionId: "3563c9323e8681a79b35e1bd3a752e67"
-created: "2026-05-04 16:22:08Z"
+created: "2026-05-04T16:22:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:

@@ -4,7 +4,7 @@ title: "What LLMs Are Not"
 chapter: "Chapter 1"
 url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74426993-what-llms-are-not"
 notionId: "34a3c9323e8681db9e7ad5edb36b418a"
-created: "2026-04-22 19:36:53Z"
+created: "2026-04-22T19:36:00.000Z"
 presenters:
   - "TJ Pitre"
 tags:
