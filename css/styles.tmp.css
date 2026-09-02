@@ -1427,16 +1427,60 @@ html {
   gap: 1rem;
 }
 
+ed-main:has(> ed-band#concierge) {
+  --ed-main-gap: 0.5rem;
+}
+
+ed-band#concierge {
+  --ed-band-padding-block: 1rem;
+}
+
 .ed-r-c-hero {
   display: grid;
-  gap: 0.5rem;
+  gap: 0.25rem;
   text-align: center;
-  margin-block-end: 1.5rem;
+  margin-block-end: 1rem;
 }
 
 .ed-r-c-concierge {
   display: grid;
-  gap: 1.5rem;
+  gap: 0.75rem;
+}
+
+.ed-r-c-concierge__lens {
+  min-width: 14rem;
+}
+
+.ed-r-c-concierge__engine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  padding-block-start: 1.5rem;
+}
+
+@media (min-width: 48rem) {
+  .ed-r-c-concierge__engine {
+    flex-wrap: nowrap;
+  }
+}
+.ed-r-c-concierge__switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--ed-theme-typography-body-sm-font-size, 0.875rem);
+}
+
+.ed-r-c-concierge__switch-text {
+  cursor: pointer;
+}
+
+.ed-r-c-concierge__switch--disabled {
+  opacity: 0.5;
+}
+
+.ed-r-c-concierge__switch--disabled .ed-r-c-concierge__switch-text {
+  cursor: default;
 }
 
 .ed-r-c-concierge__suggestion-list {
@@ -1450,17 +1494,62 @@ html {
 
 .ed-r-c-stage {
   display: grid;
-  gap: 1.5rem;
+  gap: 1rem;
+  padding-block-start: 1rem;
 }
 
 .ed-r-c-stage__surface {
   display: grid;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .ed-r-c-stage__node {
   display: grid;
+  gap: 0.75rem;
+}
+
+.ed-r-c-stage__eyebrow {
+  font-family: var(--ed-theme-typography-label-sm-font-family, var(--ed-theme-typography-body-default-font-family));
+  font-size: var(--ed-theme-typography-label-sm-font-size, 0.75rem);
+  letter-spacing: var(--ed-theme-typography-label-sm-letter-spacing, 0.02em);
+  text-transform: var(--ed-theme-typography-label-sm-text-transform, uppercase);
+  color: var(--ed-theme-color-content-subtle, currentColor);
+}
+
+.ed-r-c-strip {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0.5rem;
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scroll-padding-inline: 0.125rem;
+}
+
+.ed-r-c-strip__item {
+  flex: 0 0 auto;
+  width: clamp(15rem, 28vw, 19rem);
+  scroll-snap-align: start;
+  display: grid;
+}
+
+.ed-r-c-strip__item > * {
+  height: 100%;
+}
+
+.ed-r-c-strip__heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
   gap: 1rem;
+}
+
+.ed-r-c-strip__meta {
+  font-size: var(--ed-theme-typography-body-sm-font-size, 0.875rem);
+  color: var(--ed-theme-color-content-subtle, currentColor);
+  white-space: nowrap;
 }
 
 .ed-r-c-stage--settled .ed-r-c-stage__node {
@@ -1514,6 +1603,8 @@ html {
 }
 .ed-r-c-stage__heading {
   margin: 0;
+  font-size: inherit;
+  line-height: 1.2;
 }
 
 .ed-r-c-stage__heading:focus {
@@ -1635,11 +1726,6 @@ html {
   letter-spacing: normal;
 }
 
-.ed-r-c-lesson__meta--footer {
-  margin-block-start: auto;
-  opacity: 0.8;
-}
-
 .ed-r-c-lesson__number {
   font-variant-numeric: tabular-nums;
   opacity: 0.8;
@@ -1647,15 +1733,12 @@ html {
 
 .ed-r-c-definition {
   display: grid;
-  gap: 0.75rem;
-  padding: 1.5rem;
+  align-content: start;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
   border-inline-start: 0.25rem solid var(--ed-theme-color-border-brand, var(--ed-theme-color-background-brand));
   background: var(--ed-theme-color-background-subtle, transparent);
   border-radius: 0 0.5rem 0.5rem 0;
-}
-
-.ed-r-c-definition + .ed-r-c-definition {
-  margin-block-start: 1rem;
 }
 
 .ed-r-c-definition__eyebrow,
@@ -1672,10 +1755,11 @@ html {
   color: var(--ed-theme-color-content-subtle, currentColor);
 }
 
-.ed-r-c-definition__aliases {
+.ed-r-c-definition__aliases,
+.ed-r-c-definition__label {
+  display: block;
   text-transform: none;
   letter-spacing: normal;
-  font-style: italic;
 }
 
 .ed-r-c-stage__busy {
@@ -1686,11 +1770,6 @@ html {
   border: 1px dashed var(--ed-theme-color-border-default, currentColor);
   border-radius: 0.5rem;
   font-size: var(--ed-theme-typography-body-sm-font-size, 0.875rem);
-}
-
-.ed-r-c-concierge__engine {
-  display: grid;
-  gap: 1rem;
 }
 
 /*# sourceMappingURL=styles.tmp.css.map */

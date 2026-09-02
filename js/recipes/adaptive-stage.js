@@ -110,27 +110,42 @@ export class EdRCAdaptiveStage extends LitElement {
 		return html`<ed-tag text=${f.label} variant=${f.hot ? "success" : nothing} size="sm"></ed-tag>`;
 	}
 
-	_lessonCard(id) {
+	/**
+	 * A lesson pointer as a compact card: chapter, number, title (the link),
+	 * presenter. No summary — the card's job is to be recognisable at a glance
+	 * in a strip; the lesson itself is one click away.
+	 */
+	_lessonCard(id, { compact = true } = {}) {
 		const l = this._lesson(id);
 		if (!l) return nothing;
 		const presenters = (l.presenters || []).join(" & ");
 		return html`
-			<ed-grid-item>
-				<ed-card class="ed-r-c-lesson">
-					<p class="ed-r-c-lesson__eyebrow">
-						<span>Course lesson</span>
-						${l.chapter ? html`<ed-tag text=${l.chapter} size="sm" variant=${CHAPTER_VARIANT[(l.chapterNumber ?? 0) % 8] ? nothing : nothing}></ed-tag>` : nothing}
-						<span class="ed-r-c-lesson__number">${l.number}</span>
-					</p>
-					<ed-heading variant="title-sm" tagName="h4">
-						<a href=${l.url} target="_blank" rel="noopener">${l.title}</a>
-					</ed-heading>
-					${presenters ? html`<p class="ed-r-c-lesson__meta">with ${presenters}</p>` : nothing}
-					${l.summary ? html`<ed-text-passage size="sm"><p>${clip(l.summary, 170)}</p></ed-text-passage>` : nothing}
-					<p class="ed-r-c-lesson__meta ed-r-c-lesson__meta--footer">Opens on courses.bradfrost.com ↗</p>
-				</ed-card>
-			</ed-grid-item>
+			<ed-card class="ed-r-c-lesson">
+				<p class="ed-r-c-lesson__eyebrow">
+					${l.chapter ? html`<ed-tag text=${l.chapter} size="sm"></ed-tag>` : nothing}
+					<span class="ed-r-c-lesson__number">${l.number}</span>
+				</p>
+				<ed-heading variant="title-sm" tagName="h4">
+					<a href=${l.url} target="_blank" rel="noopener">${l.title}</a>
+				</ed-heading>
+				${presenters ? html`<p class="ed-r-c-lesson__meta">with ${presenters} · opens the lesson ↗</p>` : nothing}
+				${!compact && l.summary ? html`<ed-text-passage size="sm"><p>${clip(l.summary, 170)}</p></ed-text-passage>` : nothing}
+			</ed-card>
 		`;
+	}
+
+	/** A horizontal, scroll-snapping strip of cards — the compact shape. */
+	_strip(items, render, label) {
+		return html`<ul class="ed-r-c-strip" role="list" aria-label=${label}>
+			${items.map((item) => html`<li class="ed-r-c-strip__item">${render(item)}</li>`)}
+		</ul>`;
+	}
+
+	_stripHeading(text, count, hint) {
+		return html`<div class="ed-r-c-strip__heading">
+			<ed-heading variant="title-sm" tagName="h3">${text}</ed-heading>
+			<span class="ed-r-c-strip__meta">${count} ${hint}${count > 3 ? " · scroll →" : ""}</span>
+		</div>`;
 	}
 
 	/* ---------------------------------------------------------------------- */
@@ -186,7 +201,7 @@ export class EdRCAdaptiveStage extends LitElement {
 		const e = this._spec.engine || {};
 		return html`
 			<div class="ed-r-c-summary">
-				<ed-text-passage size="lg" capLinelength>
+				<ed-text-passage capLinelength>
 					<p>${p.text}</p>
 				</ed-text-passage>
 				<p class="ed-r-c-summary__engine">
@@ -204,37 +219,44 @@ export class EdRCAdaptiveStage extends LitElement {
 		const items = (p.items || []).filter((id) => this._lesson(id));
 		if (!items.length) return nothing;
 		return html`
-			<ed-heading variant="title" tagName="h3">${p.heading || "Course lessons"}</ed-heading>
-			<ed-grid variant="3up">${items.map((id) => this._lessonCard(id))}</ed-grid>
+			${this._stripHeading(p.heading || "Course lessons", items.length, items.length === 1 ? "lesson" : "lessons")}
+			${this._strip(items, (id) => this._lessonCard(id), p.heading || "Course lessons")}
 		`;
 	}
 
+	/**
+	 * Glossary terms as a compact strip: term, a clipped definition, the first
+	 * lesson it's taught in, and a link to the full entry. Dictionary-entry
+	 * styling (rule on the left, tinted) keeps it distinct from a link card.
+	 */
 	_renderDefinition(p) {
 		const terms = (p.terms || []).map((s) => this._term(s)).filter(Boolean);
 		if (!terms.length) return nothing;
-		return html`${terms.map(
-			(t) => html`
-				<article class="ed-r-c-definition">
-					<p class="ed-r-c-definition__eyebrow">
-						<span>From the course glossary</span>
-						${t.status === "in-progress" ? html`<ed-tag variant="info" text="In progress" size="sm"></ed-tag>` : nothing}
-					</p>
-					<ed-heading variant="headline-sm" tagName="h3">${t.term}</ed-heading>
-					${t.aliases?.length ? html`<p class="ed-r-c-definition__aliases">also: ${t.aliases.join(", ")}</p>` : nothing}
-					<ed-text-passage capLinelength><p>${t.definition}</p></ed-text-passage>
-					${t.lessons?.length
-						? html`<p class="ed-r-c-definition__label">Taught in</p>
-								<ed-link-list size="sm" spacing="condensed">
-									${t.lessons.map(
-										(l) => html`<ed-link-list-item>
-											<a href=${l.url} target="_blank" rel="noopener">${l.number ? `${l.number} · ` : ""}${l.title}</a>
-										</ed-link-list-item>`,
-									)}
-								</ed-link-list>`
-						: nothing}
-				</article>
-			`,
-		)}`;
+		return html`
+			${this._stripHeading("From the course glossary", terms.length, terms.length === 1 ? "term" : "terms")}
+			${this._strip(
+				terms,
+				(t) => html`
+					<article class="ed-r-c-definition">
+						<p class="ed-r-c-definition__eyebrow">
+							<span>Glossary</span>
+							${t.status === "in-progress" ? html`<ed-tag variant="info" text="In progress" size="sm"></ed-tag>` : nothing}
+						</p>
+						<ed-heading variant="title-sm" tagName="h4">
+							<a href="/glossary/#${t.slug}">${t.term}</a>
+						</ed-heading>
+						<ed-text-passage size="sm"><p>${clip(t.definition, 150)}</p></ed-text-passage>
+						${t.lessons?.length
+							? html`<p class="ed-r-c-definition__label">
+									Taught in
+									<a href=${t.lessons[0].url} target="_blank" rel="noopener">${t.lessons[0].number ? `${t.lessons[0].number} ` : ""}${t.lessons[0].title}</a>${t.lessons.length > 1 ? ` and ${t.lessons.length - 1} more` : ""}
+							  </p>`
+							: nothing}
+					</article>
+				`,
+				"Glossary terms",
+			)}
+		`;
 	}
 
 	_renderTimeline(p) {
@@ -305,7 +327,7 @@ export class EdRCAdaptiveStage extends LitElement {
 			<ed-tabs>
 				${groups.map(
 					(g, i) => html`<ed-tab href="tab-${i}" label=${g.label}>
-						<ed-grid variant="3up">${g.items.map((id) => this._lessonCard(id))}</ed-grid>
+						${this._strip(g.items, (id) => this._lessonCard(id), g.label)}
 					</ed-tab>`,
 				)}
 			</ed-tabs>
@@ -419,7 +441,7 @@ export class EdRCAdaptiveStage extends LitElement {
 			<div class="ed-r-c-stage ${this._settling ? "ed-r-c-stage--settling" : "ed-r-c-stage--settled"}">
 				<div aria-live="polite" class="ed-u-is-vishidden">Assembled a view for “${spec.ask || "your lens"}”.</div>
 				<h2 class="ed-r-c-stage__heading" tabindex="-1">
-					<ed-heading variant="headline-sm" tagName="span">Assembled for you, just now</ed-heading>
+					<span class="ed-r-c-stage__eyebrow">Assembled for you, just now</span>
 				</h2>
 
 				${this.busy

@@ -282,28 +282,28 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 		shape = "chart";
 		const chart = chartFor(ask, intel);
 		reasoning.push("You asked about numbers — composing a chart, not a list. The chart carries its own data table.");
-		summary = `You asked a quantitative question, so the answer is a chart rather than a list: ${chart.chartLabel.toLowerCase()}. Every bar is backed by the same collection you can browse below.`;
+		summary = `A numbers question gets a chart, not a list: ${chart.chartLabel.toLowerCase()}. Every bar is backed by the collection below.`;
 		add("summary", "summary", { text: summary });
 		add("chart", "barChart", chart);
 		add("stats", "statRow", { stats: "collection" });
 	} else if (!lessons.length && !terms.length && !ranked.length) {
 		shape = "none";
 		reasoning.push("No confident match — showing the shape of the collection instead of guessing.");
-		summary = "Nothing in the collection matched that with any confidence. Low confidence gets you honesty, not hallucination — try one of the suggested asks, or browse the whole collection below.";
+		summary = "Nothing in the collection matched that with confidence. Low confidence gets honesty, not hallucination — try rephrasing, or browse the collection below.";
 		add("summary", "summary", { text: summary });
 		add("note", "note", { heading: "Low confidence, high honesty", text: summary });
 		add("stats", "statRow", { stats: "collection" });
 	} else {
 		const parts = [];
-		if (lessons.length) parts.push(`${shownLessons.length === 1 ? "one course lesson" : `${shownLessons.length} course lessons`}${tjCount ? (tjCount === shownLessons.length ? " from TJ" : `, ${tjCount} of them TJ's`) : ""}`);
-		if (terms.length) parts.push(`${terms.length === 1 ? "the glossary entry for" : "glossary entries for"} ${terms.map((t) => `“${t.term}”`).join(" and ")}`);
-		if (ranked.length) parts.push(`${Math.min(ranked.length, 12)} resources from the collection${essentialHits ? `, ${essentialHits} marked essential reading` : ""}`);
+		if (lessons.length) parts.push(`${shownLessons.length === 1 ? "one course lesson" : `${shownLessons.length} course lessons`}${tjCount ? (tjCount === shownLessons.length ? " from TJ" : ` (${tjCount} TJ's)`) : ""}`);
+		if (terms.length) parts.push(`${terms.length === 1 ? "one glossary term" : `${terms.length} glossary terms`}`);
+		if (ranked.length) parts.push(`${Math.min(ranked.length, 12)} resources${essentialHits ? ` (${essentialHits} essential)` : ""}`);
 		const lead = parts.length > 1 ? `${parts.slice(0, -1).join(", ")}, and ${parts[parts.length - 1]}` : parts[0];
 
 		if (wantPath && lessons.length > 2) {
 			shape = "path";
 			reasoning.push("You asked about a path through the course — grouping lessons by chapter in tabs.");
-			summary = `For “${ask.trim()}”, the course itself is the best answer: ${lead}. The lessons are grouped by chapter so you can see the path, not just the list.`;
+			summary = `The course itself answers this best: ${lead}, grouped by chapter so you see the path, not just a list.`;
 			add("summary", "summary", { text: summary });
 			const groups = new Map();
 			for (const s of lessons.slice(0, 15)) {
@@ -320,7 +320,7 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 		} else if (wantCompare && ranked.length > 2) {
 			shape = "compare";
 			reasoning.push("You're comparing options — a table makes the differences scannable.");
-			summary = `For “${ask.trim()}”, a comparison reads best as a table: ${lead}. Rows are the candidates, columns are what separates them.`;
+			summary = `A comparison reads best as a table: ${lead}. Rows are the candidates, columns are what separates them.`;
 			add("summary", "summary", { text: summary });
 			if (lessons.length) add("videos", "videoGrid", { heading: "Watch first", items: lessons.slice(0, 3).map((s) => s.l.id) });
 			const tools = ranked.filter((s) => s.r.type === "tool" || s.r.tags.includes("tool") || s.r.tags.includes("tools"));
@@ -330,7 +330,7 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 		} else if (wantLatest) {
 			shape = "latest";
 			reasoning.push("You asked for recency — composing a timeline, newest first.");
-			summary = `Here's what's new${topics.length ? ` on ${topics.map((t) => t.label.toLowerCase()).join(", ")}` : ""}: ${lead}, newest first, with freshness on every entry.`;
+			summary = `What's new${topics.length ? ` on ${topics.map((t) => t.label.toLowerCase()).join(", ")}` : ""}: ${lead}, newest first.`;
 			add("summary", "summary", { text: summary });
 			const items = (ranked.length ? ranked : intel.resources.map((r) => ({ r }))).slice(0, 12).map((s) => s.r.id);
 			add("latest", "resourceTimeline", { heading: topics.length ? `Latest on ${topics.map((t) => t.label.toLowerCase()).join(", ")}` : "The latest, newest first", items });
@@ -340,7 +340,7 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 			if (wantStart) reasoning.push("Sounds like a starting point — leading with orientation, not depth.");
 			if (lessons.length) reasoning.push(`${lessons.length} course lesson${lessons.length === 1 ? "" : "s"} match — lessons lead.`);
 			if (essentialHits) reasoning.push(`${essentialHits} of the matching resources are flagged essential reading — they float up.`);
-			summary = `For “${ask.trim()}”, here's ${lead}. ${lessons.length ? "Course lessons come first because they're the deepest treatment; " : ""}${terms.length ? "the glossary anchors the vocabulary; " : ""}the resources ${lessons.length || terms.length ? "round it out" : "are ranked by fit"}${wantStart ? ", starting with the orientation pieces" : ""}.`;
+			summary = `${lead.charAt(0).toUpperCase()}${lead.slice(1)}. ${lessons.length ? "Lessons first — the deepest treatment" : "Ranked by fit"}${terms.length ? ", then the vocabulary" : ""}${ranked.length && (lessons.length || terms.length) ? ", then the reading" : ""}${wantStart ? ", orientation pieces first" : ""}.`;
 			add("summary", "summary", { text: summary });
 			if (lessons.length) add("videos", "videoGrid", { heading: wantStart ? "Start with these lessons" : "Course lessons", items: shownLessons.map((s) => s.l.id) });
 			if (terms.length) add("terms", "definition", { terms: terms.map((t) => t.slug) });

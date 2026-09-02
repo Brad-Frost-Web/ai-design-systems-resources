@@ -1,21 +1,26 @@
 /**
  * <ed-r-c-concierge> — project-local recipe: the ask panel.
  *
- * "Search or describe what you're working on" + a lens for who you are.
- * Submitting always runs the on-device engine first (instant, private) and
- * emits a `concierge-spec` event carrying an A2UI-shaped spec that
+ * "Search or describe what you're working on", plus one compact control
+ * row: a lens for who you are, and the engine switches. Submitting always
+ * runs the on-device engine first (instant, private) and emits a
+ * `concierge-spec` event carrying an A2UI-shaped spec that
  * <ed-r-c-adaptive-stage> renders. With "Compose with Claude" switched on,
  * the same ask also goes to the Netlify compose function; when Claude's
  * spec comes back it replaces the on-device one — same contract, different
  * agent. If the function is unreachable the on-device result simply stands,
  * and the stage says so.
  *
- * Light-DOM Lit composition: ed-search-form, ed-radio-field, ed-toggle,
- * ed-button.
+ * The panel is deliberately short: the composed view is the point, and it
+ * has to land above the fold. Suggested asks live in SUGGESTED_ASKS (the
+ * demo script) but are not rendered.
+ *
+ * Light-DOM Lit composition: ed-search-form, ed-toolbar, ed-select-field,
+ * ed-toggle.
  */
 import { LitElement, html } from "lit";
 import { loadIntel } from "../intel-store.js";
-import { composeSpec, hydrate, LENSES, SUGGESTED_ASKS } from "../intent-engine.js";
+import { composeSpec, hydrate, LENSES } from "../intent-engine.js";
 
 const COMPOSE_URL = "/.netlify/functions/compose";
 const STORAGE_KEY = "resources-concierge-engine";
@@ -35,6 +40,11 @@ function writePrefs(prefs) {
 		/* private mode etc. — preferences are a convenience, not state */
 	}
 }
+
+const LENS_ITEMS = [
+	{ value: "", label: "No particular lens" },
+	...Object.entries(LENSES).map(([value, lens]) => ({ value, label: lens.label })),
+];
 
 export class EdRCConcierge extends LitElement {
 	static properties = {
@@ -136,35 +146,21 @@ export class EdRCConcierge extends LitElement {
 				if (hit) this._onSubmit(e);
 			});
 		}
-		this._watchLens();
 		this._watchToggles();
 	}
 
-	_setLens(key) {
-		this._lens = key || null;
+	_onLensChange(event) {
+		const value = event.target?.value ?? "";
+		if (value === (this._lens || "")) return;
+		this._lens = value || null;
+		// A lens change re-runs the current ask so the stage stays honest.
 		const field = this.querySelector("ed-search-form");
 		if (field?.value) this._ask(field.value);
 	}
 
-	_watchLens() {
-		// ed-radio-field-item doesn't re-dispatch its shadow change event
-		// (upstream gap — filed): detect selection by reading checked state.
-		// setTimeout, not requestAnimationFrame: rAF never fires in a hidden
-		// tab, so a toggle flipped there would silently do nothing.
-		const onInteract = () => {
-			setTimeout(() => {
-				const checked = [...this.querySelectorAll('ed-radio-field-item[name="concierge-lens"]')].find((item) => item.checked);
-				const value = checked?.getAttribute("value") ?? "";
-				if (value !== (this._lens || "")) this._setLens(value);
-			}, 0);
-		};
-		const lenses = this.querySelector(".ed-r-c-concierge__lenses");
-		lenses?.addEventListener("click", onInteract);
-		lenses?.addEventListener("keyup", onInteract);
-	}
-
 	_watchToggles() {
-		// Same defensive pattern for ed-toggle: read state after interaction.
+		// ed-toggle: read state after interaction. setTimeout, not
+		// requestAnimationFrame — rAF never fires in a hidden tab.
 		const onInteract = () => {
 			setTimeout(() => {
 				const model = this.querySelector("#engine-model");
@@ -184,6 +180,22 @@ export class EdRCConcierge extends LitElement {
 		engine?.addEventListener("change", onInteract);
 	}
 
+	/**
+	 * ed-toggle keeps its label inside the switch as an accessible name only,
+	 * so the visible text sits beside it and forwards clicks to the input.
+	 */
+	_switch(id, text, checked, disabled) {
+		const flip = () => {
+			if (disabled) return;
+			this.querySelector(`#${id}`)?.shadowRoot?.querySelector("input")?.click();
+		};
+		return html`<div class="ed-r-c-concierge__switch ${disabled ? "ed-r-c-concierge__switch--disabled" : ""}">
+			<ed-toggle fieldId=${id} id=${id} label=${text} ?checked=${checked} ?disabled=${disabled}></ed-toggle>
+			<span class="ed-r-c-concierge__switch-text" aria-hidden="true" @click=${flip}>${text}</span>
+		</div>`;
+	}
+
+	/** Programmatic ask — used by the constellation and the demo script. */
 	_suggest(text) {
 		const field = this.querySelector("ed-search-form");
 		if (field) field.value = text;
@@ -200,55 +212,21 @@ export class EdRCConcierge extends LitElement {
 					clearButtonText="Clear"
 				></ed-search-form>
 
-				<div class="ed-r-c-concierge__suggestions">
-					<ul class="ed-r-c-concierge__suggestion-list" role="list" aria-label="Questions students actually ask">
-						${SUGGESTED_ASKS.map(
-							(s) => html`<li>
-								<ed-button variant="bare" size="sm" text=${s} ?isLoading=${this._busy} @click=${() => this._suggest(s)}></ed-button>
-							</li>`,
-						)}
-					</ul>
-				</div>
-
-				<ed-accordion>
-					<ed-accordion-panel>
-						<span slot="header">My role is…</span>
-						<div class="ed-r-c-concierge__lenses">
-							<ed-radio-field label="My role">
-								<ed-radio-field-item name="concierge-lens" fieldId="lens-none" value="" ?checked=${!this._lens}>
-									No particular lens
-								</ed-radio-field-item>
-								${Object.entries(LENSES).map(
-									([key, lens]) => html`
-										<ed-radio-field-item name="concierge-lens" fieldId="lens-${key}" value=${key} ?checked=${this._lens === key}>
-											${lens.label}
-										</ed-radio-field-item>
-									`,
-								)}
-							</ed-radio-field>
-						</div>
-					</ed-accordion-panel>
-					<ed-accordion-panel>
-						<span slot="header">Engine: ${this._useModel ? (this._useBrain ? "Claude + eddie-brain live" : "Claude") : "on-device"}</span>
-						<div class="ed-r-c-concierge__engine">
-							<ed-text-passage size="sm" capLinelength>
-								<p>
-									Off, every ask is answered by deterministic heuristics in your browser — nothing leaves the
-									page. On, the same ask also goes to Claude through a small function, which composes the view
-									from the same catalog. One round trip; nothing is stored.
-								</p>
-							</ed-text-passage>
-							<ed-toggle fieldId="engine-model" id="engine-model" label="Compose with Claude" ?checked=${this._useModel}></ed-toggle>
-							<ed-toggle
-								fieldId="engine-brain"
-								id="engine-brain"
-								label="Let Claude consult eddie-brain live (slower, shows the tool calls)"
-								?checked=${this._useBrain}
-								?disabled=${!this._useModel}
-							></ed-toggle>
-						</div>
-					</ed-accordion-panel>
-				</ed-accordion>
+				<ed-toolbar behavior="responsive" class="ed-r-c-concierge__controls">
+					<div slot="left" class="ed-r-c-concierge__lens">
+						<ed-select-field
+							fieldId="concierge-lens"
+							label="My role"
+							.items=${LENS_ITEMS}
+							value=${this._lens || ""}
+							@change=${this._onLensChange}
+						></ed-select-field>
+					</div>
+					<div slot="right" class="ed-r-c-concierge__engine">
+						${this._switch("engine-model", "Compose with Claude", this._useModel, false)}
+						${this._switch("engine-brain", "Consult eddie-brain live", this._useBrain, !this._useModel)}
+					</div>
+				</ed-toolbar>
 			</form>
 		`;
 	}
