@@ -21,33 +21,12 @@ layout: base.njk
 	<ed-layout-container class="ed-r-c-stage-container">
 		<ed-r-c-adaptive-stage></ed-r-c-adaptive-stage>
 
-		{# Explore by topic: the reference-weighted topic graph, in a toggle #}
-		<ed-accordion class="ed-u-margin-block-end-lg" id="explore">
-			<ed-accordion-panel>
-				<span slot="header">Explore by topic</span>
-				<ed-r-c-constellation>
-					<ed-text-passage size="sm">
-						<p>
-							This graph is drawn with JavaScript. The same topics are listed,
-							unglamorously but completely, in <a href="#collection">the collection</a> below.
-						</p>
-					</ed-text-passage>
-				</ed-r-c-constellation>
-			</ed-accordion-panel>
-		</ed-accordion>
 
 		{# ------------------------------------------------------------------ #}
 		{# The collection: the progressive-enhancement floor. Works with JS off #}
 		{# ------------------------------------------------------------------ #}
 		<ed-section id="collection">
-			<ed-heading slot="header" tagName="h2" variant="headline-sm">The whole collection</ed-heading>
-			<ed-text-passage capLinelength slot="header">
-				<p>
-					Everything, newest first — {{ resources.length }} resources curated by
-					humans in the course Slack, plus {{ glossary.length }} glossary terms
-					wired back to specific lessons. Works with JavaScript switched off.
-				</p>
-			</ed-text-passage>
+			<h2 class="ed-u-is-vishidden">The whole collection</h2>
 			{% include "resource-toolbar.njk" %}
 			{% include "resource-card-grid.njk" %}
 			<ed-accordion class="ed-u-margin-block-start-lg">
@@ -58,5 +37,19 @@ layout: base.njk
 			</ed-accordion>
 		</ed-section>
 
+		{# Explore by topic: the reference-weighted topic graph, in a toggle #}
+		<ed-accordion class="ed-u-margin-block-start-lg" id="explore">
+			<ed-accordion-panel>
+				<span slot="header">Explore by topic</span>
+				<ed-r-c-constellation>
+					<ed-text-passage size="sm">
+						<p>
+							This graph is drawn with JavaScript. The same topics are listed,
+							unglamorously but completely, in <a href="#collection">the collection</a> above.
+						</p>
+					</ed-text-passage>
+				</ed-r-c-constellation>
+			</ed-accordion-panel>
+		</ed-accordion>
 	</ed-layout-container>
 </ed-main>

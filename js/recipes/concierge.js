@@ -212,21 +212,31 @@ export class EdRCConcierge extends LitElement {
 					clearButtonText="Clear"
 				></ed-search-form>
 
-				<ed-toolbar behavior="responsive" class="ed-r-c-concierge__controls">
-					<div slot="left" class="ed-r-c-concierge__lens">
-						<ed-select-field
-							fieldId="concierge-lens"
-							label="My role"
-							.items=${LENS_ITEMS}
-							value=${this._lens || ""}
-							@change=${this._onLensChange}
-						></ed-select-field>
-					</div>
-					<div slot="right" class="ed-r-c-concierge__engine">
-						${this._switch("engine-model", "Compose with Claude", this._useModel, false)}
-						${this._switch("engine-brain", "Consult eddie-brain live", this._useBrain, !this._useModel)}
-					</div>
-				</ed-toolbar>
+				<ed-show-hide
+					class="ed-r-c-concierge__more"
+					buttonText="More options"
+					hideButtonText="Fewer options"
+					buttonVariant="link"
+					size="sm"
+					iconName="chevron-down"
+					iconPosition="after"
+				>
+					<ed-toolbar behavior="responsive" class="ed-r-c-concierge__controls">
+						<div slot="left" class="ed-r-c-concierge__lens">
+							<ed-select-field
+								fieldId="concierge-lens"
+								label="My role"
+								.items=${LENS_ITEMS}
+								value=${this._lens || ""}
+								@change=${this._onLensChange}
+							></ed-select-field>
+						</div>
+						<div slot="right" class="ed-r-c-concierge__engine">
+							${this._switch("engine-model", "Compose with Claude", this._useModel, false)}
+							${this._switch("engine-brain", "Consult eddie-brain live", this._useBrain, !this._useModel)}
+						</div>
+					</ed-toolbar>
+				</ed-show-hide>
 			</form>
 		`;
 	}

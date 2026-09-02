@@ -90,9 +90,13 @@ ed-band#concierge {
 	gap: 0.75rem;
 }
 
-// One compact control row under the field: lens on the left, engine
-// switches on the right. Everything else that used to stack here is gone —
-// the composed view has to land above the fold.
+// The control row lives behind "More options" (ed-show-hide) so the field
+// stands alone by default; the composed view has to land above the fold.
+.ed-r-c-concierge__controls {
+	padding-block-start: 0.75rem;
+}
+
+// Lens on the left, engine switches on the right.
 .ed-r-c-concierge__lens {
 	min-width: 14rem;
 }
