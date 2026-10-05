@@ -1,0 +1,723 @@
+<title>Keep AI on the Rails of Your Design System</title>
+<style>
+  :root {
+    --paper: #EAEEF5;
+    --surface: #FFFFFF;
+    --surface-2: #F3F6FB;
+    --ink: #191C22;
+    --ink-2: #565E6E;
+    --ink-3: #7C8496;
+    --line: #D2D9E6;
+    --line-strong: #B9C2D4;
+    --indigo: #3A4BC0;
+    --indigo-ink: #2C3AA0;
+    --indigo-soft: #E5E8FA;
+    --tool-ink: #161C5C;
+    --steel-hi: #F6F7F9; --steel-mid: #DADEE4; --steel-lo: #B6BCC5; --steel-edge: #6E7680;
+    --steel-ink: #1C2127; --steel-ink-2: #3A424B; --steel-glint: rgba(255,255,255,.65);
+    --amber: #A76A08;
+    --amber-bright: #E9A22B;
+    --green: #1C7A5B;
+    --green-soft: #DCF0E7;
+    --red: #B03A2E;
+    --red-soft: #F8E5E2;
+    --brain-band: #1E2247;
+    --brain-ink: #EDEFFA;
+    --brain-ink-2: #A9AFDB;
+    --brain-line: #34386A;
+    --shadow: 0 1px 2px rgba(20,24,40,.05), 0 8px 24px rgba(20,24,40,.07);
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0E1016; --surface: #171A21; --surface-2: #1E232F; --ink: #E9EBF2;
+      --ink-2: #A2AAB9; --ink-3: #7A8394; --line: #2A2F3B; --line-strong: #3A4150;
+      --indigo: #8A98F5; --indigo-ink: #A9B4F8; --indigo-soft: #22284A; --amber: #E8B45A;
+      --amber-bright: #F2C069; --green: #4FC59B; --green-soft: #16332A; --red: #E48375;
+      --red-soft: #38201D; --brain-band: #161A38; --brain-ink: #E7EAFA; --brain-ink-2: #9AA1D6;
+      --brain-line: #2E3364; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+      --tool-ink: #CBD3FF;
+      --steel-hi: #868D98; --steel-mid: #5E6570; --steel-lo: #3C424B; --steel-edge: #1C2025;
+      --steel-ink: #F2F4F7; --steel-ink-2: #CBD1D9; --steel-glint: rgba(255,255,255,.22);
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #EAEEF5; --surface: #FFFFFF; --surface-2: #F3F6FB; --ink: #191C22;
+    --ink-2: #565E6E; --ink-3: #7C8496; --line: #D2D9E6; --line-strong: #B9C2D4;
+    --indigo: #3A4BC0; --indigo-ink: #2C3AA0; --indigo-soft: #E5E8FA; --amber: #A76A08;
+    --amber-bright: #E9A22B; --green: #1C7A5B; --green-soft: #DCF0E7; --red: #B03A2E;
+    --red-soft: #F8E5E2; --brain-band: #1E2247; --brain-ink: #EDEFFA; --brain-ink-2: #A9AFDB;
+    --brain-line: #34386A; --shadow: 0 1px 2px rgba(20,24,40,.05), 0 8px 24px rgba(20,24,40,.07);
+    --tool-ink: #161C5C;
+    --steel-hi: #F6F7F9; --steel-mid: #DADEE4; --steel-lo: #B6BCC5; --steel-edge: #6E7680;
+    --steel-ink: #1C2127; --steel-ink-2: #3A424B; --steel-glint: rgba(255,255,255,.65);
+  }
+  :root[data-theme="dark"] {
+    --paper: #0E1016; --surface: #171A21; --surface-2: #1E232F; --ink: #E9EBF2;
+    --ink-2: #A2AAB9; --ink-3: #7A8394; --line: #2A2F3B; --line-strong: #3A4150;
+    --indigo: #8A98F5; --indigo-ink: #A9B4F8; --indigo-soft: #22284A; --amber: #E8B45A;
+    --amber-bright: #F2C069; --green: #4FC59B; --green-soft: #16332A; --red: #E48375;
+    --red-soft: #38201D; --brain-band: #161A38; --brain-ink: #E7EAFA; --brain-ink-2: #9AA1D6;
+    --brain-line: #2E3364; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+    --tool-ink: #CBD3FF;
+    --steel-hi: #868D98; --steel-mid: #5E6570; --steel-lo: #3C424B; --steel-edge: #1C2025;
+    --steel-ink: #F2F4F7; --steel-ink-2: #CBD1D9; --steel-glint: rgba(255,255,255,.22);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .page {
+    background: var(--paper); color: var(--ink); font-family: var(--font-sans);
+    line-height: 1.55; padding: 2rem; min-height: 100vh;
+  }
+  .wrap { max-width: none; margin: 0; }
+
+  /* ---- Header ---- */
+  .eyebrow {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--indigo-ink); margin: 0 0 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow a { color: inherit; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--amber-bright); }
+  h1 {
+    font-size: clamp(28px, 4.4vw, 46px); line-height: 1.05; letter-spacing: -.02em;
+    margin: 0 0 16px; text-wrap: balance; font-weight: 800;
+  }
+  h1 .flow { color: var(--indigo); }
+  .lede { font-size: clamp(14px, 1.35vw, 16px); color: var(--ink-2); max-width: 82ch; margin: 0 0 12px; line-height: 1.6; }
+  .lede--cta { margin-bottom: 26px; }
+  .lede--cta a {
+    color: var(--indigo-ink); font-weight: 650; text-decoration: none;
+    border-bottom: 2px solid var(--amber-bright); padding-bottom: 1px;
+  }
+  .lede--cta a:hover { border-bottom-color: var(--indigo); color: var(--indigo); }
+  .lede b { color: var(--ink); font-weight: 650; }
+  .lede em { font-style: italic; color: var(--ink); font-weight: 650; }
+  .lede a { color: var(--indigo-ink); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--amber-bright); padding-bottom: 1px; }
+  .lede a:hover { color: var(--indigo); border-bottom-color: var(--indigo); }
+  .scale { font-family: var(--font-mono); font-size: .9em; color: var(--amber); font-weight: 700; }
+
+
+  /* ================= OPERATING AGREEMENT (top layer) ================= */
+  .ops {
+    position: relative; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 16px; padding: 28px clamp(18px, 3vw, 28px) 22px;
+    box-shadow: var(--shadow); margin-bottom: 32px;
+  }
+
+  /* featured: bfw-process */
+  .proc {
+    display: grid; grid-template-columns: auto 1fr; gap: clamp(14px, 2.4vw, 24px);
+    align-items: start; border: 1px solid var(--indigo);
+    background: linear-gradient(180deg, var(--indigo-soft), transparent 80%);
+    border-radius: 13px; padding: 16px 18px; margin-bottom: 16px; cursor: default;
+  }
+  .proc__badge {
+    font-family: var(--font-mono); font-size: 13px; font-weight: 700;
+    color: #fff; background: var(--indigo); padding: 7px 12px; border-radius: 9px;
+    white-space: nowrap; align-self: start;
+  }
+  @media (prefers-color-scheme: dark) { .proc__badge { color: #10132a; } }
+  :root[data-theme="dark"] .proc__badge { color: #10132a; }
+  :root[data-theme="light"] .proc__badge { color: #fff; }
+  .proc__name { font-size: 1.2rem; font-weight: 730; margin: 1px 0 5px; letter-spacing: -.01em; }
+  .proc__desc { font-size: 1rem; color: var(--ink-2); margin: 0 0 11px; }
+  .proc__desc code { font-family: var(--font-mono); font-size: .875rem; background: var(--surface); padding: 1px 5px; border-radius: 5px; }
+  .proc__chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .proc__chips li {
+    font-family: var(--font-mono); font-size: .875rem; padding: 4px 9px; border-radius: 6px;
+    background: var(--surface); border: 1px solid var(--line-strong); color: var(--indigo-ink);
+  }
+
+  .cfgs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .cfg {
+    border: 1px solid var(--line); border-radius: 11px; padding: 12px 13px;
+    background: var(--surface-2); cursor: default;
+  }
+  .cfg__name { font-family: var(--font-mono); font-size: 1rem; color: var(--indigo-ink); font-weight: 650; display: block; margin-bottom: 5px; }
+  .cfg__name a { color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--amber-bright); }
+  .cfg__name a:hover { text-decoration-color: currentColor; }
+  .cfg__meta { font-size: 1rem; color: var(--ink-2); line-height: 1.4; margin: 0; }
+  .cfg__meta code { font-family: var(--font-mono); font-size: .875rem; background: var(--surface); padding: 1px 4px; border-radius: 4px; }
+  .cfg__mine {
+    margin: 10px 0 0; padding-top: 10px; border-top: 1px dashed var(--line-strong);
+    font-size: 1rem; color: var(--ink-2); line-height: 1.4;
+  }
+  .cfg__mine code { font-family: var(--font-mono); font-size: .875rem; background: var(--surface); padding: 1px 4px; border-radius: 4px; }
+  .cfg__mine-label { color: var(--indigo-ink); font-weight: 700; }
+  .cfg--warn .cfg__mine-label { color: var(--amber); }
+  .cfg--warn { border-color: var(--amber); }
+  .cfg--warn .cfg__name { color: var(--amber); }
+  .ops__emit {
+    position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+    background: var(--surface); color: var(--indigo-ink); border: 1px solid var(--line-strong);
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .08em;
+    text-transform: uppercase; padding: 4px 12px; border-radius: 999px; white-space: nowrap;
+  }
+
+  /* ================= PIPELINE ================= */
+  .chain-scroll {
+    overflow-x: auto; padding: 6px 2px 22px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin; scrollbar-color: var(--indigo) var(--surface-2);
+  }
+  .chain-scroll::-webkit-scrollbar { height: 10px; }
+  .chain-scroll::-webkit-scrollbar-track { background: var(--surface-2); border-radius: 999px; }
+  .chain-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, var(--indigo), var(--amber-bright));
+    border-radius: 999px; border: 2px solid var(--surface-2);
+  }
+  .chain-scroll::-webkit-scrollbar-thumb:hover { filter: brightness(1.08); }
+  .chain { display: flex; align-items: stretch; gap: 0; min-width: min-content; }
+  .node {
+    scroll-snap-align: start; flex: 0 0 auto; width: 330px; background: var(--surface);
+    border: 1px solid var(--line); border-radius: 14px; padding: 16px 16px 15px;
+    box-shadow: var(--shadow); display: flex; flex-direction: column;
+    transition: opacity .18s ease, transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  }
+  .node[data-uses] { cursor: pointer; }
+  .node[data-uses]:hover { transform: translateY(-3px); border-color: var(--line-strong); }
+
+  .terminal { width: 330px; justify-content: center; text-align: center; background: var(--surface-2); }
+  .terminal--in { border-color: var(--amber); }
+  .terminal--out { border-color: var(--green); }
+  .terminal--loop { width: 330px; border-color: var(--amber-bright); background: linear-gradient(180deg, rgba(233,162,43,.10), transparent 70%); text-align: left; }
+  .terminal__tag { font-family: var(--font-mono); font-size: .8125rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; }
+  .terminal__title { font-weight: 750; font-size: 1.2rem; line-height: 1.2; margin-bottom: 8px; }
+  .terminal__sub { font-size: 1rem; color: var(--ink-2); }
+  .terminal--in .terminal__title { color: var(--amber); }
+  .terminal--out .terminal__title { color: var(--green); }
+  .terminal--loop .terminal__title { color: var(--amber); }
+  .terminal--loop .terminal__tag { color: var(--amber); }
+
+  .sync-inline { width: 1.05em; height: 1.05em; vertical-align: -.14em; margin: 0 .12em; }
+  .link { flex: 0 0 auto; width: 34px; display: flex; align-items: center; justify-content: center; color: var(--amber-bright); }
+  .link svg { width: 26px; height: 26px; }
+  .link--return svg { width: 30px; height: 30px; }
+
+  .node__head { display: flex; align-items: center; gap: 9px; margin-bottom: 11px; }
+  .num { font-family: var(--font-mono); font-weight: 700; font-size: 13px; width: 26px; height: 26px; flex: none; display: grid; place-items: center; border-radius: 8px; background: var(--indigo); color: #fff; }
+  .kicker { font-family: var(--font-mono); font-size: .8125rem; letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); }
+  .node--human { border-color: var(--amber); background: linear-gradient(180deg, rgba(233,162,43,.08), transparent 70%); }
+  .num--human { background: var(--amber-bright); color: #1a1300 !important; }
+  .node--human .kicker { color: var(--amber); }
+  .node__name { font-size: 1.2rem; font-weight: 730; line-height: 1.2; margin: 0 0 7px; letter-spacing: -.01em; }
+  .node__how { font-size: 1rem; color: var(--ink-2); margin: 0 0 13px; }
+  .node__how b { color: var(--ink); font-weight: 650; }
+  .node__how code, .terminal__sub code { font-family: var(--font-mono); font-size: .875rem; background: var(--surface-2); padding: 1px 4px; border-radius: 4px; color: var(--ink); }
+
+  .tools { display: flex; flex-wrap: wrap; gap: 5px; margin: 0 0 13px; padding: 0; list-style: none; }
+  .tools li { font-family: var(--font-mono); font-size: .875rem; padding: 4px 9px; border-radius: 6px; background: var(--indigo-soft); color: var(--tool-ink); font-weight: 600; white-space: nowrap; }
+
+  .blocks { margin-top: auto; border-top: 1px dashed var(--line-strong); padding-top: 11px; }
+  .blocks__label { color: var(--red); font-weight: 700; }
+  .blocks__label::before { content: "✕"; display: inline-block; margin-right: 6px; color: var(--red); font-size: .75em; vertical-align: 1px; }
+  .blocks__text { font-size: 1rem; color: var(--ink-2); line-height: 1.4; }
+
+  /* ---- The Steel Curtain: brushed steel ---- */
+  .node--steel {
+    width: 520px;
+    border-color: var(--steel-edge);
+    background:
+      repeating-linear-gradient(178deg, rgba(255,255,255,.07) 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(182deg, rgba(0,0,0,.06) 0 1px, transparent 1px 5px),
+      linear-gradient(160deg,
+        var(--steel-lo) 0%, var(--steel-hi) 22%, var(--steel-mid) 42%, var(--steel-lo) 58%,
+        var(--steel-mid) 76%, var(--steel-hi) 92%, var(--steel-lo) 100%);
+    box-shadow:
+      inset 0 1px 0 var(--steel-glint), inset 1px 0 0 rgba(255,255,255,.25),
+      inset 0 -1px 0 rgba(0,0,0,.3), var(--shadow);
+  }
+  .node--steel[data-uses]:hover { border-color: var(--steel-edge); }
+  .node--steel .num { background: var(--steel-ink); color: var(--steel-hi); }
+  .node--steel .kicker { color: var(--steel-ink-2); font-weight: 700; letter-spacing: .16em; }
+  .node--steel .node__name { color: var(--steel-ink); }
+  .node--steel .node__how { color: var(--steel-ink-2); }
+  .node--steel .node__how b { color: var(--steel-ink); }
+  .node--steel .node__how code { background: rgba(0,0,0,.14); color: var(--steel-ink); }
+  .node--steel .tools li { background: var(--steel-ink); color: var(--steel-hi); }
+  .node--steel .blocks { border-top-color: rgba(0,0,0,.3); }
+  .node--steel .blocks__text { color: var(--steel-ink-2); }
+
+  /* ---- interaction: light-up ---- */
+  .wrap.is-focusing .node[data-uses]:not(.is-active) { opacity: .4; }
+  .wrap.is-focusing .cfg:not(.is-lit),
+  .wrap.is-focusing .proc:not(.is-lit),
+  .wrap.is-focusing .file:not(.is-lit),
+  .wrap.is-focusing .pkg:not(.is-lit) { opacity: .3; }
+  .cfg.is-lit, .file.is-lit, .proc.is-lit, .pkg.is-lit {
+    opacity: 1 !important; border-color: var(--amber-bright);
+    box-shadow: 0 0 0 2px var(--amber-bright), var(--shadow);
+  }
+  .node.is-active {
+    border-color: var(--indigo); box-shadow: 0 0 0 2px var(--indigo), var(--shadow);
+    transform: translateY(-3px); opacity: 1;
+  }
+  .cfg, .file, .proc, .pkg { transition: opacity .18s ease, border-color .18s ease, box-shadow .18s ease; }
+  [data-uses]:focus-visible, [data-id]:focus-visible { outline: 2px solid var(--indigo); outline-offset: 3px; }
+
+  /* ---- Brain rail ---- */
+  .brain {
+    margin-top: 12px; background: var(--brain-band); color: var(--brain-ink);
+    border-radius: 16px; padding: 22px clamp(18px, 3vw, 30px); position: relative; box-shadow: var(--shadow);
+  }
+  .brain__feed {
+    position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+    background: var(--brain-band); color: var(--brain-ink-2); border: 1px solid var(--brain-line);
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 999px; white-space: nowrap;
+  }
+  .brain__grid { display: grid; grid-template-columns: 1fr; gap: 16px; align-items: start; }
+  .brain__tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--brain-ink-2); margin-bottom: 8px; }
+  .brain__title { font-size: clamp(19px, 2.4vw, 24px); font-weight: 780; letter-spacing: -.015em; margin: 0 0 8px; line-height: 1.1; }
+  .brain__desc { font-size: 1rem; color: var(--brain-ink-2); margin: 0; max-width: 78ch; }
+  .files { display: grid; grid-template-columns: repeat(6, 1fr); gap: 9px; margin: 0; padding: 0; list-style: none; }
+  .file { border: 1px solid var(--brain-line); border-radius: 10px; padding: 10px 11px; background: rgba(255,255,255,.02); cursor: default; }
+  .file__name { font-family: var(--font-mono); font-size: 1rem; color: var(--brain-ink); font-weight: 600; margin-bottom: 3px; }
+  .file__meta { font-size: 1rem; color: var(--brain-ink-2); line-height: 1.35; }
+
+  /* ---- bfw-process phase strip ---- */
+  .proc__phases {
+    display: flex; flex-wrap: wrap; align-items: stretch; gap: 6px;
+    margin: 0 0 12px; padding: 0; list-style: none;
+  }
+  .proc__phases li {
+    display: flex; align-items: center; gap: 7px;
+    font-size: .9375rem; font-weight: 600; padding: 6px 11px; border-radius: 8px;
+    background: rgba(255,255,255,.06); border: 1px solid var(--ink-3); color: var(--paper);
+  }
+  .ph__n {
+    font-family: var(--font-mono); font-size: .75rem; font-weight: 700;
+    width: 19px; height: 19px; flex: none; display: grid; place-items: center;
+    border-radius: 5px; background: var(--indigo); color: #fff;
+  }
+  .proc__phases .ph--gate {
+    font-family: var(--font-mono); font-size: .8125rem; font-weight: 700;
+    background: rgba(233,162,43,.14); border-color: var(--amber-bright); color: var(--amber-bright);
+  }
+  .proc__phases .ph--hard { border-width: 2px; }
+  .proc__phases .ph--gate::before { content: "▌"; margin-right: 2px; }
+
+  /* ---- Eddie DS packages (inside the brain band) ---- */
+  .brain__sep { border: 0; border-top: 1px solid var(--brain-line); margin: 22px 0 18px; }
+  .pkgs-head {
+    font-size: 1.05rem; font-weight: 750; color: var(--brain-ink);
+    margin: 0 0 12px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  }
+  .pkgs-head__note {
+    font-family: var(--font-mono); font-size: .8125rem; font-weight: 400;
+    letter-spacing: .04em; color: var(--brain-ink-2);
+  }
+  .pkgs {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 9px;
+    margin: 0; padding: 0; list-style: none;
+  }
+  .pkg { border: 1px solid var(--brain-line); border-radius: 10px; padding: 10px 11px; background: rgba(255,255,255,.02); }
+  .pkg__name { font-family: var(--font-mono); font-size: 1rem; color: var(--brain-ink); font-weight: 600; margin-bottom: 3px; }
+  .pkg__meta { font-size: 1rem; color: var(--brain-ink-2); line-height: 1.45; }
+
+  /* ---- Bedrock: bfw-process beneath the design system ---- */
+  .bedrock {
+    position: relative; margin-top: 30px; background: var(--ink);
+    border-radius: 16px; padding: 30px clamp(18px, 3vw, 30px) 26px; box-shadow: var(--shadow);
+  }
+  .bedrock > .proc__badge {
+    position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+    z-index: 1; white-space: nowrap;
+  }
+  .bedrock .proc {
+    grid-template-columns: 1fr; border-color: var(--ink-3);
+    background: rgba(255,255,255,.04); margin-bottom: 0; color: var(--paper);
+  }
+  .bedrock .proc__name { color: var(--paper); }
+  .bedrock .proc__desc { color: #B6BCC9; }
+  .bedrock .proc__desc code { background: rgba(255,255,255,.10); color: var(--paper); }
+  .bedrock .proc__chips li { background: rgba(255,255,255,.06); border-color: var(--ink-3); color: #D3D8E4; }
+  .bedrock .proc.is-lit { box-shadow: 0 0 0 2px var(--amber-bright); border-color: var(--amber-bright); }
+
+  @media (max-width: 1400px) { .pkgs { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 1100px) { .pkgs { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 760px)  { .pkgs { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 460px)  { .pkgs { grid-template-columns: 1fr; } }
+
+  .loop-rare {
+    display: block; margin-top: 11px; padding-top: 10px;
+    border-top: 1px dashed var(--amber); font-size: .92em; color: var(--ink-2);
+  }
+  .loop-rare a { color: var(--amber); text-decoration: underline; text-underline-offset: 2px; }
+  .loop-rare a:hover { color: var(--amber-bright); }
+
+  /* ---- Footer note ---- */
+  .note { margin-top: 26px; font-size: 12.5px; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 16px; max-width: 82ch; }
+  .note b { color: var(--ink-2); }
+  .scroll-hint { display: none; font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); margin: 0 0 8px; letter-spacing: .04em; }
+
+  @media (max-width: 1180px) { .cfgs { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 1400px) { .files { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 1100px) { .files { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 760px) {
+    .cfgs { grid-template-columns: repeat(2, 1fr); }
+    .proc { grid-template-columns: 1fr; }
+    .brain__grid { grid-template-columns: 1fr; }
+    .files { grid-template-columns: repeat(2, 1fr); }
+    .scroll-hint { display: block; }
+  }
+  @media (max-width: 460px) { .cfgs, .files { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) {
+    .node, .cfg, .file, .proc { transition: opacity .1s ease; }
+    .node.is-active, .node[data-uses]:hover { transform: none; }
+    .cta__link:hover { transform: none; }
+  }
+
+  /* ---- Course CTA ---- */
+  .cta {
+    margin-top: 30px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 18px 28px; background: var(--brain-band); color: var(--brain-ink);
+    border-radius: 16px; padding: clamp(20px, 3vw, 30px); box-shadow: var(--shadow);
+  }
+  .cta__body { flex: 1 1 320px; }
+  .cta__eyebrow {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--brain-ink-2); margin-bottom: 8px;
+  }
+  .cta__title { font-size: clamp(19px, 2.4vw, 25px); font-weight: 800; letter-spacing: -.02em; margin: 0 0 9px; line-height: 1.1; text-wrap: balance; }
+  .cta__body p { font-size: 13.5px; color: var(--brain-ink-2); margin: 0; max-width: 62ch; line-height: 1.55; }
+  .cta__link {
+    flex: 0 0 auto; font-family: var(--font-mono); font-size: 14px; font-weight: 700;
+    text-decoration: none; white-space: nowrap; background: var(--amber-bright); color: #1a1300;
+    padding: 12px 20px; border-radius: 999px; transition: transform .15s ease, filter .15s ease;
+  }
+  .cta__link:hover { transform: translateY(-2px); filter: brightness(1.05); }
+</style>
+
+<div class="page">
+  <div class="wrap">
+
+    <p class="eyebrow"><a href="https://aianddesign.systems" target="_blank" rel="noopener">An AI &amp; Design Systems Online Course Lesson</a></p>
+    <h1>Keep AI on the Rails of Your Design System</h1>
+    <p class="lede">
+      AI will hallucinate UI and make a huge mess without the proper guardrails in place. Here is a detailed
+      breakdown of how we get AI to (faithfully! consistently! repeatedly!) build UI <em>only</em> using our
+      Eddie Design System.
+    </p>
+    <p class="lede lede--cta">
+      This is one of over 150 lessons from AI &amp; Design Systems, an online course by me (Brad Frost), TJ Pitre,
+      and Ian Frost. To watch the in-depth video walkthrough, get installable skills, and join a vibrant community
+      of AI &amp; Design Systems practitioners,
+      <a href="https://aianddesign.systems" target="_blank" rel="noopener">join the course!</a>
+    </p>
+
+
+    <!-- ============ OPERATING AGREEMENT ============ -->
+    <section class="ops">
+      <div class="ops__emit">Ai Dev Concepts &amp; Techniques</div>
+      <!-- how it reaches the agent -->
+      <ul class="cfgs">
+        <li class="cfg" data-id="cfg-standing">
+          <span class="cfg__name"><a href="https://resources.aianddesign.systems/glossary/#context-principle" target="_blank" rel="noopener">AI Agent User Settings</a></span>
+          <p class="cfg__meta">The default user settings that the AI agent applies to every project, in every session, regardless of the project.</p>
+          <p class="cfg__mine"><span class="cfg__mine-label">In my setup</span> I declare non-negotiables in my settings: only use the Eddie ecosystem, don't use third-party libraries, <abbr title="Accessibility">a11y</abbr>++.</p>
+        </li>
+        <li class="cfg" data-id="cfg-project">
+          <span class="cfg__name"><a href="https://resources.aianddesign.systems/glossary/#context-ecosystems" target="_blank" rel="noopener">Project rule files</a></span>
+          <p class="cfg__meta">Project files containing rules an agent loads at the start of every session. With multiple rule files, most-specific file wins.</p>
+          <p class="cfg__mine"><span class="cfg__mine-label">In my setup</span> <code>AGENTS.md → CLAUDE.md → SPEC.md</code>, carrying the mandatory <b>STOP &amp; ground</b> preamble.</p>
+        </li>
+        <li class="cfg" data-id="cfg-mcp">
+          <span class="cfg__name"><a href="https://resources.aianddesign.systems/glossary/#model-context-protocol" target="_blank" rel="noopener">MCP connection</a></span>
+          <p class="cfg__meta">Model Context Protocol is an <b>open standard</b> that connects agents to other systems, data, and services.</p>
+          <p class="cfg__mine"><span class="cfg__mine-label">In my setup</span>, the <code>eddie-brain</code> MCP server is what AI agents connect to in order to use the <code>eddie_*</code> tools.</p>
+        </li>
+        <li class="cfg" data-id="cfg-skills">
+          <span class="cfg__name"><a href="https://resources.aianddesign.systems/glossary/#skill" target="_blank" rel="noopener">Skills & reusable procedures</a></span>
+          <p class="cfg__meta">Packaged workflows that auto-trigger on matching work and run specific sequences.</p>
+          <p class="cfg__mine"><span class="cfg__mine-label">In my setup</span> <code>eddie-web-developer</code> fires on any UI work and brings the grounding-first sequence along.</p>
+        </li>
+        <li class="cfg cfg--warn" data-id="cfg-hook">
+          <span class="cfg__name">Hooks &amp; CI gates</span>
+          <p class="cfg__meta">Automated checks, tests, and evals that run outside the agent after generations, commits, and pull requests.</p>
+          <p class="cfg__mine"><span class="cfg__mine-label">In my setup</span> An <code>eddie-brain validate</code> hook runs after generations that warns, but blocks in Station&nbsp;8 is The Steel Curtain.</p>
+        </li>
+      </ul>
+      
+    </section>
+
+    <p class="scroll-hint">→ scroll the pipeline sideways to see all nine stations, the output, and the loop</p>
+
+
+    <!-- ============ PIPELINE ============ -->
+    <div class="chain-scroll">
+      <div class="chain">
+
+        <!-- ENTRY -->
+        <div class="node terminal terminal--in">
+          <div class="terminal__title">You enter a prompt</div>
+          <div class="terminal__sub">“Build a tertiary button variant.”</div>
+          <div class="terminal__sub">"Make a product card recipe.”</div>
+          <div class="terminal__sub">“Build me a pricing page.”</div>
+        </div>
+
+        <div class="link" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h14"/><path d="M13 6l6 6-6 6"/></svg></div>
+
+        <!-- 1 -->
+        <article class="node" data-uses="cfg-standing cfg-project cfg-mcp brain-components brain-tokens brain-recipes brain-learning pkg-brain">
+          <div class="node__head"><span class="num">1</span><span class="kicker">Stop &amp; ground</span></div>
+          <h3 class="node__name">Always check the live design system first</h3>
+          <p class="node__how">The rule files mandate that that no code can be authored until Eddie's live catalog is pulled into in the session. <code>check_health</code> checks Eddie components, tokens, recipes, and the reporter feedback loop.</p>
+          <ul class="tools"><li>check_health</li><li>get_component</li></ul>
+          <div class="blocks"><p class="blocks__text"><span class="blocks__label">Prevents</span> AI from writing from memory or a stale prior session, which leads to innacurate &amp; hallucinated UI.</p></div>
+        </article>
+
+        <div class="link" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h14"/><path d="M13 6l6 6-6 6"/></svg></div>
+
+        <!-- 2 -->
+        <article class="node" data-uses="cfg-process cfg-standing cfg-project">
+          <div class="node__head"><span class="num">2</span><span class="kicker">Rules</span></div>
+          <h3 class="node__name">Learn rules &amp; standards</h3>
+          <p class="node__how">Agents are instructed to strictly follow <b>bfw-process</b> configuration rules, which amongst other things declares the Eddie-Only Rule: no custom markup, no custom CSS, no hardcoded values.</p>
+          <ul class="tools"><li>bfw-process</li><li>AGENTS.md</li><li>CLAUDE.md</li></ul>
+          <div class="blocks"><p class="blocks__text"><span class="blocks__label">Prevents</span> ad-hoc <code>.my-card</code> CSS, Google-Font links, hardcoded hex &amp; pixels, competing UI frameworks.</p></div>
+        </article>
+
+        <div class="link" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h14"/><path d="M13 6l6 6-6 6"/></svg></div>
+
+        <!-- 3 -->
+        <article class="node" data-uses="cfg-mcp brain-components brain-tokens brain-recipes pkg-brain pkg-web-components pkg-design-tokens pkg-recipes">
+          <div class="node__head"><span class="num">3</span><span class="kicker">Consult</span></div>
+          <h3 class="node__name">Look up real components &amp; tokens</h3>
+          <p class="node__how"><code>eddie-brain</code> connects via MCP and provides the knowledge graph: all tokens, components, props, slots, relationships, and more.</p>
+          <ul class="tools"><li>search</li><li>get_component</li><li>get_token</li><li>get_relationships</li></ul>
+          <div class="blocks"><p class="blocks__text"><span class="blocks__label">Prevents</span> invented props, slots (e.g. <code>slot="eyebrow"</code>), and incorrect compositions.</p></div>
+        </article>
+
+        <div class="link" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h14"/><path d="M13 6l6 6-6 6"/></svg></div>
+
+        <!-- 4 -->
+        <article class="node" data-uses="cfg-skills cfg-process brain-recipes brain-components pkg-brain pkg-design-tokens pkg-web-components pkg-recipes pkg-pages pkg-icons pkg-charts">
+          <div class="node__head"><span class="num">4</span><span class="kicker">Compose</span></div>
+          <h3 class="node__name">Compose using design system ingredients</h3>
+          <p class="node__how">Agents are instructed to compose the UI from system-defined page templates, recipes, and components. Eddie's component graph and guidelines must be strictly followed.</p>
+          <ul class="tools"><li>list_pages</li><li>compose_recipe</li><li>ed-p-* templates</li></ul>
+          <div class="blocks"><p class="blocks__text"><span class="blocks__label">Prevents</span> building from primitives — stacked card grids, missing <code>ed-grid-item</code>, hand-rolled chrome.</p></div>
+        </article>
+
+        <div class="link" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h14"/><path d="M13 6l6 6-6 6"/></svg></div>
+
+        <!-- 5 -->
+        <article class="node" data-uses="cfg-mcp cfg-hook brain-tokens brain-components pkg-brain pkg-design-tokens pkg-web-components">
+          <div class="node__head"><span class="num">5</span><span class="kicker">Validate</span></div>
+          <h3 class="node__name">Validate the generated code</h3>
+          <p class="node__how">When generation stops, a validation loop scans for token, naming, contract, and <b>accessibility</b> violations. Failures are returned to the agent for correction.</p>
+          <ul class="tools"><li>validate_file</li><li>suggest_fix</li><li>pre-commit hook</li></ul>
+          <div class="blocks"><p class="blocks__text"><span class="blocks__label">Prevents</span> hardcoded values, broken BEM naming, placeholder link text, missing <code>knockout</code> on dark bands.</p></div>
+        </article>
+
+        <div class="link link--return" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg></div>
+
+        <!-- 6 -->
+        <article class="node" data-uses="cfg-skills cfg-process pkg-web-components pkg-design-tokens pkg-recipes pkg-pages pkg-icons pkg-charts">
+          <div class="node__head"><span class="num">6</span><span class="kicker">Render</span></div>
+          <h3 class="node__name">Render &amp; check the output</h3>
+          <p class="node__how"><b>render-check</b> plus a live browser preview prove the markup produces real, visible output — the agent checks the <em>displayed result</em>, not just the code.</p>
+          <ul class="tools"><li>render-check</li><li>browser preview</li></ul>
+          <div class="blocks"><p class="blocks__text"><span class="blocks__label">Prevents</span> silently-dropped slots and broken renders — markup that parses perfectly and displays nothing.</p></div>
+        </article>
+
+        <div class="link link--return" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg></div>
+
+        <!-- 7 · HUMAN REVIEW -->
+        <article class="node node--human">
+          <div class="node__head"><span class="num num--human">7</span><span class="kicker">Human review</span></div>
+          <h3 class="node__name">You review the rendered results from step 6</h3>
+          <p class="node__how">You review the rendered UI, and either approve it, deny it, or request tweaks. Agent loops through Consult → Render until you approve.</p>
+          <ul class="tools"><li>your brain</li><li>your judgement</li></ul>
+          <div class="blocks"><p class="blocks__text"><span class="blocks__label">Prevents</span> shipping on the model's say-so — taste, product intent, and "is this actually good?" stay human.</p></div>
+        </article>
+
+        <div class="link link--return" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg></div>
+
+        <!-- 8 -->
+        <article class="node node--steel" data-uses="cfg-process cfg-hook brain-components brain-tokens brain-recipes pkg-web-components pkg-design-tokens pkg-recipes pkg-pages pkg-icons pkg-charts">
+          <div class="node__head"><span class="num">8</span><span class="kicker">The Steel Curtain</span></div>
+          <h3 class="node__name">Run CI gates, deterministic tests &amp; AI evals</h3>
+          <p class="node__how">All work goes through a pull request that must clear an array of <b>CI tests</b> before it can merge. <b>Deterministic tests</b> check accessibility, responsive, user flows, and performance. ALSO, <b>AI evals</b> 
+            do a two-axis review to see if it follows the repo&rsquo;s standards, and actually does what the issue and <code>FEATURE-SPEC.md</code> actually asked for.</p>
+          <ul class="tools"><li>CI</li><li>bfw:verify:tests</li><li>bfw:verify:a11y</li><li>bfw:verify:responsive</li><li>bfw:verify:flows</li><li>bfw:verify:perf</li><li>two-axis eval</li></ul>
+          <div class="blocks"><p class="blocks__text"><span class="blocks__label">Prevents</span> regressions, broken flows, accessibility issues, and off-spec work from reaching <code>main</code>.</p></div>
+        </article>
+
+        <div class="link link--return" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg></div>
+
+        <!-- 9 · HUMAN REVIEW -->
+        <article class="node node--human">
+          <div class="node__head"><span class="num num--human">9</span><span class="kicker">Human review</span></div>
+          <h3 class="node__name">You approve to merge the work</h3>
+          <p class="node__how">Every gate came back green — but green is not approval. A <b>person</b> reads the diff, weighs it against what the ticket actually asked for, and makes the call. <b>Merging is a decision, not a status.</b></p>
+          <ul class="tools"><li>PR review</li><li>your judgement</li><li>human approval</li></ul>
+          <div class="blocks"><p class="blocks__text"><span class="blocks__label">Prevents</span> a green build being mistaken for a good one — no agent merges its own work.</p></div>
+        </article>
+
+        <div class="link" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h14"/><path d="M13 6l6 6-6 6"/></svg></div>
+
+        <!-- OUTPUT -->
+        <div class="node terminal terminal--out">
+          <div class="terminal__tag">Launch</div>
+          <div class="terminal__title">UI Work Ships!</div>
+          <div class="terminal__sub">The work (tertiary button, product card recipe, pricing page, or whatever else was prompted) ships to production, powered entirely by the design system&rsquo;s components, tokens, recipes, organizational standards, and infrastructure.</div>
+        </div>
+
+        <div class="link link--return" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg></div>
+
+        <!-- LOOP -->
+        <article class="node terminal terminal--loop" data-uses="brain-learning brain-adoption brain-activity cfg-process pkg-reporter pkg-brain">
+          <div class="terminal__title">Product <svg class="sync-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg> Design System Feedback Loop</div>
+          <div class="terminal__sub">Every product installs <b>eddie-reporter</b>, which scans the codebase for what Eddie infrastructure it actually uses (components, recipes, pages, tokens, charts, etc). 
+            This gets reported back to eddie-brain as <code>learning</code>, <code>adoption</code> and <code>activity</code>.
+            Hacks, gaps, and problems become Eddie Design System <b>GitHub issues</b>, which get addressed and fed back to the product ecosystem. Hooray, quality feedback loops!
+        </article>
+
+      </div>
+    </div>
+
+    <!-- BRAIN RAIL -->
+    <section class="brain">
+      <div class="brain__feed">Eddie Design System</div>
+      <div class="brain__grid">
+        <h2 class="pkgs-head brain-head">eddie-brain<span class="pkgs-head__note">Eddie Design System&rsquo;s machine-readable knowledge graph that AI agents communicate with via MCP.</span></h2>
+        <ul class="files">
+          <li class="file" data-id="brain-components"><div class="file__name">components.json</div><div class="file__meta">Every component, recipe and page, with its real props, slots and guidelines. What the agent reads instead of guessing.</div></li>
+          <li class="file" data-id="brain-tokens"><div class="file__name">tokens.json</div><div class="file__meta">Every design decision as a named value, across every theme. The agent asks for a token, never a hex code.</div></li>
+          <li class="file" data-id="brain-recipes"><div class="file__name">recipes.json</div><div class="file__meta">The compositions we&rsquo;ve blessed as the canonical way to build a given pattern.</div></li>
+          <li class="file" data-id="brain-learning"><div class="file__name">learning.json</div><div class="file__meta">What the brain suggested, and whether a human took it. The record that sharpens the next suggestion.</div></li>
+          <li class="file" data-id="brain-adoption"><div class="file__name">adoption.json</div><div class="file__meta">Which products depend on the system, what version they&rsquo;re on, and how far they&rsquo;ve drifted.</div></li>
+          <li class="file" data-id="brain-activity"><div class="file__name">activity.json</div><div class="file__meta">What downstream products actually use, reported back from real shipped code.</div></li>
+        </ul>
+      </div>
+
+      <hr class="brain__sep">
+      <div class="pkgs-head">Eddie DS Packages<span class="pkgs-head__note">Eddie manages multiple UI packages in a monorepo and publishes via npm.</span></div>
+      <ul class="pkgs">
+          <li class="pkg" data-id="pkg-design-tokens"><div class="pkg__name">eddie-design-tokens</div><div class="pkg__meta">The raw design decisions — color, space, type, motion — as named values every other package builds on.</div></li>
+          <li class="pkg" data-id="pkg-web-components"><div class="pkg__name">eddie-web-components</div><div class="pkg__meta">The component library itself. Framework-agnostic custom elements you can drop into anything.</div></li>
+          <li class="pkg" data-id="pkg-recipes"><div class="pkg__name">eddie-recipes</div><div class="pkg__meta">Larger compositions built from the core components, for patterns that repeat across products.</div></li>
+          <li class="pkg" data-id="pkg-pages"><div class="pkg__name">eddie-pages</div><div class="pkg__meta">Whole page templates, so nobody starts from a blank file or assembles a layout from scratch.</div></li>
+          <li class="pkg" data-id="pkg-icons"><div class="pkg__name">eddie-icons</div><div class="pkg__meta">The icon set, delivered as components so icons theme along with everything else.</div></li>
+          <li class="pkg" data-id="pkg-charts"><div class="pkg__name">eddie-charts</div><div class="pkg__meta">Data visualization recipes, so charts inherit the system instead of arriving with their own look.</div></li>
+          <li class="pkg" data-id="pkg-brain"><div class="pkg__name">eddie-brain</div><div class="pkg__meta">The MCP server and knowledge graph. How an agent asks the system what actually exists.</div></li>
+          <li class="pkg" data-id="pkg-reporter"><div class="pkg__name">eddie-reporter</div><div class="pkg__meta">Installed into products to scan for system usage and report it back upstream.</div></li>
+          <li class="pkg" data-id="pkg-boilerplates"><div class="pkg__name">eddie-boilerplates</div><div class="pkg__meta">Starter projects already wired to the system, so a new site begins on the rails.</div></li>
+          <li class="pkg" data-id="pkg-website"><div class="pkg__name">eddie-website</div><div class="pkg__meta">The (neglected!) reference site — documentation, guidelines and live examples for people.</div></li>
+      </ul>
+    </section>
+
+    <!-- BEDROCK -->
+    <section class="bedrock">
+      <span class="proc__badge">bfw-process</span>
+      <div class="proc" data-id="cfg-process">
+        <div>
+          <div class="proc__name">Brad Frost Web&rsquo;s official development standards</div>
+          <p class="proc__desc">
+            A <b>versioned rulebook installed into the repo</b> as a pinned dependency — adopted, not reinvented. It carries
+            six phases, nine checklists, the spec templates, the Eddie-usage rules and a validation hook.
+            <code>.bfw-process/config.json</code> sets the mode, the project type, the branch model (trunk or gitflow)
+            and whether the ship gate has teeth. <b>Two gates are human.</b> Phase 2 won&rsquo;t open Phase 3 until
+            <code>FEATURE-SPEC.md</code> is approved, and Phase 5 won&rsquo;t open Phase 6 until
+            <code>npm run bfw:ship</code> exits zero — which only a named owner can override, and every override
+            is written to a log.
+          </p>
+          <ol class="proc__phases">
+            <li><span class="ph__n">1</span>Understand &amp; Scope</li>
+            <li><span class="ph__n">2</span>Specification</li>
+            <li class="ph--gate">FEATURE-SPEC.md approved</li>
+            <li><span class="ph__n">3</span>Architecture &amp; Planning</li>
+            <li><span class="ph__n">4</span>Build</li>
+            <li><span class="ph__n">5</span>Test &amp; Verify</li>
+            <li class="ph--gate ph--hard">npm run bfw:ship</li>
+            <li><span class="ph__n">6</span>Ship &amp; Document</li>
+          </ol>
+          <ul class="proc__chips">
+            <li>SPEC.md</li>
+            <li>FEATURE-SPEC.md</li>
+            <li>AGENTS.md → CLAUDE.md</li>
+            <li>9 checklists</li>
+            <li>eddie-validate hook</li>
+            <li>Trunk or gitflow</li>
+            <li>Full / quick mode</li>
+            <li>Owner override, logged</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <p class="note">
+      <b>The lesson underneath the diagram:</b> not one of these stations trusts the model to remember the design
+      system. Each forces a check against live, machine-readable truth — and each catches a different class of
+      hallucination, so a miss at one station is caught at the next. The rails are <b>installed by shared
+      process (bfw-process) and configuration</b>, not left to willpower, and the trust is <b>layered</b> — the
+      commit hook only whispers a warning while CI is the wall that stops a bad merge.
+    </p>
+
+    <!-- COURSE CTA -->
+    <aside class="cta">
+      <div class="cta__body">
+        <div class="cta__eyebrow">From the course</div>
+        <h2 class="cta__title">This is one lesson from AI &amp; Design Systems</h2>
+        <p>A hands-on course on making AI and design systems work together — keeping AI on the rails, inspecting systems and products, and building real things with both. If this diagram was useful, there's plenty more where it came from.</p>
+      </div>
+      <a class="cta__link" href="https://aianddesign.systems" target="_blank" rel="noopener">aianddesign.systems&nbsp;→</a>
+    </aside>
+
+  </div>
+</div>
+
+<script>
+  (function () {
+    var wrap = document.querySelector('.wrap');
+    var triggers = document.querySelectorAll('[data-uses], [data-id]');
+    var pinned = null;
+
+    function light(el) {
+      wrap.classList.add('is-focusing');
+      if (el.hasAttribute('data-uses')) {
+        el.classList.add('is-active');
+        el.getAttribute('data-uses').split(/\s+/).forEach(function (id) {
+          if (!id) return;
+          document.querySelectorAll('[data-id="' + id + '"]').forEach(function (t) { t.classList.add('is-lit'); });
+        });
+      }
+      if (el.hasAttribute('data-id')) {
+        el.classList.add('is-lit');
+        var id = el.getAttribute('data-id');
+        document.querySelectorAll('[data-uses]').forEach(function (s) {
+          if ((' ' + s.getAttribute('data-uses') + ' ').indexOf(' ' + id + ' ') > -1) s.classList.add('is-active');
+        });
+      }
+    }
+    function clear() {
+      wrap.classList.remove('is-focusing');
+      document.querySelectorAll('.is-active').forEach(function (e) { e.classList.remove('is-active'); });
+      document.querySelectorAll('.is-lit').forEach(function (e) { e.classList.remove('is-lit'); });
+    }
+
+    triggers.forEach(function (el) {
+      if (el.getAttribute('aria-hidden') === 'true') return;
+      el.setAttribute('tabindex', '0');
+      el.addEventListener('mouseenter', function () { if (!pinned) light(el); });
+      el.addEventListener('mouseleave', function () { if (!pinned) clear(); });
+      el.addEventListener('focus', function () { if (!pinned) light(el); });
+      el.addEventListener('blur', function () { if (!pinned) clear(); });
+      el.addEventListener('click', function (e) {
+        if (e.target.closest('a')) return;
+        if (pinned === el) { pinned = null; clear(); }
+        else { pinned = el; clear(); light(el); }
+      });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
+      });
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && pinned) { pinned = null; clear(); } });
+    document.addEventListener('click', function (e) {
+      if (pinned && !e.target.closest('[data-uses], [data-id]')) { pinned = null; clear(); }
+    });
+  })();
+</script>
