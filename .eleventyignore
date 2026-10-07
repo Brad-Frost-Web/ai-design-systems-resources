@@ -1,0 +1,12 @@
+# Process and rules files are for agents and maintainers, not the public site.
+# Eleventy builds .md and .html as templates, so without this they publish.
+AGENTS.md
+CLAUDE.md
+SPEC.md
+FEATURE-SPEC.md
+README.md
+.bfw-process/
+.microagents/
+.github/
+.claude/
+docs/
