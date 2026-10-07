@@ -1817,7 +1817,7 @@ hr {
 }
 .glossary-intro {
   max-inline-size: 60ch;
-  margin-block-end: 2rem;
+  margin-block: 0 2rem;
   color: var(--ed-theme-color-content-subtle);
 }
 .glossary-az {
@@ -1912,7 +1912,6 @@ hr {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-block: 1rem;
 }
 .resource-tag {
   display: inline-block;
