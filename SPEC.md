@@ -51,6 +51,7 @@ Students and practitioners need a trusted, current reference while they work thr
 - **UI layer:** Eddie (`@brad-frost-web/eddie-web-components`, `eddie-recipes`, `eddie-design-tokens`, `eddie-charts`). Patterns Eddie lacks become project-local recipes (`ed-r-c-*`), and the gap is dual-filed upstream (AGENTS.md §9.4.1).
 - **Content pipeline:** `scripts/sync-notion.js` pulls resources from Notion into `_data/resources/` as Markdown with frontmatter; the glossary comes from course transcripts. Some resource syncs run as automated commits.
 - **Eleventy treats `.md` and `.html` as templates.** Process and rules files are kept out of the build with `.eleventyignore`, so they are never published.
+- **Demos live at `/demos/<slug>/`**, starting with `/demos/keep-ai-on-the-rails/` (#33).
 - **Interactive layers are progressive enhancement.** Every page reads correctly as server-rendered HTML with JavaScript off.
 
 ## 7. Deployment model
@@ -70,6 +71,5 @@ WCAG 2.1 AA baseline. Known gaps are tracked in #19 (checklist rating control). 
 
 ## 10. Open questions
 
-- Is the ship gate turned on? `hardGates.shipReadiness` is `false` until the five `bfw:verify:*` scripts exist (see the install issue, #31).
 - What happens to `design/13-chameleon-resources`: promote, promote part, or freeze (#25)?
-- Where do demos live: `/demos/<slug>/`, lesson pages, or both (#27)? Decided for the first demo: `/demos/keep-ai-on-the-rails/`.
+- Where do demos beyond the first live, and is there a `/demos/` index (#27)?
