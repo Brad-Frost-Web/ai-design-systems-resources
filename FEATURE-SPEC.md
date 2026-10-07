@@ -110,10 +110,12 @@ No persistent data. The rungs are a build-time data file (`_data/rails/rungs.jso
 
 ## 10. Open questions
 
-1. **Capturing the outputs:** who runs the eleven captures, and with which model? Recommended: an agent drives the runs with the exact per-rung setup and logs it, and Brad picks the final frame for each rung.
-2. **DESIGN.md at rung 2:** is it Google Stitch's DESIGN.md format specifically, or any prose design-language file? This changes the rung's copy.
-3. **Copy source on `main`:** cherry-pick `_data/resources/keep-ai-on-the-rails-claude.html` onto this branch as the copy source, or keep it on `design/13` and pull copy from there?
-4. **Course CTA:** keep the original artifact's "join the course" CTA on the demo page as-is, or rework it for a free-lesson landing?
+All four answered by Brad on 2026-10-07. Kept here as the record until approval.
+
+1. **Capturing the outputs:** an agent drives the eleven runs, setting up each rung's exact environment, running the same prompt, screenshotting the result and logging the setup. Brad picks the final frame for each rung. One current Claude model is held constant across all rungs, and the setup note records which one.
+2. **DESIGN.md at rung 2:** any prose file that describes the design language. Google Stitch's DESIGN.md is named as one example, not as the format.
+3. **Copy source:** `_data/resources/keep-ai-on-the-rails-claude.html` was cherry-picked onto this branch (from 0c280b4 on `design/13`), so Brad's edits reach `main` with this work. The resources loader reads only `.md` and the build publishes nothing from it.
+4. **Course CTA:** reworked for free visitors. A stronger CTA closes rung 10 ("that's one lesson; here's what else the course does"), and the lede keeps its course link. Copy is drafted in Brad's voice for his edit before it ships.
 
 ## 11. Success criteria
 
