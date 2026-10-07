@@ -1,0 +1,180 @@
+# BFW beacon receiver (#110, #112) — the canonical copy is
+# `templates/.github/workflows/bfw-library-published.yml` in
+# Brad-Frost-Web/bfw-process.
+#
+# In a consumer repo this file is installed and kept current by `bfw-process
+# sync`, and hand edits are overwritten on the next sync. Unlike
+# `bfw-verify.yml`, bfw-process itself installs no receiver — it publishes the
+# beacon rather than consuming its own — so there is no self copy here to hold
+# byte-identical. Either way: change the template and let the copies follow —
+# never edit a copy alone.
+#
+# When a BFW library publishes, its publish workflow sends every consumer a
+# `bfw-library-published` repository_dispatch. This workflow receives it and
+# opens the COMPLETE upgrade PR: pin bump AND `bfw-process sync` — a bare
+# version bump would leave the synced canonical files (AGENTS.md, phases,
+# checklists…) stale while doctor reports the pin as current.
+#
+# Idempotent: already current, or an open PR for this bump already exists →
+# exit quietly. Safe to re-fire; workflow_dispatch allows manual runs.
+#
+# Known limits, by design:
+#   - The default GITHUB_TOKEN cannot push .github/workflows/ changes. If a
+#     sync updates workflow files (including this one), those changes are
+#     left out of the commit and called out in the PR body for manual
+#     application.
+#   - PRs opened with GITHUB_TOKEN don't trigger this repo's own CI runs.
+#     Close/reopen the PR (or push to its branch) if you need checks to run.
+
+name: BFW library published
+
+on:
+  repository_dispatch:
+    types: [bfw-library-published]
+  workflow_dispatch:
+    inputs:
+      package:
+        description: 'Package name (e.g. @brad-frost-web/bfw-process)'
+        required: true
+      version:
+        description: 'Published version to upgrade to'
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Upgrade and open PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PKG: ${{ github.event.client_payload.package || inputs.package }}
+          VERSION: ${{ github.event.client_payload.version || inputs.version }}
+        run: |
+          set -euo pipefail
+          PIN="$(jq -r --arg p "$PKG" '(.devDependencies[$p] // .dependencies[$p]) // empty' package.json)"
+          if [ -z "$PIN" ]; then
+            echo "$PKG is not a dependency of this repo — nothing to do."
+            exit 0
+          fi
+          if [ "$PIN" = "$VERSION" ]; then
+            echo "Already pinned to $VERSION — nothing to do."
+            exit 0
+          fi
+          SLUG="$(echo "$PKG" | sed 's|^@||; s|/|-|g')"
+          BRANCH="chore/bump-$SLUG-$VERSION"
+          if [ -n "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[].number')" ]; then
+            echo "An open PR for $BRANCH already exists — nothing to do."
+            exit 0
+          fi
+
+          npm install --save-dev "$PKG@$VERSION"
+
+          # bfw-process upgrades are bump + sync as one unit; other BFW
+          # libraries are a plain bump.
+          DOCTOR_REPORT=""
+          if [ "$PKG" = "@brad-frost-web/bfw-process" ]; then
+            npx --no bfw-process sync
+            DOCTOR_REPORT="$(npx --no bfw-process doctor 2>&1 || true)"
+          fi
+
+          # GITHUB_TOKEN cannot push workflow changes — drop them from the
+          # commit and flag them for manual application.
+          #
+          # `git status --porcelain -uall` rather than `git diff`, because a
+          # sync into a repo that has no `bfw-verify.yml` yet CREATES the file
+          # (#250): `git diff` is silent on an untracked path and `git
+          # checkout --` cannot revert one, so the new workflow rode into
+          # `git add -A` and GitHub rejected the whole push. The repos missing
+          # the CI gate are the stalest ones — exactly the ones the receiver
+          # most needs to reach. Tracked edits are reverted from the index,
+          # untracked additions are removed by a `git clean` scoped to this
+          # path (never `-x`: an ignored file here is the repo's own).
+          # --- workflows guard (#250): begin ---
+          WORKFLOWS_NOTE="$(git status --porcelain -uall -- .github/workflows | sed 's/^...//')"
+          if [ -n "$WORKFLOWS_NOTE" ]; then
+            # `git ls-files` is empty exactly in the repo that tracked no
+            # workflow at all, where a revert has no pathspec to match. Testing
+            # for it keeps `set -e` live for every other failure, instead of a
+            # blanket `|| true` that would also swallow a real one and let a
+            # modified workflow ride into the commit in silence.
+            if [ -n "$(git ls-files -- .github/workflows)" ]; then
+              # --source=HEAD, because plain `git checkout --` restores from
+              # the INDEX: a staged workflow edit would survive its own revert.
+              git restore --source=HEAD --staged --worktree -- .github/workflows
+            fi
+            git clean -fd -- .github/workflows
+          fi
+          # --- workflows guard (#250): end ---
+
+          # `git status --porcelain -uall` rather than `git diff --quiet`, for
+          # the reason the guard above spells out (#250, #252): `git diff` is
+          # silent on an untracked path, so an upgrade whose only change is a
+          # CREATED file would be reported as "no changes" and the dispatch
+          # would exit 0 — a green run with no PR. Today nothing reaches this
+          # check without a tracked-file change first (`npm install
+          # --save-dev` rewrites package.json and the lockfile, and an
+          # already-current pin exits earlier), so this is the same fix
+          # applied one screen down before a future path needs it.
+          #
+          # Assigned first, then tested — NOT `if [ -z "$(git status …)" ]`.
+          # `set -e` is disabled inside an `if` condition and `[` reads the
+          # string rather than git's exit status, so a git that failed would
+          # look exactly like a clean tree and the run would exit 0 claiming
+          # there was nothing to commit. As an assignment the failure kills
+          # the step, which is the same reason the guard above assigns
+          # WORKFLOWS_NOTE instead of wrapping it in `|| true`.
+          # --- nothing-to-commit check (#252): begin ---
+          PENDING="$(git status --porcelain -uall)"
+          if [ -z "$PENDING" ]; then
+            echo "Upgrade produced no changes — nothing to commit."
+            exit 0
+          fi
+          # --- nothing-to-commit check (#252): end ---
+
+          git config user.name "bfw-process beacon"
+          git config user.email "beacon@users.noreply.github.com"
+          git switch -c "$BRANCH"
+          git add -A
+          git commit -m "chore(deps): bump $PKG to $VERSION"
+          git push -u origin "$BRANCH"
+
+          BODY="$RUNNER_TEMP/pr-body.md"
+          {
+            echo "Automated upgrade from the BFW publish beacon (bfw-process#110)."
+            echo
+            echo "- Bumps \`$PKG\` from \`$PIN\` to \`$VERSION\`"
+            if [ "$PKG" = "@brad-frost-web/bfw-process" ]; then
+              echo "- Re-ran \`bfw-process sync\` so the canonical files match the new version"
+            fi
+            echo "- Changelog: https://github.com/${PKG#@}/blob/main/CHANGELOG.md"
+            if [ -n "$WORKFLOWS_NOTE" ]; then
+              echo
+              echo "> [!IMPORTANT]"
+              echo "> Sync also changed or added workflow files, which this automation cannot push:"
+              echo "$WORKFLOWS_NOTE" | sed 's/^/> - `/; s/$/`/'
+              echo "> Re-run \`npx --no bfw-process sync\` locally and commit them to this branch."
+            fi
+            if [ -n "$DOCTOR_REPORT" ]; then
+              echo
+              echo "<details><summary>bfw-process doctor</summary>"
+              echo
+              echo '```'
+              echo "$DOCTOR_REPORT"
+              echo '```'
+              echo
+              echo "</details>"
+            fi
+          } > "$BODY"
+          gh pr create \
+            --title "chore(deps): bump $PKG to $VERSION" \
+            --body-file "$BODY"

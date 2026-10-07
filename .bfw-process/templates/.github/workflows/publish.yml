@@ -1,0 +1,43 @@
+# BFW CI-driven npm publish — thin caller (library projects)
+#
+# Copy to .github/workflows/publish.yml in a BFW library repo. All the logic
+# lives in the reusable workflow in Brad-Frost-Web/bfw-process: on every push
+# to main it publishes package.json's version IF it isn't on the registry yet
+# (so docs/chore pushes no-op), with tests, provenance, §9.5.9 rebuild, a
+# vX.Y.Z tag, a GitHub Release from the CHANGELOG, and the consumer beacon
+# (#110/#112). Merging the release PR is the human approval; there is no
+# separate tag-push step to forget.
+#
+# One-time setup:
+#   1. Auth (either):
+#      - npm trusted publishing (preferred): register this repo + workflow as
+#        a trusted publisher for the package on npmjs.com. No secret needed.
+#      - or an npm automation token as the NPM_TOKEN repo/org secret.
+#   2. Beacon (optional): BFW_FANOUT_TOKEN org secret — a token that can send
+#      repository_dispatch to org repos. Absent → beacon skips; the weekly
+#      sweep (bfw-process#113) is the backstop.
+#   3. bfw-process repo → Settings → Actions → General → Access must allow
+#      org repositories to use its workflows (required for workflow_call
+#      from a private repo).
+#
+# Multi-package monorepos: call the reusable workflow once per publishable
+# package with `package-dir`, gated on what changed. See AGENTS.md §9.5.8 for
+# single-package patch releases.
+
+name: Publish to npm
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write # tag + GitHub Release
+  id-token: write # npm provenance / trusted publishing
+
+jobs:
+  publish:
+    uses: Brad-Frost-Web/bfw-process/.github/workflows/publish.yml@main
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      BFW_FANOUT_TOKEN: ${{ secrets.BFW_FANOUT_TOKEN }}

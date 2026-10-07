@@ -1,0 +1,93 @@
+# BFW ship gate in CI (#142) — the canonical copy is
+# `templates/.github/workflows/bfw-verify.yml` in Brad-Frost-Web/bfw-process.
+# In a consumer repo this file is installed and kept current by `bfw-process
+# sync`, and hand edits are overwritten on the next sync. In bfw-process
+# itself sync is refused (#119) and a test holds the copy byte-identical to
+# the template. Either way: change the template and let the copies follow —
+# never edit a copy alone.
+#
+# Runs the same `npm run bfw:ship` a human runs locally, so every PR shows the
+# Phase 5 gate's real state instead of relying on whoever remembers to run it.
+# The gate is the Phase 5 → 6 hard gate (AGENTS.md §7): it exits non-zero on
+# failed tests, a11y findings, responsive spot-checks, or spec-flow problems.
+#
+# A RED gate on known ship-blockers is the gate WORKING. Do not disable this
+# workflow to get a green check — either fix what it names, or re-label the
+# finding consciously and in writing (AGENTS.md §9.7). The first repo to adopt
+# this pattern (bradfrost.com, its #53) ran red for weeks against real open
+# defects, and that was the point: the gate stopped being a thing people
+# intended to run.
+#
+# Owner bypass (`BFW_OWNER_OVERRIDE=1`) is deliberately NOT wired here. It is
+# non-delegable human authority exercised on a machine with a matching git
+# user.email, and it logs to .bfw-process/overrides.log — none of which CI can
+# honor meaningfully.
+
+name: BFW verify
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+# A newer push supersedes an in-flight run on the same ref.
+concurrency:
+  group: bfw-verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ship-gate:
+    runs-on: ubuntu-latest
+    # A wedged browser-mode suite otherwise runs to the Actions 6-hour default
+    # (#196; first live occurrence eddie-design-system#1677 burned 2h before a
+    # human cancelled it — and eddie's July 2026 precedent was seven 6-hour
+    # hangs). 45 min is headroom for the largest current consumer's full
+    # serial gate while capping a runaway at minutes, not hours.
+    timeout-minutes: 45
+    steps:
+      # Full history, so the gate's #203 changelog-completeness check can
+      # resolve the integration branch (`origin/develop`, `origin/main`) and a
+      # merge base against it. The default depth-1 checkout fetches neither
+      # the base branch nor enough history to find a common ancestor, and the
+      # check fails toward silence — it reported `n/a — no base ref to compare
+      # against` on every run, in the one place the ship gate carries it
+      # (#233). A fixed shallow
+      # depth is not a safe narrowing: whether it reaches the merge base
+      # depends on how far the branch has diverged, so it restores the same
+      # silent `n/a` on exactly the long-running branches that need the check.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # Repo-owned environment setup — browsers, system packages, whatever the
+      # gate's checks need to run that `npm ci` alone doesn't provide (#191).
+      # A consumer defines it as a `bfw:ci:setup` npm script; skipped cleanly
+      # when absent. Example (eddie-design-system, whose tests/a11y/responsive
+      # legs run in real Chromium):
+      #   "bfw:ci:setup": "playwright install --with-deps chromium"
+      - name: CI environment setup (if the project has one)
+        run: npm run bfw:ci:setup --if-present
+
+      # Present only in projects that have a build; skipped cleanly otherwise
+      # so a script or library project doesn't fail on a step it never needed.
+      - name: Build (if the project has one)
+        run: npm run build --if-present
+
+      # `--context pr` lets a repo that declares `shipGate.ciCovers` in
+      # .bfw-process/config.json skip legs its own CI already proves on this
+      # commit (#199) — it is passed ONLY on pull_request, so a push to the
+      # integration branch and a manual dispatch both still run the full set.
+      # A repo declaring nothing is unaffected: the flag has no effect.
+      - name: Phase 5 ship gate
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            npm run bfw:ship -- --context pr
+          else
+            npm run bfw:ship
+          fi
