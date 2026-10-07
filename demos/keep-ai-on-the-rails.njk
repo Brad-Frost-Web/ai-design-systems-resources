@@ -1,0 +1,85 @@
+---
+layout: base.njk
+permalink: /demos/keep-ai-on-the-rails/
+title: Keep AI on the Rails of Your Design System
+---
+{#- Keep AI on the Rails (#33). Every rung and the whole diagram are
+    server-rendered, so the page reads top to bottom with JavaScript off;
+    ed-r-c-rails-stage enhances it into a stepper. Data: _data/rails.js. -#}
+<ed-main>
+	<ed-layout-container class="ed-r-c-rails-page">
+		<ed-page-header>
+			<ed-heading slot="heading" enhance variant="headline-lg">
+				<h1>Keep AI on the Rails of Your Design System</h1>
+			</ed-heading>
+			<ed-text-passage>
+				<p><a href="https://aianddesign.systems">An AI &amp; Design Systems Online Course Lesson</a></p>
+				<p>AI will hallucinate UI and make a huge mess without the proper guardrails in place. Here is a detailed breakdown of how we get AI to (faithfully! consistently! repeatedly!) build UI <em>only</em> using our Eddie Design System.</p>
+				<p>This is one of over 150 lessons from AI &amp; Design Systems, an online course by me (Brad Frost), TJ Pitre, and Ian Frost. To watch the in-depth video walkthrough, get installable skills, and join a vibrant community of AI &amp; Design Systems practitioners, <a href="https://aianddesign.systems">join the course!</a></p>
+			</ed-text-passage>
+		</ed-page-header>
+
+		<ed-section align="left" class="rails-section">
+			<ed-heading slot="header" tagName="h2" visuallyHidden>From vibe coding to a design system on rails</ed-heading>
+
+			<ed-r-c-rails-stage>
+				<div class="ed-r-c-rails-stage__controls" data-rails-controls hidden>
+					<span class="ed-r-c-rails-stage__end">Vibe coding</span>
+					<div class="ed-r-c-rails-stage__track">
+						<label class="ed-u-visually-hidden" for="rails-range">Step</label>
+						<input class="ed-r-c-rails-stage__range" id="rails-range" type="range" min="0" max="{{ rails.lastRung }}" step="1" value="0" data-rails-range>
+						<ol class="ed-r-c-rails-stage__ticks" aria-hidden="true">
+							{%- for rung in rails.rungs %}
+							<li><span class="ed-r-c-rails-stage__tick" data-rails-tick="{{ loop.index0 }}">{{ rung.short }}</span></li>
+							{%- endfor %}
+						</ol>
+					</div>
+					<span class="ed-r-c-rails-stage__end">AI + design systems</span>
+					<ed-cluster gap="inline" class="ed-r-c-rails-stage__buttons">
+						<ed-button data-rails-prev text="Previous" iconName="arrow-left" aria-keyshortcuts="ArrowLeft"></ed-button>
+						<ed-button data-rails-next variant="primary" text="Next" iconName="arrow-right" iconPosition="after" aria-keyshortcuts="ArrowRight"></ed-button>
+					</ed-cluster>
+					<p class="ed-u-visually-hidden" aria-live="polite" data-rails-live></p>
+				</div>
+
+				<div class="ed-r-c-rails-stage__map">
+					{%- for group in rails.groups %}
+					<div class="ed-r-c-rails-stage__group ed-r-c-rails-stage__group--{{ group.id }}" data-rails-group data-rung-in="{{ group.rungIn }}">
+						<p class="ed-r-c-rails-stage__group-label">{{ group.label }}</p>
+						<ol class="ed-r-c-rails-stage__pieces">
+							{%- for piece in group.pieces %}
+							<li class="ed-r-c-rails-stage__piece{% if piece.kind %} ed-r-c-rails-stage__piece--{{ piece.kind }}{% endif %}" data-rails-piece="{{ piece.id }}" data-rung-in="{{ piece.rungIn }}"{% if piece.rungOut is defined %} data-rung-out="{{ piece.rungOut }}"{% endif %}>
+								{%- if piece.num %}<span class="ed-r-c-rails-stage__num">{{ piece.num }}</span>{% endif -%}
+								<span class="ed-r-c-rails-stage__label">{% if piece.kicker %}<span class="ed-r-c-rails-stage__kicker">{{ piece.kicker }}</span>{% endif %}{{ piece.label }}</span>
+							</li>
+							{%- endfor %}
+						</ol>
+					</div>
+					{%- endfor %}
+				</div>
+
+				<ol class="ed-r-c-rails-stage__rungs">
+					{%- for rung in rails.rungs %}
+					<li class="ed-r-c-rails-stage__rung" id="rung-{{ loop.index0 }}" data-rails-rung data-rails-title="{{ rung.title }}">
+						<ed-card class="ed-r-c-rails-stage__beat">
+							<p class="ed-r-c-rails-stage__step">Step {{ loop.index0 }} of {{ rails.lastRung }}</p>
+							<ed-heading tagName="h3">{{ rung.title }}</ed-heading>
+							<dl class="ed-r-c-rails-stage__beats">
+								<div><dt>Adds</dt><dd>{{ rung.adds }}</dd></div>
+								<div><dt>Now you get</dt><dd>{{ rung.now }}</dd></div>
+								{%- if rung.breaks %}
+								<div class="ed-r-c-rails-stage__breaks"><dt>Still breaks</dt><dd>{{ rung.breaks }}</dd></div>
+								{%- endif %}
+							</dl>
+						</ed-card>
+						<figure class="ed-r-c-rails-stage__output">
+							<div class="ed-r-c-rails-stage__capture">Real capture coming: the same prompt, run with exactly this step’s setup.</div>
+							<figcaption>“Build me a pricing page,” at step {{ loop.index0 }}</figcaption>
+						</figure>
+					</li>
+					{%- endfor %}
+				</ol>
+			</ed-r-c-rails-stage>
+		</ed-section>
+	</ed-layout-container>
+</ed-main>

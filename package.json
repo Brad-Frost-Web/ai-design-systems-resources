@@ -11,7 +11,7 @@
 		"build:css": "sass --load-path=node_modules css/styles.scss css/styles.tmp.css && postcss css/styles.tmp.css -o css/styles.css",
 		"build:eleventy": "ELEVENTY_ENV=production eleventy",
 		"sync": "node scripts/sync-notion.js",
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "node --test test/*.test.mjs",
 		"bfw:ship": "bfw-process verify-phase ship"
 	},
 	"keywords": [],
