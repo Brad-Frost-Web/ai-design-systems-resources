@@ -12,6 +12,11 @@
 /* ------------------------------------*\
     #TYPOGRAPHY APPLICATIONS
 \*------------------------------------ */
+/**
+ * Fluid display (#2204): poster-scale type sized to its own column. The
+ * font-size token is clamp(min, 15cqi, max), so the element using this mixin
+ * must sit inside an inline-size container — ed-heading makes its own host one.
+ */
 /*------------------------------------*\
     #RESET
 \*------------------------------------*/
@@ -23,6 +28,15 @@
 *:before,
 *:after {
   box-sizing: border-box;
+}
+
+/**
+ * In-page anchors land below a sticky site header (#2204). `ed-r-site-header`
+ * with `behavior="sticky"` publishes its height as this custom property; with
+ * no sticky header it is unset and the offset is zero.
+ */
+html {
+  scroll-padding-block-start: var(--ed-site-header-block-size, 0px);
 }
 
 h1,
@@ -66,11 +80,52 @@ img {
 \*------------------------------------*/
 /**
    * Brand text utility class
+   * 1) Text in the theme's brand content color, on the default or a light
+   *    surface (#2204). Use it for a short run of emphasis that belongs to
+   *    the brand, such as a role line under a name; the knockout sibling
+   *    below is for the same on a dark surface.
+   */
+.ed-u-content-brand {
+  color: var(--ed-theme-color-content-brand); /* 1 */
+}
+
+/**
+   * Brand text utility class, knockout
    */
 .ed-u-content-brand-knockout {
   color: var(--ed-theme-color-content-brand-knockout);
 }
 
+/*------------------------------------*\
+    #MIXINS
+\*------------------------------------*/
+/**
+ * Visible focus outline for elements on a light background
+ */
+/**
+ * Visible focus outline for elements on a dark background
+ */
+/**
+ * Visually hidden from displays
+ */
+/**
+ * Form field size scale (#1553).
+ *
+ * Set on a field's ROOT element, not its input: custom properties inherit, so
+ * one declaration reaches the input, the label and the `ed-field-note` —
+ * including across the field-note's shadow boundary, since inherited custom
+ * properties cross it where a class never could. That is what makes the size
+ * cascade to a composed field rather than each part re-solving it.
+ *
+ * `md` is the default and is expressed as the fallbacks in `input-styles()` and
+ * `label-styles()`, so it needs no class and no override.
+ *
+ * **The touch target does not shrink with the box.** WCAG 2.5.8 asks for
+ * 24x24 CSS px; `sm` keeps the control comfortably above that floor
+ * (~32px tall) because the padding shrinks but the line box does not vanish.
+ * A tighter step than this would need a hit-area expansion rather than a
+ * smaller number, which is why the scale stops here.
+ */
 /*------------------------------------*\
     #VISIBILITY UTILITIES
 \*------------------------------------*/
@@ -80,15 +135,80 @@ img {
   visibility: hidden !important;
 }
 
-/* Completely remove from the flow but leave available to screen readers. */
+/**
+ * Visually hide content while keeping it available to assistive technology.
+ *
+ * `ed-u-visually-hidden` is the canonical name — it is what the pattern is
+ * called everywhere else, and therefore what someone searches for.
+ * `ed-u-is-vishidden` is the original name, kept as an alias so no consumer
+ * breaks; it is the same rule rather than a second copy, so the two cannot
+ * drift into two answers (#1929). Prefer the canonical name in new code:
+ * `ed-u-is-` reads as the state prefix (`ed-is-`/`ed-has-`) bolted onto the
+ * utility prefix, which this is not — it is a permanent treatment, not a state.
+ *
+ * The rule comes from the shared `visuallyHidden` mixin, which is also what
+ * `ed-heading`, `ed-toggle`, `ed-file-upload` and `ed-r-wheel-of-life` use
+ * internally — so the utility a consumer reaches for and the hiding Eddie does
+ * to itself are the same treatment by construction.
+ *
+ * This used to be an incomplete copy: it carried no `white-space: nowrap`
+ * (so a long hidden string reflowed inside its 1px box) and no negative
+ * margin (so it still occupied a 1px cell that could nudge a flex or grid
+ * line).
+ */
+.ed-u-visually-hidden,
 .ed-u-is-vishidden {
-  position: absolute !important;
-  overflow: hidden;
+  position: absolute;
   width: 1px;
   height: 1px;
   padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
   border: 0;
-  clip: rect(1px, 1px, 1px, 1px);
+}
+
+/**
+ * The same, until it receives focus — then it shows itself.
+ *
+ * This is what a skip link needs, and the single most common reason to reach
+ * for visually-hidden at all: invisible to sighted users until a keyboard user
+ * tabs to it, at which point it must be visible or the affordance is a trap
+ * (WCAG 2.4.1 with 2.4.7). There was no utility for it, so consumers
+ * hand-rolled the reveal — the custom CSS the utility layer exists to remove.
+ *
+ * 1) `:focus` as well as `:focus-visible`: a skip link reached by Tab matches
+ *    both, but an element focused programmatically (`.focus()` after a route
+ *    change, a common skip-link implementation) matches only `:focus`, and
+ *    revealing it in that case is correct.
+ * 2) Every property the hidden state set is returned to its initial value
+ *    rather than to a guessed one, so the revealed element lays out exactly as
+ *    it would have with no utility on it at all.
+ */
+.ed-u-visually-hidden-focusable {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.ed-u-visually-hidden-focusable:focus, .ed-u-visually-hidden-focusable:focus-visible {
+  /* 1 */
+  position: static; /* 2 */
+  width: auto; /* 2 */
+  height: auto; /* 2 */
+  margin: 0; /* 2 */
+  overflow: visible; /* 2 */
+  clip: auto; /* 2 */
+  clip-path: none; /* 2 */
+  white-space: normal; /* 2 */
 }
 
 /**
@@ -182,7 +302,7 @@ img {
   * 1) Forces margin small to 0.5rem
   */
 .ed-u-margin-sm {
-  margin: calc(0.5rem * 1) !important;
+  margin: 0.5rem !important;
 }
 
 /**
@@ -190,7 +310,7 @@ img {
   * 1) Forces margin medium to 1rem
   */
 .ed-u-margin-md {
-  margin: calc(0.5rem * 2) !important;
+  margin: 1rem !important;
 }
 
 /**
@@ -198,7 +318,7 @@ img {
   * 1) Forces margin large to size(3)
   */
 .ed-u-margin-lg {
-  margin: calc(0.5rem * 3) !important;
+  margin: 1.5rem !important;
 }
 
 /**
@@ -206,7 +326,7 @@ img {
   * 1) Forces margin xl to 2rem
   */
 .ed-u-margin-xl {
-  margin: calc(0.5rem * 4) !important;
+  margin: 2rem !important;
 }
 
 /**
@@ -214,14 +334,14 @@ img {
   * 1) Forces margin to 4rem
   */
 .ed-u-margin-xxl {
-  margin: calc(0.5rem * 8) !important;
+  margin: 4rem !important;
 }
 
 /**
   * Margin top none
   * 1) Forces margin top to 0
   */
-.ed-u-margin-top-none {
+.ed-u-margin-block-start-none {
   margin-block-start: 0 !important;
 }
 
@@ -229,47 +349,47 @@ img {
   * Margin top small
   * 1) Forces margin top to 0.5rem
   */
-.ed-u-margin-top-sm {
-  margin-block-start: calc(0.5rem * 1) !important;
+.ed-u-margin-block-start-sm {
+  margin-block-start: 0.5rem !important;
 }
 
 /**
   * Margin top medium
   * 1) Forces margin top to 1rem
   */
-.ed-u-margin-top-md {
-  margin-block-start: calc(0.5rem * 2) !important;
+.ed-u-margin-block-start-md {
+  margin-block-start: 1rem !important;
 }
 
 /**
   * Margin top large
   * 1) Forces margin top to size(3)
   */
-.ed-u-margin-top-lg {
-  margin-block-start: calc(0.5rem * 3) !important;
+.ed-u-margin-block-start-lg {
+  margin-block-start: 1.5rem !important;
 }
 
 /**
   * Margin top xl
   * 1) Forces margin top to 2rem
   */
-.ed-u-margin-top-xl {
-  margin-block-start: calc(0.5rem * 4) !important;
+.ed-u-margin-block-start-xl {
+  margin-block-start: 2rem !important;
 }
 
 /**
   * Margin top xxl
   * 1) Forces margin top to 4rem
   */
-.ed-u-margin-top-xxl {
-  margin-block-start: calc(0.5rem * 8) !important;
+.ed-u-margin-block-start-xxl {
+  margin-block-start: 4rem !important;
 }
 
 /**
     * Margin right none
     * 1) Forces margin right to 0
     */
-.ed-u-margin-right-none {
+.ed-u-margin-inline-end-none {
   margin-inline-end: 0 !important;
 }
 
@@ -277,47 +397,47 @@ img {
   * Margin right small
   * 1) Forces margin right to 0.5rem
   */
-.ed-u-margin-right-sm {
-  margin-inline-end: calc(0.5rem * 1) !important;
+.ed-u-margin-inline-end-sm {
+  margin-inline-end: 0.5rem !important;
 }
 
 /**
   * Margin right medium
   * 1) Forces margin right to 1rem
   */
-.ed-u-margin-right-md {
-  margin-inline-end: calc(0.5rem * 2) !important;
+.ed-u-margin-inline-end-md {
+  margin-inline-end: 1rem !important;
 }
 
 /**
     * Margin right large
     * 1) Forces margin right to size(3)
     */
-.ed-u-margin-right-lg {
-  margin-inline-end: calc(0.5rem * 3) !important;
+.ed-u-margin-inline-end-lg {
+  margin-inline-end: 1.5rem !important;
 }
 
 /**
     * Margin right xl
     * 1) Forces margin right to 2rem
     */
-.ed-u-margin-right-xl {
-  margin-inline-end: calc(0.5rem * 4) !important;
+.ed-u-margin-inline-end-xl {
+  margin-inline-end: 2rem !important;
 }
 
 /**
   * Margin right xxl
   * 1) Forces margin right to 4rem
   */
-.ed-u-margin-right-xxl {
-  margin-inline-end: calc(0.5rem * 8) !important;
+.ed-u-margin-inline-end-xxl {
+  margin-inline-end: 4rem !important;
 }
 
 /**
   * Margin bottom none
   * 1) Forces margin bottom to 0
   */
-.ed-u-margin-bottom-none {
+.ed-u-margin-block-end-none {
   margin-block-end: 0 !important;
 }
 
@@ -325,52 +445,52 @@ img {
   * Margin bottom small
   * 1) Forces margin bottom to 0.5rem
   */
-.ed-u-margin-bottom-sm {
-  margin-block-end: calc(0.5rem * 1) !important;
+.ed-u-margin-block-end-sm {
+  margin-block-end: 0.5rem !important;
 }
 
 /**
   * Margin bottom medium
   * 1) Forces margin bottom to 1rem
   */
-.ed-u-margin-bottom-md {
-  margin-block-end: calc(0.5rem * 2) !important;
+.ed-u-margin-block-end-md {
+  margin-block-end: 1rem !important;
 }
 
 /**
   * Margin bottom large
   * 1) Forces margin bottom to size(3)
   */
-.ed-u-margin-bottom-lg {
-  margin-block-end: calc(0.5rem * 3) !important;
+.ed-u-margin-block-end-lg {
+  margin-block-end: 1.5rem !important;
 }
 
 /**
   * Margin bottom xl
   * 1) Forces margin bottom to 2rem
   */
-.ed-u-margin-bottom-xl {
-  margin-block-end: calc(0.5rem * 4) !important;
+.ed-u-margin-block-end-xl {
+  margin-block-end: 2rem !important;
 }
 
 /**
   * Margin bottom xxl
   * 1) Forces margin bottom to 4rem
   */
-.ed-u-margin-bottom-xxl {
-  margin-block-end: calc(0.5rem * 8) !important;
+.ed-u-margin-block-end-xxl {
+  margin-block-end: 4rem !important;
 }
 
 /**
   * Margin bottom xl
   * 1) Forces margin bottom to 2rem on small screens and 4rem on large screens
   */
-.ed-u-margin-bottom-xl-xxl {
-  margin-block-end: calc(0.5rem * 4) !important;
+.ed-u-margin-block-end-xl-xxl {
+  margin-block-end: 2rem !important;
 }
 @media all and (min-width: 48rem) {
-  .ed-u-margin-bottom-xl-xxl {
-    margin-block-end: calc(0.5rem * 8) !important;
+  .ed-u-margin-block-end-xl-xxl {
+    margin-block-end: 4rem !important;
   }
 }
 
@@ -378,7 +498,7 @@ img {
   * Margin left none
   * 1) Forces margin left to 0
   */
-.ed-u-margin-left-none {
+.ed-u-margin-inline-start-none {
   margin-inline-start: 0 !important;
 }
 
@@ -386,40 +506,40 @@ img {
   * Margin left small
   * 1) Forces margin left to 0.5rem
   */
-.ed-u-margin-left-sm {
-  margin-inline-start: calc(0.5rem * 1) !important;
+.ed-u-margin-inline-start-sm {
+  margin-inline-start: 0.5rem !important;
 }
 
 /**
   * Margin left medium
   * 1) Forces margin left to 1rem
   */
-.ed-u-margin-left-md {
-  margin-inline-start: calc(0.5rem * 2) !important;
+.ed-u-margin-inline-start-md {
+  margin-inline-start: 1rem !important;
 }
 
 /**
   * Margin left large
   * 1) Forces margin left to 1.5rem
   */
-.ed-u-margin-left-lg {
-  margin-inline-start: calc(0.5rem * 3) !important;
+.ed-u-margin-inline-start-lg {
+  margin-inline-start: 1.5rem !important;
 }
 
 /**
   * Margin left xl
   * 1) Forces margin left to 2rem
   */
-.ed-u-margin-left-xl {
-  margin-inline-start: calc(0.5rem * 4) !important;
+.ed-u-margin-inline-start-xl {
+  margin-inline-start: 2rem !important;
 }
 
 /**
   * Margin left xxl
   * 1) Forces margin left to 4rem
   */
-.ed-u-margin-left-xxl {
-  margin-inline-start: calc(0.5rem * 8) !important;
+.ed-u-margin-inline-start-xxl {
+  margin-inline-start: 4rem !important;
 }
 
 /*------------------------------------*\
@@ -438,7 +558,7 @@ img {
   * 1) Forces padding small to 0.5rem
   */
 .ed-u-padding-sm {
-  padding: calc(0.5rem * 1) !important;
+  padding: 0.5rem !important;
 }
 
 /**
@@ -446,7 +566,7 @@ img {
   * 1) Forces padding medium to 1rem
   */
 .ed-u-padding-md {
-  padding: calc(0.5rem * 2) !important;
+  padding: 1rem !important;
 }
 
 /**
@@ -454,7 +574,7 @@ img {
   * 1) Forces padding large to size(3)
   */
 .ed-u-padding-lg {
-  padding: calc(0.5rem * 3) !important;
+  padding: 1.5rem !important;
 }
 
 /**
@@ -462,7 +582,7 @@ img {
   * 1) Forces padding xl to 2rem
   */
 .ed-u-padding-xl {
-  padding: calc(0.5rem * 4) !important;
+  padding: 2rem !important;
 }
 
 /**
@@ -470,14 +590,14 @@ img {
   * 1) Forces padding xxl to 4rem
   */
 .ed-u-padding-xxl {
-  padding: calc(0.5rem * 8) !important;
+  padding: 4rem !important;
 }
 
 /**
   * Padding top none
   * 1) Forces padding top to 0
   */
-.ed-u-padding-top-none {
+.ed-u-padding-block-start-none {
   padding-block-start: 0 !important;
 }
 
@@ -485,47 +605,47 @@ img {
   * Padding top small
   * 1) Forces padding top to 0.5rem
   */
-.ed-u-padding-top-sm {
-  padding-block-start: calc(0.5rem * 1) !important;
+.ed-u-padding-block-start-sm {
+  padding-block-start: 0.5rem !important;
 }
 
 /**
   * Padding top medium
   * 1) Forces padding top to 1rem
   */
-.ed-u-padding-top-md {
-  padding-block-start: calc(0.5rem * 2) !important;
+.ed-u-padding-block-start-md {
+  padding-block-start: 1rem !important;
 }
 
 /**
   * Padding top large
   * 1) Forces padding top to size(3)
   */
-.ed-u-padding-top-lg {
-  padding-block-start: calc(0.5rem * 3) !important;
+.ed-u-padding-block-start-lg {
+  padding-block-start: 1.5rem !important;
 }
 
 /**
   * Padding top xl
   * 1) Forces padding top to 2rem
   */
-.ed-u-padding-top-xl {
-  padding-block-start: calc(0.5rem * 4) !important;
+.ed-u-padding-block-start-xl {
+  padding-block-start: 2rem !important;
 }
 
 /**
   * Padding top xxl
   * 1) Forces padding top xxl to 4rem
   */
-.ed-u-padding-top-xxl {
-  padding-block-start: calc(0.5rem * 8) !important;
+.ed-u-padding-block-start-xxl {
+  padding-block-start: 4rem !important;
 }
 
 /**
     * Padding right none
     * 1) Forces padding right to 0
     */
-.ed-u-padding-right-none {
+.ed-u-padding-inline-end-none {
   padding-inline-end: 0 !important;
 }
 
@@ -533,47 +653,47 @@ img {
   * Padding right small
   * 1) Forces padding right to 0.5rem
   */
-.ed-u-padding-right-sm {
-  padding-inline-end: calc(0.5rem * 1) !important;
+.ed-u-padding-inline-end-sm {
+  padding-inline-end: 0.5rem !important;
 }
 
 /**
   * Padding right medium
   * 1) Forces padding right to 1rem
   */
-.ed-u-padding-right-md {
-  padding-inline-end: calc(0.5rem * 2) !important;
+.ed-u-padding-inline-end-md {
+  padding-inline-end: 1rem !important;
 }
 
 /**
     * Padding right large
     * 1) Forces padding right to size(3)
     */
-.ed-u-padding-right-lg {
-  padding-inline-end: calc(0.5rem * 3) !important;
+.ed-u-padding-inline-end-lg {
+  padding-inline-end: 1.5rem !important;
 }
 
 /**
     * Padding right xl
     * 1) Forces padding right to 2rem
     */
-.ed-u-padding-right-xl {
-  padding-inline-end: calc(0.5rem * 4) !important;
+.ed-u-padding-inline-end-xl {
+  padding-inline-end: 2rem !important;
 }
 
 /**
   * Padding right xxl
   * 1) Forces padding right xxl to 4rem
   */
-.ed-u-padding-right-xxl {
-  padding-inline-end: calc(0.5rem * 8) !important;
+.ed-u-padding-inline-end-xxl {
+  padding-inline-end: 4rem !important;
 }
 
 /**
   * Padding bottom none
   * 1) Forces padding bottom to 0
   */
-.ed-u-padding-bottom-none {
+.ed-u-padding-block-end-none {
   padding-block-end: 0 !important;
 }
 
@@ -581,47 +701,47 @@ img {
   * Padding bottom small
   * 1) Forces padding bottom to 0.5rem
   */
-.ed-u-padding-bottom-sm {
-  padding-block-end: calc(0.5rem * 1) !important;
+.ed-u-padding-block-end-sm {
+  padding-block-end: 0.5rem !important;
 }
 
 /**
   * Padding bottom medium
   * 1) Forces padding bottom to 1rem
   */
-.ed-u-padding-bottom-md {
-  padding-block-end: calc(0.5rem * 2) !important;
+.ed-u-padding-block-end-md {
+  padding-block-end: 1rem !important;
 }
 
 /**
   * Padding bottom large
   * 1) Forces padding bottom to size(3)
   */
-.ed-u-padding-bottom-lg {
-  padding-block-end: calc(0.5rem * 3) !important;
+.ed-u-padding-block-end-lg {
+  padding-block-end: 1.5rem !important;
 }
 
 /**
   * Padding bottom xl
   * 1) Forces padding bottom to 2rem
   */
-.ed-u-padding-bottom-xl {
-  padding-block-end: calc(0.5rem * 4) !important;
+.ed-u-padding-block-end-xl {
+  padding-block-end: 2rem !important;
 }
 
 /**
   * Padding bottom xxl
   * 1) Forces padding bottom xxl to 4rem
   */
-.ed-u-padding-bottom-xxl {
-  padding-block-end: calc(0.5rem * 8) !important;
+.ed-u-padding-block-end-xxl {
+  padding-block-end: 4rem !important;
 }
 
 /**
   * Padding left none
   * 1) Forces padding left to 0
   */
-.ed-u-padding-left-none {
+.ed-u-padding-inline-start-none {
   padding-inline-start: 0 !important;
 }
 
@@ -629,40 +749,40 @@ img {
   * Padding left small
   * 1) Forces padding left to 0.5rem
   */
-.ed-u-padding-left-sm {
-  padding-inline-start: calc(0.5rem * 1) !important;
+.ed-u-padding-inline-start-sm {
+  padding-inline-start: 0.5rem !important;
 }
 
 /**
   * Padding left medium
   * 1) Forces padding left to 1rem
   */
-.ed-u-padding-left-md {
-  padding-inline-start: calc(0.5rem * 2) !important;
+.ed-u-padding-inline-start-md {
+  padding-inline-start: 1rem !important;
 }
 
 /**
   * Padding left large
   * 1) Forces padding left to 1.5rem
   */
-.ed-u-padding-left-lg {
-  padding-inline-start: calc(0.5rem * 3) !important;
+.ed-u-padding-inline-start-lg {
+  padding-inline-start: 1.5rem !important;
 }
 
 /**
   * Padding left xl
   * 1) Forces padding left to 2rem
   */
-.ed-u-padding-left-xl {
-  padding-inline-start: calc(0.5rem * 4) !important;
+.ed-u-padding-inline-start-xl {
+  padding-inline-start: 2rem !important;
 }
 
 /**
   * Padding left xxl
   * 1) Forces padding left xxl to 4rem
   */
-.ed-u-padding-left-xxl {
-  padding-inline-start: calc(0.5rem * 8) !important;
+.ed-u-padding-inline-start-xxl {
+  padding-inline-start: 4rem !important;
 }
 
 /*------------------------------------*\
@@ -1086,25 +1206,13 @@ ed-heading.text-node__heading {
   text-wrap: balance;
 }
 
-/*------------------------------------*\
-    #MIXINS
-\*------------------------------------*/
-/**
- * Visible focus outline for elements on a light background
- */
-/**
- * Visible focus outline for elements on a dark background
- */
-/**
- * Visually hidden from displays
- */
 a:not([class]) {
   color: var(--ed-theme-color-content-brand);
 }
 
 a:focus-visible {
   outline: var(--ed-theme-border-width-lg) solid var(--ed-theme-focus-ring-color-border-default);
-  outline-offset: var(--ed-theme-offset-focus-ring, calc(0.5rem * 0.5));
+  outline-offset: var(--ed-theme-focus-ring-offset, 0.25rem);
 }
 
 img {
