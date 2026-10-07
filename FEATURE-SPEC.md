@@ -1,12 +1,17 @@
 ---
-status: draft
+status: approved
 issue: 33
 branch: feature/33-keep-ai-on-the-rails-stepper
 owners:
   - Brad Frost
   - Ian Frost
 last_updated: 2026-10-07
-amendments: []
+amendments:
+  - date: 2026-10-07
+    author: Brad Frost
+    summary: |
+      Approved by Brad in the Claude Code session ("Approved go build").
+      The frontmatter flip was transcribed by the agent on that instruction.
 ---
 
 # FEATURE-SPEC.md — Keep AI on the Rails: a rung-by-rung stepper (#33)
