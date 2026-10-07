@@ -1,5 +1,4 @@
-// Set global icon URL for ed-icon components
-globalThis.DS_ICON_URL = "/images/icons/ed-icons.svg";
+// ed-icon uses its bundled sprite (no DS_ICON_URL override).
 
 import "@brad-frost-web/eddie-web-components/components/button/button.js";
 import "@brad-frost-web/eddie-web-components/components/header/header.js";
@@ -14,7 +13,7 @@ import "@brad-frost-web/eddie-web-components/components/text-passage/text-passag
 import "@brad-frost-web/eddie-web-components/components/main/main.js";
 import "@brad-frost-web/eddie-web-components/components/grid/grid.js";
 import "@brad-frost-web/eddie-web-components/components/grid-item/grid-item.js";
-import "@brad-frost-web/eddie-web-components/components/badge/badge.js";
+import "@brad-frost-web/eddie-web-components/components/tag/tag.js";
 import "@brad-frost-web/eddie-web-components/components/accordion/accordion.js";
 import "@brad-frost-web/eddie-web-components/components/accordion-panel/accordion-panel.js";
 import "@brad-frost-web/eddie-web-components/components/toolbar/toolbar.js";
