@@ -20,35 +20,99 @@ ed-r-c-rails-stage {
 
 .ed-r-c-rails-stage__controls {
 	display: grid;
-	grid-template-columns: auto minmax(0, 1fr) auto auto;
-	align-items: center;
-	gap: var(--ed-theme-spacing-inline) var(--ed-theme-spacing-flow);
+	gap: var(--ed-theme-spacing-xs);
 
 	&[hidden] {
 		display: none;
 	}
 }
 
-.ed-r-c-rails-stage__end {
+// Eleven equal columns below; the input runs from the centre of the first to
+// the centre of the last, so each label sits under its stop. A chunky track
+// and thumb so the position reads from across a room, and on a recording.
+.ed-r-c-rails-stage__range {
+	--_track: var(--ed-theme-spacing-md);
+	--_thumb: var(--ed-theme-spacing-xl);
+	--_fill: var(--ed-theme-color-background-brand);
+	--_rest: var(--ed-theme-color-background-subtle);
+	// --_ratio (0–1) is set by the element; the fill ends at the thumb centre.
+	--_progress: calc(var(--_thumb) / 2 + (100% - var(--_thumb)) * var(--_ratio, 0));
+
+	appearance: none;
+	inline-size: auto;
+	block-size: var(--_thumb);
+	margin: 0;
+	margin-inline: calc(100% / 22);
+	background: transparent;
+	cursor: pointer;
+
+	&::-webkit-slider-runnable-track {
+		block-size: var(--_track);
+		border: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-border-default);
+		border-radius: var(--ed-theme-border-radius-round);
+		background: linear-gradient(to right, var(--_fill) var(--_progress), var(--_rest) var(--_progress));
+	}
+
+	&::-webkit-slider-thumb {
+		appearance: none;
+		inline-size: var(--_thumb);
+		block-size: var(--_thumb);
+		margin-block-start: calc((var(--_track) - var(--_thumb)) / 2 - var(--ed-theme-border-width-sm));
+		border: var(--ed-theme-border-width-md) solid var(--ed-theme-color-border-knockout);
+		border-radius: var(--ed-theme-border-radius-round);
+		background: var(--_fill);
+		box-shadow: var(--ed-theme-box-shadow-sm);
+	}
+
+	&::-moz-range-track {
+		block-size: var(--_track);
+		border: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-border-default);
+		border-radius: var(--ed-theme-border-radius-round);
+		background: var(--_rest);
+	}
+
+	&::-moz-range-progress {
+		block-size: var(--_track);
+		border-radius: var(--ed-theme-border-radius-round);
+		background: var(--_fill);
+	}
+
+	&::-moz-range-thumb {
+		inline-size: var(--_thumb);
+		block-size: var(--_thumb);
+		border: var(--ed-theme-border-width-md) solid var(--ed-theme-color-border-knockout);
+		border-radius: var(--ed-theme-border-radius-round);
+		background: var(--_fill);
+		box-shadow: var(--ed-theme-box-shadow-sm);
+	}
+
+	&:focus-visible {
+		outline: none;
+	}
+
+	&:focus-visible::-webkit-slider-thumb {
+		outline: var(--ed-theme-border-width-md) solid var(--ed-theme-focus-ring-color-border-default);
+		outline-offset: var(--ed-theme-focus-ring-offset);
+	}
+
+	&:focus-visible::-moz-range-thumb {
+		outline: var(--ed-theme-border-width-md) solid var(--ed-theme-focus-ring-color-border-default);
+		outline-offset: var(--ed-theme-focus-ring-offset);
+	}
+
+	// The fill grows from the inline start, which is the right edge in RTL.
+	&:dir(rtl)::-webkit-slider-runnable-track {
+		background: linear-gradient(to left, var(--_fill) var(--_progress), var(--_rest) var(--_progress));
+	}
+}
+
+.ed-r-c-rails-stage__ends {
+	display: flex;
+	justify-content: space-between;
 	font-family: var(--ed-theme-typography-label-default-font-family);
 	font-size: var(--ed-theme-typography-label-default-font-size);
 	font-weight: var(--ed-theme-typography-label-default-font-weight);
 	color: var(--ed-theme-color-content-subtle);
-	white-space: nowrap;
-}
-
-.ed-r-c-rails-stage__track {
-	display: grid;
-	gap: var(--ed-theme-spacing-xs);
-}
-
-// Eleven equal columns; the input runs from the centre of the first to the
-// centre of the last, so each label sits under its stop.
-.ed-r-c-rails-stage__range {
-	inline-size: auto;
-	margin-inline: calc(100% / 22);
-	accent-color: var(--ed-theme-color-content-brand);
-	cursor: pointer;
 }
 
 .ed-r-c-rails-stage__ticks {
@@ -154,6 +218,7 @@ ed-r-c-rails-stage {
 // so a three-piece rung draws big and the full pipeline still fits.
 .ed-r-c-rails-stage__group--pipeline .ed-r-c-rails-stage__pieces {
 	flex-wrap: nowrap;
+	justify-content: center;
 	align-items: stretch;
 	gap: var(--ed-theme-spacing-flow);
 }

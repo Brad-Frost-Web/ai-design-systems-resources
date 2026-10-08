@@ -19,7 +19,8 @@ import "@brad-frost-web/eddie-web-components/components/accordion-panel/accordio
 import "@brad-frost-web/eddie-web-components/components/toolbar/toolbar.js";
 import "@brad-frost-web/eddie-web-components/components/select-field/select-field.js";
 import "@brad-frost-web/eddie-web-components/components/page-header/page-header.js";
-import "@brad-frost-web/eddie-web-components/components/section/section.js";
-import "@brad-frost-web/eddie-web-components/components/cluster/cluster.js";
+import "@brad-frost-web/eddie-web-components/components/page/page.js";
+import "@brad-frost-web/eddie-web-components/components/band/band.js";
+import "@brad-frost-web/eddie-web-components/components/stack/stack.js";
 import "./course-hero.js";
 import "./recipes/rails-stage.js";

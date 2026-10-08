@@ -2,8 +2,12 @@
 <html lang="en">
 	{% include "head.njk" %}
 	<body>
+		{#- ed-page owns the rhythm between the site header and main. Opt-in per
+		    page (edPage: true) until the site adopts it everywhere (#38). -#}
+		{% if edPage %}<ed-page>{% endif %}
 		{% include "site-header.njk" %}
 		{{ content | safe }}
+		{% if edPage %}</ed-page>{% endif %}
 
 		<script type="module" src="/js/components.js"></script>
 		<script type="module" src="/js/scripts.js"></script>

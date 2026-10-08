@@ -12,6 +12,12 @@ amendments:
     summary: |
       Approved by Brad in the Claude Code session ("Approved go build").
       The frontmatter flip was transcribed by the agent on that instruction.
+  - date: 2026-10-08
+    author: Brad Frost
+    summary: |
+      Jam-session review: Previous/Next buttons removed from the stepper
+      (slider and keys only), page wrapped in ed-page with a banded masthead,
+      spectrum end labels moved under a taller slider, pipeline centered.
 ---
 
 # FEATURE-SPEC.md — Keep AI on the Rails: a rung-by-rung stepper (#33)
@@ -59,7 +65,7 @@ A single public page that tells the story of keeping AI on your design system's 
 ### Flow A — Step through the story
 
 1. A visitor lands on `/demos/keep-ai-on-the-rails/` at rung 0: a prompt, a result, and the empty spectrum ahead, with future pieces as faint ghosts.
-2. They drag the slider, or press → or Next, to rung 1. The new piece moves into place, the output panel changes to that rung's real result, and the beat card reads Adds / Now you get / Still breaks.
+2. They drag the slider, or press →, to rung 1. The new piece moves into place, the output panel changes to that rung's real result, and the beat card reads Adds / Now you get / Still breaks.
 3. They keep going. Each rung adds a piece, and the view zooms out to keep everything in frame.
 4. At rung 10 the full diagram is on screen. Hovering or focusing a station lights the concepts, eddie-brain files and packages it uses, as in the original artifact.
 

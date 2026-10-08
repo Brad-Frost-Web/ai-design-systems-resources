@@ -5,14 +5,13 @@
  * the whole diagram as readable light-DOM HTML, so the page tells the full
  * story with JavaScript off. This element enhances it in place into a
  * stepper: one rung at a time, the diagram assembling itself as pieces are
- * added, a range input plus Previous/Next, arrow/Home/End/number keys, and a
- * ?rung= URL that always matches the screen. Rung changes animate with the
+ * added, a range input, arrow/Home/End/number keys, and a ?rung= URL that
+ * always matches the screen. Rung changes animate with the
  * View Transitions API where it exists and motion is allowed.
  *
  * Markup contract (see demos/keep-ai-on-the-rails.njk):
  *   [data-rails-controls]  hidden until enhanced
  *   [data-rails-range]     <input type="range">
- *   [data-rails-prev] [data-rails-next]   ed-buttons
  *   [data-rails-live]      polite live region
  *   [data-rails-rung]      one per rung, in order
  *   [data-rails-piece]     diagram pieces with data-rung-in / data-rung-out
@@ -38,8 +37,6 @@ class EdRCRailsStage extends HTMLElement {
 		this.pieces = [...this.querySelectorAll("[data-rails-piece]")];
 		this.groups = [...this.querySelectorAll("[data-rails-group]")];
 		this.range = this.querySelector("[data-rails-range]");
-		this.prev = this.querySelector("[data-rails-prev]");
-		this.next = this.querySelector("[data-rails-next]");
 		this.live = this.querySelector("[data-rails-live]");
 		this.ticks = [...this.querySelectorAll("[data-rails-tick]")];
 		this.lastRung = this.rungs.length - 1;
@@ -55,8 +52,6 @@ class EdRCRailsStage extends HTMLElement {
 		this.classList.add("is-enhanced");
 
 		this.range.addEventListener("input", () => this.go(this.range.value));
-		this.prev?.addEventListener("click", () => this.go(this.rung - 1));
-		this.next?.addEventListener("click", () => this.go(this.rung + 1));
 		for (const tick of this.ticks) {
 			tick.addEventListener("click", () => this.go(tick.dataset.railsTick));
 		}
@@ -128,9 +123,8 @@ class EdRCRailsStage extends HTMLElement {
 		const title = this.rungs[rung]?.dataset.railsTitle ?? "";
 		const valuetext = `Step ${rung} of ${this.lastRung}: ${title}`;
 		this.range.value = String(rung);
+		this.range.style.setProperty("--_ratio", String(this.lastRung ? rung / this.lastRung : 0));
 		this.range.setAttribute("aria-valuetext", valuetext);
-		if (this.prev) this.prev.disabled = rung === 0;
-		if (this.next) this.next.disabled = rung === this.lastRung;
 		if (announce && this.live) this.live.textContent = valuetext;
 	}
 }
