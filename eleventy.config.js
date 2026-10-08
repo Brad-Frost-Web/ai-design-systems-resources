@@ -21,6 +21,10 @@ export default async function (eleventyConfig) {
 	});
 
 	eleventyConfig.addPassthroughCopy("css/*");
+	// Eddie self-hosts its fonts; the token CSS references ../../core/fonts
+	eleventyConfig.addPassthroughCopy({
+		"node_modules/@brad-frost-web/eddie-design-tokens/core/fonts": "core/fonts",
+	});
 	eleventyConfig.addPassthroughCopy("images");
 	eleventyConfig.addPassthroughCopy("favicon.svg");
 	eleventyConfig.addPassthroughCopy("favicon.ico");
