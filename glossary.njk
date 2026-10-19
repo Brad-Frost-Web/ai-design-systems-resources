@@ -6,17 +6,10 @@ permalink: /glossary/
 <ed-main>
 	<ed-r-course-hero compact data-bleed>
 		<ed-heading tagName="h1">ai &amp; design systems glossary</ed-heading>
-		<p style="font-size: 1.6rem; margin: 0.5rem 0 0;">key terms from the course, its community, and the field</p>
+		<p style="font-size: 1.6rem; margin: 0.5rem 0 0;">{{ glossary.length }} key terms from the course, its community, and the field</p>
 	</ed-r-course-hero>
 
 	<ed-layout-container>
-		<p class="glossary-intro">
-			{{ glossary.length }} terms defined as they're articulated in the
-			<a href="https://aianddesign.systems">AI &amp; Design Systems course</a>,
-			its jam sessions and community, and the wider field. Course terms cite the
-			lessons that teach them; others link the public source that defines them.
-		</p>
-
 		{# Build the distinct set of starting letters for the A–Z index #}
 		{% set letters = [] %}
 		{% for item in glossary %}
