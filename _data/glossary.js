@@ -4,8 +4,10 @@ const matter = require("gray-matter");
 
 /**
  * Loads the course glossary from per-term markdown files in _data/glossary/.
- * Each file's frontmatter carries the term, aliases, source, and the related
- * course lessons; the markdown body is the definition.
+ * Each file's frontmatter carries the term, aliases, source, the related
+ * course lessons, and public references (for terms the course doesn't teach
+ * directly); the markdown body is the definition. A lesson's `url` is
+ * optional until its lesson URL is on record (#41).
  */
 module.exports = function () {
 	const glossaryDir = path.join(__dirname, "glossary");
@@ -38,6 +40,7 @@ module.exports = function () {
 			definition: (content || "").trim(),
 			source: data.source || null,
 			lessons: data.lessons || [],
+			references: data.references || [],
 			tags: data.tags || [],
 		};
 	});
