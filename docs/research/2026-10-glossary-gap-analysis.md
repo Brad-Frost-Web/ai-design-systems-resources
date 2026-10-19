@@ -20,8 +20,8 @@ workshop names. The private evidence trail lives with the maintainers.
 | **Course transcripts** (Notion transcripts DB) | Records for every Ch3–7 lesson (~155); full transcripts of 4.bf.06, 5.01–5.04, 6.01, 7.00; term searches across all | Ch0–2 not re-read in full. Most Ch4 core lessons (4.04–4.21) and Ch5–7 lessons have **no lesson URL on record yet** |
 | **Jam sessions** (Descript transcripts) | 9 of ~17 sessions: Feb 26, ~Mar 26, Apr 9, Jun 18, Jul 16, Jul 30, Aug 13, Aug 27, Oct 8 | No transcript found for Mar 12, May 21, Jul 2, Sep 10, Sep 24 |
 | **Course Slack** (main course channel) | Every top-level message Jun 1 – Oct 19 (~260) plus thread searches per term | Link-sharing and general channels not read |
-| **Internal working sessions** (meeting notes) | 12 sessions Aug 5 – Oct 19 | Nothing before Jul 21; one notes source returned no data |
-| **Industry** | *State of AI in Design Systems* survey (21 systems, Jul 2026 snapshot); term frequency across the ~348 curated resources in `_data/resources/`; vendor/spec primary sources | Some primary URLs taken from memory — **every URL must be re-verified before an entry ships** |
+| **Maintainer working sessions** | Notes from recent sessions | Earlier sessions not covered |
+| **Industry** | *State of AI in Design Systems* survey (21 systems, Jul 2026 snapshot); term frequency across the ~348 curated resources in `_data/resources/`; vendor/spec primary sources | Every cited URL re-verified live on 2026-10-19 before shipping |
 
 ## Ranked candidates — new terms
 
@@ -34,7 +34,7 @@ workshop names. The private evidence trail lives with the maintainers.
 |---|---|---|---|
 | **Harness** | agent harness, design system harness, harness engineering | T J S M I | Strongest gap. ×20 in the Oct 8 "Contracts, Harnesses & Workflows" jam; rising in Slack since June; industry: "the model is one component." |
 | **Evals** | evaluations, LLM as a judge, eval tiers | T J S M I | Course lesson 3.testing.01; TJ's three tiers (deterministic → adherence → taste). Only 8 of 21 surveyed systems mention evals. |
-| **Component Contract** | DS contract, contracts, components as data | J S M | Two jam sessions devoted to it (Jul 16, Oct 13). Machine-readable per-component definition agents check against. |
+| **Component Contract** | DS contract, contracts, components as data | J S M | Two jam sessions devoted to it (mid-July and mid-October). Machine-readable per-component definition agents check against. |
 | **Vibe Coding** | vibe-coded | T J S M I | Course 4.08/4.01/6.01 framing: fast, liberating, "looks done." Karpathy origin. |
 | **Drift** | design–code drift, parity | T J S M | Station 6 (Orchestration). Main motivation for contracts and parity checks. |
 | **Guardrails** | keeping AI on the rails, on/off the rails | T J M I | Lesson 4.bf.05; public demo `/demos/keep-ai-on-the-rails/`. |
@@ -66,7 +66,7 @@ workshop names. The private evidence trail lives with the maintainers.
 | **Design Branch** | M | BFW-process concept; designers in real code, can't push to main. |
 | **Slots** | S | Native in Figma now; belongs in contracts. |
 | **Agentic Design System** | J S | Contested term; define it honestly. |
-| **Steel Curtain** | T | Course coinage (lesson 4.14). **Needs owner sign-off** — flagged as internal naming. |
+| **Steel Curtain** | T | Course coinage (lesson 4.14). Approved for publication by the owner (#40). |
 | **Multi-Point Inspection** | T M | Likely an alias on existing *Check Engine Light* + Station entries rather than a new term. |
 
 ### Tier 3 — deferred (listed, not shipped this round)

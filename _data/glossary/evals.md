@@ -25,4 +25,4 @@ tags:
   - "testing"
 ---
 
-Repeatable tests that score AI output against a standard, so you know whether your setup works instead of judging it by feel. The course layers them: deterministic pass/fail checks first (does it use real components and tokens?), then adherence to the system's rules, then human judgment of taste. An LLM can act as a judge for subjective scoring on top of the hard checks, but using AI alone to judge taste risks slop judging slop.
+Repeatable tests that score AI output against a standard, so you know whether your setup works instead of judging it by feel. The course pairs deterministic pass/fail checks (does it use real components and tokens?) with an LLM acting as a judge for subjective scoring on top. Jam sessions have pushed the idea into tiers: scripted checks, adherence to the system's rules, and human judgment of taste, which an AI alone can't be trusted to grade.

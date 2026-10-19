@@ -56,6 +56,15 @@ test("references carry a label and an https url", () => {
 	}
 });
 
+test("no citation points at private material (Slack, Notion, Descript, Zoom)", () => {
+	const PRIVATE = /(^|\.)(slack\.com|notion\.so|notion\.site|descript\.com|zoom\.us)$/;
+	for (const { file, data } of entries) {
+		for (const { url } of [...(data.lessons || []), ...(data.references || [])]) {
+			if (url) assert.ok(!PRIVATE.test(new URL(url).hostname), `${file}: private url ${url}`);
+		}
+	}
+});
+
 test("term names are unique", () => {
 	const seen = new Map();
 	for (const { file, data } of entries) {

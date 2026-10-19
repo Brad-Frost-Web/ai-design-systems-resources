@@ -13,8 +13,8 @@ permalink: /glossary/
 		<p class="glossary-intro">
 			{{ glossary.length }} terms defined as they're articulated in the
 			<a href="https://aianddesign.systems">AI &amp; Design Systems course</a>,
-			its jam sessions and community, and the wider field. Each entry cites the
-			lesson(s) that teach it, and links further reading where the field defines it.
+			its jam sessions and community, and the wider field. Course terms cite the
+			lessons that teach them; others link the public source that defines them.
 		</p>
 
 		{# Build the distinct set of starting letters for the A–Z index #}
@@ -58,7 +58,7 @@ permalink: /glossary/
 									{% if item.references.length %}
 										<p class="glossary-term__source">
 											<span class="glossary-term__source-label">Further reading —</span>
-											{% for ref in item.references %}<a class="glossary-term__lesson" href="{{ ref.url }}">{{ ref.label }}</a>{% if not loop.last %} <span class="glossary-term__sep">·</span> {% endif %}{% endfor %}
+											{% for ref in item.references %}<a class="glossary-term__reference" href="{{ ref.url }}">{{ ref.label }}</a>{% if not loop.last %} <span class="glossary-term__sep">·</span> {% endif %}{% endfor %}
 										</p>
 									{% endif %}
 								</dd>

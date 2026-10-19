@@ -1,10 +1,10 @@
 ---
 term: "Design Branch"
 source:
-  type: "jam-session"
-  name: "AI & Design Systems Jam Sessions"
+  type: "community"
+  name: "AI & Design Systems Community"
 references:
-  - label: "Git — git-branch"
+  - label: "Git — git-branch (the underlying mechanism)"
     url: "https://git-scm.com/docs/git-branch"
 tags:
   - "git"

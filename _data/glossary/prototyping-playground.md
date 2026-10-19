@@ -4,8 +4,8 @@ aliases:
   - "Sandbox"
   - "Design Sandbox"
 source:
-  type: "jam-session"
-  name: "AI & Design Systems Jam Sessions"
+  type: "community"
+  name: "AI & Design Systems Community"
 lessons:
   - number: "4.10"
     chapter: "Chapter 4"
