@@ -2,17 +2,19 @@
 layout: base.njk
 permalink: /glossary/
 ---
+{# eddie-template: none — predates ed-p-reference (draft); adoption is #42 #}
 <ed-main>
 	<ed-r-course-hero compact>
 		<ed-heading tagName="h1">GLOSSARY</ed-heading>
-		<p style="font-size: 1.6rem; margin: 0.5rem 0 0;">Key terms from the AI &amp; Design Systems course</p>
+		<p style="font-size: 1.6rem; margin: 0.5rem 0 0;">Key terms from the course, its community, and the field</p>
 	</ed-r-course-hero>
 
 	<ed-layout-container>
 		<p class="glossary-intro">
 			{{ glossary.length }} terms defined as they're articulated in the
-			<a href="https://aianddesign.systems">AI &amp; Design Systems course</a>.
-			Each entry links to the lesson(s) it comes from.
+			<a href="https://aianddesign.systems">AI &amp; Design Systems course</a>,
+			its jam sessions and community, and the wider field. Course terms cite the
+			lessons that teach them; others link the public source that defines them.
 		</p>
 
 		{# Build the distinct set of starting letters for the A–Z index #}
@@ -50,7 +52,13 @@ permalink: /glossary/
 									{% if item.lessons.length %}
 										<p class="glossary-term__source">
 											<span class="glossary-term__source-label">Source —</span>
-											{% for lesson in item.lessons %}<a class="glossary-term__lesson" href="{{ lesson.url }}">{{ lesson.number }} · {{ lesson.title }}</a>{% if not loop.last %} <span class="glossary-term__sep">·</span> {% endif %}{% endfor %}
+											{% for lesson in item.lessons %}{% if lesson.url %}<a class="glossary-term__lesson" href="{{ lesson.url }}">{{ lesson.number }} · {{ lesson.title }}</a>{% else %}<span class="glossary-term__lesson">{{ lesson.number }} · {{ lesson.title }}</span>{% endif %}{% if not loop.last %} <span class="glossary-term__sep">·</span> {% endif %}{% endfor %}
+										</p>
+									{% endif %}
+									{% if item.references.length %}
+										<p class="glossary-term__source">
+											<span class="glossary-term__source-label">Further reading —</span>
+											{% for ref in item.references %}<a class="glossary-term__reference" href="{{ ref.url }}">{{ ref.label }}</a>{% if not loop.last %} <span class="glossary-term__sep">·</span> {% endif %}{% endfor %}
 										</p>
 									{% endif %}
 								</dd>

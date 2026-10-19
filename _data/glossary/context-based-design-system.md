@@ -13,7 +13,11 @@ lessons:
   - number: "4.00"
     chapter: "Chapter 4"
     title: "Chapter 4 Intro"
-    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74285339-chapter-4-introduction"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76755568-chapter-4-introduction"
+  - number: "3.context.00"
+    chapter: "Chapter 3"
+    title: "Context-Based Design Systems Overview"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/77363868-context-based-design-systems-overview"
 tags:
   - "design systems"
   - "ai"
