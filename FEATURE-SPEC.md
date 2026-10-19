@@ -1,12 +1,19 @@
 ---
-status: draft
+status: approved
 issue: 40
 branch: feature/40-glossary-gap-analysis
 owners:
   - Brad Frost
   - Ian Frost
 last_updated: 2026-10-19
-amendments: []
+amendments:
+  - date: 2026-10-19
+    author: Brad Frost (answers given in chat; frontmatter applied by Claude Code)
+    summary: >-
+      Approved with §10 answered. 1) Ship Tier 1 + Tier 2. 2) Steel Curtain and
+      Design Branch are public. 3) Ship terms citing lessons without URLs; backfill
+      tracked in #41. 4) Intro copy changes. 5) Amend SPEC.md §1/§4 in this branch.
+      6) Owner spot-checks copy; TJ Pitre and Ian Frost review the PR.
 ---
 
 # FEATURE-SPEC.md — Glossary gap analysis and expansion (#40)
@@ -83,12 +90,14 @@ WCAG 2.1 AA baseline. Reference links get descriptive text (the source's name, n
 
 ## 10. Open questions
 
-1. **Scope:** ship Tier 1 + Tier 2 (~31 terms) in this branch, Tier 3 later? Or cut to Tier 1 only (~19)?
-2. **Course coinages:** OK to publish **Steel Curtain** (lesson 4.14) and **Design Branch** (BFW-process) as public entries?
-3. **Lesson URLs:** most Ch4 core lessons (4.04–4.21) and Ch5–7 lessons have no URL in the transcripts database. Ship those terms citing only the lessons that *do* have URLs plus public references, and backfill later? Or hold them until URLs exist?
-4. **Intro copy:** change "Key terms from the AI & Design Systems course" to something like "Key terms from the course, its community, and the field"?
-5. **SPEC.md amendment:** §1 and §4 describe the glossary as course-transcript-only. Amend them in this branch (needs review per §9.5.5)?
-6. **Voice:** definitions are drafted in the course's framing from transcripts. Do you want to review copy term-by-term in the PR, or spot-check?
+Resolved 2026-10-19 (see `amendments`):
+
+1. **Scope:** Tier 1 + Tier 2 ship in this branch; Tier 3 deferred.
+2. **Course coinages:** Steel Curtain and Design Branch ship as public entries.
+3. **Lesson URLs:** terms citing lessons with no URL ship anyway; those lessons render as unlinked text. Backfill is #41.
+4. **Intro copy:** changes to say terms come from the course, its community, and the field.
+5. **SPEC.md amendment:** §1 and §4 amended in this branch.
+6. **Voice:** owner spot-checks; TJ Pitre and Ian Frost review the PR.
 
 ## 11. Success criteria
 
