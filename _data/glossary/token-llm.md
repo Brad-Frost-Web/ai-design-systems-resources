@@ -19,4 +19,4 @@ tags:
   - "ai"
 ---
 
-In the LLM sense, a token is a chunk of text. An LLM generates output one token at a time, predicting the next probable token based on what it has been trained on, until it reaches a finished result — a process the course shows in real time as tokens get 'racked up.' (Distinct from design tokens.)
+In the LLM sense, a token is a chunk of text. An LLM generates output one token at a time, predicting the next probable token based on what it has been trained on, until it reaches a finished result — a process the course shows in real time as tokens get 'racked up.' (Distinct from design tokens.) How many tokens a workflow consumes is its token budget.
