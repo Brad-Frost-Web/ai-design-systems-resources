@@ -1277,12 +1277,6 @@ hr {
     display: none;
   }
 }
-.glossary-intro {
-  max-inline-size: 60ch;
-  margin-block: 0 2rem;
-  color: var(--ed-theme-color-content-subtle);
-}
-
 .glossary-az {
   display: flex;
   flex-wrap: wrap;
