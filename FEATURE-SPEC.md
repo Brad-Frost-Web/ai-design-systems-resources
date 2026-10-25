@@ -1,12 +1,22 @@
 ---
 status: approved
 issue: 33
-branch: feature/33-keep-ai-on-the-rails-stepper
+branch: feature/33-rails-visual-sibling
 owners:
   - Brad Frost
   - Ian Frost
 last_updated: 2026-10-07
 amendments:
+  - date: 2026-10-25
+    author: Brad Frost
+    summary: |
+      Brad requested and authorized a new sibling at /demos/keep-ai-on-the-rails-lab/,
+      preserving the existing demo. Diagram-first teaching surface; visual human,
+      AI and automated-check distinctions; original concept descriptions toggled
+      in settings; visible feedback loops; compact intro. Local preview on 8081.
+      This pass evaluates the teaching experience, not captured model outputs or
+      production deployment. Existing Eddie 0.70 dependencies are held for the
+      side-by-side comparison so the original demo does not change underneath it.
   - date: 2026-10-07
     author: Brad Frost
     summary: |

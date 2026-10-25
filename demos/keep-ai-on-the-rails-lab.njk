@@ -1,0 +1,140 @@
+---
+permalink: /demos/keep-ai-on-the-rails-lab/
+eleventyExcludeFromCollections: true
+eddie-template: ed-p-workspace
+---
+<!doctype html>
+<html lang="en" class="bfw">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Keep AI on the Rails — Interactive Lesson</title>
+	<meta name="description" content="Build the system, one guardrail at a time. An interactive AI and design systems lesson.">
+	<link rel="icon" href="/favicon.svg">
+	<link rel="stylesheet" href="/css/styles.css">
+	<link rel="stylesheet" href="/css/rails-lab.css">
+</head>
+<body class="ed-r-rails-lab-page">
+<ed-page variant="flush"><ed-main flush>
+<ed-layout-container variant="wide">
+<aids-rails-lab class="ed-r-rails-lab">
+<ed-stack gap="inline">
+	<ed-cluster justify="between" class="ed-r-rails-lab__masthead">
+		<ed-stack gap="inline">
+			<ed-text-passage size="sm"><p><a href="https://aianddesign.systems">AI &amp; Design Systems</a> / Interactive lesson</p></ed-text-passage>
+			<ed-heading enhance tagName="h1" variant="title-lg"><h1>Keep AI on the rails</h1></ed-heading>
+		</ed-stack>
+		<ed-button-group>
+			<ed-button href="/demos/keep-ai-on-the-rails/" variant="bare" text="Original version" size="sm"></ed-button>
+			<ed-button data-present text="Present" iconName="maximize" iconPosition="before" size="sm" hidden></ed-button>
+			<ed-button data-settings-button text="Settings" iconName="sliders" iconPosition="before" size="sm" aria-expanded="false" hidden></ed-button>
+		</ed-button-group>
+	</ed-cluster>
+	<ed-card padding="sm" variant="subtle" data-settings hidden>
+		<ed-heading tagName="h2" variant="label-default">Presentation settings</ed-heading>
+		<ed-cluster gap="flow">
+			<ed-toggle data-descriptions label="Concept and system descriptions" size="sm"><span slot="off">Concept &amp; system descriptions</span></ed-toggle>
+			<ed-toggle data-future label="Show upcoming pieces" size="sm"><span slot="off">Show upcoming pieces</span></ed-toggle>
+			<ed-text-passage size="sm"><p>Arrow keys step through. Home starts over. End shows the full system. Escape exits presentation.</p></ed-text-passage>
+		</ed-cluster>
+	</ed-card>
+	<section class="ed-r-rails-lab__spectrum" aria-label="From vibe coding to a system-driven process" data-controls hidden>
+		<div class="ed-r-rails-lab__spectrum-labels">
+			<span><ed-icon name="sparkles"></ed-icon> Vibe coding</span>
+			<span class="ed-r-rails-lab__micro">ADD ONE GUARDRAIL AT A TIME</span>
+			<span>System-driven <ed-icon name="layers"></ed-icon></span>
+		</div>
+		<label class="ed-u-visually-hidden" for="lab-spectrum">Guardrail level</label>
+		<input class="ed-r-rails-lab__range" id="lab-spectrum" data-range type="range" min="0" max="10" step="1" value="0">
+		<nav class="ed-r-rails-lab__ticks" aria-label="Lesson steps">
+		{% for rung in railsLab.rungs %}<button class="ed-r-rails-lab__tick" data-step="{{ loop.index0 }}" type="button" aria-label="Step {{ loop.index0 }}: {{ rung.title }}"><span class="ed-r-rails-lab__tick-number">{{ loop.index0 }}</span><span>{{ rung.short }}</span></button>{% endfor %}
+		</nav>
+	</section>
+	<div class="ed-r-rails-lab__narrative">
+	{% for rung in railsLab.rungs %}
+		<section class="ed-r-rails-lab__beat" data-beat="{{ loop.index0 }}" data-title="{{ rung.title }}">
+			<div class="ed-r-rails-lab__beat-title"><span class="ed-r-rails-lab__step-number">{{ loop.index0 }}</span><ed-heading enhance tagName="h2" variant="title-lg"><h2>{{ rung.headline }}</h2></ed-heading></div>
+			<ed-text-passage size="sm"><p>{{ rung.adds }}</p></ed-text-passage>
+			<p class="ed-r-rails-lab__tension"><strong>{% if rung.breaks %}Still missing{% else %}The payoff{% endif %}</strong> {{ rung.breaks or rung.now }}</p>
+		</section>
+	{% endfor %}
+	</div>
+	<ed-cluster justify="between">
+		<ed-text-passage size="sm"><p><strong>The system taking shape</strong> <span data-instruction>— select a step to see its connections</span></p></ed-text-passage>
+		<div class="ed-r-rails-lab__legend" aria-label="Diagram key">
+			<span class="ed-r-rails-lab__key ed-r-rails-lab__key--human"><ed-icon name="user"></ed-icon> Human</span>
+			<span class="ed-r-rails-lab__key ed-r-rails-lab__key--ai"><ed-icon name="sparkles"></ed-icon> AI agent</span>
+			<span class="ed-r-rails-lab__key ed-r-rails-lab__key--check"><ed-icon name="check-square"></ed-icon> Automated check</span>
+		</div>
+	</ed-cluster>
+	{# Workspace template: rail → nested canvas / inspector layout. #}
+	<ed-layout variant="left-sidebar" gap="sm" class="ed-r-rails-lab__outer-layout">
+		<ed-layout-section>
+			<aside class="ed-r-rails-lab__rail" aria-label="AI dev concepts and techniques">
+				<ed-heading tagName="h2" variant="meta-default">AI dev concepts &amp; techniques</ed-heading>
+				<ed-stack gap="inline">
+				{% for concept in railsLab.concepts %}
+					<article class="ed-r-rails-lab__concept" data-piece="{{ concept.id }}" data-in="{{ concept.rungIn }}">
+						<ed-cluster gap="inline"><ed-icon name="{{ concept.icon }}"></ed-icon><ed-heading tagName="h3" variant="label-sm">{{ concept.label }}</ed-heading></ed-cluster>
+						<div class="ed-r-rails-lab__description" data-description><ed-text-passage size="sm"><p>{{ concept.description | safe }}</p><p>{{ concept.example | safe }}</p></ed-text-passage></div>
+					</article>
+				{% endfor %}
+				</ed-stack>
+				<ed-text-passage size="sm" data-empty-concepts><p>No standing instructions yet. The prompt is all the agent has.</p></ed-text-passage>
+			</aside>
+		</ed-layout-section>
+		<ed-layout-section>
+			<ed-layout gap="sm" class="ed-r-rails-lab__inner-layout">
+				<ed-layout-section>
+				<section class="ed-r-rails-lab__canvas" aria-label="UI creation pipeline">
+					<div class="ed-r-rails-lab__entry"><ed-icon name="user"></ed-icon><span><strong>You set the intent</strong><br>“Build me a pricing page.”</span><ed-icon name="arrow-down"></ed-icon></div>
+					<ol class="ed-r-rails-lab__pipeline">
+					{% for station in railsLab.stations %}
+						<li class="ed-r-rails-lab__station ed-r-rails-lab__station--{{ station.kind }}" data-piece="{{ station.id }}" data-in="{{ station.in }}" data-uses="{{ station.uses }}">
+							<button class="ed-r-rails-lab__station-control" type="button" data-station="{{ station.id }}" aria-expanded="false" aria-controls="detail-{{ station.id }}">
+								<span class="ed-r-rails-lab__station-top"><ed-icon name="{{ station.icon }}"></ed-icon><span>{{ loop.index }} / {% if station.kind == 'human' %}HUMAN{% elif station.kind == 'check' %}CHECK{% else %}AI{% endif %}</span><ed-icon name="arrow-forward"></ed-icon></span>
+								<strong>{{ station.title }}</strong><span class="ed-r-rails-lab__station-caption">{{ station.detail }}</span>
+								{% if station.id == 's5' or station.id == 's6' or station.id == 's7' or station.id == 's8' %}<span class="ed-r-rails-lab__return"><ed-icon name="refresh-cw"></ed-icon> {% if station.kind == 'human' %}Request changes{% else %}Fix &amp; retry{% endif %}</span>{% endif %}
+							</button>
+						</li>
+					{% endfor %}
+						<li class="ed-r-rails-lab__station ed-r-rails-lab__station--ai" data-piece="generate" data-in="0" data-out="5"><div class="ed-r-rails-lab__station-control"><span class="ed-r-rails-lab__station-top"><ed-icon name="sparkles"></ed-icon> AI AGENT</span><strong>Generate UI</strong><span class="ed-r-rails-lab__station-caption" data-generation-caption>The model fills in the blanks.</span></div></li>
+					</ol>
+					<div class="ed-r-rails-lab__output"><ed-icon name="grid"></ed-icon><span><strong data-output-title>A UI. Not necessarily your UI.</strong><br><span data-output-caption>The model makes the design decisions.</span></span></div>
+					<button type="button" data-station="feedback" aria-controls="detail-feedback" aria-expanded="false" class="ed-r-rails-lab__feedback" data-piece="feedback" data-in="10" data-uses="pkg-reporter pkg-brain cfg-process">
+						<ed-icon name="refresh-cw"></ed-icon><span><strong>Product ↔ design system</strong><br>Usage → eddie-reporter → eddie-brain<br>Gaps → issues → better system &amp; process</span><ed-icon name="arrow-up"></ed-icon>
+					</button>
+				</section>
+				</ed-layout-section>
+				<ed-layout-section>
+					<aside class="ed-r-rails-lab__rail ed-r-rails-lab__rail--eddie" aria-label="Eddie design system">
+						<ed-heading tagName="h2" variant="meta-default">Eddie Design System</ed-heading>
+						<ed-text-passage size="sm"><p>The source of truth.<br>The ingredients you actually ship.</p></ed-text-passage>
+						<ed-stack gap="inline">
+						{% for package in railsLab.packages %}
+							<div class="ed-r-rails-lab__package" data-piece="{{ package.id }}" data-in="{{ package.rungIn }}"><div class="ed-r-rails-lab__package-label"><ed-icon name="{{ package.icon }}"></ed-icon><span>{{ package.label }}</span></div><div data-description class="ed-r-rails-lab__description"><ed-text-passage size="sm"><p>{{ package.description | safe }}</p></ed-text-passage></div></div>
+						{% endfor %}
+						</ed-stack>
+						<ed-text-passage size="sm" data-empty-packages><p>No connection to your system. The agent invents its own ingredients.</p></ed-text-passage>
+					</aside>
+				</ed-layout-section>
+			</ed-layout>
+		</ed-layout-section>
+	</ed-layout>
+	<div data-details class="ed-r-rails-lab__details">
+	{% for station in railsLab.stations %}<section id="detail-{{ station.id }}" data-detail="{{ station.id }}"><ed-heading tagName="h2" variant="label-default">{{ loop.index }}. {{ station.title }}</ed-heading><ed-text-passage size="sm"><p>{{ station.body }}</p></ed-text-passage></section>{% endfor %}
+	<section id="detail-feedback" data-detail="feedback"><ed-heading tagName="h2" variant="label-default">Close the loop</ed-heading><ed-text-passage size="sm"><p>eddie-reporter sends actual product usage back to eddie-brain. The team turns gaps and failed checks into issues, then improves the design system and its rules. The next project starts with better ingredients and a better process.</p></ed-text-passage></section>
+	</div>
+	<section class="ed-r-rails-lab__process" data-piece="cfg-process" data-in="8" aria-label="Organizational process">
+		<div class="ed-r-rails-lab__process-label"><ed-icon name="layers"></ed-icon><strong>bfw-process</strong><span>THE RULEBOOK UNDERNEATH THE WORK</span></div>
+		<ol class="ed-r-rails-lab__phases"><li>1 Scope</li><li>2 Spec <span><ed-icon name="user"></ed-icon> Approve</span></li><li>3 Plan</li><li>4 Build</li><li>5 Verify <span><ed-icon name="lock"></ed-icon> Ship gate</span></li><li>6 Ship &amp; document</li></ol>
+	</section>
+	<ed-text-passage size="sm" class="ed-r-rails-lab__footer"><p>Faithfully. Reliably. Repeatedly. <a href="https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/77065460-bradfrost-com-keeping-product-on-the-eddie-rails-multi-phase-bfw-process-settings-rules-validation">Watch the course lesson</a></p></ed-text-passage>
+	<p class="ed-u-visually-hidden" aria-live="polite" data-live></p>
+</ed-stack>
+</aids-rails-lab>
+</ed-layout-container>
+</ed-main></ed-page>
+<script type="module" src="/js/components.js"></script>
+</body>
+</html>
