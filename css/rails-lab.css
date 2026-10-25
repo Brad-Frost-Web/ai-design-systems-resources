@@ -29,7 +29,7 @@
 .ed-r-rails-lab__entry > :last-child { margin-inline-start: auto; }
 .ed-r-rails-lab__concepts, .ed-r-rails-lab__packages { display: flex; flex-wrap: wrap; gap: var(--ed-theme-spacing-inline); }
 .ed-r-rails-lab__concepts > *, .ed-r-rails-lab__packages > * { flex: 1 1 calc(var(--ed-theme-spacing-flow) * 12); min-width: 0; }
-.ed-r-rails-lab__pipeline-scroll { overflow-x: auto; padding: var(--ed-theme-spacing-inline); scrollbar-width: auto; }
+.ed-r-rails-lab__pipeline-scroll { overflow-x: auto; padding-block: var(--ed-theme-spacing-inline); padding-inline: 0; scrollbar-width: auto; }
 .ed-r-rails-lab__pipeline-scroll:focus-visible { outline: var(--ed-theme-border-width-md) solid var(--ed-theme-color-border-default); }
 .ed-r-rails-lab__pipeline { display: flex; flex-wrap: nowrap; align-items: stretch; gap: var(--ed-theme-spacing-flow); padding: 0; margin: 0; list-style: none; }
 .ed-r-rails-lab__pipeline > li { flex: 1 0 calc(var(--ed-theme-spacing-flow) * 9); min-width: 0; position: relative; }
