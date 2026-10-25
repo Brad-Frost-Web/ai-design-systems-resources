@@ -15,7 +15,8 @@ The first Eddie stepper improves progressive disclosure with eleven rungs, but
 its large header and introduction delay the diagram, its similar-looking boxes
 flatten roles, and the short labels lose much of the original's teaching depth.
 At 1280px wide the original stepper's pipeline begins around 550px down the page;
-this sibling's full-system diagram begins around 300px.
+the first sibling pass began around 300px. Brad’s follow-up restores horizontal
+bands and an unbroken process row, prioritizing left-to-right teaching order.
 
 The lesson transcript reinforces the distinction between instructions, system
 knowledge, repeatable workflows, executable checks, and human decisions:
@@ -25,8 +26,9 @@ Required checks provide evidence; green checks do not supply human approval.
 ## Implementation
 
 - Eleven-step spectrum retained, with a compact current-beat explanation.
-- Instructions on the left, creation pipeline centrally, Eddie ingredients right,
-  organizational process beneath. Uses the `ed-p-workspace` layout structure.
+- Concepts above a single left-to-right pipeline, with Eddie ingredients and
+  organizational process beneath, matching Brad’s requested reference layout.
+  The pipeline never wraps; narrow screens scroll within its own region.
 - Human decisions are gold/user icons, AI steps blue, automated checks dark.
   Labels carry the distinction as well as color.
 - Select a station to read its explanation and highlight its dependencies. The
@@ -65,3 +67,12 @@ baseline for comparison; no dependency upgrade or deployment is included.
 Limitations: descriptions intentionally expand the page; the demo explains the
 process rather than running a model or presenting fabricated captured results.
 This is not a comprehensive accessibility audit or a shipping-gate verdict.
+
+## Horizontal-layout follow-up
+
+Brad explicitly requested the other version’s general layout on 2026-10-25.
+Removed the workspace sidebars and the wrapped station grid. Prompt, nine
+stations, result, and feedback now share one horizontal row. Concepts and Eddie
+packages occupy full-width bands above and below. Descriptions and connection
+highlighting remain intact. Keyboard focus can scroll within the pipeline without
+changing the selected lesson rung. No original-demo files changed.

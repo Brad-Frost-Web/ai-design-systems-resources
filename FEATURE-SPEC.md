@@ -5,8 +5,11 @@ branch: feature/33-rails-visual-sibling
 owners:
   - Brad Frost
   - Ian Frost
-last_updated: 2026-10-07
+last_updated: 2026-10-25
 amendments:
+  - date: 2026-10-25
+    author: Brad Frost
+    summary: Restore the other version’s horizontal-band layout and unbroken left-to-right pipeline. Preserve sibling features.
   - date: 2026-10-25
     author: Brad Frost
     summary: |

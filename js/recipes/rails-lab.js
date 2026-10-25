@@ -48,7 +48,7 @@ class RailsLab extends HTMLElement {
 		on(document, "keydown", e => {
 			if (e.key === "Escape") { this.present = false; this.render(); this.writeURL(); return; }
 			if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
-			if (e.composedPath().some(el => el instanceof Element && el.matches("input,select,textarea,[contenteditable=true],ed-toggle"))) return;
+			if (e.composedPath().some(el => el instanceof Element && el.matches("input,select,textarea,[contenteditable=true],ed-toggle,[data-pipeline-scroll]"))) return;
 			const next = rungForKey(e.key, this.rung, 10);
 			if (next !== null) { e.preventDefault(); this.setRung(next); }
 		});
