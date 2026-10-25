@@ -4,7 +4,7 @@ import "@brad-frost-web/eddie-web-components/components/icon/icon.js";
 import "@brad-frost-web/eddie-web-components/components/toggle/toggle.js";
 import "@brad-frost-web/eddie-web-components/components/cluster/cluster.js";
 import "@brad-frost-web/eddie-web-components/components/button-group/button-group.js";
-import { clampRung, rungFromSearch, pieceState, rungForKey } from "./rails-stage-state.mjs";
+import { clampRung, rungFromSearch, pieceState, isShown, rungForKey } from "./rails-stage-state.mjs";
 
 /** Product-local teaching diagram; all application chrome is Eddie. */
 class RailsLab extends HTMLElement {
@@ -31,7 +31,7 @@ class RailsLab extends HTMLElement {
 			panel.hidden = !panel.hidden;
 			this.one("[data-settings-button]").setAttribute("aria-expanded", String(!panel.hidden));
 		});
-		for (const name of ["descriptions", "future"]) {
+		for (const name of ["descriptions"]) {
 			on(this.one(`[data-${name}]`), "change", e => {
 				this[name] = e.currentTarget.checked;
 				this.render(); this.writeURL();
@@ -57,14 +57,15 @@ class RailsLab extends HTMLElement {
 	readURL() {
 		const params = new URLSearchParams(location.search);
 		this.rung = rungFromSearch(location.search, 10);
-		for (const key of ["descriptions", "future", "present"]) this[key] = params.get(key) === "1";
+		for (const key of ["descriptions", "present"]) this[key] = params.get(key) === "1";
 		this.selected = null;
 		this.render();
 	}
 	writeURL() {
 		const url = new URL(location.href);
+		url.searchParams.delete("future");
 		url.searchParams.set("rung", this.rung);
-		for (const key of ["descriptions", "future", "present"]) {
+		for (const key of ["descriptions", "present"]) {
 			if (this[key]) url.searchParams.set(key, "1"); else url.searchParams.delete(key);
 		}
 		history.replaceState(null, "", url);
@@ -73,7 +74,6 @@ class RailsLab extends HTMLElement {
 	render() {
 		this.dataset.rung = this.rung;
 		this.toggleAttribute("data-presenting", this.present);
-		this.toggleAttribute("data-upcoming-visible", this.future);
 		this.one("[data-present]").setAttribute("text", this.present ? "Exit presentation" : "Present");
 		this.one("[data-present]").setAttribute("aria-pressed", String(this.present));
 		const range = this.one("[data-range]");
@@ -88,14 +88,17 @@ class RailsLab extends HTMLElement {
 		this.all("[data-piece]").forEach(el => {
 			const state = pieceState(Number(el.dataset.in), el.dataset.out === undefined ? undefined : Number(el.dataset.out), this.rung);
 			el.dataset.state = state;
-			el.hidden = state === "gone" || (state === "future" && !this.future);
+			el.hidden = !isShown(state);
 			if (el.matches("button")) el.disabled = state === "future";
 			el.querySelectorAll("button").forEach(button => button.disabled = state === "future");
 		});
 		this.all("[data-description]").forEach(el => el.hidden = !this.descriptions);
-		for (const key of ["descriptions", "future"]) this.one(`[data-${key}]`).checked = this[key];
-		this.one("[data-empty-concepts]").hidden = this.rung >= 1 || this.future;
-		this.one("[data-empty-packages]").hidden = this.rung >= 3 || this.future;
+		for (const key of ["descriptions"]) this.one(`[data-${key}]`).checked = this[key];
+		this.all("[data-piece-group]").forEach(group => {
+			group.hidden = ![...group.querySelectorAll("[data-piece]")].some(piece => !piece.hidden);
+		});
+		this.one("[data-instruction]").hidden = !this.all("[data-station]").some(button => !button.closest("[data-piece]").hidden);
+		this.one("[data-check-key]").hidden = !this.all(".ed-r-rails-lab__station--check").some(piece => !piece.hidden);
 		const outputs = this.rung >= 9 ? ["A reviewed, system-built interface.", "Required gates + human approval before main."] : this.rung >= 7 ? ["A system-built UI, with human judgment.", "Review the result. Send changes back through the loop."] : this.rung >= 5 ? ["Your ingredients. An increasingly reliable result.", "Composition is repeatable; quality still needs checking."] : this.rung >= 3 ? ["Real ingredients. Uneven results.", "Access to the system is only the beginning."] : ["A UI. Not necessarily your UI.", "The model fills in the design decisions."];
 		this.one("[data-output-title]").textContent = outputs[0];
 		this.one("[data-output-caption]").textContent = outputs[1];

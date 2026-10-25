@@ -37,7 +37,7 @@ Required checks provide evidence; green checks do not supply human approval.
   original Eddie package explanations. Upcoming pieces are optional and labeled.
 - Present reduces chrome; arrows, Home, End, and number keys navigate. The native
   range retains its native keyboard behavior. Escape exits presentation.
-- URLs retain rung, descriptions, future-piece, and presentation settings.
+- URLs retain rung, descriptions, and presentation settings.
 - The server renders the complete lesson; JavaScript progressively filters it.
 
 `aids-rails-lab` is a product-local diagram recipe. Eddie supplies application
@@ -76,3 +76,10 @@ stations, result, and feedback now share one horizontal row. Concepts and Eddie
 packages occupy full-width bands above and below. Descriptions and connection
 highlighting remain intact. Keyboard focus can scroll within the pipeline without
 changing the selected lesson rung. No original-demo files changed.
+
+## Active pieces only
+
+Brad requested that inactive pieces disappear entirely. The sibling now removes
+the upcoming setting and its labels, ignores legacy `future=1` links, and hides
+empty concepts/Eddie bands. The automated-check key and connection hint appear
+only when relevant steps are active. The original demo remains unchanged.

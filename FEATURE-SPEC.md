@@ -9,6 +9,9 @@ last_updated: 2026-10-25
 amendments:
   - date: 2026-10-25
     author: Brad Frost
+    summary: Hide all inactive pieces in the sibling, remove upcoming mode, and omit empty section shells until their contents are in play.
+  - date: 2026-10-25
+    author: Brad Frost
     summary: Restore the other version’s horizontal-band layout and unbroken left-to-right pipeline. Preserve sibling features.
   - date: 2026-10-25
     author: Brad Frost

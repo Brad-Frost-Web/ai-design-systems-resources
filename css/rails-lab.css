@@ -61,8 +61,6 @@ button.ed-r-rails-lab__station-control { cursor: pointer; }
 .ed-r-rails-lab__output { border: var(--ed-theme-border-width-md) solid var(--ed-theme-color-border-default); background: var(--ed-theme-color-background-surface); }
 .ed-r-rails-lab__feedback { width: 100%; font-family: inherit; text-align: start; cursor: pointer; background: var(--ed-theme-color-background-accent-2); color: var(--ed-theme-color-content-on-accent-2); border: var(--ed-theme-border-width-md) dashed var(--ed-theme-color-border-default); }
 .ed-r-rails-lab__feedback > :last-child { margin-inline-start: auto; }
-.ed-r-rails-lab [data-state=future] { border: var(--ed-theme-border-width-sm) dashed var(--ed-theme-color-border-default); }
-.ed-r-rails-lab [data-state=future]::before { content: "UPCOMING"; display: block; padding: var(--ed-theme-spacing-inline); color: var(--ed-theme-color-content-default); font-size: var(--ed-theme-typography-meta-sm-font-size); }
 .ed-r-rails-lab [data-connected], .ed-r-rails-lab [data-selected] { outline: var(--ed-theme-border-width-lg) solid var(--ed-theme-color-background-accent-1); outline-offset: var(--ed-theme-border-width-sm); }
 .ed-r-rails-lab__details { padding: var(--ed-theme-spacing-flow); background: var(--ed-theme-color-background-accent-2); }
 .ed-r-rails-lab__process { padding: var(--ed-theme-spacing-flow); border: var(--ed-theme-border-width-md) solid var(--ed-theme-color-border-default); }

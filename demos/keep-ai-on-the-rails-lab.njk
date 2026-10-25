@@ -34,7 +34,6 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 		<ed-heading tagName="h2" variant="label-default">Presentation settings</ed-heading>
 		<ed-cluster gap="flow">
 			<ed-toggle data-descriptions label="Concept and system descriptions" size="sm"><span slot="off">Concept &amp; system descriptions</span></ed-toggle>
-			<ed-toggle data-future label="Show upcoming pieces" size="sm"><span slot="off">Show upcoming pieces</span></ed-toggle>
 			<ed-text-passage size="sm"><p>Arrow keys step through. Home starts over. End shows the full system. Escape exits presentation.</p></ed-text-passage>
 		</ed-cluster>
 	</ed-card>
@@ -64,10 +63,10 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 		<div class="ed-r-rails-lab__legend" aria-label="Diagram key">
 			<span class="ed-r-rails-lab__key ed-r-rails-lab__key--human"><ed-icon name="user"></ed-icon> Human</span>
 			<span class="ed-r-rails-lab__key ed-r-rails-lab__key--ai"><ed-icon name="sparkles"></ed-icon> AI agent</span>
-			<span class="ed-r-rails-lab__key ed-r-rails-lab__key--check"><ed-icon name="check-square"></ed-icon> Automated check</span>
+			<span class="ed-r-rails-lab__key ed-r-rails-lab__key--check" data-check-key><ed-icon name="check-square"></ed-icon> Automated check</span>
 		</div>
 	</ed-cluster>
-	<aside class="ed-r-rails-lab__rail" aria-label="AI dev concepts and techniques">
+	<aside class="ed-r-rails-lab__rail" data-piece-group aria-label="AI dev concepts and techniques">
 				<ed-heading tagName="h2" variant="meta-default">AI dev concepts &amp; techniques</ed-heading>
 				<div class="ed-r-rails-lab__concepts">
 				{% for concept in railsLab.concepts %}
@@ -77,7 +76,6 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 					</article>
 				{% endfor %}
 				</div>
-				<ed-text-passage size="sm" data-empty-concepts><p>No standing instructions yet. The prompt is all the agent has.</p></ed-text-passage>
 			</aside>
 	<section class="ed-r-rails-lab__canvas" aria-label="UI creation pipeline">
 		<ed-cluster justify="between"><ed-heading tagName="h2" variant="meta-default">The pipeline →</ed-heading><ed-text-passage size="sm"><p>Follow the steps left to right. Scroll sideways to explore the full process.</p></ed-text-passage></ed-cluster>
@@ -106,7 +104,7 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 	{% for station in railsLab.stations %}<section id="detail-{{ station.id }}" data-detail="{{ station.id }}"><ed-heading tagName="h2" variant="label-default">{{ loop.index }}. {{ station.title }}</ed-heading><ed-text-passage size="sm"><p>{{ station.body }}</p></ed-text-passage></section>{% endfor %}
 	<section id="detail-feedback" data-detail="feedback"><ed-heading tagName="h2" variant="label-default">Close the loop</ed-heading><ed-text-passage size="sm"><p>eddie-reporter sends actual product usage back to eddie-brain. The team turns gaps and failed checks into issues, then improves the design system and its rules. The next project starts with better ingredients and a better process.</p></ed-text-passage></section>
 	</div>
-	<aside class="ed-r-rails-lab__rail ed-r-rails-lab__rail--eddie" aria-label="Eddie design system">
+	<aside class="ed-r-rails-lab__rail ed-r-rails-lab__rail--eddie" data-piece-group aria-label="Eddie design system">
 						<ed-heading tagName="h2" variant="meta-default">Eddie Design System</ed-heading>
 						<ed-text-passage size="sm"><p>The source of truth.<br>The ingredients you actually ship.</p></ed-text-passage>
 						<div class="ed-r-rails-lab__packages">
@@ -114,7 +112,6 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 							<div class="ed-r-rails-lab__package" data-piece="{{ package.id }}" data-in="{{ package.rungIn }}"><div class="ed-r-rails-lab__package-label"><ed-icon name="{{ package.icon }}"></ed-icon><span>{{ package.label }}</span></div><div data-description class="ed-r-rails-lab__description"><ed-text-passage size="sm"><p>{{ package.description | safe }}</p></ed-text-passage></div></div>
 						{% endfor %}
 						</div>
-						<ed-text-passage size="sm" data-empty-packages><p>No connection to your system. The agent invents its own ingredients.</p></ed-text-passage>
 					</aside>
 	<section class="ed-r-rails-lab__process" data-piece="cfg-process" data-in="8" aria-label="Organizational process">
 		<div class="ed-r-rails-lab__process-label"><ed-icon name="layers"></ed-icon><strong>bfw-process</strong><span>THE RULEBOOK UNDERNEATH THE WORK</span></div>
