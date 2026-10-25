@@ -36,3 +36,20 @@ test("human judgment stays separate from automatic validation and merge gates", 
 	assert.equal(lab.packages.find(p => p.id === "pkg-reporter").rungIn, lab.lastRung);
 	assert.equal(lab.rungs.length, 11);
 });
+
+test("timeline cards preserve all authored copy and iteration boundaries", () => {
+	const sources = [...original.matchAll(/<article class="node(?: [^"]*)?"[^>]*>([\s\S]*?)<\/article>/g)]
+		.map(match => match[1]).filter(html => html.includes('class="node__name"'));
+	assert.equal(lab.stations.length, 9);
+	lab.stations.forEach((station, index) => {
+		for (const field of ["kicker", "title", "description", "prevents"]) {
+			assert.ok(station[field].length > 0);
+			assert.ok(sources[index].includes(station[field]), `${station.id}: authored ${field} changed`);
+		}
+		assert.deepEqual(station.tools, [...sources[index].matchAll(/<li>([\s\S]*?)<\/li>/g)].map(match => match[1]));
+		assert.equal(station.connector, index >= 4 ? "refresh-cw" : "arrow-forward");
+	});
+	for (const text of [...lab.terminals.entry.prompts, lab.terminals.output.description, lab.terminals.feedback.description]) {
+		assert.ok(original.includes(text), "Authored terminal copy changed");
+	}
+});

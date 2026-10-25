@@ -9,6 +9,9 @@ last_updated: 2026-10-25
 amendments:
   - date: 2026-10-25
     author: Brad Frost
+    summary: Restore authored original timeline card copy and treatment, with all explanations inline. Replace the five connectors from steps 4–5 through 8–9 with sync icons.
+  - date: 2026-10-25
+    author: Brad Frost
     summary: Remove the horizontal-scroll helper sentence, label the diagram Process, and make its layout container full-width.
   - date: 2026-10-25
     author: Brad Frost

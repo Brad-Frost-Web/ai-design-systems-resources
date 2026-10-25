@@ -64,29 +64,43 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 		<ed-heading tagName="h2" variant="title-sm">Process</ed-heading>
 		<div class="ed-r-rails-lab__pipeline-scroll" data-pipeline-scroll tabindex="0" role="region" aria-label="Left-to-right pipeline; scroll horizontally for later steps">
 		<ol class="ed-r-rails-lab__pipeline">
-			<li class="ed-r-rails-lab__endpoint"><div class="ed-r-rails-lab__entry"><ed-icon name="user"></ed-icon><span><strong>You set the intent</strong><br>“Build me a pricing page.”</span><ed-icon name="arrow-forward"></ed-icon></div></li>
-					{% for station in railsLab.stations %}
-						<li class="ed-r-rails-lab__station ed-r-rails-lab__station--{{ station.kind }}" data-piece="{{ station.id }}" data-in="{{ station.in }}" data-uses="{{ station.uses }}">
-							<button class="ed-r-rails-lab__station-control" type="button" data-station="{{ station.id }}" aria-expanded="false" aria-controls="detail-{{ station.id }}">
-								<span class="ed-r-rails-lab__station-top"><ed-icon name="{{ station.icon }}"></ed-icon><span>{{ loop.index }} / {% if station.kind == 'human' %}HUMAN{% elif station.kind == 'check' %}CHECK{% else %}AI{% endif %}</span><ed-icon name="arrow-forward"></ed-icon></span>
-								<strong>{{ station.title }}</strong><span class="ed-r-rails-lab__station-caption">{{ station.detail }}</span>
-								{% if station.id == 's5' or station.id == 's6' or station.id == 's7' or station.id == 's8' %}<span class="ed-r-rails-lab__return"><ed-icon name="refresh-cw"></ed-icon> {% if station.kind == 'human' %}Request changes{% else %}Fix &amp; retry{% endif %}</span>{% endif %}
-							</button>
-						</li>
-					{% endfor %}
-						<li class="ed-r-rails-lab__station ed-r-rails-lab__station--ai" data-piece="generate" data-in="0" data-out="5"><div class="ed-r-rails-lab__station-control"><span class="ed-r-rails-lab__station-top"><ed-icon name="sparkles"></ed-icon> AI AGENT</span><strong>Generate UI</strong><span class="ed-r-rails-lab__station-caption" data-generation-caption>The model fills in the blanks.</span></div></li>
-
-			<li class="ed-r-rails-lab__endpoint"><div class="ed-r-rails-lab__output"><ed-icon name="grid"></ed-icon><span><strong data-output-title>A UI. Not necessarily your UI.</strong><br><span data-output-caption>The model makes the design decisions.</span></span></div></li>
-			<li class="ed-r-rails-lab__endpoint" data-piece="feedback" data-in="10" data-uses="pkg-reporter pkg-brain cfg-process"><button type="button" data-station="feedback" aria-controls="detail-feedback" aria-expanded="false" class="ed-r-rails-lab__feedback" >
-						<ed-icon name="refresh-cw"></ed-icon><span><strong>Product ↔ design system</strong><br>Usage → eddie-reporter → eddie-brain<br>Gaps → issues → better system &amp; process</span><ed-icon name="arrow-back"></ed-icon>
-					</button></li>
+			<li class="ed-r-rails-lab__endpoint"><article class="ed-r-rails-lab__card ed-r-rails-lab__entry">
+				<ed-icon name="user"></ed-icon><ed-heading tagName="h3" variant="title-sm">{{ railsLab.terminals.entry.title | safe }}</ed-heading>
+				<ed-text-passage>{% for prompt in railsLab.terminals.entry.prompts %}<p>{{ prompt | safe }}</p>{% endfor %}</ed-text-passage>
+			</article></li>
+			{% for station in railsLab.stations %}
+			<li class="ed-r-rails-lab__station ed-r-rails-lab__station--{{ station.kind }}{% if station.id == 's8' %} ed-r-rails-lab__station--steel{% endif %}" data-piece="{{ station.id }}" data-in="{{ station.in }}" data-uses="{{ station.uses }}">
+				<span class="ed-r-rails-lab__connector" data-connector="{{ station.id }}"><ed-icon name="{{ station.connector }}"{% if loop.index >= 5 %} iconTitle="Iterate between steps {{ loop.index - 1 }} and {{ loop.index }}"{% endif %}></ed-icon></span>
+				<article class="ed-r-rails-lab__card">
+					<button class="ed-r-rails-lab__station-control" type="button" data-station="{{ station.id }}" aria-pressed="false" title="Highlight connections">
+						<span class="ed-r-rails-lab__number">{{ loop.index }}</span><ed-icon name="{{ station.icon }}"></ed-icon><span>{{ station.kicker | safe }}</span>
+					</button>
+					<ed-heading tagName="h3" variant="title-sm">{{ station.title | safe }}</ed-heading>
+					<ed-text-passage><p>{{ station.description | safe }}</p></ed-text-passage>
+					<ul class="ed-r-rails-lab__tools">{% for tool in station.tools %}<li>{{ tool | safe }}</li>{% endfor %}</ul>
+					<div class="ed-r-rails-lab__prevents"><ed-text-passage><p>{{ station.prevents | replace('blocks__label', 'ed-r-rails-lab__prevents-label') | safe }}</p></ed-text-passage></div>
+				</article>
+			</li>
+			{% endfor %}
+			<li class="ed-r-rails-lab__station" data-piece="generate" data-in="0" data-out="5">
+				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
+				<article class="ed-r-rails-lab__card"><span><ed-icon name="sparkles"></ed-icon> AI AGENT</span><ed-heading tagName="h3" variant="title-sm">Generate UI</ed-heading><ed-text-passage><p>The model fills in the blanks.</p></ed-text-passage></article>
+			</li>
+			<li class="ed-r-rails-lab__endpoint" data-piece="output-preview" data-in="0" data-out="9">
+				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
+				<article class="ed-r-rails-lab__card ed-r-rails-lab__output"><ed-icon name="grid"></ed-icon><ed-heading tagName="h3" variant="title-sm" data-output-title>A UI. Not necessarily your UI.</ed-heading><ed-text-passage><p data-output-caption>The model fills in the design decisions.</p></ed-text-passage></article>
+			</li>
+			<li class="ed-r-rails-lab__endpoint" data-piece="output-final" data-in="9">
+				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
+				<article class="ed-r-rails-lab__card ed-r-rails-lab__output"><span>{{ railsLab.terminals.output.tag }}</span><ed-heading tagName="h3" variant="title-sm">{{ railsLab.terminals.output.title | safe }}</ed-heading><ed-text-passage><p>{{ railsLab.terminals.output.description | safe }}</p></ed-text-passage></article>
+			</li>
+			<li class="ed-r-rails-lab__endpoint" data-piece="feedback" data-in="10" data-uses="pkg-reporter pkg-brain cfg-process">
+				<span class="ed-r-rails-lab__connector"><ed-icon name="refresh-cw" iconTitle="Product and design system feedback loop"></ed-icon></span>
+				<article class="ed-r-rails-lab__card ed-r-rails-lab__feedback"><ed-heading tagName="h3" variant="title-sm"><button type="button" data-station="feedback" aria-pressed="false" title="Highlight product and design system connections">{{ railsLab.terminals.feedback.title | safe }}</button></ed-heading><ed-text-passage><p>{{ railsLab.terminals.feedback.description | safe }}</p></ed-text-passage></article>
+			</li>
 		</ol>
 		</div>
 	</section>
-	<div data-details class="ed-r-rails-lab__details">
-	{% for station in railsLab.stations %}<section id="detail-{{ station.id }}" data-detail="{{ station.id }}"><ed-heading tagName="h2" variant="label-default">{{ loop.index }}. {{ station.title }}</ed-heading><ed-text-passage size="sm"><p>{{ station.body }}</p></ed-text-passage></section>{% endfor %}
-	<section id="detail-feedback" data-detail="feedback"><ed-heading tagName="h2" variant="label-default">Close the loop</ed-heading><ed-text-passage size="sm"><p>eddie-reporter sends actual product usage back to eddie-brain. The team turns gaps and failed checks into issues, then improves the design system and its rules. The next project starts with better ingredients and a better process.</p></ed-text-passage></section>
-	</div>
 	<aside class="ed-r-rails-lab__rail ed-r-rails-lab__rail--eddie" data-piece-group aria-label="Eddie design system">
 						<ed-heading tagName="h2" variant="title-sm">Eddie Design System</ed-heading>
 						<ed-text-passage size="sm"><p>The source of truth.<br>The ingredients you actually ship.</p></ed-text-passage>

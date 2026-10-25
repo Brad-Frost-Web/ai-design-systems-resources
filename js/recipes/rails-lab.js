@@ -109,9 +109,7 @@ class RailsLab extends HTMLElement {
 			el.toggleAttribute("data-connected", uses.has(el.dataset.piece));
 			el.toggleAttribute("data-selected", el.dataset.piece === id);
 		});
-		this.all("[data-station]").forEach(el => el.setAttribute("aria-expanded", String(el.dataset.station === id)));
-		this.all("[data-detail]").forEach(el => el.hidden = el.dataset.detail !== id);
-		this.one("[data-details]").hidden = !id;
+		this.all("[data-station]").forEach(el => el.setAttribute("aria-pressed", String(el.dataset.station === id)));
 	}
 }
 if (!customElements.get("aids-rails-lab")) customElements.define("aids-rails-lab", RailsLab);

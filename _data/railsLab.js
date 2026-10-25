@@ -20,16 +20,45 @@ const concepts = base.groups[0].pieces.map((piece, i) => {
 	return { ...piece, icon: conceptIcons[i], description: content(source, "cfg__meta"), example: content(source, "cfg__mine") };
 });
 const stations = [
-	{ id: "s1", title: "Ground", detail: "Check the live catalog", icon: "search", in: 4, kind: "ai", uses: "cfg-standing cfg-project cfg-mcp pkg-brain", body: "Start with check_health. Read what exists now, rather than generating from memory or a previous session." },
-	{ id: "s2", title: "Read the rules", detail: "Learn the constraints", icon: "file-text", in: 2, kind: "ai", uses: "cfg-standing cfg-project cfg-process", body: "Load the project’s rules and organizational standards. Instructions describe how to work; they do not enforce themselves." },
-	{ id: "s3", title: "Consult", detail: "Ask what is real", icon: "link", in: 4, kind: "ai", uses: "cfg-mcp pkg-brain pkg-web-components pkg-design-tokens", body: "Ask eddie-brain for real components, props, slots and tokens. MCP connects the agent to the system’s machine-readable knowledge." },
-	{ id: "s4", title: "Compose", detail: "Use system ingredients", icon: "layers", in: 5, kind: "ai", uses: "cfg-skills pkg-pages pkg-recipes pkg-web-components pkg-design-tokens pkg-icons pkg-charts", body: "Begin with a page template. Compose its recipes and components using their actual contracts, instead of inventing the interface from primitives." },
-	{ id: "s5", title: "Validate", detail: "Check the code", icon: "check-square", in: 6, kind: "check", uses: "cfg-hook cfg-mcp pkg-brain pkg-web-components pkg-design-tokens", body: "Run validate_file, return violations to the agent and correct them. Hooks trigger the check; the validator checks the generated code." },
-	{ id: "s6", title: "Render", detail: "Inspect the actual UI", icon: "eye", in: 6, kind: "ai", uses: "cfg-skills pkg-pages pkg-recipes pkg-web-components", body: "Open the result in a browser. Check that content appears, layouts work and real interactions succeed. Valid markup alone is not proof." },
-	{ id: "s7", title: "Human review", detail: "Is this actually good?", icon: "user", in: 7, kind: "human", uses: "", body: "You review the rendered interface. Approve it, reject it or request changes. Taste, intent and the decision to proceed stay human." },
-	{ id: "s8", title: "Steel Curtain", detail: "Gates before main", icon: "lock", in: 9, kind: "check", uses: "cfg-hook cfg-process pkg-brain", body: "CI runs deterministic tests for accessibility, responsive behavior, flows and performance. Separate AI reviews assess standards and spec alignment. Failed required gates block the merge." },
-	{ id: "s9", title: "Approve merge", detail: "A person makes the call", icon: "thumbs-up", in: 9, kind: "human", uses: "cfg-process", body: "Green checks are evidence, not approval. A person reviews the diff and decides whether to merge the work." },
+	{ id: "s1", icon: "search", in: 4, kind: "ai", uses: "cfg-standing cfg-project cfg-mcp pkg-brain" },
+	{ id: "s2", icon: "file-text", in: 2, kind: "ai", uses: "cfg-standing cfg-project cfg-process" },
+	{ id: "s3", icon: "link", in: 4, kind: "ai", uses: "cfg-mcp pkg-brain pkg-web-components pkg-design-tokens" },
+	{ id: "s4", icon: "layers", in: 5, kind: "ai", uses: "cfg-skills pkg-pages pkg-recipes pkg-web-components pkg-design-tokens pkg-icons pkg-charts" },
+	{ id: "s5", icon: "check-square", in: 6, kind: "check", uses: "cfg-hook cfg-mcp pkg-brain pkg-web-components pkg-design-tokens" },
+	{ id: "s6", icon: "eye", in: 6, kind: "ai", uses: "cfg-skills pkg-pages pkg-recipes pkg-web-components" },
+	{ id: "s7", icon: "user", in: 7, kind: "human", uses: "" },
+	{ id: "s8", icon: "lock", in: 9, kind: "check", uses: "cfg-hook cfg-process pkg-brain" },
+	{ id: "s9", icon: "thumbs-up", in: 9, kind: "human", uses: "cfg-process" },
 ];
+// Read Brad's authored station copy verbatim; never maintain a second paraphrase.
+const authoredStations = [...original.matchAll(/<article class="node(?: [^"]*)?"[^>]*>([\s\S]*?)<\/article>/g)]
+	.map(match => match[1]).filter(html => html.includes('class="node__name"'));
+if (authoredStations.length !== stations.length) throw new Error("Original Rails station count changed");
+function authoredField(html, className) {
+	const match = html.match(new RegExp(`<([a-z][a-z0-9]*)[^>]*class="${className}"[^>]*>([\\s\\S]*?)<\\/\\1>`));
+	if (!match) throw new Error(`Missing authored Rails field: ${className}`);
+	return match[2];
+}
+for (const [index, station] of stations.entries()) {
+	const source = authoredStations[index];
+	station.kicker = authoredField(source, "kicker");
+	station.title = authoredField(source, "node__name");
+	station.description = authoredField(source, "node__how");
+	station.tools = [...authoredField(source, "tools").matchAll(/<li>([\s\S]*?)<\/li>/g)].map(match => match[1]);
+	station.prevents = authoredField(source, "blocks__text");
+	station.connector = index >= 4 ? "refresh-cw" : "arrow-forward";
+}
+function terminalSource(name) {
+	return original.split(`<!-- ${name} -->`)[1].split('<!--')[0];
+}
+const entrySource = terminalSource("ENTRY");
+const outputSource = terminalSource("OUTPUT");
+const feedbackSource = terminalSource("LOOP");
+const terminals = {
+	entry: { title: authoredField(entrySource, "terminal__title"), prompts: [...entrySource.matchAll(/<div class="terminal__sub">([\s\S]*?)<\/div>/g)].map(match => match[1]) },
+	output: { title: authoredField(outputSource, "terminal__title"), tag: authoredField(outputSource, "terminal__tag"), description: authoredField(outputSource, "terminal__sub") },
+	feedback: { title: authoredField(feedbackSource, "terminal__title").replace(/<svg[\s\S]*?<\/svg>/, '<ed-icon name="refresh-cw"></ed-icon>'), description: feedbackSource.match(/<div class="terminal__sub">([\s\S]*?)<\/article>/)[1].trim() },
+};
 const packageIcons = { "design-tokens": "palette", "web-components": "grid", recipes: "layers", pages: "file-text", icons: "star", charts: "trending-up", brain: "command", reporter: "refresh-cw" };
 const packages = base.groups[2].pieces.filter(p => p.id.startsWith("pkg-")).map(p => ({
 	...p, icon: packageIcons[p.id.slice(4)], description: content(originalItem(p.id), "pkg__meta"),
@@ -42,4 +71,4 @@ const headlines = [
 ];
 const rungs = base.rungs.map((r, i) => ({ ...r, headline: headlines[i] }));
 rungs[9].now = "Required checks can block a merge; a person still decides whether the work should ship.";
-module.exports = { concepts, stations, packages, rungs, lastRung: 10 };
+module.exports = { concepts, stations, terminals, packages, rungs, lastRung: 10 };

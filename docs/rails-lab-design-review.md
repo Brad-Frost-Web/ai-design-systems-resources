@@ -95,3 +95,18 @@ The process heading is now “Process,” without the scroll instruction. The pa
 uses Eddie’s supported `--ed-layout-container-max-width: 100%` with the `wide`
 variant removed (that variant overrode the custom property with an 80rem cap).
 The installed Eddie version does not expose a `full` variant.
+
+## Restore authored timeline cards
+
+Timeline copy now comes directly from the original HTML, including all nine
+kickers, titles, explanations, tool lists and “Prevents” footers, plus prompt,
+launch and feedback cards. Wording, emphasis and code spans are preserved.
+Cards restore the original structure, pale surfaces, numbered badges, human
+treatment and wider metallic Steel Curtain, using Eddie tokens and title-sm.
+All explanations are inline; clicking a heading only highlights connections.
+The five connectors from 4–5 through 8–9 use Eddie’s refresh-cw sync glyph.
+
+Brad’s explicit request to match the original card treatment is the authority
+for primitive Eddie radius tokens (the BFW theme radii are square) and neutral
+Eddie tokens for the Steel Curtain material. Eddie validation flags these as
+tier-one warnings; they are deliberate, scoped recipe styling, not raw values.
