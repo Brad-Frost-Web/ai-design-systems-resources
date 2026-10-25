@@ -83,3 +83,10 @@ Brad requested that inactive pieces disappear entirely. The sibling now removes
 the upcoming setting and its labels, ignores legacy `future=1` links, and hides
 empty concepts/Eddie bands. The automated-check key and connection hint appear
 only when relevant steps are active. The original demo remains unchanged.
+
+## Remove the narrative band
+
+Brad rejected the persistent step headline, explanation, missing-piece panel and
+separate legend. Those elements and their styling are removed. The existing
+step buttons carry optional native hover text; the slider and live region
+still announce the current step. Human/AI/check labels remain on the stations.

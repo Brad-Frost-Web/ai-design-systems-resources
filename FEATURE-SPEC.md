@@ -9,6 +9,9 @@ last_updated: 2026-10-25
 amendments:
   - date: 2026-10-25
     author: Brad Frost
+    summary: Remove the sibling’s narrative and legend band; retain optional step explanation in hover text without a persistent footprint.
+  - date: 2026-10-25
+    author: Brad Frost
     summary: Hide all inactive pieces in the sibling, remove upcoming mode, and omit empty section shells until their contents are in play.
   - date: 2026-10-25
     author: Brad Frost

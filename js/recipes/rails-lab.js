@@ -78,9 +78,8 @@ class RailsLab extends HTMLElement {
 		this.one("[data-present]").setAttribute("aria-pressed", String(this.present));
 		const range = this.one("[data-range]");
 		range.value = this.rung;
-		const beat = this.one(`[data-beat="${this.rung}"]`);
-		range.setAttribute("aria-valuetext", `${this.rung} of 10: ${beat.dataset.title}`);
-		this.all("[data-beat]").forEach(el => el.hidden = Number(el.dataset.beat) !== this.rung);
+		const step = this.one(`[data-step="${this.rung}"]`);
+		range.setAttribute("aria-valuetext", `${this.rung} of 10: ${step.dataset.title}`);
 		this.all("[data-step]").forEach(el => {
 			el.setAttribute("aria-current", Number(el.dataset.step) === this.rung ? "step" : "false");
 			el.dataset.reached = Number(el.dataset.step) <= this.rung;
@@ -97,12 +96,10 @@ class RailsLab extends HTMLElement {
 		this.all("[data-piece-group]").forEach(group => {
 			group.hidden = ![...group.querySelectorAll("[data-piece]")].some(piece => !piece.hidden);
 		});
-		this.one("[data-instruction]").hidden = !this.all("[data-station]").some(button => !button.closest("[data-piece]").hidden);
-		this.one("[data-check-key]").hidden = !this.all(".ed-r-rails-lab__station--check").some(piece => !piece.hidden);
 		const outputs = this.rung >= 9 ? ["A reviewed, system-built interface.", "Required gates + human approval before main."] : this.rung >= 7 ? ["A system-built UI, with human judgment.", "Review the result. Send changes back through the loop."] : this.rung >= 5 ? ["Your ingredients. An increasingly reliable result.", "Composition is repeatable; quality still needs checking."] : this.rung >= 3 ? ["Real ingredients. Uneven results.", "Access to the system is only the beginning."] : ["A UI. Not necessarily your UI.", "The model fills in the design decisions."];
 		this.one("[data-output-title]").textContent = outputs[0];
 		this.one("[data-output-caption]").textContent = outputs[1];
-		this.one("[data-live]").textContent = `Step ${this.rung} of 10. ${beat.dataset.title}`;
+		this.one("[data-live]").textContent = `Step ${this.rung} of 10. ${step.dataset.title}`;
 		this.showConnections(this.selected);
 	}
 	showConnections(id) {
