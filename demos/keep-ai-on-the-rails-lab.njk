@@ -50,18 +50,18 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 		</nav>
 	</section>
 	<aside class="ed-r-rails-lab__rail" data-piece-group aria-label="AI dev concepts and techniques">
-				<ed-heading tagName="h2" variant="meta-default">AI dev concepts &amp; techniques</ed-heading>
+				<ed-heading tagName="h2" variant="title-sm">AI dev concepts &amp; techniques</ed-heading>
 				<div class="ed-r-rails-lab__concepts">
 				{% for concept in railsLab.concepts %}
 					<article class="ed-r-rails-lab__concept" data-piece="{{ concept.id }}" data-in="{{ concept.rungIn }}">
-						<ed-cluster gap="inline"><ed-icon name="{{ concept.icon }}"></ed-icon><ed-heading tagName="h3" variant="label-sm">{{ concept.label }}</ed-heading></ed-cluster>
+						<ed-cluster gap="inline"><ed-icon name="{{ concept.icon }}"></ed-icon><ed-heading tagName="h3" variant="title-sm">{{ concept.label }}</ed-heading></ed-cluster>
 						<div class="ed-r-rails-lab__description" data-description><ed-text-passage size="sm"><p>{{ concept.description | safe }}</p><p>{{ concept.example | safe }}</p></ed-text-passage></div>
 					</article>
 				{% endfor %}
 				</div>
 			</aside>
 	<section class="ed-r-rails-lab__canvas" aria-label="UI creation process">
-		<ed-heading tagName="h2" variant="meta-default">Process</ed-heading>
+		<ed-heading tagName="h2" variant="title-sm">Process</ed-heading>
 		<div class="ed-r-rails-lab__pipeline-scroll" data-pipeline-scroll tabindex="0" role="region" aria-label="Left-to-right pipeline; scroll horizontally for later steps">
 		<ol class="ed-r-rails-lab__pipeline">
 			<li class="ed-r-rails-lab__endpoint"><div class="ed-r-rails-lab__entry"><ed-icon name="user"></ed-icon><span><strong>You set the intent</strong><br>“Build me a pricing page.”</span><ed-icon name="arrow-forward"></ed-icon></div></li>
@@ -88,7 +88,7 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 	<section id="detail-feedback" data-detail="feedback"><ed-heading tagName="h2" variant="label-default">Close the loop</ed-heading><ed-text-passage size="sm"><p>eddie-reporter sends actual product usage back to eddie-brain. The team turns gaps and failed checks into issues, then improves the design system and its rules. The next project starts with better ingredients and a better process.</p></ed-text-passage></section>
 	</div>
 	<aside class="ed-r-rails-lab__rail ed-r-rails-lab__rail--eddie" data-piece-group aria-label="Eddie design system">
-						<ed-heading tagName="h2" variant="meta-default">Eddie Design System</ed-heading>
+						<ed-heading tagName="h2" variant="title-sm">Eddie Design System</ed-heading>
 						<ed-text-passage size="sm"><p>The source of truth.<br>The ingredients you actually ship.</p></ed-text-passage>
 						<div class="ed-r-rails-lab__packages">
 						{% for package in railsLab.packages %}
