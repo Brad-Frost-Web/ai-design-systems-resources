@@ -110,3 +110,23 @@ Brad’s explicit request to match the original card treatment is the authority
 for primitive Eddie radius tokens (the BFW theme radii are square) and neutral
 Eddie tokens for the Steel Curtain material. Eddie validation flags these as
 tier-one warnings; they are deliberate, scoped recipe styling, not raw values.
+
+## Restore system copy and section bands
+
+Eddie and bfw-process now read their original copy directly from the authored
+HTML: six knowledge-graph files, all ten packages, section introductions, the
+complete process explanation, six phases, two gates, and eight chips. System
+descriptions remain visible; the settings toggle controls concept descriptions.
+The previously omitted boilerplates and website packages enter with installation
+at rung 3; existing package and knowledge-file thresholds are preserved.
+
+Concepts, Eddie, and bfw-process each use an Eddie band outside the layout
+container, with one full-width layout container inside. Eddie uses the knockout
+variant with matching knockout passages and icons. Empty bands still disappear
+until their contents are in play. Original demo files are unchanged.
+
+The recipe opts into Eddie's `data-bleed` main-child convention so the bands
+reach both viewport edges. Browser checks at 1280px and 385px confirm no page
+overflow; rungs 0, 1, 3, 4, 8 and 10 preserve progressive disclosure. The concept
+toggle still works without hiding the restored system descriptions. Build and
+all 12 tests pass; independent Spec and Standards reviews report no new findings.

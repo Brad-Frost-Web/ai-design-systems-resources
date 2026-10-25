@@ -9,6 +9,9 @@ last_updated: 2026-10-25
 amendments:
   - date: 2026-10-25
     author: Brad Frost
+    summary: Restore the original Eddie Design System and bfw-process copy verbatim, including files, packages, phases, gates and chips. Delineate these sections and AI dev concepts with full-width Eddie bands instead of outer card containers.
+  - date: 2026-10-25
+    author: Brad Frost
     summary: Restore authored original timeline card copy and treatment, with all explanations inline. Replace the five connectors from steps 4–5 through 8–9 with sync icons.
   - date: 2026-10-25
     author: Brad Frost

@@ -16,9 +16,9 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 </head>
 <body class="ed-r-rails-lab-page">
 <ed-page variant="flush"><ed-main flush>
-<ed-layout-container>
-<aids-rails-lab class="ed-r-rails-lab">
+<aids-rails-lab class="ed-r-rails-lab" data-bleed>
 <ed-stack gap="inline">
+<ed-layout-container><ed-stack gap="inline">
 	<ed-cluster justify="between" class="ed-r-rails-lab__masthead">
 		<ed-stack gap="inline">
 			<ed-text-passage size="sm"><p><a href="https://aianddesign.systems">AI &amp; Design Systems</a> / Interactive lesson</p></ed-text-passage>
@@ -33,7 +33,7 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 	<ed-card padding="sm" variant="subtle" data-settings hidden>
 		<ed-heading tagName="h2" variant="label-default">Presentation settings</ed-heading>
 		<ed-cluster gap="flow">
-			<ed-toggle data-descriptions label="Concept and system descriptions" size="sm"><span slot="off">Concept &amp; system descriptions</span></ed-toggle>
+			<ed-toggle data-descriptions label="Concept descriptions" size="sm"><span slot="off">Concept descriptions</span></ed-toggle>
 			<ed-text-passage size="sm"><p>Arrow keys step through. Home starts over. End shows the full system. Escape exits presentation.</p></ed-text-passage>
 		</ed-cluster>
 	</ed-card>
@@ -49,7 +49,9 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 		{% for rung in railsLab.rungs %}<button class="ed-r-rails-lab__tick" data-step="{{ loop.index0 }}" data-title="{{ rung.title | escape }}" title="{{ rung.headline | escape }} {{ rung.adds | escape }} {{ (rung.breaks or rung.now) | escape }}" type="button" aria-label="Step {{ loop.index0 }}: {{ rung.title }}"><span class="ed-r-rails-lab__tick-number">{{ loop.index0 }}</span><span>{{ rung.short }}</span></button>{% endfor %}
 		</nav>
 	</section>
-	<aside class="ed-r-rails-lab__rail" data-piece-group aria-label="AI dev concepts and techniques">
+</ed-stack></ed-layout-container>
+	<ed-band class="ed-r-rails-lab__band" data-piece-group><ed-layout-container>
+	<aside class="ed-r-rails-lab__rail" aria-label="AI dev concepts and techniques">
 				<ed-heading tagName="h2" variant="title-sm">AI dev concepts &amp; techniques</ed-heading>
 				<div class="ed-r-rails-lab__concepts">
 				{% for concept in railsLab.concepts %}
@@ -59,8 +61,8 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 					</article>
 				{% endfor %}
 				</div>
-			</aside>
-	<section class="ed-r-rails-lab__canvas" aria-label="UI creation process">
+			</aside></ed-layout-container></ed-band>
+	<ed-layout-container><section class="ed-r-rails-lab__canvas" aria-label="UI creation process">
 		<ed-heading tagName="h2" variant="title-sm">Process</ed-heading>
 		<div class="ed-r-rails-lab__pipeline-scroll" data-pipeline-scroll tabindex="0" role="region" aria-label="Left-to-right pipeline; scroll horizontally for later steps">
 		<ol class="ed-r-rails-lab__pipeline">
@@ -101,24 +103,45 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 		</ol>
 		</div>
 	</section>
-	<aside class="ed-r-rails-lab__rail ed-r-rails-lab__rail--eddie" data-piece-group aria-label="Eddie design system">
-						<ed-heading tagName="h2" variant="title-sm">Eddie Design System</ed-heading>
-						<ed-text-passage size="sm"><p>The source of truth.<br>The ingredients you actually ship.</p></ed-text-passage>
-						<div class="ed-r-rails-lab__packages">
-						{% for package in railsLab.packages %}
-							<div class="ed-r-rails-lab__package" data-piece="{{ package.id }}" data-in="{{ package.rungIn }}"><div class="ed-r-rails-lab__package-label"><ed-icon name="{{ package.icon }}"></ed-icon><span>{{ package.label }}</span></div><div data-description class="ed-r-rails-lab__description"><ed-text-passage size="sm"><p>{{ package.description | safe }}</p></ed-text-passage></div></div>
-						{% endfor %}
-						</div>
-					</aside>
-	<section class="ed-r-rails-lab__process" data-piece="cfg-process" data-in="8" aria-label="Organizational process">
-		<div class="ed-r-rails-lab__process-label"><ed-icon name="layers"></ed-icon><strong>bfw-process</strong><span>THE RULEBOOK UNDERNEATH THE WORK</span></div>
-		<ol class="ed-r-rails-lab__phases"><li>1 Scope</li><li>2 Spec <span><ed-icon name="user"></ed-icon> Approve</span></li><li>3 Plan</li><li>4 Build</li><li>5 Verify <span><ed-icon name="lock"></ed-icon> Ship gate</span></li><li>6 Ship &amp; document</li></ol>
-	</section>
+	</ed-layout-container>
+	<ed-band class="ed-r-rails-lab__band" variant="knockout" data-piece-group><ed-layout-container>
+		<section class="ed-r-rails-lab__rail" aria-label="Eddie design system">
+			<ed-heading tagName="h2" variant="title-sm">{{ railsLab.eddie.title | safe }}</ed-heading>
+			<section class="ed-r-rails-lab__rail" data-piece-group aria-label="Eddie brain knowledge graph">
+				<ed-heading tagName="h3" variant="title-sm">{{ railsLab.eddie.brainTitle | safe }}</ed-heading>
+				<ed-text-passage knockout><p>{{ railsLab.eddie.brainDescription | safe }}</p></ed-text-passage>
+				<ul class="ed-r-rails-lab__packages">
+				{% for file in railsLab.files %}
+					<li class="ed-r-rails-lab__package" data-piece="{{ file.id }}" data-in="{{ file.rungIn }}"><ed-heading tagName="h4" variant="title-sm">{{ file.label | safe }}</ed-heading><ed-text-passage knockout size="sm"><p>{{ file.description | safe }}</p></ed-text-passage></li>
+				{% endfor %}
+				</ul>
+			</section>
+			<section class="ed-r-rails-lab__rail" data-piece-group aria-label="Eddie DS Packages">
+				<ed-heading tagName="h3" variant="title-sm">{{ railsLab.eddie.packagesTitle | safe }}</ed-heading>
+				<ed-text-passage knockout><p>{{ railsLab.eddie.packagesDescription | safe }}</p></ed-text-passage>
+				<ul class="ed-r-rails-lab__packages">
+				{% for package in railsLab.packages %}
+					<li class="ed-r-rails-lab__package" data-piece="{{ package.id }}" data-in="{{ package.rungIn }}"><ed-cluster gap="inline"><ed-icon name="{{ package.icon }}" knockout></ed-icon><ed-heading tagName="h4" variant="title-sm">{{ package.label | safe }}</ed-heading></ed-cluster><ed-text-passage knockout size="sm"><p>{{ package.description | safe }}</p></ed-text-passage></li>
+				{% endfor %}
+				</ul>
+			</section>
+		</section>
+	</ed-layout-container></ed-band>
+	<ed-band class="ed-r-rails-lab__band" data-piece="cfg-process" data-in="8"><ed-layout-container>
+		<section class="ed-r-rails-lab__rail" aria-label="Organizational process">
+			<ed-heading tagName="h2" variant="title-sm">{{ railsLab.process.label | safe }}</ed-heading>
+			<ed-heading tagName="h3" variant="title-sm">{{ railsLab.process.title | safe }}</ed-heading>
+			<ed-text-passage><p>{{ railsLab.process.description | safe }}</p></ed-text-passage>
+			<ol class="ed-r-rails-lab__phases">{{ railsLab.process.phases | replace('ph__n', 'ed-r-rails-lab__phase-number') | replace('ph--hard', 'ed-r-rails-lab__phase-gate--hard') | replace('ph--gate', 'ed-r-rails-lab__phase-gate') | safe }}</ol>
+			<ul class="ed-r-rails-lab__tools">{% for chip in railsLab.process.chips %}<li>{{ chip | safe }}</li>{% endfor %}</ul>
+		</section>
+	</ed-layout-container></ed-band>
+	<ed-layout-container>
 	<ed-text-passage size="sm" class="ed-r-rails-lab__footer"><p>Faithfully. Reliably. Repeatedly. <a href="https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/77065460-bradfrost-com-keeping-product-on-the-eddie-rails-multi-phase-bfw-process-settings-rules-validation">Watch the course lesson</a></p></ed-text-passage>
 	<p class="ed-u-visually-hidden" aria-live="polite" data-live></p>
+	</ed-layout-container>
 </ed-stack>
 </aids-rails-lab>
-</ed-layout-container>
 </ed-main></ed-page>
 <script type="module" src="/js/components.js"></script>
 </body>

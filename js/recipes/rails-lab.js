@@ -1,4 +1,4 @@
-import "@brad-frost-web/eddie-web-components/components/layout/layout.js";
+import "@brad-frost-web/eddie-web-components/components/band/band.js";
 import "@brad-frost-web/eddie-web-components/components/layout-section/layout-section.js";
 import "@brad-frost-web/eddie-web-components/components/icon/icon.js";
 import "@brad-frost-web/eddie-web-components/components/toggle/toggle.js";

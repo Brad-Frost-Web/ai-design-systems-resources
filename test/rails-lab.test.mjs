@@ -26,6 +26,23 @@ test("pipeline relationships resolve to actual diagram ingredients", () => {
 	}
 });
 
+test("system sections retain all authored files, packages, and process copy", () => {
+	assert.equal(lab.files.length, 6);
+	assert.equal(lab.packages.length, 10);
+	for (const item of [...lab.files, ...lab.packages]) {
+		assert.ok(item.label.trim().length > 0);
+		assert.ok(item.description.trim().length > 0);
+		assert.ok(original.includes(item.label), `${item.id} label was rewritten`);
+		assert.ok(original.includes(item.description), `${item.id} description was rewritten`);
+	}
+	for (const value of [...Object.values(lab.eddie), lab.process.label, lab.process.title, lab.process.description, lab.process.phases, ...lab.process.chips]) {
+		assert.ok(value.trim().length > 0);
+		assert.ok(original.includes(value), "Authored system section copy changed");
+	}
+	assert.equal((lab.process.phases.match(/<li\b/g) || []).length, 8);
+	assert.equal(lab.process.chips.length, 8);
+});
+
 test("human judgment stays separate from automatic validation and merge gates", () => {
 	const byId = Object.fromEntries(lab.stations.map(station => [station.id, station]));
 	assert.equal(byId.s5.kind, "check");

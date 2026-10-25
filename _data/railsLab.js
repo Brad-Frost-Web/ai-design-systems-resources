@@ -59,10 +59,27 @@ const terminals = {
 	output: { title: authoredField(outputSource, "terminal__title"), tag: authoredField(outputSource, "terminal__tag"), description: authoredField(outputSource, "terminal__sub") },
 	feedback: { title: authoredField(feedbackSource, "terminal__title").replace(/<svg[\s\S]*?<\/svg>/, '<ed-icon name="refresh-cw"></ed-icon>'), description: feedbackSource.match(/<div class="terminal__sub">([\s\S]*?)<\/article>/)[1].trim() },
 };
-const packageIcons = { "design-tokens": "palette", "web-components": "grid", recipes: "layers", pages: "file-text", icons: "star", charts: "trending-up", brain: "command", reporter: "refresh-cw" };
-const packages = base.groups[2].pieces.filter(p => p.id.startsWith("pkg-")).map(p => ({
-	...p, icon: packageIcons[p.id.slice(4)], description: content(originalItem(p.id), "pkg__meta"),
+const packageIcons = { "design-tokens": "palette", "web-components": "grid", recipes: "layers", pages: "file-text", icons: "star", charts: "trending-up", brain: "command", reporter: "refresh-cw", boilerplates: "layers", website: "book-open" };
+const eddiePieces = new Map(base.groups[2].pieces.map(piece => [piece.id, piece]));
+const packages = [...original.matchAll(/<li class="pkg" data-id="([^"]+)"/g)].map(([, id]) => ({
+	id, rungIn: eddiePieces.get(id)?.rungIn ?? 3,
+	label: content(originalItem(id), "pkg__name"), icon: packageIcons[id.slice(4)], description: content(originalItem(id), "pkg__meta"),
 }));
+const files = base.groups[2].pieces.filter(piece => piece.kind === "file").map(piece => ({
+	...piece, label: content(originalItem(piece.id), "file__name"), description: content(originalItem(piece.id), "file__meta"),
+}));
+const brainHeading = authoredField(original, "pkgs-head brain-head");
+const packagesHeading = authoredField(original, "pkgs-head");
+const eddie = {
+	title: content(original, "brain__feed"),
+	brainTitle: brainHeading.split("<span")[0], brainDescription: authoredField(brainHeading, "pkgs-head__note"),
+	packagesTitle: packagesHeading.split("<span")[0], packagesDescription: authoredField(packagesHeading, "pkgs-head__note"),
+};
+const process = {
+	label: authoredField(original, "proc__badge"), title: content(original, "proc__name"), description: content(original, "proc__desc"),
+	phases: authoredField(original, "proc__phases"),
+	chips: [...authoredField(original, "proc__chips").matchAll(/<li>([\s\S]*?)<\/li>/g)].map(match => match[1]),
+};
 const headlines = [
 	"A prompt is not a system.", "Preferences give direction.", "Rules make intent explicit.",
 	"Use the real ingredients.", "Give AI a source of truth.", "Compose. Don’t reinvent.",
@@ -71,4 +88,4 @@ const headlines = [
 ];
 const rungs = base.rungs.map((r, i) => ({ ...r, headline: headlines[i] }));
 rungs[9].now = "Required checks can block a merge; a person still decides whether the work should ship.";
-module.exports = { concepts, stations, terminals, packages, rungs, lastRung: 10 };
+module.exports = { concepts, stations, terminals, packages, files, eddie, process, rungs, lastRung: 10 };
