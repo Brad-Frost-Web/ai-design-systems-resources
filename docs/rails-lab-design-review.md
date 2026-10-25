@@ -90,3 +90,8 @@ Brad rejected the persistent step headline, explanation, missing-piece panel and
 separate legend. Those elements and their styling are removed. The existing
 step buttons carry optional native hover text; the slider and live region
 still announce the current step. Human/AI/check labels remain on the stations.
+
+The process heading is now “Process,” without the scroll instruction. The page
+uses Eddie’s supported `--ed-layout-container-max-width: 100%` with the `wide`
+variant removed (that variant overrode the custom property with an 80rem cap).
+The installed Eddie version does not expose a `full` variant.

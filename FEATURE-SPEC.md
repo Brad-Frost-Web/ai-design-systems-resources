@@ -9,6 +9,9 @@ last_updated: 2026-10-25
 amendments:
   - date: 2026-10-25
     author: Brad Frost
+    summary: Remove the horizontal-scroll helper sentence, label the diagram Process, and make its layout container full-width.
+  - date: 2026-10-25
+    author: Brad Frost
     summary: Remove the sibling’s narrative and legend band; retain optional step explanation in hover text without a persistent footprint.
   - date: 2026-10-25
     author: Brad Frost

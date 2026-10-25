@@ -16,7 +16,7 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 </head>
 <body class="ed-r-rails-lab-page">
 <ed-page variant="flush"><ed-main flush>
-<ed-layout-container variant="wide">
+<ed-layout-container>
 <aids-rails-lab class="ed-r-rails-lab">
 <ed-stack gap="inline">
 	<ed-cluster justify="between" class="ed-r-rails-lab__masthead">
@@ -60,8 +60,8 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 				{% endfor %}
 				</div>
 			</aside>
-	<section class="ed-r-rails-lab__canvas" aria-label="UI creation pipeline">
-		<ed-cluster justify="between"><ed-heading tagName="h2" variant="meta-default">The pipeline →</ed-heading><ed-text-passage size="sm"><p>Follow the steps left to right. Scroll sideways to explore the full process.</p></ed-text-passage></ed-cluster>
+	<section class="ed-r-rails-lab__canvas" aria-label="UI creation process">
+		<ed-heading tagName="h2" variant="meta-default">Process</ed-heading>
 		<div class="ed-r-rails-lab__pipeline-scroll" data-pipeline-scroll tabindex="0" role="region" aria-label="Left-to-right pipeline; scroll horizontally for later steps">
 		<ol class="ed-r-rails-lab__pipeline">
 			<li class="ed-r-rails-lab__endpoint"><div class="ed-r-rails-lab__entry"><ed-icon name="user"></ed-icon><span><strong>You set the intent</strong><br>“Build me a pricing page.”</span><ed-icon name="arrow-forward"></ed-icon></div></li>
