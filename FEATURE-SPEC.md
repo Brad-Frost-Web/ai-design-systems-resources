@@ -9,6 +9,9 @@ last_updated: 2026-10-25
 amendments:
   - date: 2026-10-25
     author: Brad Frost
+    summary: Use the course robot for the automated Validate card, retaining its validation classification and authored copy.
+  - date: 2026-10-25
+    author: Brad Frost
     summary: Make the composer ambient by removing its count and controls, reduce and right-align agent robots beside number/label headers, and align slider thumb stops exactly with the seven label centers. Animation can be disabled in Settings.
   - date: 2026-10-25
     approved-by: Brad (explicit chat instruction)

@@ -4,11 +4,12 @@ eleventyExcludeFromCollections: true
 eddie-template: none — product-local horizontal teaching diagram, layout directed by Brad
 ---
 {% macro stationCard(station) %}
+{% set isAgent = station.kind == "ai" or station.id == "s5" %}
 			<li class="ed-r-rails-lab__station ed-r-rails-lab__station--{{ station.kind }}{% if station.id == 's8' %} ed-r-rails-lab__station--steel{% endif %}" data-piece="{{ station.id }}" data-in="{{ station.in }}" data-uses="{{ station.uses }}">
 				<span class="ed-r-rails-lab__connector" data-connector="{{ station.id }}"><ed-icon name="{{ station.connector }}"{% if station.connector == "refresh-cw" %} iconTitle="Revise and check again"{% endif %}></ed-icon></span>
 				<article class="ed-r-rails-lab__card">
 					<button class="ed-r-rails-lab__station-control" type="button" data-station="{{ station.id }}" aria-pressed="false" title="Highlight connections">
-						<span class="ed-r-rails-lab__number" data-process-number>{{ (station.id | replace("s", "") | int) + 1 }}</span>{% if station.kind != "ai" %}<ed-icon name="{{ station.icon }}"></ed-icon>{% endif %}<span>{{ station.kicker | safe }}</span>{% if station.kind == "ai" %}<ed-icon class="ed-r-rails-lab__robot" name="course-robot" iconUrl="/images/course-robot.svg"></ed-icon>{% endif %}
+						<span class="ed-r-rails-lab__number" data-process-number>{{ (station.id | replace("s", "") | int) + 1 }}</span>{% if not isAgent %}<ed-icon name="{{ station.icon }}"></ed-icon>{% endif %}<span>{{ station.kicker | safe }}</span>{% if isAgent %}<ed-icon class="ed-r-rails-lab__robot" name="course-robot" iconUrl="/images/course-robot.svg"></ed-icon>{% endif %}
 					</button>
 					<ed-heading tagName="h3" variant="title-sm">{{ (station.presentationTitle or station.title) | safe }}</ed-heading>
 					{% if station.id == 's2' %}
