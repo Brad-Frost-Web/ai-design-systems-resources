@@ -123,7 +123,7 @@ async function promptHarness(reducedMotion = false) {
 	const document = new Node();
 	const media = new Node();
 	media.matches = reducedMotion;
-	const nodes = Object.fromEntries(["[data-prompt-next]", "[data-prompt-pause]", "[data-prompt-count]", "[data-prompt-examples]", ".ed-r-rails-lab__composer"].map(key => [key, new Node()]));
+	const nodes = Object.fromEntries(["[data-prompt-motion]"].map(key => [key, new Node()]));
 	const prompts = lab.terminals.entry.prompts.map(textContent => Object.assign(new Node(), { textContent }));
 	runInNewContext(source, {
 		HTMLElement: Node, document, matchMedia: () => media,
@@ -136,26 +136,23 @@ async function promptHarness(reducedMotion = false) {
 	recipe.all = () => prompts;
 	recipe.one = selector => nodes[selector];
 	recipe.setupPrompts((target, event, callback) => target.addEventListener(event, callback));
-	const click = selector => nodes[selector].dispatchEvent(new Event("click"));
+	const animate = enabled => { nodes["[data-prompt-motion]"].checked = enabled; nodes["[data-prompt-motion]"].dispatchEvent(new Event("change")); };
 	const tick = () => { const task = [...timers.entries()][0]; if (task) { timers.delete(task[0]); task[1](); } };
 	const visible = () => prompts.filter(prompt => !prompt.hidden).map(prompt => prompt.textContent);
-	return { recipe, nodes, document, media, timers, click, tick, visible };
+	return { recipe, nodes, document, media, timers, animate, tick, visible };
 }
 
-test("prompt examples cycle verbatim, pause, advance manually, and stop on disconnect", async () => {
+test("ambient prompts cycle verbatim, honor the settings switch, and stop on disconnect", async () => {
 	const h = await promptHarness();
 	for (let index = 0; index < 4; index++) {
 		assert.deepEqual(h.visible(), [lab.terminals.entry.prompts[index % 3]]);
 		assert.equal(h.timers.size, 1);
 		h.tick();
 	}
-	h.click("[data-prompt-pause]");
+	h.animate(false);
 	assert.equal(h.timers.size, 0);
 	const paused = h.visible(); h.tick(); assert.deepEqual(h.visible(), paused);
-	h.click("[data-prompt-next]");
-	assert.notDeepEqual(h.visible(), paused);
-	assert.equal(h.timers.size, 0);
-	h.click("[data-prompt-pause]");
+	h.animate(true);
 	assert.equal(h.timers.size, 1);
 	h.document.hidden = true; h.document.dispatchEvent(new Event("visibilitychange"));
 	assert.equal(h.timers.size, 0);
@@ -165,16 +162,13 @@ test("prompt examples cycle verbatim, pause, advance manually, and stop on disco
 	assert.equal(h.timers.size, 0);
 });
 
-test("reduced motion and keyboard exploration stop automatic prompt changes", async () => {
+test("ambient prompts start still for reduced motion and respond to preference changes", async () => {
 	const h = await promptHarness(true);
 	assert.equal(h.timers.size, 0);
-	h.click("[data-prompt-next]");
-	assert.deepEqual(h.visible(), [lab.terminals.entry.prompts[1]]);
-	h.click("[data-prompt-pause]"); // Explicit play may override the initial preference.
+	assert.deepEqual(h.visible(), [lab.terminals.entry.prompts[0]]);
+	h.animate(true); // Explicit settings choice may override the initial preference.
 	assert.equal(h.timers.size, 1);
-	h.nodes[".ed-r-rails-lab__composer"].dispatchEvent(new Event("focusin"));
-	assert.equal(h.timers.size, 0);
-	h.click("[data-prompt-pause]");
 	h.media.dispatchEvent(new Event("change"));
 	assert.equal(h.timers.size, 0);
+	assert.equal(h.nodes["[data-prompt-motion]"].checked, false);
 });

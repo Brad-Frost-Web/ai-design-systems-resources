@@ -61,14 +61,8 @@ class RailsLab extends HTMLElement {
 		this.promptIndex = 0;
 		this.promptMotion = matchMedia("(prefers-reduced-motion: reduce)");
 		this.promptPaused = this.promptMotion.matches;
-		this.one("[data-prompt-next]").hidden = false;
-		this.one("[data-prompt-pause]").hidden = false;
-		on(this.one("[data-prompt-next]"), "click", () => {
-			this.promptPaused = true;
-			this.advancePrompt();
-		});
-		on(this.one("[data-prompt-pause]"), "click", () => {
-			this.promptPaused = !this.promptPaused;
+		on(this.one("[data-prompt-motion]"), "change", e => {
+			this.promptPaused = !e.currentTarget.checked;
 			this.renderPrompt();
 		});
 		on(this.promptMotion, "change", () => {
@@ -76,11 +70,6 @@ class RailsLab extends HTMLElement {
 			this.renderPrompt();
 		});
 		on(document, "visibilitychange", () => this.renderPrompt());
-		// Keyboard exploration stops rotation until the viewer explicitly resumes it.
-		on(this.one(".ed-r-rails-lab__composer"), "focusin", () => {
-			this.promptPaused = true;
-			this.renderPrompt();
-		});
 		this.renderPrompt();
 	}
 	advancePrompt() {
@@ -90,11 +79,7 @@ class RailsLab extends HTMLElement {
 	renderPrompt() {
 		clearTimeout(this.promptTimer);
 		this.prompts.forEach((prompt, index) => prompt.hidden = index !== this.promptIndex);
-		this.one("[data-prompt-count]").textContent = `Example ${this.promptIndex + 1} / ${this.prompts.length}`;
-		this.one("[data-prompt-examples]").setAttribute("aria-live", this.promptPaused ? "polite" : "off");
-		const pause = this.one("[data-prompt-pause]");
-		pause.setAttribute("text", this.promptPaused ? "Play examples" : "Pause examples");
-		pause.setAttribute("iconName", this.promptPaused ? "play" : "pause");
+		this.one("[data-prompt-motion]").checked = !this.promptPaused;
 		if (!this.promptPaused && !document.hidden && this.isConnected) {
 			this.promptTimer = setTimeout(() => this.advancePrompt(), 4500);
 		}
@@ -125,6 +110,7 @@ class RailsLab extends HTMLElement {
 		this.one("[data-present]").setAttribute("aria-pressed", String(this.present));
 		const range = this.one("[data-range]");
 		range.value = this.rung;
+		range.style.setProperty("--ed-rails-progress", `${this.rung / this.lastRung * 100}%`);
 		const step = this.one(`[data-step="${this.rung}"]`);
 		range.setAttribute("aria-valuetext", `Level ${this.rung + 1} of ${this.lastRung + 1}: ${step.dataset.title}`);
 		this.all("[data-step]").forEach(el => {
