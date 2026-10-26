@@ -9,6 +9,9 @@ last_updated: 2026-10-25
 amendments:
   - date: 2026-10-25
     author: Brad Frost
+    summary: Implement the approved seven-level spectrum (Prompted, Instructed, System-grounded, System-composed, Automatically checked, Process-governed, Connected back to the system). Human review and resulting UI persist at every level; specification precedes building, release gates follow review, and shipping is distinct from the result. Keep the original sibling comparison untouched.
+  - date: 2026-10-25
+    author: Brad Frost
     summary: Restore the original Eddie Design System and bfw-process copy verbatim, including files, packages, phases, gates and chips. Delineate these sections and AI dev concepts with full-width Eddie bands instead of outer card containers.
   - date: 2026-10-25
     author: Brad Frost

@@ -3,6 +3,24 @@ permalink: /demos/keep-ai-on-the-rails-lab/
 eleventyExcludeFromCollections: true
 eddie-template: none — product-local horizontal teaching diagram, layout directed by Brad
 ---
+{% macro stationCard(station) %}
+			<li class="ed-r-rails-lab__station ed-r-rails-lab__station--{{ station.kind }}{% if station.id == 's8' %} ed-r-rails-lab__station--steel{% endif %}" data-piece="{{ station.id }}" data-in="{{ station.in }}" data-uses="{{ station.uses }}">
+				<span class="ed-r-rails-lab__connector" data-connector="{{ station.id }}"><ed-icon name="{{ station.connector }}"{% if station.connector == "refresh-cw" %} iconTitle="Revise and check again"{% endif %}></ed-icon></span>
+				<article class="ed-r-rails-lab__card">
+					<button class="ed-r-rails-lab__station-control" type="button" data-station="{{ station.id }}" aria-pressed="false" title="Highlight connections">
+						<span class="ed-r-rails-lab__number" data-process-number>{{ (station.id | replace("s", "") | int) + 1 }}</span><ed-icon name="{{ station.icon }}"></ed-icon><span>{{ station.kicker | safe }}</span>
+					</button>
+					<ed-heading tagName="h3" variant="title-sm">{{ (station.presentationTitle or station.title) | safe }}</ed-heading>
+					{% if station.id == 's2' %}
+					<ed-text-passage data-piece="rules-basic" data-in="1" data-out="5" hidden><p>The agent reads your preferences, project rules, design guidance, and examples before generating UI.</p></ed-text-passage>
+					<ed-text-passage data-piece="rules-governed" data-in="5"><p>{{ station.description | safe }}</p></ed-text-passage>
+					{% else %}<ed-text-passage><p>{{ (station.presentationDescription or station.description) | safe }}</p></ed-text-passage>{% endif %}
+					<ul class="ed-r-rails-lab__tools">{% for tool in station.tools %}<li{% if station.id == "s2" and tool == "bfw-process" %} data-piece="rules-process-tool" data-in="5"{% endif %}>{{ tool | safe }}</li>{% endfor %}</ul>
+					{% if station.id == 's7' %}<ed-text-passage><p><ed-icon name="refresh-cw"></ed-icon> Request changes → revise → review</p></ed-text-passage>{% endif %}
+					<div class="ed-r-rails-lab__prevents"><ed-text-passage><p>{{ station.prevents | replace('blocks__label', 'ed-r-rails-lab__prevents-label') | safe }}</p></ed-text-passage></div>
+				</article>
+			</li>
+{% endmacro %}
 <!doctype html>
 <html lang="en" class="bfw">
 <head>
@@ -37,16 +55,16 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 			<ed-text-passage size="sm"><p>Arrow keys step through. Home starts over. End shows the full system. Escape exits presentation.</p></ed-text-passage>
 		</ed-cluster>
 	</ed-card>
-	<section class="ed-r-rails-lab__spectrum" aria-label="From vibe coding to a system-driven process" data-controls hidden>
+	<section class="ed-r-rails-lab__spectrum" aria-label="Spectrum of system-guided UI generation" data-controls hidden>
 		<div class="ed-r-rails-lab__spectrum-labels">
-			<span><ed-icon name="sparkles"></ed-icon> Vibe coding</span>
+			<span><ed-icon name="sparkles"></ed-icon> Model-directed</span>
 			<span class="ed-r-rails-lab__micro">Spectrum of system-guided UI generation</span>
-			<span>System-driven <ed-icon name="layers"></ed-icon></span>
+			<span>System-directed <ed-icon name="layers"></ed-icon></span>
 		</div>
-		<label class="ed-u-visually-hidden" for="lab-spectrum">Guardrail level</label>
-		<input class="ed-r-rails-lab__range" id="lab-spectrum" data-range type="range" min="0" max="10" step="1" value="0">
-		<nav class="ed-r-rails-lab__ticks" aria-label="Lesson steps">
-		{% for rung in railsLab.rungs %}<button class="ed-r-rails-lab__tick" data-step="{{ loop.index0 }}" data-title="{{ rung.title | escape }}" title="{{ rung.headline | escape }} {{ rung.adds | escape }} {{ (rung.breaks or rung.now) | escape }}" type="button" aria-label="Step {{ loop.index0 }}: {{ rung.title }}"><span class="ed-r-rails-lab__tick-number">{{ loop.index0 }}</span><span>{{ rung.short }}</span></button>{% endfor %}
+		<label class="ed-u-visually-hidden" for="lab-spectrum">System guidance level</label>
+		<input class="ed-r-rails-lab__range" id="lab-spectrum" data-range type="range" min="0" max="{{ railsLab.lastRung }}" step="1" value="0">
+		<nav class="ed-r-rails-lab__ticks" aria-label="System guidance levels">
+		{% for rung in railsLab.rungs %}<button class="ed-r-rails-lab__tick" data-step="{{ loop.index0 }}" data-title="{{ rung.title | escape }}" data-result-title="{{ rung.outputTitle | escape }}" data-result-caption="{{ rung.outputCaption | escape }}" data-generation="{{ rung.generation | default('') | escape }}" title="{{ rung.adds | escape }}" type="button" aria-label="Level {{ loop.index }}: {{ rung.title }}"><span class="ed-r-rails-lab__tick-number">{{ loop.index }}</span><span>{{ rung.short }}</span></button>{% endfor %}
 		</nav>
 	</section>
 </ed-stack></ed-layout-container>
@@ -57,7 +75,7 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 				{% for concept in railsLab.concepts %}
 					<article class="ed-r-rails-lab__concept" data-piece="{{ concept.id }}" data-in="{{ concept.rungIn }}">
 						<ed-cluster gap="inline"><ed-icon name="{{ concept.icon }}"></ed-icon><ed-heading tagName="h3" variant="title-sm">{{ concept.label }}</ed-heading></ed-cluster>
-						<div class="ed-r-rails-lab__description" data-description><ed-text-passage size="sm"><p>{{ concept.description | safe }}</p><p>{{ concept.example | safe }}</p></ed-text-passage></div>
+						<div class="ed-r-rails-lab__description" data-description><ed-text-passage size="sm"><p>{{ concept.description | safe }}</p><p>{{ concept.example | replace('Station&nbsp;8', 'Station&nbsp;<span data-station-reference="s8">9</span>') | safe }}</p></ed-text-passage></div>
 					</article>
 				{% endfor %}
 				</div>
@@ -70,33 +88,30 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 				<ed-icon name="user"></ed-icon><ed-heading tagName="h3" variant="title-sm">{{ railsLab.terminals.entry.title | safe }}</ed-heading>
 				<ed-text-passage>{% for prompt in railsLab.terminals.entry.prompts %}<p>{{ prompt | safe }}</p>{% endfor %}</ed-text-passage>
 			</article></li>
-			{% for station in railsLab.stations %}
-			<li class="ed-r-rails-lab__station ed-r-rails-lab__station--{{ station.kind }}{% if station.id == 's8' %} ed-r-rails-lab__station--steel{% endif %}" data-piece="{{ station.id }}" data-in="{{ station.in }}" data-uses="{{ station.uses }}">
-				<span class="ed-r-rails-lab__connector" data-connector="{{ station.id }}"><ed-icon name="{{ station.connector }}"{% if loop.index >= 5 %} iconTitle="Iterate between steps {{ loop.index - 1 }} and {{ loop.index }}"{% endif %}></ed-icon></span>
-				<article class="ed-r-rails-lab__card">
-					<button class="ed-r-rails-lab__station-control" type="button" data-station="{{ station.id }}" aria-pressed="false" title="Highlight connections">
-						<span class="ed-r-rails-lab__number">{{ loop.index }}</span><ed-icon name="{{ station.icon }}"></ed-icon><span>{{ station.kicker | safe }}</span>
-					</button>
-					<ed-heading tagName="h3" variant="title-sm">{{ station.title | safe }}</ed-heading>
-					<ed-text-passage><p>{{ station.description | safe }}</p></ed-text-passage>
-					<ul class="ed-r-rails-lab__tools">{% for tool in station.tools %}<li>{{ tool | safe }}</li>{% endfor %}</ul>
-					<div class="ed-r-rails-lab__prevents"><ed-text-passage><p>{{ station.prevents | replace('blocks__label', 'ed-r-rails-lab__prevents-label') | safe }}</p></ed-text-passage></div>
-				</article>
+			<li class="ed-r-rails-lab__station ed-r-rails-lab__station--human" data-piece="specification" data-in="5" data-uses="cfg-process">
+				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
+				<article class="ed-r-rails-lab__card"><span class="ed-r-rails-lab__station-control"><span class="ed-r-rails-lab__number" data-process-number>1</span><ed-icon name="user"></ed-icon> HUMAN + AI</span><ed-heading tagName="h3" variant="title-sm">Agree on what to build</ed-heading><ed-text-passage><p>Define the intended result, requirements, and acceptance criteria. A human approves the specification before the agent starts building.</p></ed-text-passage><ul class="ed-r-rails-lab__tools"><li>FEATURE-SPEC.md</li><li>human approval</li></ul></article>
 			</li>
+			{% for station in railsLab.buildStations %}
+			{% if station.id == 's4' %}
+			<li class="ed-r-rails-lab__station" data-piece="generate" data-in="0" data-out="3" hidden>
+				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
+				<article class="ed-r-rails-lab__card"><span class="ed-r-rails-lab__station-control"><span class="ed-r-rails-lab__number" data-process-number>1</span><ed-icon name="sparkles"></ed-icon> AI AGENT</span><ed-heading tagName="h3" variant="title-sm">Generate &amp; render UI</ed-heading><ed-text-passage><p data-generation-copy>{{ railsLab.rungs[0].generation }}</p></ed-text-passage></article>
+			</li>
+			{% endif %}
+			{{ stationCard(station) }}
 			{% endfor %}
-			<li class="ed-r-rails-lab__station" data-piece="generate" data-in="0" data-out="5">
+			<li class="ed-r-rails-lab__endpoint" data-piece="output-preview" data-in="0">
 				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
-				<article class="ed-r-rails-lab__card"><span><ed-icon name="sparkles"></ed-icon> AI AGENT</span><ed-heading tagName="h3" variant="title-sm">Generate UI</ed-heading><ed-text-passage><p>The model fills in the blanks.</p></ed-text-passage></article>
+				<article class="ed-r-rails-lab__card ed-r-rails-lab__output"><ed-icon name="grid"></ed-icon><ed-heading tagName="h3" variant="title-sm">Resulting UI</ed-heading><ed-text-passage><p><strong data-output-title>{{ railsLab.rungs[6].outputTitle }}</strong></p><p data-output-caption>{{ railsLab.rungs[6].outputCaption }}</p></ed-text-passage></article>
 			</li>
-			<li class="ed-r-rails-lab__endpoint" data-piece="output-preview" data-in="0" data-out="9">
-				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
-				<article class="ed-r-rails-lab__card ed-r-rails-lab__output"><ed-icon name="grid"></ed-icon><ed-heading tagName="h3" variant="title-sm" data-output-title>A UI. Not necessarily your UI.</ed-heading><ed-text-passage><p data-output-caption>The model fills in the design decisions.</p></ed-text-passage></article>
-			</li>
-			<li class="ed-r-rails-lab__endpoint" data-piece="output-final" data-in="9">
+			{{ stationCard(railsLab.review) }}
+			{% for station in railsLab.deliveryStations %}{{ stationCard(station) }}{% endfor %}
+			<li class="ed-r-rails-lab__endpoint" data-piece="output-final" data-in="5">
 				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
 				<article class="ed-r-rails-lab__card ed-r-rails-lab__output"><span>{{ railsLab.terminals.output.tag }}</span><ed-heading tagName="h3" variant="title-sm">{{ railsLab.terminals.output.title | safe }}</ed-heading><ed-text-passage><p>{{ railsLab.terminals.output.description | safe }}</p></ed-text-passage></article>
 			</li>
-			<li class="ed-r-rails-lab__endpoint" data-piece="feedback" data-in="10" data-uses="pkg-reporter pkg-brain cfg-process">
+			<li class="ed-r-rails-lab__endpoint" data-piece="feedback" data-in="6" data-uses="pkg-reporter pkg-brain cfg-process">
 				<span class="ed-r-rails-lab__connector"><ed-icon name="refresh-cw" iconTitle="Product and design system feedback loop"></ed-icon></span>
 				<article class="ed-r-rails-lab__card ed-r-rails-lab__feedback"><ed-heading tagName="h3" variant="title-sm"><button type="button" data-station="feedback" aria-pressed="false" title="Highlight product and design system connections">{{ railsLab.terminals.feedback.title | safe }}</button></ed-heading><ed-text-passage><p>{{ railsLab.terminals.feedback.description | safe }}</p></ed-text-passage></article>
 			</li>
@@ -127,7 +142,7 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 			</section>
 		</section>
 	</ed-layout-container></ed-band>
-	<ed-band class="ed-r-rails-lab__band" data-piece="cfg-process" data-in="8"><ed-layout-container>
+	<ed-band class="ed-r-rails-lab__band" data-piece="cfg-process" data-in="5"><ed-layout-container>
 		<section class="ed-r-rails-lab__rail" aria-label="Organizational process">
 			<ed-heading tagName="h2" variant="title-sm">{{ railsLab.process.label | safe }}</ed-heading>
 			<ed-heading tagName="h3" variant="title-sm">{{ railsLab.process.title | safe }}</ed-heading>

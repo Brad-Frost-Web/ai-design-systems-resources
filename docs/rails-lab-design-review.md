@@ -130,3 +130,34 @@ reach both viewport edges. Browser checks at 1280px and 385px confirm no page
 overflow; rungs 0, 1, 3, 4, 8 and 10 preserve progressive disclosure. The concept
 toggle still works without hiding the restored system descriptions. Build and
 all 12 tests pass; independent Spec and Standards reviews report no new findings.
+
+## Seven-level spectrum
+
+Brad approved replacing the eleven tool/activity rungs with seven infrastructure
+levels: Prompted, Instructed, System-grounded, System-composed, Automatically
+checked, Process-governed, and Connected back to the system. The existing recipe
+and state helpers carry this change; no new framework or UI pattern is needed.
+Settings and rule files consolidate into Instructed; packages and authoritative
+knowledge into System-grounded; workflow and release gates into Process-governed.
+
+The resulting UI and human review now appear at every level, in that order.
+The output copy describes intended use and limits at each level rather than
+claiming increasing visual quality. The human feedback loop stays explicit.
+Specification precedes building in the governed levels; CI and merge approval
+follow human review; shipping is a separate downstream event. Existing sync
+connectors and the product/system feedback loop remain.
+
+Original system-section and concept source copy remain intact. The review card
+loses its obsolete step-six dependency; the early rules card describes guidance
+until governance appears. The Hooks example's station numeral follows the actual
+Steel Curtain badge. Visible process actions renumber independently of the seven
+levels. URLs remain zero-indexed (`rung=0` through `6`); an old `rung=10` clamps
+to the complete system. Keyboard numbers 1–7 match the displayed level labels.
+
+Build and 14 tests pass, including rendered-template order checks at all seven
+levels. Browser verification confirms universal result/review, hidden future
+pieces, level-specific output, Home/number/slider keys, descriptions, and matching
+station references. Independent Spec and Standards findings were corrected and
+re-reviewed. Local preview only; original demo files and dependencies unchanged.
+The existing feature branch remains five commits behind remote main deliberately
+to keep unrelated base changes out of this review iteration.

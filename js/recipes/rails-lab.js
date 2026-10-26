@@ -23,6 +23,7 @@ class RailsLab extends HTMLElement {
 		this.all = selector => [...this.querySelectorAll(selector)];
 		this.one = selector => this.querySelector(selector);
 		this.all("[data-controls], [data-present], [data-settings-button]").forEach(el => el.hidden = false);
+		this.lastRung = Number(this.one("[data-range]").max);
 		this.readURL();
 		on(this.one("[data-range]"), "input", e => this.setRung(e.target.value));
 		this.all("[data-step]").forEach(el => on(el, "click", () => this.setRung(el.dataset.step)));
@@ -49,17 +50,18 @@ class RailsLab extends HTMLElement {
 			if (e.key === "Escape") { this.present = false; this.render(); this.writeURL(); return; }
 			if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
 			if (e.composedPath().some(el => el instanceof Element && el.matches("input,select,textarea,[contenteditable=true],ed-toggle,[data-pipeline-scroll]"))) return;
-			const next = rungForKey(e.key, this.rung, 10);
+			const next = rungForKey(/^[1-7]$/.test(e.key) ? String(Number(e.key) - 1) : e.key, this.rung, this.lastRung);
 			if (next !== null) { e.preventDefault(); this.setRung(next); }
 		});
 	}
 	disconnectedCallback() { cancelAnimationFrame(this.frame); this.abort?.abort(); this.ready = false; }
 	readURL() {
 		const params = new URLSearchParams(location.search);
-		this.rung = rungFromSearch(location.search, 10);
+		this.rung = rungFromSearch(location.search, this.lastRung);
 		for (const key of ["descriptions", "present"]) this[key] = params.get(key) === "1";
 		this.selected = null;
 		this.render();
+		this.writeURL();
 	}
 	writeURL() {
 		const url = new URL(location.href);
@@ -70,7 +72,7 @@ class RailsLab extends HTMLElement {
 		}
 		history.replaceState(null, "", url);
 	}
-	setRung(value) { this.rung = clampRung(value, 10); this.selected = null; this.render(); this.writeURL(); }
+	setRung(value) { this.rung = clampRung(value, this.lastRung); this.selected = null; this.render(); this.writeURL(); }
 	render() {
 		this.dataset.rung = this.rung;
 		this.toggleAttribute("data-presenting", this.present);
@@ -79,7 +81,7 @@ class RailsLab extends HTMLElement {
 		const range = this.one("[data-range]");
 		range.value = this.rung;
 		const step = this.one(`[data-step="${this.rung}"]`);
-		range.setAttribute("aria-valuetext", `${this.rung} of 10: ${step.dataset.title}`);
+		range.setAttribute("aria-valuetext", `Level ${this.rung + 1} of ${this.lastRung + 1}: ${step.dataset.title}`);
 		this.all("[data-step]").forEach(el => {
 			el.setAttribute("aria-current", Number(el.dataset.step) === this.rung ? "step" : "false");
 			el.dataset.reached = Number(el.dataset.step) <= this.rung;
@@ -96,10 +98,16 @@ class RailsLab extends HTMLElement {
 		this.all("[data-piece-group]").forEach(group => {
 			group.hidden = ![...group.querySelectorAll("[data-piece]")].some(piece => !piece.hidden);
 		});
-		const outputs = this.rung >= 9 ? ["A reviewed, system-built interface.", "Required gates + human approval before main."] : this.rung >= 7 ? ["A system-built UI, with human judgment.", "Review the result. Send changes back through the loop."] : this.rung >= 5 ? ["Your ingredients. An increasingly reliable result.", "Composition is repeatable; quality still needs checking."] : this.rung >= 3 ? ["Real ingredients. Uneven results.", "Access to the system is only the beginning."] : ["A UI. Not necessarily your UI.", "The model fills in the design decisions."];
-		this.one("[data-output-title]").textContent = outputs[0];
-		this.one("[data-output-caption]").textContent = outputs[1];
-		this.one("[data-live]").textContent = `Step ${this.rung} of 10. ${step.dataset.title}`;
+		this.one("[data-output-title]").textContent = step.dataset.resultTitle;
+		this.one("[data-output-caption]").textContent = step.dataset.resultCaption;
+		this.one("[data-generation-copy]").textContent = step.dataset.generation;
+		this.all(".ed-r-rails-lab__pipeline > li").filter(el => !el.hidden)
+			.flatMap(el => [...el.querySelectorAll("[data-process-number]")])
+			.forEach((badge, index) => badge.textContent = index + 1);
+		this.all("[data-station-reference]").forEach(reference => {
+			reference.textContent = this.one(`[data-piece="${reference.dataset.stationReference}"] [data-process-number]`).textContent;
+		});
+		this.one("[data-live]").textContent = `Level ${this.rung + 1} of ${this.lastRung + 1}. ${step.dataset.title}`;
 		this.showConnections(this.selected);
 	}
 	showConnections(id) {

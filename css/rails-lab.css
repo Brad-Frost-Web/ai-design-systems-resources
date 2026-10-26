@@ -9,7 +9,7 @@
 .ed-r-rails-lab__spectrum-labels { justify-content: space-between; font-weight: var(--ed-theme-typography-emphasis-font-weight); }
 .ed-r-rails-lab__micro, .ed-r-rails-lab__tick { font-size: var(--ed-theme-typography-meta-sm-font-size); }
 .ed-r-rails-lab__range { display: block; width: 100%; margin-block: var(--ed-theme-spacing-inline); accent-color: var(--ed-theme-color-content-accent-3); cursor: pointer; }
-.ed-r-rails-lab__ticks { display: grid; grid-template-columns: repeat(11, minmax(0, 1fr)); }
+.ed-r-rails-lab__ticks { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
 .ed-r-rails-lab__tick { display: flex; flex-direction: column; align-items: center; gap: 0; padding: 0 var(--ed-theme-spacing-inline); border: 0; background: transparent; color: inherit; font-family: inherit; cursor: pointer; }
 .ed-r-rails-lab__tick-number { display: grid; place-items: center; width: 2em; aspect-ratio: 1; border: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-border-default); border-radius: var(--ed-theme-border-radius-round); }
 .ed-r-rails-lab__tick[data-reached=true] .ed-r-rails-lab__tick-number { background: var(--ed-theme-color-background-accent-2); }
@@ -37,7 +37,7 @@
 .ed-r-rails-lab__card { display: flex; flex-direction: column; gap: var(--ed-theme-spacing-inline); flex: 1; min-width: 0; padding: var(--ed-theme-spacing-flow); border: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-border-subtle); border-radius: var(--ed-border-radius-16); background: var(--ed-theme-color-background-surface); color: var(--ed-theme-color-content-default); }
 .ed-r-rails-lab__card ed-text-passage p { margin: 0; }
 .ed-r-rails-lab__card code { font-family: var(--ed-theme-typography-code-font-family); font-size: var(--ed-theme-typography-body-sm-font-size); padding-inline: var(--ed-theme-border-width-md); border-radius: var(--ed-border-radius-4); background: var(--ed-theme-color-background-subtle); overflow-wrap: anywhere; }
-.ed-r-rails-lab__station-control { display: flex; align-items: center; gap: var(--ed-theme-spacing-inline); width: 100%; padding: 0; border: 0; background: transparent; color: inherit; text-align: start; font-family: var(--ed-theme-typography-code-font-family); font-size: var(--ed-theme-typography-meta-sm-font-size); text-transform: uppercase; cursor: pointer; }
+.ed-r-rails-lab__station-control { display: flex; align-items: center; gap: var(--ed-theme-spacing-inline); width: 100%; padding: 0; border: 0; background: transparent; color: inherit; text-align: start; font-family: var(--ed-theme-typography-code-font-family); font-size: var(--ed-theme-typography-meta-sm-font-size); text-transform: uppercase; }
 .ed-r-rails-lab__number { display: grid; place-items: center; min-width: calc(var(--ed-theme-spacing-flow) * 2); aspect-ratio: 1; border-radius: var(--ed-border-radius-8); background: var(--ed-theme-color-background-accent-3); color: var(--ed-theme-color-content-on-accent-3); font-weight: var(--ed-theme-typography-emphasis-font-weight); }
 .ed-r-rails-lab__station--human .ed-r-rails-lab__card, .ed-r-rails-lab__entry, .ed-r-rails-lab__feedback { border-color: var(--ed-theme-color-border-accent-4); background: linear-gradient(var(--ed-theme-color-background-accent-6), var(--ed-theme-color-background-surface)); }
 .ed-r-rails-lab__station--human .ed-r-rails-lab__number { background: var(--ed-theme-color-background-accent-4); color: var(--ed-theme-color-content-on-accent-4); }
@@ -61,7 +61,7 @@
 	.ed-r-rails-lab__micro { display: none !important; }
 }
 @media (max-width: 59.99rem) {
-	.ed-r-rails-lab__ticks { grid-template-columns: repeat(11, minmax(0, 1fr)); }
+	.ed-r-rails-lab__ticks { grid-template-columns: repeat(7, minmax(0, 1fr)); }
 	.ed-r-rails-lab__tick { padding-inline: 0; }
 	.ed-r-rails-lab__tick > :last-child { display: none; }
 	.ed-r-rails-lab__phases { grid-template-columns: repeat(3, 1fr); }
@@ -70,3 +70,7 @@
 
 .ed-r-rails-lab__phase-number { display: block; font-weight: var(--ed-theme-typography-emphasis-font-weight); }
 .ed-r-rails-lab__phase-gate { font-family: var(--ed-theme-typography-code-font-family); color: var(--ed-theme-color-content-accent-3); overflow-wrap: anywhere; }
+
+.ed-r-rails-lab[data-rung="0"] .ed-r-rails-lab__pipeline > li { flex-basis: calc(var(--ed-theme-spacing-flow) * 16); }
+
+button.ed-r-rails-lab__station-control { cursor: pointer; }

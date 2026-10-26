@@ -14,21 +14,22 @@ function content(html, className) {
 	if (!match) throw new Error(`Missing original Rails field: ${className}`);
 	return match[1];
 }
+const conceptLevels = [1, 1, 2, 3, 4];
 const conceptIcons = ["settings", "file-text", "link", "book-open", "check-square"];
 const concepts = base.groups[0].pieces.map((piece, i) => {
 	const source = originalItem(piece.id);
-	return { ...piece, icon: conceptIcons[i], description: content(source, "cfg__meta"), example: content(source, "cfg__mine") };
+	return { ...piece, rungIn: conceptLevels[i], icon: conceptIcons[i], description: content(source, "cfg__meta"), example: content(source, "cfg__mine") };
 });
 const stations = [
-	{ id: "s1", icon: "search", in: 4, kind: "ai", uses: "cfg-standing cfg-project cfg-mcp pkg-brain" },
-	{ id: "s2", icon: "file-text", in: 2, kind: "ai", uses: "cfg-standing cfg-project cfg-process" },
-	{ id: "s3", icon: "link", in: 4, kind: "ai", uses: "cfg-mcp pkg-brain pkg-web-components pkg-design-tokens" },
-	{ id: "s4", icon: "layers", in: 5, kind: "ai", uses: "cfg-skills pkg-pages pkg-recipes pkg-web-components pkg-design-tokens pkg-icons pkg-charts" },
-	{ id: "s5", icon: "check-square", in: 6, kind: "check", uses: "cfg-hook cfg-mcp pkg-brain pkg-web-components pkg-design-tokens" },
-	{ id: "s6", icon: "eye", in: 6, kind: "ai", uses: "cfg-skills pkg-pages pkg-recipes pkg-web-components" },
-	{ id: "s7", icon: "user", in: 7, kind: "human", uses: "" },
-	{ id: "s8", icon: "lock", in: 9, kind: "check", uses: "cfg-hook cfg-process pkg-brain" },
-	{ id: "s9", icon: "thumbs-up", in: 9, kind: "human", uses: "cfg-process" },
+	{ id: "s1", icon: "search", in: 2, kind: "ai", uses: "cfg-standing cfg-project cfg-mcp pkg-brain" },
+	{ id: "s2", icon: "file-text", in: 1, kind: "ai", uses: "cfg-standing cfg-project cfg-process" },
+	{ id: "s3", icon: "link", in: 2, kind: "ai", uses: "cfg-mcp pkg-brain pkg-web-components pkg-design-tokens" },
+	{ id: "s4", icon: "layers", in: 3, kind: "ai", uses: "cfg-skills pkg-pages pkg-recipes pkg-web-components pkg-design-tokens pkg-icons pkg-charts" },
+	{ id: "s5", icon: "check-square", in: 4, kind: "check", uses: "cfg-hook cfg-mcp pkg-brain pkg-web-components pkg-design-tokens" },
+	{ id: "s6", icon: "eye", in: 4, kind: "ai", uses: "cfg-skills pkg-pages pkg-recipes pkg-web-components" },
+	{ id: "s7", icon: "user", in: 0, kind: "human", uses: "" },
+	{ id: "s8", icon: "lock", in: 5, kind: "check", uses: "cfg-hook cfg-process pkg-brain" },
+	{ id: "s9", icon: "thumbs-up", in: 5, kind: "human", uses: "cfg-process" },
 ];
 // Read Brad's authored station copy verbatim; never maintain a second paraphrase.
 const authoredStations = [...original.matchAll(/<article class="node(?: [^"]*)?"[^>]*>([\s\S]*?)<\/article>/g)]
@@ -60,13 +61,12 @@ const terminals = {
 	feedback: { title: authoredField(feedbackSource, "terminal__title").replace(/<svg[\s\S]*?<\/svg>/, '<ed-icon name="refresh-cw"></ed-icon>'), description: feedbackSource.match(/<div class="terminal__sub">([\s\S]*?)<\/article>/)[1].trim() },
 };
 const packageIcons = { "design-tokens": "palette", "web-components": "grid", recipes: "layers", pages: "file-text", icons: "star", charts: "trending-up", brain: "command", reporter: "refresh-cw", boilerplates: "layers", website: "book-open" };
-const eddiePieces = new Map(base.groups[2].pieces.map(piece => [piece.id, piece]));
 const packages = [...original.matchAll(/<li class="pkg" data-id="([^"]+)"/g)].map(([, id]) => ({
-	id, rungIn: eddiePieces.get(id)?.rungIn ?? 3,
+	id, rungIn: id === "pkg-reporter" ? 6 : ["pkg-recipes", "pkg-pages"].includes(id) ? 3 : 2,
 	label: content(originalItem(id), "pkg__name"), icon: packageIcons[id.slice(4)], description: content(originalItem(id), "pkg__meta"),
 }));
 const files = base.groups[2].pieces.filter(piece => piece.kind === "file").map(piece => ({
-	...piece, label: content(originalItem(piece.id), "file__name"), description: content(originalItem(piece.id), "file__meta"),
+	...piece, rungIn: piece.rungIn === 10 ? 6 : 2, label: content(originalItem(piece.id), "file__name"), description: content(originalItem(piece.id), "file__meta"),
 }));
 const brainHeading = authoredField(original, "pkgs-head brain-head");
 const packagesHeading = authoredField(original, "pkgs-head");
@@ -80,12 +80,39 @@ const process = {
 	phases: authoredField(original, "proc__phases"),
 	chips: [...authoredField(original, "proc__chips").matchAll(/<li>([\s\S]*?)<\/li>/g)].map(match => match[1]),
 };
-const headlines = [
-	"A prompt is not a system.", "Preferences give direction.", "Rules make intent explicit.",
-	"Use the real ingredients.", "Give AI a source of truth.", "Compose. Don’t reinvent.",
-	"Make checking part of making.", "Keep judgment human.", "Make the process repeatable.",
-	"Put a gate before production.", "Every product strengthens the system.",
+// Levels describe infrastructure, not chronological steps in a single run.
+const rungs = [
+	{ short: "Prompted", title: "Prompted", adds: "A human’s request and the model’s existing knowledge.",
+		outputTitle: "An exploratory implementation",
+		outputCaption: "The model invents the implementation. Judge whether it expresses your idea; connection to your design system is incidental.",
+		generation: "The agent generates and renders UI from your request and its existing knowledge." },
+	{ short: "Instructed", title: "Instructed", adds: "Preferences, project rules, examples, and design guidance.",
+		outputTitle: "UI guided by your instructions",
+		outputCaption: "The result has more direction from your stated intent. The agent still interprets the guidance and invents implementation details.",
+		generation: "The agent generates and renders UI using your request, preferences, examples, and project rules." },
+	{ short: "System-grounded", title: "System-grounded", adds: "Installed components and tokens, plus authoritative knowledge through Eddie Brain.",
+		outputTitle: "UI built with your actual ingredients",
+		outputCaption: "The agent can consult real component contracts and tokens. Check both its use of the ingredients and the design decisions it makes with them.",
+		generation: "The agent generates and renders UI with real components and tokens, consulting their documented contracts." },
+	{ short: "System-composed", title: "System-composed", adds: "Approved recipes, page templates, and skills that guide their use.",
+		outputTitle: "UI assembled from established patterns",
+		outputCaption: "Approved compositions guide more of the layout and interactions. Judge whether those patterns serve this particular task." },
+	{ short: "Automatically checked", title: "Automatically checked", adds: "Validation hooks, render checks, and automatic correction loops.",
+		outputTitle: "UI checked against explicit requirements",
+		outputCaption: "The agent corrects detected implementation problems before handing over the result. Your review still determines whether it works well and serves its purpose." },
+	{ short: "Process-governed", title: "Process-governed", adds: "An approved specification, organizational workflow, CI tests and evaluations, and human release approval.",
+		outputTitle: "UI built against an agreed purpose",
+		outputCaption: "Review against the approved specification and product intent. Required delivery checks and a separate human approval still stand between this result and release." },
+	{ short: "Connected", title: "Connected back to the system", adds: "Usage reporting, adoption data, tracked gaps, and maintained system improvements.",
+		outputTitle: "UI within a maintained product ecosystem",
+		outputCaption: "Review the current result against the same standards. After shipping, usage and gaps provide evidence for people to improve the system for subsequent work." },
 ];
-const rungs = base.rungs.map((r, i) => ({ ...r, headline: headlines[i] }));
-rungs[9].now = "Required checks can block a merge; a person still decides whether the work should ship.";
-module.exports = { concepts, stations, terminals, packages, files, eddie, process, rungs, lastRung: 10 };
+// Keep authored source copy above intact; adapt only the review wording whose
+// old step-six dependency contradicted the always-present human feedback loop.
+const review = stations.find(station => station.id === "s7");
+review.presentationTitle = "Review the resulting UI";
+review.presentationDescription = "You review the rendered UI, and either approve it, deny it, or request tweaks. The agent revises the work and returns a new result for you to review.";
+// Put construction and delivery on opposite sides of the visible result.
+const buildStations = stations.slice(0, 6);
+const deliveryStations = stations.slice(7);
+module.exports = { concepts, stations, buildStations, review, deliveryStations, terminals, packages, files, eddie, process, rungs, lastRung: rungs.length - 1 };

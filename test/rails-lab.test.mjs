@@ -51,7 +51,7 @@ test("human judgment stays separate from automatic validation and merge gates", 
 	assert.equal(byId.s9.kind, "human");
 	assert.ok(byId.s7.in < byId.s9.in);
 	assert.equal(lab.packages.find(p => p.id === "pkg-reporter").rungIn, lab.lastRung);
-	assert.equal(lab.rungs.length, 11);
+	assert.equal(lab.rungs.length, 7);
 });
 
 test("timeline cards preserve all authored copy and iteration boundaries", () => {
@@ -68,5 +68,44 @@ test("timeline cards preserve all authored copy and iteration boundaries", () =>
 	});
 	for (const text of [...lab.terminals.entry.prompts, lab.terminals.output.description, lab.terminals.feedback.description]) {
 		assert.ok(original.includes(text), "Authored terminal copy changed");
+	}
+});
+
+
+test("spectrum levels keep human review universal and delivery governed", () => {
+	assert.deepEqual(lab.rungs.map(rung => rung.title), ["Prompted", "Instructed", "System-grounded", "System-composed", "Automatically checked", "Process-governed", "Connected back to the system"]);
+	assert.equal(lab.review.in, 0);
+	assert.equal(lab.review.presentationTitle, "Review the resulting UI");
+	assert.ok(lab.deliveryStations.every(station => station.in === 5));
+	assert.ok(lab.buildStations.every(station => station.in <= 4));
+	assert.deepEqual(lab.concepts.map(concept => concept.rungIn), [1, 1, 2, 3, 4]);
+	assert.equal(new Set(lab.rungs.map(rung => rung.outputCaption)).size, 7);
+	for (const rung of lab.rungs) assert.ok(rung.outputTitle && rung.outputCaption && rung.adds);
+	assert.ok(lab.packages.every(piece => piece.rungIn <= lab.lastRung));
+	assert.ok(lab.files.every(piece => piece.rungIn <= lab.lastRung));
+});
+
+
+test("every rendered level puts resulting UI before human review and release", () => {
+	const nunjucks = require("nunjucks");
+	const template = readFileSync(new URL("../demos/keep-ai-on-the-rails-lab.njk", import.meta.url), "utf8");
+	const html = nunjucks.renderString(template, { railsLab: lab });
+	const cards = [...html.matchAll(/<li class="ed-r-rails-lab__(?:station|endpoint)[^"]*"([^>]*)>/g)].map(([, attrs]) => ({
+		id: attrs.match(/data-piece="([^"]+)"/)?.[1] || "prompt",
+		start: Number(attrs.match(/data-in="([^"]+)"/)?.[1] || 0),
+		end: Number(attrs.match(/data-out="([^"]+)"/)?.[1] || Infinity),
+	}));
+	for (let level = 0; level <= lab.lastRung; level++) {
+		const visible = cards.filter(card => card.start <= level && level < card.end).map(card => card.id);
+		assert.ok(visible.indexOf("output-preview") > visible.indexOf(level < 3 ? "generate" : "s4"));
+		assert.equal(visible.indexOf("s7"), visible.indexOf("output-preview") + 1);
+		assert.equal(visible.includes("specification"), level >= 5);
+		assert.equal(visible.includes("output-final"), level >= 5);
+		assert.equal(visible.includes("feedback"), level === 6);
+		if (level >= 5) {
+			assert.ok(visible.indexOf("specification") < visible.indexOf("s4"));
+			assert.ok(visible.indexOf("s8") > visible.indexOf("s7"));
+			assert.ok(visible.indexOf("output-final") > visible.indexOf("s9"));
+		}
 	}
 });
