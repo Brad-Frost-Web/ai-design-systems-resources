@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg"><!-- Original course robot: ai-design-systems-course-website, 2067b05^:_includes/robot.njk. Geometry preserved; colors use Eddie tokens. --><symbol id="course-robot" viewBox="0 0 96 96">
+  <rect y="28.5459" width="96" height="67.4541" rx="2" fill="currentColor"/>
+  <rect x="28.4883" y="20.8721" width="39.0244" height="67.1564" rx="16" fill="currentColor"/>
+  <rect x="46.0488" y="6.06104" width="3.90244" height="15.5115" fill="currentColor"/>
+  <ellipse cx="48" cy="5.76781" rx="5.7561" ry="5.76781" fill="currentColor"/>
+  <ellipse cx="28.4878" cy="54.6479" rx="16.9756" ry="17.0102" fill="var(--ed-theme-color-background-surface)"/>
+  <ellipse class="robot__eye" cx="28.4875" cy="54.6478" rx="9.07317" ry="9.09164" fill="var(--ed-theme-color-content-accent-1)"/>
+  <ellipse cx="66.9268" cy="54.6479" rx="16.9756" ry="17.0102" fill="var(--ed-theme-color-background-surface)"/>
+  <ellipse class="robot__eye" cx="66.9272" cy="54.6478" rx="9.07317" ry="9.09164" fill="var(--ed-theme-color-content-accent-1)"/>
+  <rect x="29.8535" y="79.5762" width="36.3902" height="5.27902" rx="2.63951" fill="var(--ed-theme-color-background-surface)"/>
+</symbol></svg>

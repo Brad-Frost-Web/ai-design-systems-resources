@@ -155,3 +155,23 @@ button.ed-r-rails-lab__station-control { cursor: pointer; }
 	--ed-icon-height: calc(var(--ed-theme-spacing-flow) * 2);
 }
 .ed-r-rails-lab__interface-copy ed-text-passage p + p { margin-block-start: var(--ed-theme-spacing-inline); }
+
+/* The course's original robot artwork identifies agent work. */
+.ed-r-rails-lab ed-icon.ed-r-rails-lab__robot {
+	--ed-icon-width: calc(var(--ed-theme-spacing-flow) * 3);
+	--ed-icon-height: calc(var(--ed-theme-spacing-flow) * 3);
+}
+.ed-r-rails-lab__composer {
+	align-self: stretch;
+	padding: var(--ed-theme-spacing-flow);
+	margin-block-start: var(--ed-theme-spacing-inline);
+	border: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-border-subtle);
+	border-radius: var(--ed-border-radius-16);
+	background: var(--ed-theme-color-background-surface);
+	text-align: start;
+}
+.ed-r-rails-lab__prompt-examples { display: block; min-height: 3lh; }
+.ed-r-rails-lab__prompt-examples p + p { margin-block-start: var(--ed-theme-spacing-inline); }
+.ed-r-rails-lab__composer-tools { display: flex; align-items: center; gap: var(--ed-theme-spacing-inline); margin-block-start: var(--ed-theme-spacing-flow); }
+.ed-r-rails-lab__prompt-count { flex: 1; font-size: var(--ed-theme-typography-meta-sm-font-size); }
+.ed-r-rails-lab__entry > [data-prompt-pause] { margin-block-start: var(--ed-theme-spacing-inline); }

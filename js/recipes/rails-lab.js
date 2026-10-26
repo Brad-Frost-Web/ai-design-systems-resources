@@ -25,6 +25,7 @@ class RailsLab extends HTMLElement {
 		this.all("[data-controls], [data-present], [data-settings-button]").forEach(el => el.hidden = false);
 		this.lastRung = Number(this.one("[data-range]").max);
 		this.readURL();
+		this.setupPrompts(on);
 		on(this.one("[data-range]"), "input", e => this.setRung(e.target.value));
 		this.all("[data-step]").forEach(el => on(el, "click", () => this.setRung(el.dataset.step)));
 		on(this.one("[data-settings-button]"), "click", () => {
@@ -54,7 +55,51 @@ class RailsLab extends HTMLElement {
 			if (next !== null) { e.preventDefault(); this.setRung(next); }
 		});
 	}
-	disconnectedCallback() { cancelAnimationFrame(this.frame); this.abort?.abort(); this.ready = false; }
+	disconnectedCallback() { cancelAnimationFrame(this.frame); this.abort?.abort(); clearTimeout(this.promptTimer); this.ready = false; }
+	setupPrompts(on) {
+		this.prompts = this.all("[data-prompt-example]");
+		this.promptIndex = 0;
+		this.promptMotion = matchMedia("(prefers-reduced-motion: reduce)");
+		this.promptPaused = this.promptMotion.matches;
+		this.one("[data-prompt-next]").hidden = false;
+		this.one("[data-prompt-pause]").hidden = false;
+		on(this.one("[data-prompt-next]"), "click", () => {
+			this.promptPaused = true;
+			this.advancePrompt();
+		});
+		on(this.one("[data-prompt-pause]"), "click", () => {
+			this.promptPaused = !this.promptPaused;
+			this.renderPrompt();
+		});
+		on(this.promptMotion, "change", () => {
+			if (this.promptMotion.matches) this.promptPaused = true;
+			this.renderPrompt();
+		});
+		on(document, "visibilitychange", () => this.renderPrompt());
+		// Keyboard exploration stops rotation until the viewer explicitly resumes it.
+		on(this.one(".ed-r-rails-lab__composer"), "focusin", () => {
+			this.promptPaused = true;
+			this.renderPrompt();
+		});
+		this.renderPrompt();
+	}
+	advancePrompt() {
+		this.promptIndex = (this.promptIndex + 1) % this.prompts.length;
+		this.renderPrompt();
+	}
+	renderPrompt() {
+		clearTimeout(this.promptTimer);
+		this.prompts.forEach((prompt, index) => prompt.hidden = index !== this.promptIndex);
+		this.one("[data-prompt-count]").textContent = `Example ${this.promptIndex + 1} / ${this.prompts.length}`;
+		this.one("[data-prompt-examples]").setAttribute("aria-live", this.promptPaused ? "polite" : "off");
+		const pause = this.one("[data-prompt-pause]");
+		pause.setAttribute("text", this.promptPaused ? "Play examples" : "Pause examples");
+		pause.setAttribute("iconName", this.promptPaused ? "play" : "pause");
+		if (!this.promptPaused && !document.hidden && this.isConnected) {
+			this.promptTimer = setTimeout(() => this.advancePrompt(), 4500);
+		}
+	}
+
 	readURL() {
 		const params = new URLSearchParams(location.search);
 		this.rung = rungFromSearch(location.search, this.lastRung);

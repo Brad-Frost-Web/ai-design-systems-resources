@@ -8,7 +8,7 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 				<span class="ed-r-rails-lab__connector" data-connector="{{ station.id }}"><ed-icon name="{{ station.connector }}"{% if station.connector == "refresh-cw" %} iconTitle="Revise and check again"{% endif %}></ed-icon></span>
 				<article class="ed-r-rails-lab__card">
 					<button class="ed-r-rails-lab__station-control" type="button" data-station="{{ station.id }}" aria-pressed="false" title="Highlight connections">
-						<span class="ed-r-rails-lab__number" data-process-number>{{ (station.id | replace("s", "") | int) + 1 }}</span><ed-icon name="{{ station.icon }}"></ed-icon><span>{{ station.kicker | safe }}</span>
+						<span class="ed-r-rails-lab__number" data-process-number>{{ (station.id | replace("s", "") | int) + 1 }}</span>{% if station.kind == "ai" %}<ed-icon class="ed-r-rails-lab__robot" name="course-robot" iconUrl="/images/course-robot.svg"></ed-icon>{% else %}<ed-icon name="{{ station.icon }}"></ed-icon>{% endif %}<span>{{ station.kicker | safe }}</span>
 					</button>
 					<ed-heading tagName="h3" variant="title-sm">{{ (station.presentationTitle or station.title) | safe }}</ed-heading>
 					{% if station.id == 's2' %}
@@ -57,7 +57,7 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 	</ed-card>
 	<section class="ed-r-rails-lab__spectrum" aria-label="Spectrum of system-guided UI generation" data-controls hidden>
 		<div class="ed-r-rails-lab__spectrum-labels">
-			<span><ed-icon name="sparkles"></ed-icon> Model-directed</span>
+			<span><ed-icon name="course-robot" iconUrl="/images/course-robot.svg"></ed-icon> Model-directed</span>
 			<span class="ed-r-rails-lab__micro">Spectrum of system-guided UI generation</span>
 			<span>System-directed <ed-icon name="layers"></ed-icon></span>
 		</div>
@@ -86,7 +86,14 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 		<ol class="ed-r-rails-lab__pipeline">
 			<li class="ed-r-rails-lab__endpoint"><article class="ed-r-rails-lab__card ed-r-rails-lab__entry">
 				<span class="ed-r-rails-lab__human-mark"><ed-icon name="user"></ed-icon><span>Human</span></span><ed-heading tagName="h3" variant="title-sm">{{ railsLab.terminals.entry.title | safe }}</ed-heading>
-				<ed-text-passage>{% for prompt in railsLab.terminals.entry.prompts %}<p>{{ prompt | safe }}</p>{% endfor %}</ed-text-passage>
+				<div class="ed-r-rails-lab__composer" role="group" aria-label="Example prompts">
+					<ed-text-passage class="ed-r-rails-lab__prompt-examples" data-prompt-examples aria-live="off">{% for prompt in railsLab.terminals.entry.prompts %}<p data-prompt-example>{{ prompt | safe }}</p>{% endfor %}</ed-text-passage>
+					<div class="ed-r-rails-lab__composer-tools">
+						<ed-icon name="plus"></ed-icon><span class="ed-r-rails-lab__prompt-count" data-prompt-count>Example prompts</span>
+						<ed-button data-prompt-next text="Next example prompt" hideText iconName="arrow-up" iconPosition="before" size="sm" variant="primary" hidden></ed-button>
+					</div>
+				</div>
+				<ed-button data-prompt-pause text="Pause examples" iconName="pause" iconPosition="before" size="sm" variant="bare" hidden></ed-button>
 			</article></li>
 			<li class="ed-r-rails-lab__station ed-r-rails-lab__station--human" data-piece="specification" data-in="5" data-uses="cfg-process">
 				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
@@ -96,7 +103,7 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 			{% if station.id == 's4' %}
 			<li class="ed-r-rails-lab__station" data-piece="generate" data-in="0" data-out="3" hidden>
 				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
-				<article class="ed-r-rails-lab__card"><span class="ed-r-rails-lab__station-control"><span class="ed-r-rails-lab__number" data-process-number>1</span><ed-icon name="sparkles"></ed-icon> AI AGENT</span><ed-heading tagName="h3" variant="title-sm">Generate &amp; render UI</ed-heading><ed-text-passage><p data-generation-copy>{{ railsLab.rungs[0].generation }}</p></ed-text-passage></article>
+				<article class="ed-r-rails-lab__card"><span class="ed-r-rails-lab__station-control"><span class="ed-r-rails-lab__number" data-process-number>1</span><ed-icon class="ed-r-rails-lab__robot" name="course-robot" iconUrl="/images/course-robot.svg"></ed-icon> AI AGENT</span><ed-heading tagName="h3" variant="title-sm">Generate &amp; render UI</ed-heading><ed-text-passage><p data-generation-copy>{{ railsLab.rungs[0].generation }}</p></ed-text-passage></article>
 			</li>
 			{% endif %}
 			{{ stationCard(station) }}

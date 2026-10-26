@@ -109,3 +109,72 @@ test("every rendered level puts resulting UI before human review and release", (
 		}
 	}
 });
+
+// Exercise the real recipe's prompt controller with a small DOM/timer boundary.
+async function promptHarness(reducedMotion = false) {
+	const { runInNewContext } = await import("node:vm");
+	const source = readFileSync(new URL("../js/recipes/rails-lab.js", import.meta.url), "utf8").replace(/^import .*;$/gm, "");
+	const timers = new Map();
+	let nextTimer = 0, Recipe;
+	class Node extends EventTarget {
+		attrs = new Map();
+		setAttribute(name, value) { this.attrs.set(name, value); }
+	}
+	const document = new Node();
+	const media = new Node();
+	media.matches = reducedMotion;
+	const nodes = Object.fromEntries(["[data-prompt-next]", "[data-prompt-pause]", "[data-prompt-count]", "[data-prompt-examples]", ".ed-r-rails-lab__composer"].map(key => [key, new Node()]));
+	const prompts = lab.terminals.entry.prompts.map(textContent => Object.assign(new Node(), { textContent }));
+	runInNewContext(source, {
+		HTMLElement: Node, document, matchMedia: () => media,
+		setTimeout: callback => { timers.set(++nextTimer, callback); return nextTimer; },
+		clearTimeout: id => timers.delete(id), cancelAnimationFrame() {},
+		customElements: { get() {}, define(name, constructor) { Recipe = constructor; } },
+	});
+	const recipe = new Recipe();
+	recipe.isConnected = true;
+	recipe.all = () => prompts;
+	recipe.one = selector => nodes[selector];
+	recipe.setupPrompts((target, event, callback) => target.addEventListener(event, callback));
+	const click = selector => nodes[selector].dispatchEvent(new Event("click"));
+	const tick = () => { const task = [...timers.entries()][0]; if (task) { timers.delete(task[0]); task[1](); } };
+	const visible = () => prompts.filter(prompt => !prompt.hidden).map(prompt => prompt.textContent);
+	return { recipe, nodes, document, media, timers, click, tick, visible };
+}
+
+test("prompt examples cycle verbatim, pause, advance manually, and stop on disconnect", async () => {
+	const h = await promptHarness();
+	for (let index = 0; index < 4; index++) {
+		assert.deepEqual(h.visible(), [lab.terminals.entry.prompts[index % 3]]);
+		assert.equal(h.timers.size, 1);
+		h.tick();
+	}
+	h.click("[data-prompt-pause]");
+	assert.equal(h.timers.size, 0);
+	const paused = h.visible(); h.tick(); assert.deepEqual(h.visible(), paused);
+	h.click("[data-prompt-next]");
+	assert.notDeepEqual(h.visible(), paused);
+	assert.equal(h.timers.size, 0);
+	h.click("[data-prompt-pause]");
+	assert.equal(h.timers.size, 1);
+	h.document.hidden = true; h.document.dispatchEvent(new Event("visibilitychange"));
+	assert.equal(h.timers.size, 0);
+	h.document.hidden = false; h.document.dispatchEvent(new Event("visibilitychange"));
+	assert.equal(h.timers.size, 1);
+	h.recipe.disconnectedCallback();
+	assert.equal(h.timers.size, 0);
+});
+
+test("reduced motion and keyboard exploration stop automatic prompt changes", async () => {
+	const h = await promptHarness(true);
+	assert.equal(h.timers.size, 0);
+	h.click("[data-prompt-next]");
+	assert.deepEqual(h.visible(), [lab.terminals.entry.prompts[1]]);
+	h.click("[data-prompt-pause]"); // Explicit play may override the initial preference.
+	assert.equal(h.timers.size, 1);
+	h.nodes[".ed-r-rails-lab__composer"].dispatchEvent(new Event("focusin"));
+	assert.equal(h.timers.size, 0);
+	h.click("[data-prompt-pause]");
+	h.media.dispatchEvent(new Event("change"));
+	assert.equal(h.timers.size, 0);
+});

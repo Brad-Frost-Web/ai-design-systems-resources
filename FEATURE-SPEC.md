@@ -8,6 +8,9 @@ owners:
 last_updated: 2026-10-25
 amendments:
   - date: 2026-10-25
+    approved-by: Brad (explicit chat instruction)
+    summary: Reuse the course website robot artwork for AI agent steps and turn the entry card into a faux chat composer cycling the three authored prompt examples. Include pause/next controls, reduced-motion support, and static no-JS examples.
+  - date: 2026-10-25
     author: Brad Frost
     summary: Simplify Resulting UI to its browser top bar, boxed icon/title hero, and explanatory text below. Remove the sidebar, background widgets, and cream foreground panel.
   - date: 2026-10-25

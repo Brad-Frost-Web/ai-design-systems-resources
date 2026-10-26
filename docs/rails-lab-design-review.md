@@ -187,3 +187,13 @@ All content now uses normal flow. Browser inspection confirms the copy surface
 is transparent, the hero precedes the text, and the page does not overflow.
 Build, 14 existing tests, and independent Spec/Standards reviews pass; no new
 validation findings. Human treatments remain unchanged.
+
+### Course robot and prompt composer — 2026-10-25
+
+Brad approved using the course robot on agent steps and cycling the three authored examples inside a faux chat composer. The existing entry card and recipe carry this change; the static list becomes one example at a time when enhanced. No chat service, new form, or library is needed.
+
+The current course homepage no longer includes the robot. Recovered its original SVG geometry from `ai-design-systems-course-website` at `2067b05^:_includes/robot.njk` (the commit that removed the theme-prompt robot). `images/course-robot.svg` exposes it as an Eddie icon sprite symbol; fill colors inherit Eddie tokens. AI steps and the model-directed spectrum endpoint use it; human and automated validation symbols retain their distinct meanings.
+
+Examples rotate every 4.5 seconds. Pause/Play and Next are real Eddie buttons; Next pauses rotation for inspection. Reduced motion starts paused, keyboard focus inside the composer stops rotation, hidden tabs stop timers, and disconnect cancels them. All three original examples remain readable without JavaScript. The composer uses the existing radius-16 primitive to preserve the rounded chat shape; BFW semantic radius tokens are zero. This extends the previously approved illustrative radius treatment by one validator warning.
+
+Verification: production build; 16 passing tests including cycling/wraparound, manual pause/next, reduced motion, keyboard focus, tab visibility and disconnect. Browser check on port 8081 confirms original robot rendering, automatic cycling, pause and manual next. Original demo and source copy unchanged. Independent spec and standards reviews run separately before the closing commit.
