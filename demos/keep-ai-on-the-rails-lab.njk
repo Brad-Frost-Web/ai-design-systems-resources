@@ -104,12 +104,11 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 			<li class="ed-r-rails-lab__endpoint" data-piece="output-preview" data-in="0">
 				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
 				<article class="ed-r-rails-lab__card ed-r-rails-lab__output ed-r-rails-lab__interface">
-					<div class="ed-r-rails-lab__interface-art" aria-hidden="true">
-						<span class="ed-r-rails-lab__window-bar"><i></i><i></i><i></i><span></span></span>
-						<span class="ed-r-rails-lab__window-nav"></span>
-						<span class="ed-r-rails-lab__window-body"><i></i><i></i><i></i><i></i></span>
+					<span class="ed-r-rails-lab__window-bar" aria-hidden="true"><i></i><i></i><i></i><span></span></span>
+					<div class="ed-r-rails-lab__interface-copy">
+						<div class="ed-r-rails-lab__interface-hero"><ed-icon name="grid"></ed-icon><ed-heading tagName="h3" variant="title-sm">Resulting UI</ed-heading></div>
+						<ed-text-passage><p><strong data-output-title>{{ railsLab.rungs[6].outputTitle }}</strong></p><p data-output-caption>{{ railsLab.rungs[6].outputCaption }}</p></ed-text-passage>
 					</div>
-					<div class="ed-r-rails-lab__interface-copy"><ed-icon name="grid"></ed-icon><ed-heading tagName="h3" variant="title-sm">Resulting UI</ed-heading><ed-text-passage><p><strong data-output-title>{{ railsLab.rungs[6].outputTitle }}</strong></p><p data-output-caption>{{ railsLab.rungs[6].outputCaption }}</p></ed-text-passage></div>
 				</article>
 			</li>
 			{{ stationCard(railsLab.review) }}

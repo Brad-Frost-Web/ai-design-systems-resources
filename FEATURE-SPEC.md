@@ -9,6 +9,9 @@ last_updated: 2026-10-25
 amendments:
   - date: 2026-10-25
     author: Brad Frost
+    summary: Simplify Resulting UI to its browser top bar, boxed icon/title hero, and explanatory text below. Remove the sidebar, background widgets, and cream foreground panel.
+  - date: 2026-10-25
+    author: Brad Frost
     summary: Give the Resulting UI card a decorative interface/browser backdrop and human actions a distinctive visual treatment, retaining readable copy and the existing lesson behavior.
   - date: 2026-10-25
     author: Brad Frost
