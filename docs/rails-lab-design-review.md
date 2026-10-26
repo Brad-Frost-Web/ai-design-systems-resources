@@ -161,3 +161,21 @@ station references. Independent Spec and Standards findings were corrected and
 re-reviewed. Local preview only; original demo files and dependencies unchanged.
 The existing feature branch remains five commits behind remote main deliberately
 to keep unrelated base changes out of this review iteration.
+
+## Interface and human visual materials
+
+The Resulting UI card now resembles a browser window: decorative window controls,
+an address field, a navigation rail, and interface blocks sit behind an opaque
+copy panel. The art is static, pointer-inert, and hidden from assistive technology.
+It illustrates the type of output without claiming to show a real generated UI.
+
+Human prompting, specification, review, and merge approval use warm paper-like
+surfaces, a strong gold top edge, and enlarged circular actor icons. Existing
+human labels and explanatory copy remain, so the distinction is not color alone.
+AI steps and the Steel Curtain retain their separate treatments. This extends
+the existing token-backed diagram recipe; no new component or dependency.
+
+Build and the existing 14 tests pass. Desktop rendering confirms readable output
+copy and the shared human treatment across the governed process. Independent
+review corrected a decorative dot's token role and physical positioning; the
+final styling uses logical positioning and inherits the existing card radius.

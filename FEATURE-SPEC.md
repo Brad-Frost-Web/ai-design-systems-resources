@@ -9,6 +9,9 @@ last_updated: 2026-10-25
 amendments:
   - date: 2026-10-25
     author: Brad Frost
+    summary: Give the Resulting UI card a decorative interface/browser backdrop and human actions a distinctive visual treatment, retaining readable copy and the existing lesson behavior.
+  - date: 2026-10-25
+    author: Brad Frost
     summary: Implement the approved seven-level spectrum (Prompted, Instructed, System-grounded, System-composed, Automatically checked, Process-governed, Connected back to the system). Human review and resulting UI persist at every level; specification precedes building, release gates follow review, and shipping is distinct from the result. Keep the original sibling comparison untouched.
   - date: 2026-10-25
     author: Brad Frost
