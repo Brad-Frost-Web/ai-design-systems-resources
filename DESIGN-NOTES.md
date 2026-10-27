@@ -147,3 +147,10 @@ Run evidence is server-owned for live responses: actual provider response/model,
 Eddie 0.60 `ed-code` captures content on connection only. The consumer keys both JSON displays by spec to remount on response changes; it does not fork or patch the component. The upstream issue draft is `docs/drafts/eddie-code-refresh-issue.md`; automatic approval review rejected publication without explicit user approval. The associated report is therefore pending, not filed.
 
 Independent spec and standards reviews caught duplicate-source inflation and unlabeled global totals; both are fixed. Automated coverage checks UTC date boundaries, empty windows, stale record rejection, typed Jev evidence, pull-only sync safety and URL consolidation. No promotion, integration merge or deployment is part of this Design-lane work.
+
+
+## 2026-10-27 — quieter controls and attribution
+
+Reused the existing More options disclosure and already-imported Eddie radio group/items. Engine choices come first, descriptions live in each option label, and resource freshness follows the other optional controls. A single small sentence combines engine/model and elapsed time; pending and fallback states remain explicit, with full detail in run evidence. Radio keyboard focus is preserved during result updates. No new component, dependency or styling was needed.
+
+Static Eddie validation checks Lit markup but not runtime semantics. It reports pre-existing `resource-tags` naming errors and unclassed semantic markup warnings; these are unchanged legacy collection styles, not new UI contracts. The new `<strong>` label emphasis uses the documented default label slot. Installed Eddie 0.60 does not render item fieldNote, so descriptions use that visible label slot instead. Desktop/mobile and keyboard checks verify the actual rendering.

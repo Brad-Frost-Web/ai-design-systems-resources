@@ -78,7 +78,10 @@ export class EdRCAdaptiveStage extends LitElement {
 		setTimeout(() => {
 			this._settling = false;
 		}, 40);
-		setTimeout(() => this.querySelector(".ed-r-c-stage__heading")?.focus(), 60);
+		setTimeout(() => {
+			// Keep arrow-key navigation in the engine radio group uninterrupted.
+			if (!document.activeElement?.closest("ed-radio-field")) this.querySelector(".ed-r-c-stage__heading")?.focus();
+		}, 60);
 	}
 
 	/* ---------------------------------------------------------------------- */
@@ -435,6 +438,15 @@ export class EdRCAdaptiveStage extends LitElement {
 		</ed-accordion-panel>`;
 	}
 
+	_engineSummary(engine) {
+		if (engine.failureReason) return `Local rules generated these results; ${engine.attempted === "jev" ? "Jev" : "Claude"} couldn’t complete the request. See run evidence for details.`;
+		if (engine.attempted) return `Local preview while ${engine.attempted === "jev" ? "Jev" : "Claude"} generates results.`;
+		const elapsed = engine.latencyMs != null ? ` in ${(engine.latencyMs / 1000).toFixed(engine.latencyMs < 1000 ? 2 : 1)}s` : "";
+		if (engine.kind === "jev") return `${(engine.model || "Jev").replace(/^jev-/i, "Jev ").replace(/\.0$/, "")} generated these results${elapsed}.`;
+		if (engine.kind === "claude") return `${(engine.model || "Claude").replace(/^claude-(sonnet|opus|haiku)-/i, (_, family) => `Claude ${family[0].toUpperCase()}${family.slice(1)} `).replace(/(\d)-(\d)$/, "$1.$2")} generated these results${elapsed}${engine.trace?.length ? " with eddie-brain" : ""}.`;
+		return `On-device rules generated these results${elapsed}; no AI model used.`;
+	}
+
 	render() {
 		if (this.busy && !this._spec) {
 			return html`<div class="ed-r-c-stage__busy" role="status">
@@ -451,18 +463,8 @@ export class EdRCAdaptiveStage extends LitElement {
 			<div class="ed-r-c-stage ${this._settling ? "ed-r-c-stage--settling" : "ed-r-c-stage--settled"}">
 				<div aria-live="polite" class="ed-u-is-vishidden">Assembled a view for “${spec.ask || "your lens"}”.</div>
 				<h2 class="ed-r-c-stage__heading ed-u-is-vishidden" tabindex="-1">Results for “${spec.ask}”</h2>
-				<p class="ed-r-c-stage__engine">
-					<span>Generated${e.latencyMs != null ? ` in ${(e.latencyMs / 1000).toFixed(e.latencyMs < 1000 ? 2 : 1)}s` : ""} using</span>
-					<ed-tag text=${e.label || "Engine"} variant=${e.kind === "claude" ? "brand" : "info"} size="sm"></ed-tag>
-					${e.kind === "claude" && e.trace?.length
-						? html`<ed-tag text="${e.trace.length} eddie-brain call${e.trace.length === 1 ? "" : "s"}" size="sm"></ed-tag>`
-						: nothing}
-				</p>
-
-				<ed-text-passage size="sm">
-					<p>${["claude", "jev"].includes(e.kind) ? `Live response from ${e.model || e.kind}.` : "This view was assembled by local rules; no model generated it."} ${e.failureReason ? `Live request failed: ${e.failureReason}` : ""}</p>
-					${spec.evaluation?.window ? html`<p>${spec.evaluation.window.label} · ${spec.evaluation.candidates.resources} resource ${spec.evaluation.candidates.resources === 1 ? "candidate" : "candidates"}. Dates mean added to this collection.</p>` : nothing}
-				</ed-text-passage>
+				<p class="ed-r-c-stage__engine">${this._engineSummary(e)}</p>
+				${spec.evaluation?.window ? html`<ed-text-passage size="sm"><p>${spec.evaluation.window.label} · ${spec.evaluation.candidates.resources} resource ${spec.evaluation.candidates.resources === 1 ? "candidate" : "candidates"}. Dates mean added to this collection.</p></ed-text-passage>` : nothing}
 
 				${this.busy
 					? html`<div class="ed-r-c-stage__busy" role="status">

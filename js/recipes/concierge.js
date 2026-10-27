@@ -231,7 +231,7 @@ export class EdRCConcierge extends LitElement {
 	}
 
 	_onEngineChange(event) {
-		const value = event.target?.value;
+		const value = event.detail?.value ?? event.target?.value;
 		if (!["device", "claude", "jev"].includes(value) || value === this._engine) return;
 		this._engine = value;
 		writePrefs({ engine: value, useBrain: this._useBrain });
@@ -289,22 +289,21 @@ export class EdRCConcierge extends LitElement {
 					clearButtonText="Clear"
 				></ed-r-search-form>
 
-				<ed-toolbar behavior="responsive" class="ed-r-c-concierge__controls">
-					<div slot="left" class="ed-r-c-concierge__engine">
-						<ed-select-field fieldId="concierge-engine" label="Engine"
-							.items=${[{value:"device", label:"On-device · rules (no AI model)"}, {value:"claude", label:"Claude · live composition"}, {value:"jev", label:"Jev · live typed decisions"}].map(item => ({...item, selected:item.value === this._engine}))}
-							.value=${this._engine} @change=${this._onEngineChange}></ed-select-field>
-					</div>
-					<ed-text-passage slot="right" size="sm"><p>${this._engine === "device" ? "Local rules only — no model request. Choose Claude or Jev for live AI." : this._engine === "claude" ? "Claude selects components and records from this collection’s metadata." : "Jev chooses presentation and perspective; local rules select the records."}</p></ed-text-passage>
-				</ed-toolbar>
-				${this._freshness ? html`<ed-text-passage size="sm"><p>Resources checked: ${this._freshness.checkedAt?.slice(0,10) || "not recorded"}. Latest resource added: ${this._freshness.newestResource?.slice(0,10) || "unknown"}. Searches use this collection, not the live web.</p></ed-text-passage>` : ""}
 				<ed-show-hide class="ed-r-c-concierge__more" buttonText="More options" hideButtonText="Fewer options" buttonVariant="link" size="sm" iconName="chevron-down" iconPosition="after">
+					<ed-radio-field label="Engine" @change=${this._onEngineChange}>
+						${[
+							{value:"device", label:"On-device", description:"Local rules only; no AI model or server request."},
+							{value:"claude", label:"Claude", description:"Selects components and records from this collection’s metadata."},
+							{value:"jev", label:"Jev", description:"Chooses presentation and perspective; local rules select the records."},
+						].map(option => html`<ed-radio-field-item name="concierge-engine" fieldId=${`engine-${option.value}`} value=${option.value} .checked=${this._engine === option.value}><strong>${option.label}</strong> — ${option.description}</ed-radio-field-item>`)}
+					</ed-radio-field>
 					<ed-toolbar behavior="responsive" class="ed-r-c-concierge__controls">
 						<div slot="left" class="ed-r-c-concierge__lens">
 							<ed-select-field fieldId="concierge-lens" label="My role" .items=${LENS_ITEMS} value=${this._lens || ""} @change=${this._onLensChange}></ed-select-field>
 						</div>
 						<div slot="right">${this._switch("engine-brain", "Consult eddie-brain live", this._useBrain, this._engine !== "claude")}</div>
 					</ed-toolbar>
+					${this._freshness ? html`<ed-text-passage size="sm"><p>Resources checked: ${this._freshness.checkedAt?.slice(0,10) || "not recorded"}. Latest resource added: ${this._freshness.newestResource?.slice(0,10) || "unknown"}. Searches use this collection, not the live web.</p></ed-text-passage>` : ""}
 				</ed-show-hide>
 			</div>
 
