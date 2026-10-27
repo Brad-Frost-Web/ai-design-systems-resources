@@ -25,6 +25,7 @@
 		"@anthropic-ai/sdk": "^0.123.0",
 		"@brad-frost-web/eddie-charts": "^0.60.0",
 		"@brad-frost-web/eddie-design-tokens": "^0.60.0",
+		"@brad-frost-web/eddie-icons": "0.60.0",
 		"@brad-frost-web/eddie-recipes": "^0.60.0",
 		"@brad-frost-web/eddie-web-components": "^0.60.0",
 		"@notionhq/client": "^2.2.15",

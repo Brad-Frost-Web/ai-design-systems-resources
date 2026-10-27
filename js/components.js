@@ -1,4 +1,5 @@
-// ed-icon uses its bundled sprite (no DS_ICON_URL override).
+// Eddie's supported sprite API, with the official Claude mark added at build time.
+globalThis.DS_ICON_URL = "/icons/resources.svg";
 
 import "@brad-frost-web/eddie-web-components/components/button/button.js";
 import "@brad-frost-web/eddie-web-components/components/header/header.js";

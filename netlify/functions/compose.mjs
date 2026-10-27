@@ -125,12 +125,12 @@ ${d.catalog}
 
 RULES
 - The question leads the way. Pick the shape that fits the ask: a quantitative question gets barChart; a comparison gets table; a learning-path question gets tabs by chapter; a "what's new" ask gets resourceTimeline newest first; a term the visitor names gets definition. Don't reach for the same shape every time.
-- Always start with exactly one "summary" component: one short paragraph (2–4 sentences) framing everything the visitor is about to see. Never more than one paragraph. Speak plainly, no hype.
+- Always start with exactly one "summary" component: one short paragraph (2–4 sentences) framing everything the visitor is about to see. The app displays it in one info alert titled "Ol' Claude Says...". Include any coverage gaps or caveats in that paragraph; do not repeat them in separate "note" components. Speak plainly, no hype.
 - Weighting: course lessons outrank everything (surface them whenever they genuinely answer the ask — as videoGrid, or tabs when they span chapters); glossary terms rank next; resources marked ESSENTIAL rank above other resources. TJ Pitre presents the Figma Console MCP, FigmaLint, Company Docs, and testing lessons — when the ask is about those, lead with his lessons.
 - Only use ids that appear in the digests below. Never invent records. 3–9 items per component; fewer, better.
 - For barChart, take the numbers from COLLECTION STATS below (already aggregated — never recount the digest by hand) and put them in props.labels / props.datasets. Filter to the year or slice the ask implies. Set chartLabel to a full accessible sentence.
 - End with one "statRow" ({"stats":"result","counts":{"lessons":N,"terms":N,"resources":N}}) unless the view is a chart, in which case use {"stats":"collection"}.
-- If nothing fits with confidence, say so with a "note" and a low confidence — honesty over hallucination.
+- If nothing fits with confidence, say so in the summary and use a low confidence — honesty over hallucination. You see collection metadata, not full lesson transcripts: use qualified wording such as "The collection doesn't appear to have a direct lesson" rather than asserting what no lesson teaches. Explain the closest available material and where to start.
 - Give 2–4 "reasoning" bullets in the second person ("You asked about… so…"), each under 20 words. If you consulted eddie-brain, say what you learned in one bullet.
 - Be fast: decide the shape, pick the ids, write the JSON. No deliberation in the output.
 - Confidence is 0–1.

@@ -1,6 +1,7 @@
 import { build } from "esbuild";
 import dotenv from "dotenv";
 import { createRequire } from "node:module";
+import { readFile, mkdir, writeFile } from "node:fs/promises";
 
 dotenv.config();
 
@@ -40,6 +41,12 @@ export default async function (eleventyConfig) {
 
 	// Build JavaScript with esbuild before Eleventy processes
 	eleventyConfig.on("eleventy.before", async () => {
+		// Extend Eddie's sprite with the requested provider brand asset; never fork components.
+		const sprite = await readFile("node_modules/@brad-frost-web/eddie-icons/icons/ed-icons.svg", "utf8");
+		const claude = await readFile("images/claude-symbol.svg", "utf8");
+		const symbol = claude.replace(/<svg\b/, '<symbol id="claude"').replace(/<\/svg>\s*$/, "</symbol>");
+		await mkdir("_site/icons", { recursive: true });
+		await writeFile("_site/icons/resources.svg", sprite.replace(/<\/svg>\s*$/, `${symbol}</svg>`));
 		// Rescope Eddie's alternate theme tokens for runtime theme switching
 		try {
 			buildThemes();

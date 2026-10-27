@@ -172,8 +172,17 @@ export class EdRCAdaptiveStage extends LitElement {
 	_renderNode(node) {
 		if (!node) return nothing;
 		if (node.component === "Column") {
-			return html`${(node.children || []).map(
-				(id) => html`<div class="ed-r-c-stage__node">${this._renderNode(this._component(id))}</div>`,
+			const children = (node.children || []).map((id) => this._component(id));
+			const framing = this._spec?.engine?.kind === "claude"
+				? children.filter((child) => ["summary", "note"].includes(child?.component)) : [];
+			// Keep all model caveats, but collect them in one branded info alert.
+			const paragraphs = [...new Set(framing.map((child) => child.props?.text?.trim()).filter(Boolean))];
+			return html`${paragraphs.length ? html`<div class="ed-r-c-stage__node">
+				<ed-alert tagName="h3" heading="Ol' Claude Says..." iconName="claude">
+					<ed-text-passage>${paragraphs.map((text) => html`<p>${text}</p>`)}</ed-text-passage>
+				</ed-alert>
+			</div>` : nothing}${children.filter((child) => !framing.includes(child)).map(
+				(child) => html`<div class="ed-r-c-stage__node">${this._renderNode(child)}</div>`,
 			)}`;
 		}
 		if (!this._catalog.includes(node.component)) {

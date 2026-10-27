@@ -277,6 +277,12 @@ ISC
 
 Continue on `design/13-chameleon-resources`. The original renderer, nine shapes, topic graph, theme controls and A2UI inspector remain in place.
 
+Claude's framing now uses one Eddie info alert titled “Ol' Claude Says...”. The prompt keeps coverage limitations in the summary; the renderer also gathers any extra notes into that same alert without dropping caveats. Exact duplicate paragraphs are removed. The text remains a live response, not a fixed example.
+
+The requested Claude brand mark is absent from Eddie icons 0.60.0 and the checked 0.72.1 release. As a provider-brand asset exception, `images/claude-symbol.svg` retains the symbol path from the [official Claude wordmark](https://claude.com), retrieved October 27. Eleventy adds it to the installed Eddie 0.60.0 sprite, consumed through Eddie's supported `DS_ICON_URL` / alert `iconName` APIs. Components and icon styling stay Eddie-owned; the mark inherits the alert's token color. No component is forked.
+
+Design Systems Collective retains its original record ID and date, with the corrected title and only community/publication tags. Its `source: editorial` marker uses the existing sync preservation rule so a pull cannot restore the mistaken name and 35 tags. This is a local editorial correction; the Notion source has not been changed.
+
 - **Engine lives first under More options.** Radio choices include their descriptions; resource freshness is in the same disclosure. Result attribution is one compact sentence. On-device means deterministic browser rules, with no local AI model. Claude makes a live composition request using the collection metadata and component catalog. Jev makes a live typed presentation/perspective decision; the local composer selects records. Keys stay on the server (`ANTHROPIC_API_KEY`, `JEV_API_KEY`).
 - **Your literal question is sent.** Suggested prompts are examples; typed variations are no longer rewritten to a scripted prompt.
 - **Run evidence** shows the exact question, model, provider response ID when available, server run ID, Claude token usage, Jev decisions, corpus revision, date window, candidates and validation result. Rejected Jev responses retain their decision/confidence receipt. Confidence is model-reported or heuristic, not an accuracy evaluation.
@@ -286,4 +292,4 @@ Continue on `design/13-chameleon-resources`. The original renderer, nine shapes,
 
 Current checked resource source: October 27; latest added entry: October 19. There is only one unique resource in the September 28–October 27 window. Neither live engine fetches or fact-checks linked articles, and collection coverage is not coverage of everything happening on the web.
 
-Validation: `npm test` (16 tests), `npm run build`, and live local-browser requests. The Eddie `ed-code` content-refresh issue has a local keyed-remount workaround; its upstream report is drafted in `docs/drafts/eddie-code-refresh-issue.md` pending publication approval.
+Validation: `npm test` (17 tests), `npm run build`, and live local-browser requests. The Claude alert was checked at 1440px and 375px with no browser console errors; the official symbol and existing play/menu/chevron icons render. Local ranking excludes Design Systems Collective from MCP/token searches and includes it for community/publication. Independent Spec and Standards reviews found no blockers. Eddie source validation reported only the existing tag-class errors and unrelated markup warnings; no finding targets the new alert. The Eddie `ed-code` content-refresh issue has a local keyed-remount workaround; its upstream report is drafted in `docs/drafts/eddie-code-refresh-issue.md` pending publication approval.

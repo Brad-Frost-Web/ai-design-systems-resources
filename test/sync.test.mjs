@@ -10,6 +10,18 @@ test('Notion multi-select type and created_time are supported',()=>{
   assert.equal(pageToResource(page).type,'article');
   assert.equal(pageToResource(page).created,page.created_time);
 });
+test('pull-only refresh preserves a human editorial correction',async()=>{
+  const dir=mkdtempSync(path.join(tmpdir(),'resources-editorial-'));
+  try {
+    const filename=path.join(dir,'original-id.md');
+    const corrected='---\ntitle: "Design Systems Collective"\nurl: "https://example.com/new"\nnotionId: "source-id"\nsource: "editorial"\ntags:\n  - "community|red"\n  - "publication|blue"\n---\n';
+    writeFileSync(filename,corrected);
+    const notionClient={databases:{query:async()=>({results:[page],has_more:false})}};
+    await sync({pullOnly:true,notionClient,resourcesDir:dir,syncPath:path.join(dir,'receipt.json')});
+    assert.equal(readFileSync(filename,'utf8'),corrected);
+    assert.equal(readdirSync(dir).filter(f=>f.endsWith('.md')).length,1);
+  } finally {rmSync(dir,{recursive:true,force:true});}
+});
 test('pull-only refresh writes source receipt and never pushes local records',async()=>{
   const dir=mkdtempSync(path.join(tmpdir(),'resources-sync-'));
   try {

@@ -32,8 +32,8 @@ const NODES = [
 	{
 		node: "summary",
 		primary: "ed-text-passage",
-		components: ["ed-text-passage"],
-		use: "Always first: one short paragraph framing everything the reader is about to see. Never more than one paragraph.",
+		components: ["ed-alert", "ed-text-passage"],
+		use: "Always first: one short paragraph framing everything the reader is about to see, including any coverage limitations. Claude framing appears in one informational alert. Never more than one paragraph.",
 		props: { text: "string" },
 	},
 	{
