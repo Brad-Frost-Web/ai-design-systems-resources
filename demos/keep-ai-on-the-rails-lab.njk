@@ -15,11 +15,20 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 					{% if station.id == 's2' %}
 					<ed-text-passage data-piece="rules-basic" data-in="1" data-out="5" hidden><p>The agent reads your preferences, project rules, design guidance, and examples before generating UI.</p></ed-text-passage>
 					<ed-text-passage data-piece="rules-governed" data-in="5"><p>{{ station.description | safe }}</p></ed-text-passage>
-					{% else %}<ed-text-passage><p>{{ (station.presentationDescription or station.description) | safe }}</p></ed-text-passage>{% endif %}
+					{% else %}<ed-text-passage><p{% if station.id == "s7" %} data-review-copy{% endif %}>{{ (station.presentationDescription or station.description) | safe }}</p></ed-text-passage>{% endif %}
 					<ul class="ed-r-rails-lab__tools">{% for tool in station.tools %}<li{% if station.id == "s2" and tool == "bfw-process" %} data-piece="rules-process-tool" data-in="5"{% endif %}>{{ tool | safe }}</li>{% endfor %}</ul>
 					<div class="ed-r-rails-lab__prevents"><ed-text-passage><p>{{ station.prevents | replace('blocks__label', 'ed-r-rails-lab__prevents-label') | safe }}</p></ed-text-passage></div>
 				</article>
 			</li>
+{% endmacro %}
+{% macro interfaceCard(title, description, outputTitle) %}
+<article class="ed-r-rails-lab__card ed-r-rails-lab__output ed-r-rails-lab__interface">
+	<span class="ed-r-rails-lab__window-bar" aria-hidden="true"><i></i><i></i><i></i><span></span></span>
+	<div class="ed-r-rails-lab__interface-copy">
+		<div class="ed-r-rails-lab__interface-hero"><ed-icon name="grid"></ed-icon><ed-heading tagName="h3" variant="title-sm">{{ title }}</ed-heading></div>
+		<ed-text-passage>{% if outputTitle %}<p><strong data-output-title>{{ outputTitle }}</strong></p>{% endif %}<p{% if outputTitle %} data-output-caption{% endif %}>{{ description | safe }}</p></ed-text-passage>
+	</div>
+</article>
 {% endmacro %}
 <!doctype html>
 <html lang="en" class="bfw">
@@ -43,7 +52,7 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 		<label class="ed-u-visually-hidden" for="lab-spectrum">System guidance level</label>
 		<input class="ed-r-rails-lab__range" id="lab-spectrum" data-range type="range" min="0" max="{{ railsLab.lastRung }}" step="1" value="0">
 		<nav class="ed-r-rails-lab__ticks" aria-label="System guidance levels">
-		{% for rung in railsLab.rungs %}<button class="ed-r-rails-lab__tick" data-step="{{ loop.index0 }}" data-title="{{ rung.title | escape }}" data-result-title="{{ rung.outputTitle | escape }}" data-result-caption="{{ rung.outputCaption | escape }}" data-generation="{{ rung.generation | default('') | escape }}" title="{{ rung.adds | escape }}" type="button" aria-label="Level {{ loop.index }}: {{ rung.title }}"><span class="ed-r-rails-lab__tick-number">{{ loop.index }}</span><span>{{ rung.short }}</span></button>{% endfor %}
+		{% for rung in railsLab.rungs %}<button class="ed-r-rails-lab__tick" data-step="{{ loop.index0 }}" data-title="{{ rung.title | escape }}" data-result-title="{{ rung.outputTitle | escape }}" data-result-caption="{{ rung.outputCaption | escape }}" data-review="{{ rung.reviewDescription | escape }}" data-generation="{{ rung.generation | default('') | escape }}" title="{{ rung.adds | escape }}" type="button" aria-label="Level {{ loop.index }}: {{ rung.title }}"><span class="ed-r-rails-lab__tick-number">{{ loop.index }}</span><span>{{ rung.short }}</span></button>{% endfor %}
 		</nav>
 	</section>
 </ed-stack></ed-layout-container>
@@ -88,21 +97,15 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 			{% endfor %}
 			<li class="ed-r-rails-lab__endpoint" data-piece="output-preview" data-in="0">
 				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
-				<article class="ed-r-rails-lab__card ed-r-rails-lab__output ed-r-rails-lab__interface">
-					<span class="ed-r-rails-lab__window-bar" aria-hidden="true"><i></i><i></i><i></i><span></span></span>
-					<div class="ed-r-rails-lab__interface-copy">
-						<div class="ed-r-rails-lab__interface-hero"><ed-icon name="grid"></ed-icon><ed-heading tagName="h3" variant="title-sm">Resulting UI</ed-heading></div>
-						<ed-text-passage><p><strong data-output-title>{{ railsLab.rungs[6].outputTitle }}</strong></p><p data-output-caption>{{ railsLab.rungs[6].outputCaption }}</p></ed-text-passage>
-					</div>
-				</article>
+				{{ interfaceCard("Resulting UI", railsLab.rungs[6].outputCaption, railsLab.rungs[6].outputTitle) }}
 			</li>
 			{{ stationCard(railsLab.review) }}
 			{% for station in railsLab.deliveryStations %}{{ stationCard(station) }}{% endfor %}
 			<li class="ed-r-rails-lab__endpoint" data-piece="output-final" data-in="5">
 				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
-				<article class="ed-r-rails-lab__card ed-r-rails-lab__output"><span>{{ railsLab.terminals.output.tag }}</span><ed-heading tagName="h3" variant="title-sm">{{ railsLab.terminals.output.title | safe }}</ed-heading><ed-text-passage><p>{{ railsLab.terminals.output.description | safe }}</p></ed-text-passage></article>
+				{{ interfaceCard("Shipped UI", railsLab.terminals.output.description) }}
 			</li>
-			<li class="ed-r-rails-lab__endpoint" data-piece="feedback" data-in="6" data-uses="pkg-reporter pkg-brain cfg-process">
+			<li class="ed-r-rails-lab__endpoint" data-piece="feedback" data-in="6" data-uses="pkg-reporter pkg-brain cfg-process brain-learning brain-adoption brain-activity">
 				<span class="ed-r-rails-lab__connector"><ed-icon name="refresh-cw" iconTitle="Product and design system feedback loop"></ed-icon></span>
 				<article class="ed-r-rails-lab__card ed-r-rails-lab__feedback"><ed-heading tagName="h3" variant="title-sm"><button type="button" data-station="feedback" aria-pressed="false" title="Highlight product and design system connections">{{ railsLab.terminals.feedback.title | safe }}</button></ed-heading><ed-text-passage><p>{{ railsLab.terminals.feedback.description | safe }}</p></ed-text-passage></article>
 			</li>

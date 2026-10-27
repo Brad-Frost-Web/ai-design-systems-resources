@@ -17,7 +17,7 @@ test("the sibling preserves every original concept explanation and example", () 
 });
 
 test("pipeline relationships resolve to actual diagram ingredients", () => {
-	const ids = new Set([...lab.concepts, ...lab.packages].map(piece => piece.id));
+	const ids = new Set([...lab.concepts, ...lab.packages, ...lab.files].map(piece => piece.id));
 	ids.add("cfg-process");
 	for (const station of lab.stations) {
 		for (const id of station.uses.split(" ").filter(Boolean)) {
@@ -179,4 +179,17 @@ test("workshop copy clarifies page templates and distinguishes DESIGN.md from Br
 	assert.doesNotMatch(rules.example, /DESIGN\.md/);
 	assert.match(lab.files.find(file => file.id === "brain-components").presentationDescription, /page templates/);
 	assert.ok(lab.process.presentationDescription.length < lab.process.description.length);
+});
+
+
+test("review guidance changes with infrastructure and DS stations connect to graph files", () => {
+	assert.equal(new Set(lab.rungs.map(rung => rung.reviewDescription)).size, 7);
+	for (const rung of lab.rungs) assert.ok(rung.reviewDescription.length >= 140 && rung.reviewDescription.length <= 200);
+	assert.match(lab.rungs[0].reviewDescription, /frustrating/);
+	assert.match(lab.rungs[5].reviewDescription, /specification/);
+	for (const id of ["s1", "s3", "s4", "s5", "s6"]) {
+		assert.ok(lab.stations.find(s => s.id === id).uses.includes("brain-components"));
+	}
+	assert.ok(lab.stations.find(s => s.id === "s3").uses.includes("brain-tokens"));
+	assert.ok(lab.stations.find(s => s.id === "s4").uses.includes("brain-recipes"));
 });

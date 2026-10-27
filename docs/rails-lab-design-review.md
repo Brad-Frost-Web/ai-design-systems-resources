@@ -244,3 +244,20 @@ P4.2–P4.3: local workshop preview only; ship gate, PR, merge and deployment ar
 part of this request. P5.1: this record supersedes the earlier settings/controls and
 human-header descriptions. Original demo source and authored source data remain
 unchanged; the shared Eddie dependency upgrade applies site-wide as requested.
+
+### Shipped UI, review narrative and graph connections — 2026-10-28
+
+P2.1/P3.3: Brad authorized three refinements. Resulting UI and Shipped UI now share
+one interface-card macro; the shipped description remains authored source copy.
+Human review has seven similarly sized descriptions (140–200 characters), moving
+from frustrating repeated prompting to ingredient/pattern checks, automatic checks,
+approved specifications, and feedback from real use. The existing rung renderer
+updates this copy with textContent. Design-system stations now include relevant
+brain-components/brain-tokens/brain-recipes IDs in their connection data; feedback
+links to learning/adoption/activity. Existing highlight logic and styles carry it.
+
+P4.1: 18 tests and production build pass. Separate Spec and Standards reviews
+report no findings; template and JS validate with zero issues. Browser checked
+all seven review states, visible Consult graph highlights, and the complete
+Shipped UI card. No console errors. P5.1: original source and original demo intact;
+local preview only, no ship gate or deployment requested.

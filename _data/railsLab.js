@@ -25,14 +25,14 @@ const ruleFiles = concepts.find(concept => concept.id === "cfg-project");
 ruleFiles.presentationLabel = "Rule files";
 ruleFiles.presentationDescription = `${ruleFiles.description} Design guidance can also live in a <code>DESIGN.md</code> file.`;
 const stations = [
-	{ id: "s1", icon: "search", in: 2, kind: "ai", uses: "cfg-standing cfg-project cfg-mcp pkg-brain" },
+	{ id: "s1", icon: "search", in: 2, kind: "ai", uses: "cfg-standing cfg-project cfg-mcp pkg-brain brain-components brain-tokens brain-recipes" },
 	{ id: "s2", icon: "file-text", in: 1, kind: "ai", uses: "cfg-standing cfg-project cfg-process" },
-	{ id: "s3", icon: "link", in: 2, kind: "ai", uses: "cfg-mcp pkg-brain pkg-web-components pkg-design-tokens" },
-	{ id: "s4", icon: "layers", in: 3, kind: "ai", uses: "cfg-skills pkg-pages pkg-recipes pkg-web-components pkg-design-tokens pkg-icons pkg-charts" },
-	{ id: "s5", icon: "check-square", in: 4, kind: "check", uses: "cfg-hook cfg-mcp pkg-brain pkg-web-components pkg-design-tokens" },
-	{ id: "s6", icon: "eye", in: 4, kind: "ai", uses: "cfg-skills pkg-pages pkg-recipes pkg-web-components" },
+	{ id: "s3", icon: "link", in: 2, kind: "ai", uses: "cfg-mcp pkg-brain pkg-web-components pkg-design-tokens brain-components brain-tokens brain-recipes" },
+	{ id: "s4", icon: "layers", in: 3, kind: "ai", uses: "cfg-skills pkg-pages pkg-recipes pkg-web-components pkg-design-tokens pkg-icons pkg-charts brain-components brain-tokens brain-recipes" },
+	{ id: "s5", icon: "check-square", in: 4, kind: "check", uses: "cfg-hook cfg-mcp pkg-brain pkg-web-components pkg-design-tokens brain-components brain-tokens" },
+	{ id: "s6", icon: "eye", in: 4, kind: "ai", uses: "cfg-skills pkg-pages pkg-recipes pkg-web-components brain-components brain-recipes" },
 	{ id: "s7", icon: "user", in: 0, kind: "human", uses: "" },
-	{ id: "s8", icon: "lock", in: 5, kind: "check", uses: "cfg-hook cfg-process pkg-brain" },
+	{ id: "s8", icon: "lock", in: 5, kind: "check", uses: "cfg-hook cfg-process pkg-brain brain-components brain-tokens brain-recipes" },
 	{ id: "s9", icon: "thumbs-up", in: 5, kind: "human", uses: "cfg-process" },
 ];
 // Read Brad's authored station copy verbatim; never maintain a second paraphrase.
@@ -89,28 +89,28 @@ const process = {
 process.presentationDescription = "<strong>A versioned rulebook installed in the repo.</strong> It defines the workflow, Eddie standards, and required checks. <strong>People approve the specification and the release;</strong> automated gates verify the work between them.";
 // Levels describe infrastructure, not chronological steps in a single run.
 const rungs = [
-	{ short: "Prompted", title: "Prompted", adds: "A human’s request and the model’s existing knowledge.",
+	{ reviewDescription: "You inspect the result, but getting what you want can be frustrating. You keep rewording prompts and correcting guesses, with no guarantee the next attempt will be closer.", short: "Prompted", title: "Prompted", adds: "A human’s request and the model’s existing knowledge.",
 		outputTitle: "An exploratory implementation",
 		outputCaption: "The model invents the implementation. Judge whether it expresses your idea; connection to your design system is incidental.",
 		generation: "The agent generates and renders UI from your request and its existing knowledge." },
-	{ short: "Instructed", title: "Instructed", adds: "Preferences, project rules, examples, and design guidance.",
+	{ reviewDescription: "You check whether the agent followed your instructions. There is less to explain each time, but you still spot drift, clarify the rules, and prompt it to revise the result.", short: "Instructed", title: "Instructed", adds: "Preferences, project rules, examples, and design guidance.",
 		outputTitle: "UI guided by your instructions",
 		outputCaption: "The result has more direction from your stated intent. The agent still interprets the guidance and invents implementation details.",
 		generation: "The agent generates and renders UI using your request, preferences, examples, and project rules." },
-	{ short: "System-grounded", title: "System-grounded", adds: "Installed components and tokens, plus authoritative knowledge through Eddie Brain.",
+	{ reviewDescription: "You review UI built with real components and tokens. There is less invention to untangle, but you still check their use and ask for changes where the design misses your intent.", short: "System-grounded", title: "System-grounded", adds: "Installed components and tokens, plus authoritative knowledge through Eddie Brain.",
 		outputTitle: "UI built with your actual ingredients",
 		outputCaption: "The agent can consult real component contracts and tokens. Check both its use of the ingredients and the design decisions it makes with them.",
 		generation: "The agent generates and renders UI with real components and tokens, consulting their documented contracts." },
-	{ short: "System-composed", title: "System-composed", adds: "Approved recipes, page templates, and skills that guide their use.",
+	{ reviewDescription: "You review familiar patterns assembled for this task. Less time goes into correcting layout basics; more goes into judging whether the composition serves the people using it.", short: "System-composed", title: "System-composed", adds: "Approved recipes, page templates, and skills that guide their use.",
 		outputTitle: "UI assembled from established patterns",
 		outputCaption: "Approved compositions guide more of the layout and interactions. Judge whether those patterns serve this particular task." },
-	{ short: "Automatically checked", title: "Automatically checked", adds: "Validation hooks, render checks, and automatic correction loops.",
+	{ reviewDescription: "You review a result after automated checks and correction loops. Routine errors should be caught earlier, so your feedback can focus on usability, intent, and design quality.", short: "Automatically checked", title: "Automatically checked", adds: "Validation hooks, render checks, and automatic correction loops.",
 		outputTitle: "UI checked against explicit requirements",
 		outputCaption: "The agent corrects detected implementation problems before handing over the result. Your review still determines whether it works well and serves its purpose." },
-	{ short: "Process-governed", title: "Process-governed", adds: "An approved specification, organizational workflow, CI tests and evaluations, and human release approval.",
+	{ reviewDescription: "You compare the result with the specification you approved. Request changes where it falls short; your review and the required delivery checks together determine readiness to ship.", short: "Process-governed", title: "Process-governed", adds: "An approved specification, organizational workflow, CI tests and evaluations, and human release approval.",
 		outputTitle: "UI built against an agreed purpose",
 		outputCaption: "Review against the approved specification and product intent. Required delivery checks and a separate human approval still stand between this result and release." },
-	{ short: "Connected", title: "Connected back to the system", adds: "Usage reporting, adoption data, tracked gaps, and maintained system improvements.",
+	{ reviewDescription: "You review against the agreed intent and system standards. After shipping, real usage and reported gaps inform the next round of improvements to both the product and the system.", short: "Connected", title: "Connected back to the system", adds: "Usage reporting, adoption data, tracked gaps, and maintained system improvements.",
 		outputTitle: "UI within a maintained product ecosystem",
 		outputCaption: "Review the current result against the same standards. After shipping, usage and gaps provide evidence for people to improve the system for subsequent work." },
 ];
@@ -118,7 +118,7 @@ const rungs = [
 // old step-six dependency contradicted the always-present human feedback loop.
 const review = stations.find(station => station.id === "s7");
 review.presentationTitle = "Review the resulting UI";
-review.presentationDescription = "You review the rendered UI, and either approve it, deny it, or request tweaks. The agent revises the work and returns a new result for you to review.";
+review.presentationDescription = rungs[6].reviewDescription;
 // Put construction and delivery on opposite sides of the visible result.
 const buildStations = stations.slice(0, 6);
 const deliveryStations = stations.slice(7);

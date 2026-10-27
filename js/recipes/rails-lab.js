@@ -128,6 +128,7 @@ class RailsLab extends HTMLElement {
 		this.all("[data-piece-group]").forEach(group => {
 			group.hidden = ![...group.querySelectorAll("[data-piece]")].some(piece => !piece.hidden);
 		});
+		this.one("[data-review-copy]").textContent = step.dataset.review;
 		this.one("[data-output-title]").textContent = step.dataset.resultTitle;
 		this.one("[data-output-caption]").textContent = step.dataset.resultCaption;
 		this.one("[data-generation-copy]").textContent = step.dataset.generation;

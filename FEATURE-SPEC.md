@@ -188,3 +188,5 @@ All four answered by Brad on 2026-10-07. Kept here as the record until approval.
 - With reduced motion, no animation runs.
 - No hardcoded design values; every Eddie surface was grounded in an eddie-brain lookup.
 - `npm run bfw:ship` passes with the gate turned on (#32).
+
+Brad approved a further Oct28 refinement: share the browser-style UI card treatment with a renamed Shipped UI terminal; vary human review copy across all seven spectrum levels at comparable length; connect design-system stations to relevant knowledge-graph file data pieces.
