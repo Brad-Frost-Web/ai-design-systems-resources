@@ -88,7 +88,7 @@ const COMPARE_WORDS = ["compare", "comparison", "versus", " vs ", "which tools",
 const PATH_WORDS = ["chapter", "which videos", "what videos", "which lessons", "learning path", "should i watch", "curriculum", "course videos"];
 
 function norm(s) {
-	return (s || "").toLowerCase().replace(/[^\w\s.'&-]/g, " ").replace(/\s+/g, " ").trim();
+	return (s || "").replace(/[’‘]/g, "'").toLowerCase().replace(/[^\w\s.'&-]/g, " ").replace(/\s+/g, " ").trim();
 }
 
 function daysSince(iso) {
@@ -143,6 +143,8 @@ function coreOf(ask) {
  * words must overlap heavily (Jaccard ≥ 0.6, at least two shared words).
  */
 export function canonicalAsk(ask) {
+	// Preserve explicit presentation intent before stripping conversational preambles.
+	if ([...LATEST_WORDS, ...CHART_WORDS, ...COMPARE_WORDS, ...PATH_WORDS].some(word => norm(ask).includes(word))) return {ask, matched:null};
 	const core = coreOf(ask);
 	if (!core) return { ask, matched: null };
 	let best = null;
@@ -190,7 +192,7 @@ function matchTerms(ask, terms) {
 
 function detectTopics(ask) {
 	const q = norm(ask);
-	return TOPICS.filter((t) => t.words.some((w) => q.includes(w)));
+	return TOPICS.filter((t) => t.words.some((w) => new RegExp(`\\b${w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`).test(q)));
 }
 
 function scoreLessons({ ask, topics, lessons, termLessonUrls = new Set() }) {
@@ -277,6 +279,12 @@ const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
 
 function chartFor(ask, intel) {
 	const q = norm(ask);
+	if (/\b(lessons?|videos?)\b/.test(q) && /\bchapters?\b/.test(q)) {
+		const counts = new Map();
+		for (const lesson of intel.lessons) counts.set(lesson.chapter || "Other", (counts.get(lesson.chapter || "Other") || 0) + 1);
+		const entries = [...counts].sort(([a], [b]) => a.localeCompare(b, undefined, {numeric:true}));
+		return {heading:"Course lessons by chapter", chartLabel:"Number of course lessons per chapter", orientation:"vertical", labels:entries.map(([label]) => label), datasets:[{label:"Lessons", values:entries.map(([,count]) => count)}]};
+	}
 	const yearMatch = q.match(/\b(20\d\d)\b/);
 	const year = yearMatch ? Number(yearMatch[1]) : null;
 	const items = intel.resources.filter((r) => r.created && (!year || new Date(r.created).getFullYear() === year));
@@ -326,7 +334,7 @@ function chartFor(ask, intel) {
 /* The main entry: ask + lens + corpus → A2UI-shaped message list           */
 /* ------------------------------------------------------------------------ */
 
-export function composeSpec({ ask = "", lens = null, intel }) {
+export function composeSpec({ ask = "", lens = null, intel, presentation = null }) {
 	const started = performance.now();
 	const typed = ask;
 	const canon = canonicalAsk(ask);
@@ -334,11 +342,11 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 	const q = norm(ask);
 	const topics = detectTopics(ask);
 	const terms = matchTerms(ask, intel.terms);
-	const wantLatest = LATEST_WORDS.some((w) => q.includes(w));
+	const wantLatest = presentation ? presentation === "latest" : LATEST_WORDS.some((w) => q.includes(w));
 	const wantStart = START_WORDS.some((w) => q.includes(w));
-	const wantChart = CHART_WORDS.some((w) => q.includes(w)) && !terms.length;
-	const wantCompare = COMPARE_WORDS.some((w) => q.includes(w));
-	const wantPath = PATH_WORDS.some((w) => q.includes(w));
+	const wantChart = presentation ? presentation === "chart" : CHART_WORDS.some((w) => q.includes(w)) && !terms.length;
+	const wantCompare = presentation ? presentation === "compare" : COMPARE_WORDS.some((w) => q.includes(w));
+	const wantPath = presentation ? presentation === "path" : PATH_WORDS.some((w) => q.includes(w));
 	const reasoning = [];
 
 	if (canon.matched && norm(typed) !== norm(canon.matched)) reasoning.push(`Read “${typed.trim()}” as “${canon.matched}”.`);
@@ -373,7 +381,7 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 		summary = `A numbers question gets a chart, not a list: ${chart.chartLabel.toLowerCase()}. Every bar is backed by the collection below.`;
 		add("chart", "barChart", chart);
 		add("stats", "statRow", { stats: "collection" });
-	} else if (!lessons.length && !terms.length && !ranked.length) {
+	} else if (presentation === "none" || (!lessons.length && !terms.length && !ranked.length)) {
 		shape = "none";
 		reasoning.push("No confident match — showing the shape of the collection instead of guessing.");
 		summary = "Nothing in the collection matched that with confidence. Low confidence gets honesty, not hallucination — try rephrasing, or browse the collection below.";
@@ -386,7 +394,7 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 		if (ranked.length) parts.push(`${Math.min(ranked.length, 12)} resources${essentialHits ? ` (${essentialHits} essential)` : ""}`);
 		const lead = parts.length > 1 ? `${parts.slice(0, -1).join(", ")}, and ${parts[parts.length - 1]}` : parts[0];
 
-		if (wantPath && lessons.length > 2) {
+		if (wantPath && lessons.length > 0) {
 			shape = "path";
 			reasoning.push("You asked about a path through the course — grouping lessons by chapter in tabs.");
 			summary = `The course itself answers this best: ${lead}, grouped by chapter so you see the path, not just a list.`;
@@ -402,7 +410,7 @@ export function composeSpec({ ask = "", lens = null, intel }) {
 			});
 			if (terms.length) add("terms", "definition", { terms: terms.map((t) => t.slug) });
 			if (ranked.length) add("reading", "resourceTimeline", { heading: "Then keep reading", items: ranked.slice(0, 6).map((s) => s.r.id) });
-		} else if (wantCompare && ranked.length > 2) {
+		} else if (wantCompare && ranked.length > 0) {
 			shape = "compare";
 			reasoning.push("You're comparing options — a table makes the differences scannable.");
 			summary = `A comparison reads best as a table: ${lead}. Rows are the candidates, columns are what separates them.`;
@@ -500,6 +508,73 @@ export function hydrate(spec, intel) {
 	const messages = spec.messages.filter((m) => !m.dataModelUpdate);
 	messages.push({ dataModelUpdate: { surfaceId: SURFACE_ID, path: "/", contents } });
 	return { ...spec, messages };
+}
+
+/** Validate model structure before hydration; keep the prototype's existing contract. */
+export function validateRemoteSpec(spec, intel) {
+	const fail = () => { throw new Error("The live engine returned an invalid view."); };
+	const text = (value, max = 2000) => typeof value === "string" && value.length <= max;
+	if (!spec || spec.version !== SPEC_VERSION || !Array.isArray(spec.messages) || spec.messages.length > 3) fail();
+	if (!text(spec.ask, 400) || !Array.isArray(spec.reasoning) || spec.reasoning.length > 6 || !spec.reasoning.every(v => text(v))) fail();
+	if (!Number.isFinite(spec.confidence) || spec.confidence < 0 || spec.confidence > 1) fail();
+	if (!["claude", "jev"].includes(spec.engine?.kind) || !text(spec.engine.label, 100) || !text(spec.engine.detail)) fail();
+	const surfaces = spec.messages.filter(m => m.surfaceUpdate);
+	const begins = spec.messages.filter(m => m.beginRendering);
+	if (surfaces.length !== 1 || begins.length !== 1 || begins[0].beginRendering.root !== "root") fail();
+	const nodes = surfaces[0].surfaceUpdate.components;
+	if (!Array.isArray(nodes) || nodes.length < 2 || nodes.length > 12) fail();
+	if (!nodes.every(n => n && text(n.id, 80) && n.id && !["__proto__", "constructor", "prototype"].includes(n.id))) fail();
+	if (new Set(nodes.map(n => n.id)).size !== nodes.length) fail();
+	const root = nodes.find(n => n.id === "root");
+	if (root?.component !== "Column" || !Array.isArray(root.children) || root.children.length !== nodes.length - 1) fail();
+	if (new Set(root.children).size !== root.children.length || root.children.some(id => id === "root" || !nodes.some(n => n.id === id))) fail();
+	const catalog = new Set(intel.catalog.nodes.map(n => n.node));
+	const resources = new Set(intel.resources.map(r => r.id));
+	const lessons = new Set(intel.lessons.map(l => l.id));
+	const terms = new Set(intel.terms.map(t => t.slug));
+	const selected = { resources: new Set(), lessons: new Set(), terms: new Set() };
+	const ids = (values, known, kind) => {
+		if (!Array.isArray(values) || values.length > 20 || values.some(id => !known.has(id))) fail();
+		for (const id of values) selected[kind].add(id);
+		return [...new Set(values)];
+	};
+	for (const node of nodes) {
+		if (node === root) continue;
+		if (!catalog.has(node.component) || !FALLBACK_CATALOG.includes(node.component) || node.children) fail();
+		const p = node.props;
+		if (!p || typeof p !== "object" || Array.isArray(p)) fail();
+		if (p.heading !== undefined && !text(p.heading, 160)) fail();
+		const heading = p.heading;
+		switch (node.component) {
+			case "summary": case "note":
+				if (!text(p.text)) fail();
+				node.props = { heading, text: p.text }; break;
+			case "videoGrid":
+				node.props = { heading, items: ids(p.items, lessons, "lessons") }; break;
+			case "table": case "resourceTimeline":
+				node.props = { heading, items: ids(p.items, resources, "resources") }; break;
+			case "definition":
+				node.props = { terms: ids(p.terms, terms, "terms") }; break;
+			case "tabs":
+				if (!Array.isArray(p.groups) || p.groups.length > 12) fail();
+				node.props = { heading, groups: p.groups.map(g => {
+					if (!g || !text(g.label, 100)) fail();
+					return {label:g.label, items:ids(g.items, lessons, "lessons")};
+				}) }; break;
+			case "barChart":
+				// The agent chooses a chart; the existing code owns its numbers.
+				node.props = chartFor(spec.ask, intel); break;
+			case "statRow":
+				if (!["result", "collection"].includes(p.stats)) fail();
+				node.props = {stats:p.stats}; break;
+		}
+	}
+	for (const node of nodes) if (node.component === "statRow" && node.props.stats === "result") {
+		node.props.counts = Object.fromEntries(Object.entries(selected).map(([kind, values]) => [kind, values.size]));
+	}
+	// A remote data model is never authoritative; hydrate only from our corpus.
+	spec.messages = spec.messages.filter(m => m.beginRendering || m.surfaceUpdate);
+	return spec;
 }
 
 /** Suggested asks — real student questions, from the course FigJam and tickets. */

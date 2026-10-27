@@ -37,7 +37,7 @@ The site serves as a trusted reference where practitioners can find quality arti
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 22.18+ (local demo tested on Node 24)
 - npm 9+
 
 ### Setup
@@ -118,11 +118,54 @@ fixed catalog of design-system components instead of returning a results list.
   deterministic heuristics. No server sees the ask.
 - **Engine (Claude, opt-in)** — `netlify/functions/compose.mjs` sends the same
   catalog plus a compact corpus digest to Claude and returns the same spec.
-  Needs `ANTHROPIC_API_KEY`; run locally with `netlify dev` (port 8888).
+  Needs `ANTHROPIC_API_KEY`; run locally with `npm run demo` (port 8888).
   A second toggle lets Claude consult eddie-brain live via the MCP connector.
+- **Engine (Jev, opt-in)** — the same compose function uses `JEV_API_KEY`
+  to choose typed presentation/perspective decisions. It passes those decisions
+  into the existing intent engine; the renderer and message contract stay the same.
+  Decisions below 70% confidence keep the on-device result with a visible fallback label.
 - **Renderer** — `js/recipes/adaptive-stage.js` maps components onto Eddie:
   summary, videoGrid, definition, resourceTimeline, table, tabs, barChart,
   statRow, note.
+
+### Resume this demo
+
+Continue on `design/13-chameleon-resources`. Brad explicitly resumed this design
+branch on October 27; the previous promotion note is historical. The replacement
+`feature/26-a2ui-promotion` remains saved, but is not the active demo. AI Rails is
+preserved separately on `feature/33-rails-visual-sibling` at `bc49195`.
+
+```sh
+npm ci
+npm run demo
+```
+
+Open `http://127.0.0.1:8888/`, expand **More options**, and choose **Engine**.
+The default on-device path makes no model call. Claude and Jev use `.env` keys
+only in the local server. The loopback server calls the existing Netlify function;
+`netlify dev` remains supported. Restart the demo after server changes.
+
+Try `Figma Console MCP`, `Compare MCP resources`, `MCP learning path`, and
+`How many course lessons per chapter?`. The existing messages, catalog,
+reasoning, theme controls, and topic graph remain in place. The recording-only
+hover prompter remains on desktop and is hidden on narrow screens so it cannot
+cover the controls.
+
+Verification on October 27: eight tests pass (`npm test`), build passes, live
+Jev comparison rendered in 0.52s, and live Claude comparison rendered in 25.1s.
+On-device learning-path tabs work with arrow keys; chart layout fits at 375px.
+Saved engine selection survives reload. Requests time out and preserve the local
+view; invalid nodes, cyclic structure, and invented record IDs are rejected.
+Charts and displayed counts are calculated from the corpus, never model numbers.
+The homepage, original recipes, catalog and locked Eddie versions are retained.
+
+This is still the exploratory `a2ui-eddie/0.2` teaching contract, not a claim of
+compliance with the latest A2UI protocol. The optional live Eddie Brain toggle
+is retained; its remote MCP call was not reverified in this correction.
+Production promotion, rate-limit durability, existing dependency advisories,
+and broader accessibility remediation remain outside this local demo correction.
+Eddie's static check reports only the existing unclassed prompter list item;
+runtime behavior is covered separately by browser checks.
 
 ## How lessons get added
 
@@ -203,10 +246,13 @@ If you want to add resources to the collection, add them to the Notion database 
 | `NOTION_API_KEY` | For sync only | Notion integration secret (`NOTION_TOKEN` also accepted) |
 | `NOTION_DATABASE_ID` | For sync only | ID of the resources Notion database |
 | `NOTION_LESSONS_DATABASE_ID` | For lesson sync | ID of the Transcripts database (defaults to the AI & DS one) |
-| `ANTHROPIC_API_KEY` | For the Claude engine | Used by `netlify/functions/compose.mjs`; locally via `netlify dev` |
+| `ANTHROPIC_API_KEY` | For the Claude engine | Used by `netlify/functions/compose.mjs`; locally via `npm run demo` or `netlify dev` |
+| `JEV_API_KEY` | For the Jev engine | Existing credential name; never `TYPESAFE_API_KEY` |
+| `COMPOSE_MODEL`, `JEV_MODEL` | Optional | Defaults `claude-sonnet-5-5` and `jev-latest` |
+| `DEMO_PORT` | Optional | Local demo port, default 8888 |
 | `COMPOSE_DAILY_CAP`, `COMPOSE_PER_MINUTE` | Optional | Abuse limits for the compose function (defaults 400 / 8) |
 
-These are only needed if you're running `npm run sync` locally. The site builds fine without them — it reads the already-synced markdown files in `_data/resources/`.
+Sync credentials are needed only for syncing; provider keys are needed only for live composition. The site builds fine without them — it reads the already-synced markdown files in `_data/resources/`.
 
 ---
 

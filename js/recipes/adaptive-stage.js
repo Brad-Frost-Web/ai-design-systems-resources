@@ -355,7 +355,7 @@ export class EdRCAdaptiveStage extends LitElement {
 	_renderStats(p) {
 		const counts = this._intel?.counts || {};
 		const e = this._spec.engine || {};
-		const remote = e.kind === "claude";
+		const remote = ["claude", "jev"].includes(e.kind) || Boolean(e.attempted);
 		let stats;
 		if (p.stats === "collection" || !p.counts) {
 			stats = [
@@ -367,7 +367,7 @@ export class EdRCAdaptiveStage extends LitElement {
 			stats = [
 				{ label: "Lessons matched", value: p.counts.lessons ?? 0, meta: "course videos, weighted first" },
 				{ label: "Resources matched", value: p.counts.resources ?? 0, meta: `of ${counts.resources ?? 0} in the collection` },
-				{ label: "Round trips", value: remote ? 1 : 0, meta: remote ? "your ask went to Claude; nothing stored" : "no server saw your ask" },
+				{ label: "Round trips", value: remote ? 1 : 0, meta: remote ? `your ask went to ${e.attempted || e.label}` : "no server saw your ask" },
 			];
 		}
 		return html`<ed-grid variant="3up">

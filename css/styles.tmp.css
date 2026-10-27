@@ -1524,6 +1524,11 @@ ed-band#concierge {
   opacity: 1;
 }
 
+@media (width < 48rem) {
+  .ed-r-c-prompter {
+    display: none;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .ed-r-c-prompter {
     transition: none;

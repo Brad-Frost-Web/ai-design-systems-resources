@@ -23,7 +23,7 @@
  */
 import { LitElement, html, render } from "lit";
 import { loadIntel } from "../intel-store.js";
-import { canonicalAsk, composeSpec, hydrate, LENSES, SUGGESTED_ASKS } from "../intent-engine.js";
+import { canonicalAsk, composeSpec, hydrate, validateRemoteSpec, LENSES, SUGGESTED_ASKS } from "../intent-engine.js";
 
 const COMPOSE_URL = "/.netlify/functions/compose";
 const STORAGE_KEY = "resources-concierge-engine";
@@ -53,7 +53,7 @@ export class EdRCConcierge extends LitElement {
 	static properties = {
 		_lens: { state: true },
 		_busy: { state: true },
-		_useModel: { state: true },
+		_engine: { state: true },
 		_useBrain: { state: true },
 	};
 
@@ -66,7 +66,7 @@ export class EdRCConcierge extends LitElement {
 		const prefs = readPrefs();
 		this._lens = null;
 		this._busy = false;
-		this._useModel = Boolean(prefs.useModel);
+		this._engine = ["device", "claude", "jev"].includes(prefs.engine) ? prefs.engine : prefs.useModel ? "claude" : "device";
 		this._useBrain = Boolean(prefs.useBrain);
 		this._requestId = 0;
 	}
@@ -89,6 +89,8 @@ export class EdRCConcierge extends LitElement {
 
 	disconnectedCallback() {
 		super.disconnectedCallback();
+		this._controller?.abort();
+		this._requestId++;
 		this._prompterHost?.remove();
 		this._prompterHost = null;
 	}
@@ -126,20 +128,24 @@ export class EdRCConcierge extends LitElement {
 	}
 
 	async _ask(text) {
-		const ask = (text || "").trim();
+		const ask = (text || "").trim().slice(0, 400);
+		this._controller?.abort();
+		const controller = this._controller = new AbortController();
+		const engine = this._engine;
 		const requestId = ++this._requestId;
 		this._busy = true;
 		try {
 			const intel = await loadIntel();
+			if (requestId !== this._requestId) return;
 			// 1. The floor: instant, on-device, private.
 			const local = composeSpec({ ask, lens: this._lens, intel });
 			this._emit(local, intel);
 
 			// 2. The enhancement: same ask to Claude, same contract back.
-			if (this._useModel && ask) {
+			if (engine !== "device" && ask) {
 				this.dispatchEvent(
 					new CustomEvent("concierge-busy", {
-						detail: { label: this._useBrain ? "Asking Claude — it may consult eddie-brain live…" : "Asking Claude to compose a view…" },
+						detail: { label: engine === "jev" ? "Asking Jev to choose the presentation…" : this._useBrain ? "Asking Claude — it may consult eddie-brain live…" : "Asking Claude to compose a view…" },
 						bubbles: true,
 					}),
 				);
@@ -147,15 +153,17 @@ export class EdRCConcierge extends LitElement {
 				try {
 					const res = await fetch(COMPOSE_URL, {
 						method: "POST",
+						signal: AbortSignal.any([controller.signal, AbortSignal.timeout(35000)]),
 						headers: { "Content-Type": "application/json" },
 						// Claude gets the canonical ask too, so a typed variant and the
 						// scripted line compose the same view on both engines.
-						body: JSON.stringify({ ask: canonicalAsk(ask).ask, typed: ask, lens: this._lens, useBrain: this._useBrain }),
+						body: JSON.stringify({ ask: canonicalAsk(ask).ask, typed: ask, lens: this._lens, engine, useBrain: engine === "claude" && this._useBrain }),
 					});
 					if (requestId !== this._requestId) return; // a newer ask superseded this one
 					if (!res.ok) throw new Error(`compose ${res.status}`);
 					const remote = await res.json();
-					if (!remote?.messages) throw new Error("compose returned no messages");
+					if (requestId !== this._requestId) return;
+					validateRemoteSpec(remote, intel);
 					remote.engine = { ...remote.engine, latencyMs: Math.round(performance.now() - started) };
 					this._emit(hydrate(remote, intel), intel);
 				} catch (err) {
@@ -163,7 +171,8 @@ export class EdRCConcierge extends LitElement {
 					console.warn("concierge: model path unavailable, keeping on-device result —", err.message);
 					const fallback = {
 						...local,
-						reasoning: [`Claude was asked but didn't answer (${err.message}) — this is the on-device result.`, ...local.reasoning],
+						engine: { ...local.engine, attempted: engine, label: `On-device fallback · ${engine} unavailable`, detail: "The live request did not produce a usable view; local rules supplied this result.", },
+						reasoning: [`${engine === "jev" ? "Jev" : "Claude"} was asked but didn't answer (${err.message}) — this is the on-device result.`, ...local.reasoning],
 					};
 					this._emit(fallback, intel);
 				}
@@ -215,26 +224,26 @@ export class EdRCConcierge extends LitElement {
 		if (current) this._ask(current);
 	}
 
+	_onEngineChange(event) {
+		const value = event.target?.value;
+		if (!["device", "claude", "jev"].includes(value) || value === this._engine) return;
+		this._engine = value;
+		writePrefs({ engine: value, useBrain: this._useBrain });
+		this._ask(this._readField());
+	}
+
 	_watchToggles() {
-		// ed-toggle: read state after interaction. setTimeout, not
-		// requestAnimationFrame — rAF never fires in a hidden tab.
-		const onInteract = () => {
-			setTimeout(() => {
-				const model = this.querySelector("#engine-model");
-				const brain = this.querySelector("#engine-brain");
-				const useModel = Boolean(model?.checked);
-				const useBrain = Boolean(brain?.checked);
-				if (useModel !== this._useModel || useBrain !== this._useBrain) {
-					this._useModel = useModel;
-					this._useBrain = useBrain && useModel;
-					writePrefs({ useModel: this._useModel, useBrain: this._useBrain });
-				}
-			}, 0);
-		};
-		const engine = this.querySelector(".ed-r-c-concierge__engine");
-		engine?.addEventListener("click", onInteract);
-		engine?.addEventListener("keyup", onInteract);
-		engine?.addEventListener("change", onInteract);
+		const onInteract = () => setTimeout(() => {
+			const useBrain = Boolean(this.querySelector("#engine-brain")?.checked);
+			if (useBrain === this._useBrain) return;
+			this._useBrain = useBrain;
+			writePrefs({ engine: this._engine, useBrain });
+			if (this._engine === "claude" && this._readField()) this._ask(this._readField());
+		}, 0);
+		const controls = this.querySelector(".ed-r-c-concierge__engine");
+		controls?.addEventListener("click", onInteract);
+		controls?.addEventListener("keyup", onInteract);
+		controls?.addEventListener("change", onInteract);
 	}
 
 	/**
@@ -294,12 +303,16 @@ export class EdRCConcierge extends LitElement {
 							></ed-select-field>
 						</div>
 						<div slot="right" class="ed-r-c-concierge__engine">
-							${this._switch("engine-model", "Compose with Claude", this._useModel, false)}
-							${this._switch("engine-brain", "Consult eddie-brain live", this._useBrain, !this._useModel)}
+							<ed-select-field
+								fieldId="concierge-engine" label="Engine"
+								.items=${[{value:"device", label:"On-device · rules"}, {value:"claude", label:"Claude · composition"}, {value:"jev", label:"Jev · typed decisions"}].map(item => ({...item, selected:item.value === this._engine}))}
+								.value=${this._engine} @change=${this._onEngineChange}
+							></ed-select-field>
+							${this._switch("engine-brain", "Consult eddie-brain live", this._useBrain, this._engine !== "claude")}
 						</div>
 					</ed-toolbar>
 				</ed-show-hide>
-			</form>
+			</div>
 
 		`;
 	}

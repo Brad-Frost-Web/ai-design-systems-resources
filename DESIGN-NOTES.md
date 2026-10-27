@@ -1,18 +1,32 @@
 # Design exploration: the chameleon resources site
 
 **Branch:** `design/13-chameleon-resources` · **Issue:** #13 (Explore: adaptive UI)
-**Status:** **promoting.** Started as an exploratory sketch that never merges;
-Brad recorded the Chapter 5 generative UI lesson against it on 2026-09-02 and
-decided its fate is promotion (resources#25). The work itself is not scheduled
-yet — until it happens, this branch is footage of record, so treat drift from
-`main` as a cost, not a curiosity.
+**Status:** **active design exploration, resumed October 27, 2026.** Brad
+explicitly directed continued work on this existing branch. The September
+recording and October promotion decision remain historical context; promotion
+is deferred for this demo. The replacement `feature/26-a2ui-promotion` is saved,
+but is not the continuation of this interface.
+
+### October 27 correction
+
+P3.3 strengthens the existing concierge, intent engine and compose function.
+No replacement page, renderer, catalog, or parallel retrieval system is needed.
+The existing nine shapes, themes, topic graph, recording prompts and inspection
+panels remain. Jev is an additional typed-decision input to the same composer;
+Claude still composes through the existing function. `JEV_API_KEY` is the
+credential name. `npm run demo` serves the existing endpoint on loopback.
+
+P4.1 independent standards and preservation reviews completed. Saved selection
+and lesson-chart scope findings were corrected. Eight regression tests and the
+build pass; live Claude/Jev and keyboard tabs verified. See README for exact
+measurements, limits and the unchanged production-promotion backlog.
+
 
 ## What this is
 
 The resources homepage rebuilt as a working demo of the Chapter 5 material —
-radically adaptive UI on design-system rails. Everything runs client-side
-(zero server AI, zero tracking) as progressive enhancement over the existing
-static page.
+radically adaptive UI on design-system rails. The on-device floor runs client-side as progressive enhancement over the
+existing static page; Claude and Jev are opt-in server enhancements.
 
 | Move | Where | Chapter 5 idea |
 |---|---|---|

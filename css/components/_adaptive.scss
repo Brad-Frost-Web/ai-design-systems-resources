@@ -168,6 +168,11 @@ ed-band#concierge {
 	opacity: 1;
 }
 
+// The recording-only hover prompter must not intercept phone controls.
+@media (width < 48rem) {
+	.ed-r-c-prompter { display: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.ed-r-c-prompter {
 		transition: none;

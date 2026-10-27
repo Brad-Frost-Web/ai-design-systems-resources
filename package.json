@@ -13,7 +13,8 @@
 		"sync": "node scripts/sync-notion.js",
 		"sync:lessons": "node scripts/sync-lessons.js",
 		"build:catalog": "node scripts/build-catalog.js",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "node --test test/*.test.mjs",
+		"demo": "npm run build && node scripts/demo-server.mjs"
 	},
 	"keywords": [],
 	"author": "",

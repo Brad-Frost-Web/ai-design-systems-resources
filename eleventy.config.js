@@ -62,6 +62,7 @@ export default async function (eleventyConfig) {
 			console.log("JavaScript bundled successfully");
 		} catch (error) {
 			console.error("esbuild error:", error);
+			throw error;
 		}
 	});
 }
