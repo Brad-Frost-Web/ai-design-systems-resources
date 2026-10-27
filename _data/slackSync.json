@@ -1,15 +1,15 @@
 {
-  "checkedAt": "2026-10-27T18:00:28.659Z",
+  "checkedAt": "2026-10-27T20:21:11.692Z",
   "from": "2026-08-30",
   "through": "2026-10-27",
-  "coverageThrough": "2026-10-27T17:50:37.373Z",
+  "coverageThrough": "2026-10-27T20:21:09.140Z",
   "counts": {
     "historyPages": 4,
     "parents": 767,
-    "replyPages": 84,
-    "threads": 84,
-    "messages": 517,
-    "links": 149
+    "replyPages": 3,
+    "threads": 3,
+    "messages": 15,
+    "links": 6
   },
   "pendingReview": 0,
   "engine": "owned-slack-api",
