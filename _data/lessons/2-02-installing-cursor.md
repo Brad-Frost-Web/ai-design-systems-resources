@@ -1,0 +1,15 @@
+---
+number: "2.02"
+title: "Installing Cursor"
+chapter: "Chapter 2"
+url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/75184641-installing-cursor"
+notionId: "3c23c9323e868191b0d9e36b5fe1fc16"
+created: "2026-08-20T01:39:00.000Z"
+presenters:
+  - "TJ Pitre"
+tags:
+  - "cursor"
+  - "tools"
+  - "southleft"
+---
+TJ installs Cursor, the VS Code-like IDE, and walks through its three flavors: the traditional desktop editor (a DMG download), a terminal-based CLI that behaves like Claude Code, and a browser-only web version the course won't use. Inside the desktop app he shows the classic file-editor view alongside the newer agent view, which pushes the chat forward and de-emphasizes files; the course toggles between both.

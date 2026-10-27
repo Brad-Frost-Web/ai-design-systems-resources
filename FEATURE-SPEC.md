@@ -1,5 +1,5 @@
 ---
-status: draft
+status: approved
 issue: 26
 related_issues: [13, 25, 28, 30, 32]
 branch: feature/26-a2ui-promotion
@@ -7,7 +7,10 @@ owners:
   - Brad Frost
   - Ian Frost
 last_updated: 2026-10-27
-amendments: []
+amendments:
+  - date: 2026-10-27
+    author: Brad Frost
+    summary: Approved in chat — go build Claude and on-device paths; Jev credential is JEV_API_KEY.
 ---
 
 # FEATURE-SPEC.md — A working generative resources interface
@@ -75,14 +78,14 @@ Use the served `chameleon` catalog as the vocabulary. One normalized turn carrie
 
 | Environment | Hosting | Persistence | Notes |
 |---|---|---|---|
-| Local demo | Eleventy plus Netlify Functions development proxy, loopback only | Existing committed corpus; optional browser preferences | Real model requests use server-only environment credentials; engine status is visible. |
+| Local demo | Eleventy plus a small Node development server, loopback only | Existing committed corpus; optional browser preferences | Real model requests use server-only environment credentials; engine status is visible. |
 | Production | Existing Netlify site | Existing content pipeline | This milestone does not deploy or enable paid endpoints publicly. |
 
-Local inspection on October 27 found `ANTHROPIC_API_KEY` present and `TYPESAFE_API_KEY` absent. Presence is not a successful API test. Never expose credential values in bundles, logs, screenshots, or committed files.
+Local inspection on October 27 found `ANTHROPIC_API_KEY` present and `JEV_API_KEY` present. Presence is not a successful API test. Never expose credential values in bundles, logs, screenshots, or committed files.
 
 ## 8. Tech decisions
 
-- **Project type / stack:** content-site; existing Eleventy, vanilla JavaScript, Eddie, Netlify Functions.
+- **Project type / stack:** content-site; existing Eleventy, vanilla JavaScript, Eddie; Node loopback demo server.
 - **Current contract:** `a2ui-eddie/1.0`, with `version: v1.0` messages, `createSurface`, `updateComponents`, and `updateDataModel`; metadata uses Eddie extensions. Follow the upstream contract, not a rename-only approximation.
 - **Rendering:** use the published `@brad-frost-web/eddie-render` API and served catalog profile. Verify its current Chameleon expansion support before implementation; do not silently retain or fork the old renderer if that support is missing.
 - **Jev:** use narrow typed decisions with explicit unknown/unsupported outcomes. Reviewable thresholds and questions live together. A probability and model confidence are different signals; neither replaces corpus relevance checks. Do not promise issue #30's historical latency target before measuring current service behavior.
@@ -113,9 +116,9 @@ WCAG 2.1 AA. Keyboard-operable prompt, examples, engine selector, disclosures, r
 
 ## 10. Approval and outstanding setup
 
-Approve this scope before implementation: a real local-demo milestone on the resources homepage, with on-device/Jev/Claude paths, the modern Eddie contract, and production activation deferred. This file remains `draft` until Brad approves.
+Approved scope: a real local-demo milestone on the resources homepage, with on-device/Jev/Claude paths, the modern Eddie contract, and production activation deferred. Approved by Brad in chat on October 27.
 
-Live Jev acceptance requires `TYPESAFE_API_KEY` supplied through local environment configuration. Mock responses can verify failure handling but cannot satisfy live-demo acceptance. Do not request the secret in chat.
+Live Jev acceptance requires `JEV_API_KEY` supplied through local environment configuration. Mock responses can verify failure handling but cannot satisfy live-demo acceptance. Do not request the secret in chat.
 
 ## 11. Success criteria
 
@@ -127,3 +130,9 @@ Live Jev acceptance requires `TYPESAFE_API_KEY` supplied through local environme
 - Tests cover those behaviors, not just snapshots of implementation. Browser checks exercise typed input and keyboard paths at 375px and 1440px, reduced motion, and no-JS content.
 - README documents the exact local start command, required environment variable names, demo prompts, observed latency, and limitations.
 - The original Rails branch and recorded design branch remain preserved; no merge or deployment is claimed for this milestone.
+
+### P3.2 implementation decisions
+
+The published Chameleon profile contains placeholder expansions for its high-level nodes. Its shape names remain the bounded decision vocabulary. A consumer compiler binds real record IDs into the served default catalog’s official Eddie primitives; `eddie-render` performs all validation and DOM rendering. Catalog snapshots are pinned to 0.72.1 with the matching npm packages. This replaces the archived DOM renderer without forking upstream recipes.
+
+A loopback-only Node server shares the provider adapter with tests. It serves the Eleventy output and keeps keys server-side. No Netlify Function is added, so a static deploy cannot activate paid generation accidentally.

@@ -48,6 +48,16 @@ h6 {
   margin: 0;
 }
 
+/**
+ * Author display rules must not resurrect a hidden component (#2360, #2491).
+ * Important deliberately wins over later host variants such as fullwidth.
+ * `until-found` retains the browser's searchable/revealable hidden behavior.
+ */
+:host([hidden]:not([hidden=until-found i])),
+[hidden]:not([hidden=until-found i]) {
+  display: none !important;
+}
+
 body {
   font-family: var(--ed-theme-typography-body-default-font-family);
   font-weight: var(--ed-theme-typography-body-default-font-weight);
@@ -1474,6 +1484,11 @@ hr {
 }
 .resource-category__links a:hover {
   text-decoration: underline;
+}
+
+.ed-r-adaptive-resources pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 /*# sourceMappingURL=styles.tmp.css.map */

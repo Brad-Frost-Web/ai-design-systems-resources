@@ -6,7 +6,7 @@
   font-stretch: 100%;
   font-display: swap;
   src: url("../../core/fonts/league-gothic-normal-400-latin-ext.woff2") format("woff2");
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
   font-family: "League Gothic";
@@ -23,7 +23,7 @@
   font-weight: 100 900;
   font-display: swap;
   src: url("../../core/fonts/montserrat-italic-variable-latin-ext.woff2") format("woff2");
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
   font-family: "Montserrat";
@@ -39,7 +39,7 @@
   font-weight: 100 900;
   font-display: swap;
   src: url("../../core/fonts/montserrat-normal-variable-latin-ext.woff2") format("woff2");
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
   font-family: "Montserrat";
@@ -172,6 +172,7 @@
   --ed-theme-color-background-brand-disabled: var(--ed-color-brand-orange-100);
   --ed-theme-color-background-brand-knockout: var(--ed-color-brand-orange-800);
   --ed-theme-color-background-brand-knockout-hover: var(--ed-color-brand-orange-900);
+  --ed-theme-color-background-selected: var(--ed-color-brand-orange-800);
   --ed-theme-color-background-accent-1: var(--ed-color-brand-orange-700);
   --ed-theme-color-background-accent-2: var(--ed-color-brand-blue-light-500);
   --ed-theme-color-background-accent-3: var(--ed-color-brand-blue-dark-800);
@@ -195,14 +196,18 @@
   --ed-theme-color-background-disabled: var(--ed-color-neutral-200);
   --ed-theme-color-background-transparent: var(--ed-color-transparent-25);
   --ed-theme-color-background-transparent-strong: var(--ed-color-transparent-90);
-  --ed-theme-color-background-viz-1: var(--ed-theme-color-background-accent-1);
-  --ed-theme-color-background-viz-2: var(--ed-theme-color-background-accent-2);
-  --ed-theme-color-background-viz-3: var(--ed-theme-color-background-accent-3);
-  --ed-theme-color-background-viz-4: var(--ed-theme-color-background-accent-4);
-  --ed-theme-color-background-viz-5: var(--ed-theme-color-background-accent-5);
-  --ed-theme-color-background-viz-6: var(--ed-theme-color-background-accent-6);
-  --ed-theme-color-background-viz-7: var(--ed-theme-color-background-accent-7);
-  --ed-theme-color-background-viz-8: var(--ed-theme-color-background-accent-8);
+  --ed-theme-color-background-viz-1: var(--ed-color-brand-orange-700);
+  --ed-theme-color-background-viz-2: var(--ed-color-utility-blue-600);
+  --ed-theme-color-background-viz-3: var(--ed-color-neutral-500);
+  --ed-theme-color-background-viz-4: var(--ed-color-utility-red-700);
+  --ed-theme-color-background-viz-5: var(--ed-color-brand-cream-900);
+  --ed-theme-color-background-viz-6: var(--ed-color-utility-blue-700);
+  --ed-theme-color-background-viz-7: var(--ed-color-utility-green-600);
+  --ed-theme-color-background-viz-8: var(--ed-color-brand-orange-900);
+  --ed-theme-color-background-viz-9: var(--ed-color-utility-green-700);
+  --ed-theme-color-background-viz-10: var(--ed-color-utility-red-600);
+  --ed-theme-color-background-viz-11: var(--ed-color-brand-blue-dark-500);
+  --ed-theme-color-background-viz-12: var(--ed-color-brand-brown-500);
   --ed-theme-color-content-on-diagram-design: var(--ed-color-neutral-white);
   --ed-theme-color-content-on-diagram-repo: var(--ed-color-brand-brown-900);
   --ed-theme-color-content-on-diagram-package: var(--ed-color-brand-brown-900);
@@ -216,6 +221,8 @@
   --ed-theme-color-content-brand-knockout: var(--ed-theme-color-content-on-brand);
   --ed-theme-color-content-brand-on-knockout: var(--ed-color-brand-orange-700);
   --ed-theme-color-content-on-brand: var(--ed-color-brand-cream-300);
+  --ed-theme-color-content-selected: var(--ed-color-brand-orange-800);
+  --ed-theme-color-content-on-selected: var(--ed-color-brand-cream-300);
   --ed-theme-color-content-accent-1: var(--ed-color-brand-orange-700);
   --ed-theme-color-content-accent-2: var(--ed-color-brand-blue-light-500);
   --ed-theme-color-content-accent-3: var(--ed-color-brand-blue-dark-800);
@@ -234,6 +241,10 @@
   --ed-theme-color-content-on-accent-7: var(--ed-color-brand-brown-900);
   --ed-theme-color-content-on-accent-8: var(--ed-color-brand-brown-900);
   --ed-theme-color-content-disabled: var(--ed-color-neutral-600);
+  --ed-theme-color-content-on-utility-info: var(--ed-color-brand-cream-300);
+  --ed-theme-color-content-on-utility-success: var(--ed-color-brand-cream-300);
+  --ed-theme-color-content-on-utility-warning: var(--ed-color-brand-cream-300);
+  --ed-theme-color-content-on-utility-error: var(--ed-color-brand-cream-300);
   --ed-theme-color-content-utility-error: var(--ed-color-utility-red-600);
   --ed-theme-color-content-utility-warning: var(--ed-color-utility-yellow-600);
   --ed-theme-color-content-utility-success: var(--ed-color-utility-green-600);
@@ -246,6 +257,7 @@
   --ed-theme-color-border-knockout: var(--ed-color-neutral-400);
   --ed-theme-color-border-brand: var(--ed-color-brand-orange-700);
   --ed-theme-color-border-brand-knockout: var(--ed-color-brand-orange-700);
+  --ed-theme-color-border-selected: var(--ed-color-brand-orange-700);
   --ed-theme-color-border-accent-1: var(--ed-color-brand-orange-700);
   --ed-theme-color-border-accent-2: var(--ed-color-brand-blue-light-500);
   --ed-theme-color-border-accent-3: var(--ed-color-brand-blue-dark-800);
@@ -270,6 +282,12 @@
   --ed-theme-color-border-viz-axis: var(--ed-theme-color-border-default);
   --ed-theme-color-border-viz-gridline: var(--ed-theme-color-border-subtle);
   --ed-theme-color-border-viz-tick: var(--ed-theme-color-border-default);
+  --ed-opacity-0: 0;
+  --ed-opacity-40: 0.4;
+  --ed-opacity-60: 0.6;
+  --ed-opacity-100: 1;
+  --ed-theme-opacity-disabled: var(--ed-opacity-60);
+  --ed-theme-opacity-dragging: var(--ed-opacity-40);
   --ed-sidebar-width: 18rem;
   --ed-spacing-0: 0rem;
   --ed-spacing-4: 0.25rem;
@@ -310,6 +328,8 @@
   --ed-theme-layer-drawer: var(--ed-z-index-300);
   --ed-theme-layer-modal: var(--ed-z-index-400);
   --ed-theme-layer-toast: var(--ed-z-index-500);
+  --ed-theme-size-measure: 68ch;
+  --ed-theme-size-target-min: var(--ed-spacing-24);
   --ed-theme-typography-viz-label-font-family: var(--ed-theme-typography-display-default-font-family);
   --ed-theme-typography-viz-label-font-weight: var(--ed-theme-typography-display-default-font-weight);
   --ed-theme-typography-viz-label-font-size: clamp(10cqi, calc(130cqi / var(--_label-length, 6)), 24cqi);
@@ -606,17 +626,17 @@
   --ed-theme-box-shadow-md: 0rem 0.5rem 0rem -0.25rem var(--ed-theme-color-background-subtle);
   --ed-theme-box-shadow-bold: 0rem 0.5rem 0rem -0.25rem var(--ed-theme-color-background-accent-1), 0rem 1rem 0rem -0.5rem var(--ed-theme-color-background-accent-2), 0rem 1.5rem 0rem -0.75rem var(--ed-theme-color-background-subtle);
   --ed-theme-shadow-clearance-bold: 0.75rem;
-  --ed-theme-button-color-background-default: var(--ed-color-brand-orange-700);
-  --ed-theme-button-color-background-hover: var(--ed-color-brand-orange-800);
-  --ed-theme-button-color-background-active: var(--ed-color-brand-orange-800);
+  --ed-theme-button-color-background-default: var(--ed-theme-color-background-subtle);
+  --ed-theme-button-color-background-hover: var(--ed-theme-color-background-subtle-hover);
+  --ed-theme-button-color-background-active: var(--ed-theme-color-background-subtle-hover);
   --ed-theme-button-color-background-disabled: var(--ed-color-neutral-300);
-  --ed-theme-button-color-content-default: var(--ed-color-brand-cream-300);
-  --ed-theme-button-color-content-hover: var(--ed-color-brand-cream-300);
-  --ed-theme-button-color-content-active: var(--ed-color-brand-cream-300);
+  --ed-theme-button-color-content-default: var(--ed-theme-color-content-default);
+  --ed-theme-button-color-content-hover: var(--ed-theme-color-content-default);
+  --ed-theme-button-color-content-active: var(--ed-theme-color-content-default);
   --ed-theme-button-color-content-disabled: var(--ed-color-neutral-white);
-  --ed-theme-button-color-border-default: var(--ed-color-brand-orange-700);
-  --ed-theme-button-color-border-hover: var(--ed-color-brand-orange-800);
-  --ed-theme-button-color-border-active: var(--ed-color-brand-orange-800);
+  --ed-theme-button-color-border-default: var(--ed-theme-color-background-subtle);
+  --ed-theme-button-color-border-hover: var(--ed-theme-color-background-subtle-hover);
+  --ed-theme-button-color-border-active: var(--ed-theme-color-background-subtle-hover);
   --ed-theme-button-color-border-disabled: var(--ed-color-neutral-300);
   --ed-theme-button-primary-color-background-default: var(--ed-color-brand-orange-700);
   --ed-theme-button-primary-color-background-hover: var(--ed-color-brand-orange-800);
@@ -630,10 +650,25 @@
   --ed-theme-button-primary-color-border-hover: var(--ed-color-brand-orange-800);
   --ed-theme-button-primary-color-border-active: var(--ed-color-brand-orange-800);
   --ed-theme-button-primary-color-border-disabled: var(--ed-color-neutral-300);
+  --ed-theme-button-danger-color-background-default: var(--ed-theme-color-background-utility-error);
+  --ed-theme-button-danger-color-background-hover: var(--ed-theme-color-background-utility-error);
+  --ed-theme-button-danger-color-background-active: var(--ed-theme-color-background-utility-error);
+  --ed-theme-button-danger-color-background-disabled: var(--ed-theme-button-color-background-disabled);
+  --ed-theme-button-danger-color-content-default: var(--ed-theme-color-content-utility-error);
+  --ed-theme-button-danger-color-content-hover: var(--ed-theme-color-content-utility-error);
+  --ed-theme-button-danger-color-content-active: var(--ed-theme-color-content-utility-error);
+  --ed-theme-button-danger-color-content-disabled: var(--ed-theme-button-color-content-disabled);
+  --ed-theme-button-danger-color-border-default: var(--ed-theme-color-border-utility-error);
+  --ed-theme-button-danger-color-border-hover: var(--ed-theme-color-border-utility-error);
+  --ed-theme-button-danger-color-border-active: var(--ed-theme-color-border-utility-error);
+  --ed-theme-button-danger-color-border-disabled: var(--ed-theme-button-color-border-disabled);
   --ed-theme-button-bare-color-content-default: var(--ed-color-brand-brown-900);
   --ed-theme-button-bare-color-content-hover: var(--ed-color-brand-brown-900);
   --ed-theme-button-bare-color-content-active: var(--ed-color-brand-brown-900);
   --ed-theme-button-bare-color-content-disabled: var(--ed-color-neutral-700);
+  --ed-theme-button-padding-block: var(--ed-spacing-12);
+  --ed-theme-button-padding-inline: 1.75rem;
+  --ed-theme-file-upload-border-radius: var(--ed-theme-border-radius-md);
   --ed-theme-focus-ring-color-border-default: var(--ed-color-neutral-black);
   --ed-theme-focus-ring-color-border-knockout: var(--ed-color-brand-cream-300);
   --ed-theme-focus-ring-offset: var(--ed-spacing-4);
@@ -650,6 +685,7 @@
   --ed-theme-form-color-content-hover: var(--ed-color-brand-cream-300);
   --ed-theme-form-color-content-active: var(--ed-color-brand-cream-300);
   --ed-theme-form-color-content-subtle: var(--ed-color-brand-cream-800);
+  --ed-theme-form-border-radius: var(--ed-theme-border-radius-sm);
   --ed-theme-link-color-content-default: var(--ed-color-brand-orange-800);
   --ed-theme-link-color-content-hover: var(--ed-color-brand-orange-900);
   --ed-theme-link-color-content-active: var(--ed-color-brand-orange-800);
@@ -705,6 +741,15 @@ h4,
 h5,
 h6 {
   margin: 0;
+}
+/**
+ * Author display rules must not resurrect a hidden component (#2360, #2491).
+ * Important deliberately wins over later host variants such as fullwidth.
+ * `until-found` retains the browser's searchable/revealable hidden behavior.
+ */
+:host([hidden]:not([hidden=until-found i])),
+[hidden]:not([hidden=until-found i]) {
+  display: none !important;
 }
 body {
   font-family: var(--ed-theme-typography-body-default-font-family);
@@ -1993,6 +2038,10 @@ hr {
 }
 .resource-category__links a:hover {
   text-decoration: underline;
+}
+.ed-r-adaptive-resources pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 /*# sourceMappingURL=styles.css.map */

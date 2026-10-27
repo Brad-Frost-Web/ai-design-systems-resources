@@ -1,10 +1,37 @@
 ---
 layout: base.njk
+eddie-template: ed-p-grid
 ---
 <ed-main>
-	<ed-layout-container class="ed-u-padding-top-xl">
+	<ed-r-page-banner>
+		<ed-heading slot="heading" tagName="h1" variant="title-default" enhance><h1>Find your way through AI &amp; design systems</h1></ed-heading>
+		<ed-text-passage><p>Ask a question. Explore a learning path, compare resources, or see what’s new.</p></ed-text-passage>
+	</ed-r-page-banner>
+	<ed-layout-container class="ed-u-padding-top-xl ed-u-padding-bottom-xl">
+		<ed-stack gap="section" class="ed-r-adaptive-resources">
+			<ed-section>
+				<ed-stack id="adaptive-controls" gap="block" hidden>
+					<ed-single-field-form type="search" showClear required id="resource-question" fieldId="question" label="What would you like to explore?" placeholder="e.g. How can I make my design system AI-ready?" buttonText="Build my view"></ed-single-field-form>
+					<ed-toolbar behavior="responsive">
+						<ed-select-field slot="left" id="generation-lens" label="Your perspective"></ed-select-field>
+						<ed-select-field slot="right" id="generation-engine" label="Engine"></ed-select-field>
+					</ed-toolbar>
+					<ed-cluster id="generation-examples" gap="inline" aria-label="Example questions"></ed-cluster>
+					<ed-text-passage size="sm"><p id="engine-availability"></p></ed-text-passage>
+				</ed-stack>
+				<ed-text-passage><p id="generation-status" role="status" aria-live="polite">Browse the collection below. Enable JavaScript to build a view from your question.</p></ed-text-passage>
+				<ed-button id="generation-reset" variant="bare" hidden>Reset to browsing</ed-button>
+			</ed-section>
+			<section id="generated-resources" aria-label="Your generated resource view" hidden></section>
+			<ed-section id="generation-details" hidden><ed-text-passage>
+				<details><summary>Under the hood: decisions &amp; Eddie messages</summary><pre id="generation-json"></pre></details>
+			</ed-text-passage></ed-section>
+			<ed-section>
+				<ed-heading slot="header" tagName="h2" enhance><h2>Browse the full collection</h2></ed-heading>
 		{% include "resource-toolbar.njk" %}
 		{% include "resource-card-grid.njk" %}
 		{% include "resource-category-list.njk" %}
+			</ed-section>
+		</ed-stack>
 	</ed-layout-container>
 </ed-main>

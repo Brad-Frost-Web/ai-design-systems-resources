@@ -1,0 +1,1980 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ds.bradfrost.com/catalog.chameleon.json",
+  "catalogId": "https://ds.bradfrost.com/catalog/eddie/v1?profile=chameleon",
+  "protocolVersion": "1.0",
+  "title": "Eddie Design System — Chameleon profile",
+  "description": "The Chameleon resources site vocabulary: 9 nodes lifted from scripts/build-catalog.js, plus the primitives they render.",
+  "profile": "chameleon",
+  "contractComplete": false,
+  "eddieVersion": "0.72.1",
+  "instructions": "# Eddie catalog — Chameleon resources site profile\n\nThe Chameleon resources site's own node vocabulary, lifted verbatim from its `scripts/build-catalog.js` so the product reads one served document\ninstead of fetching each component record over MCP. Node names are the product's; each node's `description` is the\nproduct's routing hint and `metadata.extensions.eddie_tags` lists the Eddie tags it renders (primary first). Until the\nproduct's renderer is ported to eddie-render, the expansion is owned by that renderer.\n\n## Composition rules\n\n1. **Name catalog nodes only.** Every element of the tree is a node from this catalog, addressed by id.\n   Never invent a node, a prop, or a slot; if the catalog lacks something, leave it out and say so in\n   the disclosure.\n2. **Containment is real.** Where a node declares `allowedChildren` or `allowedParents`, the renderer\n   refuses anything else. Where it does not (most primitives today), the Anti-patterns section at the\n   end of these instructions lists the structures it refuses regardless.\n3. **Sections, not bands.** `Section` delineates a content area; `Band` is only for an explicitly\n   requested full-bleed colour strip. `LayoutContainer` goes inside a section to cap the measure.\n4. **Page headers.** Set `PageHeader.heading` (or fill its `heading` slot). Leave both empty and a\n   placeholder title renders.\n5. **Accordions.** Each `AccordionPanel` has its header text in the `header` slot, then its content in\n   `children`.\n6. **Heading order.** One `h1` per page (`Heading.tagName`), sections `h2`, subsections `h3`; pick\n   `variant` for size independently of `tagName`.\n7. **Forms.** Group related fields, add a `FieldNote` for help text, and submit with\n   `Button.variant = \"primary\"`. One primary button per group; use `ButtonGroup` for a\n   primary/secondary pair, primary first.\n8. **Navigation.** `PrimaryNav` belongs inside the site header; `Breadcrumbs` sit at the top of the\n   content area.\n9. **Copy.** Use the exact wording people asked for in headings, labels and buttons. Never render\n   placeholder text such as \"Lorem ipsum\", \"Click here\", or \"Nav item\".\n10. **Images.** Every image needs specific, descriptive alt text that names its subject (2–5 words).\n    Never leave an image prop empty.\n11. **Keep it small.** Four to six top-level sections; fold new material into an existing section or\n    replace a weaker one rather than appending forever. Three to five rows in a table, three to four\n    cards in a grid, one short paragraph per section.\n\n## Anti-patterns\n\nStructures the renderer refuses (from the graph's `@antipattern` tags; selectors in catalog-node names,\n`A > B` is an immediate child, `A B` any descendant):\n\n- `Card > Heading[slot=header]` — the header slot is for media only; a heading there paints as an image band and loses its place in the document outline Fix: put headings and copy in the default slot, media in header, actions in footer\n- `Card > TextPassage[slot=header]` — the header slot is for media only; prose there is styled as an image band Fix: put ed-text-passage in the default slot",
+  "components": {
+    "summary": {
+      "type": "object",
+      "description": "Always first: one short paragraph framing everything the reader is about to see. Never more than one paragraph.",
+      "properties": {
+        "component": {
+          "const": "summary"
+        },
+        "text": {
+          "type": "string"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "The nodes that fill this page shape, in document order."
+        }
+      },
+      "required": [
+        "component",
+        "children"
+      ],
+      "allowedParents": [
+        "Surface"
+      ],
+      "allowedChildren": [
+        "TextPassage"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-text-passage",
+          "eddie_kind": "composition",
+          "eddie_expansion": "<ed-text-passage>{{children}}</ed-text-passage>",
+          "eddie_tags": [
+            "ed-text-passage"
+          ],
+          "eddie_docs": "docs/GENERATIVE-UI-STRATEGY.md §4.2 — the renderer owns this expansion; the model names the node."
+        }
+      }
+    },
+    "videoGrid": {
+      "type": "object",
+      "description": "Course video lessons that answer the ask. A grid of cards, each opening the lesson in a new tab. Lead with this whenever lessons match — lessons outrank everything else.",
+      "properties": {
+        "component": {
+          "const": "videoGrid"
+        },
+        "heading": {
+          "type": "string"
+        },
+        "items": {
+          "description": "lesson ids (3–9)"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "The nodes that fill this page shape, in document order."
+        }
+      },
+      "required": [
+        "component",
+        "children"
+      ],
+      "allowedParents": [
+        "Surface"
+      ],
+      "allowedChildren": [
+        "Card",
+        "Grid",
+        "Tag"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-card",
+          "eddie_kind": "composition",
+          "eddie_expansion": "<ed-card>{{children}}</ed-card>",
+          "eddie_tags": [
+            "ed-card",
+            "ed-grid",
+            "ed-tag"
+          ],
+          "eddie_docs": "docs/GENERATIVE-UI-STRATEGY.md §4.2 — the renderer owns this expansion; the model names the node."
+        }
+      }
+    },
+    "definition": {
+      "type": "object",
+      "description": "A glossary term the ask names or clearly circles. Dictionary-entry treatment: the term, its definition, the lessons where it's taught. Distinct from a link card on purpose.",
+      "properties": {
+        "component": {
+          "const": "definition"
+        },
+        "terms": {
+          "description": "term slugs (1–3)"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "The nodes that fill this page shape, in document order."
+        }
+      },
+      "required": [
+        "component",
+        "children"
+      ],
+      "allowedParents": [
+        "Surface"
+      ],
+      "allowedChildren": [
+        "Heading",
+        "Tag",
+        "TagList",
+        "TextPassage"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-text-passage",
+          "eddie_kind": "composition",
+          "eddie_expansion": "<ed-text-passage>{{children}}</ed-text-passage>",
+          "eddie_tags": [
+            "ed-text-passage",
+            "ed-heading",
+            "ed-tag-list",
+            "ed-tag"
+          ],
+          "eddie_docs": "docs/GENERATIVE-UI-STRATEGY.md §4.2 — the renderer owns this expansion; the model names the node."
+        }
+      }
+    },
+    "resourceTimeline": {
+      "type": "object",
+      "description": "Articles, tools, and links from the collection, newest first, with essential reading marked. The default shape for resources — a dated list, not a grid of identical cards. Also the shape for 'what's new' asks.",
+      "properties": {
+        "component": {
+          "const": "resourceTimeline"
+        },
+        "heading": {
+          "type": "string"
+        },
+        "items": {
+          "description": "resource ids (4–12)"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "The nodes that fill this page shape, in document order."
+        }
+      },
+      "required": [
+        "component",
+        "children"
+      ],
+      "allowedParents": [
+        "Surface"
+      ],
+      "allowedChildren": [
+        "Timeline",
+        "TimelineNodeLink"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-timeline",
+          "eddie_kind": "composition",
+          "eddie_expansion": "<ed-timeline>{{children}}</ed-timeline>",
+          "eddie_tags": [
+            "ed-timeline",
+            "ed-r-timeline-node-link"
+          ],
+          "eddie_docs": "docs/GENERATIVE-UI-STRATEGY.md §4.2 — the renderer owns this expansion; the model names the node."
+        }
+      }
+    },
+    "table": {
+      "type": "object",
+      "description": "Comparison asks — 'which tools', 'compare X and Y', 'what are my options'. Rows are resources, columns are the facts that separate them (type, tags, added). Never for layout.",
+      "properties": {
+        "component": {
+          "const": "table"
+        },
+        "heading": {
+          "type": "string"
+        },
+        "items": {
+          "description": "resource ids (3–12)"
+        },
+        "columns": {
+          "description": "optional column keys"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "The nodes that fill this page shape, in document order."
+        }
+      },
+      "required": [
+        "component",
+        "children"
+      ],
+      "allowedParents": [
+        "Surface"
+      ],
+      "allowedChildren": [
+        "Table",
+        "TableBody",
+        "TableCell",
+        "TableHeader",
+        "TableRow"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-table",
+          "eddie_kind": "composition",
+          "eddie_expansion": "<ed-table>{{children}}</ed-table>",
+          "eddie_tags": [
+            "ed-table",
+            "ed-table-header",
+            "ed-table-body",
+            "ed-table-row",
+            "ed-table-cell"
+          ],
+          "eddie_docs": "docs/GENERATIVE-UI-STRATEGY.md §4.2 — the renderer owns this expansion; the model names the node."
+        }
+      }
+    },
+    "tabs": {
+      "type": "object",
+      "description": "Lessons that span several chapters, or an ask about a learning path — one tab per chapter so the reader can see the shape of the course.",
+      "properties": {
+        "component": {
+          "const": "tabs"
+        },
+        "heading": {
+          "type": "string"
+        },
+        "groups": {
+          "description": "[{label, items: lesson ids}]"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "The nodes that fill this page shape, in document order."
+        }
+      },
+      "required": [
+        "component",
+        "children"
+      ],
+      "allowedParents": [
+        "Surface"
+      ],
+      "allowedChildren": [
+        "Card",
+        "Tab",
+        "Tabs"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-tabs",
+          "eddie_kind": "composition",
+          "eddie_expansion": "<ed-tabs>{{children}}</ed-tabs>",
+          "eddie_tags": [
+            "ed-tabs",
+            "ed-tab",
+            "ed-card"
+          ],
+          "eddie_docs": "docs/GENERATIVE-UI-STRATEGY.md §4.2 — the renderer owns this expansion; the model names the node."
+        }
+      }
+    },
+    "barChart": {
+      "type": "object",
+      "description": "Quantitative asks about the collection itself — counts per month, per tag, per type. The chart carries its own accessible data table. Only when the ask is genuinely about numbers.",
+      "properties": {
+        "component": {
+          "const": "barChart"
+        },
+        "heading": {
+          "type": "string"
+        },
+        "labels": {
+          "description": "string[]"
+        },
+        "datasets": {
+          "description": "[{label, values}]"
+        },
+        "chartLabel": {
+          "type": "string"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "The nodes that fill this page shape, in document order."
+        }
+      },
+      "required": [
+        "component",
+        "children"
+      ],
+      "allowedParents": [
+        "Surface"
+      ],
+      "allowedChildren": [
+        "BarChart"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-r-bar-chart",
+          "eddie_kind": "composition",
+          "eddie_expansion": "<ed-r-bar-chart>{{children}}</ed-r-bar-chart>",
+          "eddie_tags": [
+            "ed-r-bar-chart"
+          ],
+          "eddie_docs": "docs/GENERATIVE-UI-STRATEGY.md §4.2 — the renderer owns this expansion; the model names the node."
+        }
+      }
+    },
+    "statRow": {
+      "type": "object",
+      "description": "Three headline numbers about the result or the collection. Closes a view; never opens one.",
+      "properties": {
+        "component": {
+          "const": "statRow"
+        },
+        "stats": {
+          "description": "[{label, value, meta}] (exactly 3)"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "The nodes that fill this page shape, in document order."
+        }
+      },
+      "required": [
+        "component",
+        "children"
+      ],
+      "allowedParents": [
+        "Surface"
+      ],
+      "allowedChildren": [
+        "Grid",
+        "StatCard"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-r-stat-card",
+          "eddie_kind": "composition",
+          "eddie_expansion": "<ed-r-stat-card>{{children}}</ed-r-stat-card>",
+          "eddie_tags": [
+            "ed-r-stat-card",
+            "ed-grid"
+          ],
+          "eddie_docs": "docs/GENERATIVE-UI-STRATEGY.md §4.2 — the renderer owns this expansion; the model names the node."
+        }
+      }
+    },
+    "note": {
+      "type": "object",
+      "description": "Low confidence, or an ask the collection genuinely can't answer. Say so plainly instead of guessing.",
+      "properties": {
+        "component": {
+          "const": "note"
+        },
+        "heading": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "The nodes that fill this page shape, in document order."
+        }
+      },
+      "required": [
+        "component",
+        "children"
+      ],
+      "allowedParents": [
+        "Surface"
+      ],
+      "allowedChildren": [
+        "Alert"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-alert",
+          "eddie_kind": "composition",
+          "eddie_expansion": "<ed-alert>{{children}}</ed-alert>",
+          "eddie_tags": [
+            "ed-alert"
+          ],
+          "eddie_docs": "docs/GENERATIVE-UI-STRATEGY.md §4.2 — the renderer owns this expansion; the model names the node."
+        }
+      }
+    },
+    "Alert": {
+      "type": "object",
+      "description": "An alert banner for displaying important messages with semantic meaning. Alerts communicate status, warnings, errors, and success states with appropriate icons and styling.",
+      "properties": {
+        "component": {
+          "const": "Alert"
+        },
+        "iconName": {
+          "type": "string",
+          "description": "Icon name used for the icon next to the text 1) When not set, the icon is automatically determined by the variant (info for default, check for success, warning for warning, error for error) 2) Set to override the default variant icon"
+        },
+        "headingVariant": {
+          "type": "string",
+          "enum": [
+            "headline-lg",
+            "headline",
+            "headline-sm",
+            "title-lg",
+            "title",
+            "title-sm"
+          ],
+          "default": "title-sm",
+          "description": "Heading variant - **headline-lg** renders a heading with the heading headline-lg preset treatment - **headline** renders a heading with the headline-default preset treatment (the middle headline step) - **headline-sm** renders a heading wit…"
+        },
+        "tagName": {
+          "type": "string",
+          "enum": [
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6"
+          ],
+          "default": "h2",
+          "description": "Dynamic tag name for the component 1) This is needed to use proper semantic heading treatments depending on where the banner lives on the page - **h1** renders an `h1` tag - **h2** renders an `h2` tag."
+        },
+        "heading": {
+          "type": "string",
+          "description": "Text for the banner heading"
+        },
+        "dismissed": {
+          "type": "boolean",
+          "description": "Dismissed property 1) State that changes to true and is removed when the banner is dismissed"
+        },
+        "variant": {
+          "type": "string",
+          "enum": [
+            "success",
+            "error",
+            "warning"
+          ],
+          "description": "Style variants - **success** Confirms a completed action or positive outcome - **warning** Calls attention to something that needs awareness or caution - **error** Indicates a failure, blocking issue, or required correction Unset is the neu…"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "Alert description/message content"
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-alert",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-web-components",
+          "eddie_atomicLevel": "molecule",
+          "eddie_docs": "eddie_get_component(\"ed-alert\")",
+          "eddie_category": "Messaging",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>",
+          "eddie_composesWith": [
+            "ed-button",
+            "ed-heading",
+            "ed-icon",
+            "ed-p-job",
+            "ed-stack",
+            "ed-text-passage"
+          ],
+          "eddie_useWhen": [
+            "a form was submitted with errors and the page needs to say so at the top",
+            "something has gone wrong that somebody has to act on, or must not miss: a payment failed, a session is about to expire",
+            "a warning should sit in the flow of the page and stay there until it is dealt with or dismissed"
+          ],
+          "eddie_notWhen": [
+            "the message is a passing confirmation such as Saved, or a failure nobody needs to act on — use `ed-toast`",
+            "it concerns a single form field — use the field's own note, or `ed-field-note`",
+            "it must be answered before continuing — use `ed-modal`",
+            "it is promotion rather than status — use `ed-band`, or `ed-r-promo-block`",
+            "it is a word or two of status on a row or a card — use `ed-tag`"
+          ]
+        }
+      }
+    },
+    "Card": {
+      "type": "object",
+      "description": "A flexible container component that organizes content into three distinct zones: a visual media region, a core content body, and an actions region.",
+      "properties": {
+        "component": {
+          "const": "Card"
+        },
+        "variant": {
+          "type": "string",
+          "enum": [
+            "outlined",
+            "subtle",
+            "strong",
+            "plain",
+            "bare"
+          ],
+          "description": "Style variants. Unset is the default outlined card: surface fill, subtle border, and shadow. - **outlined** The default look, named."
+        },
+        "padding": {
+          "type": "string",
+          "enum": [
+            "none",
+            "sm",
+            "lg"
+          ],
+          "description": "Inset between the card's edge and its content — body, header media, and footer actions alike. Unset is the medium inset."
+        },
+        "align": {
+          "type": "string",
+          "enum": [
+            "center"
+          ],
+          "description": "Align variants - **center** renders a card that has center aligned content/text"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "The card's core content: headings (`<ed-heading>`), body copy (`<ed-text-passage>`), and any other primary descriptive elements. This is the default slot — most of what you put in a card goes here, including the card's title/heading"
+        },
+        "slots": {
+          "type": "object",
+          "description": "Named-slot children, keyed by slot. Each value is a child list.",
+          "properties": {
+            "header": {
+              "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+              "description": "Media/visual slot: images, icons, illustrations, or other visual content above the body."
+            },
+            "footer": {
+              "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+              "description": "Actions on **what the card is about** — open it, buy it, read it. Buttons, button groups or other interactive controls only; not metadata or footer text, which belong in the default slot."
+            },
+            "actions": {
+              "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+              "description": "Actions on **the card itself** — rename, delete, duplicate, pin. Sits in the block-start inline-end corner (top-right in LTR), inset to line up with the body, and overlays `header` media when there is any."
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-card",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-web-components",
+          "eddie_atomicLevel": "molecule",
+          "eddie_docs": "eddie_get_component(\"ed-card\")",
+          "eddie_category": "Blocks",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>",
+          "eddie_slotAttrs": {
+            "header": "header",
+            "footer": "footer",
+            "actions": "actions"
+          },
+          "eddie_composesWith": [
+            "ed-button",
+            "ed-grid-item",
+            "ed-heading",
+            "ed-hr",
+            "ed-icon",
+            "ed-image",
+            "ed-inline-checkbox",
+            "ed-key-value-table",
+            "ed-layout-container",
+            "ed-layout-section",
+            "ed-link-list",
+            "ed-list-item",
+            "ed-media-block",
+            "ed-menu",
+            "ed-p-app-dashboard",
+            "ed-p-authentication",
+            "ed-p-chat",
+            "ed-p-dashboard",
+            "ed-p-detail",
+            "ed-p-grid",
+            "ed-p-homepage",
+            "ed-p-job",
+            "ed-p-pricing",
+            "ed-p-workspace",
+            "ed-progress",
+            "ed-quote",
+            "ed-r-article-card",
+            "ed-r-icon-card",
+            "ed-r-speaking-card",
+            "ed-r-stat-card",
+            "ed-r-video-card",
+            "ed-scroller",
+            "ed-section",
+            "ed-stack",
+            "ed-tag",
+            "ed-text-field",
+            "ed-text-link",
+            "ed-text-passage",
+            "ed-timeline-node",
+            "ed-toggle"
+          ],
+          "eddie_useWhen": [
+            "a set of browsable items — products, courses, projects — share the same parts: a picture, a title, a line or so of description and perhaps an action",
+            "several unrelated things share a screen and the eye needs telling where an item ends and the next begins",
+            "a panel in a dashboard needs a surface to hold a chart, a table or a summary"
+          ],
+          "eddie_notWhen": [
+            "the items are label-and-value facts about a single subject — use `ed-key-value-table`",
+            "every item has the same attributes and readers compare across them — use `ed-table`",
+            "order in time is the point — use `ed-timeline`",
+            "the items are mostly text and there are many — use `ed-list`, `ed-link-list` when every row is only a link, or `ed-r-article-card` for dated entries with an excerpt",
+            "the item is a small picture beside a few lines of text, such as a person or a comment — use `ed-media-block`",
+            "the items are numbers — use `ed-r-stat-card`",
+            "a few items deserve more weight than the rest — use `ed-r-bento`",
+            "there are only a few items and every item carries a large picture, a headline and an action — use `ed-feature`",
+            "most visitors want only a couple of the entries, as in an FAQ — use `ed-accordion`; for a few parallel views shown in turn, `ed-tabs`",
+            "the items are short labels such as topics or filters — use `ed-tag-list`",
+            "the content is a region of the page rather than an object in it — use `ed-section`"
+          ]
+        }
+      }
+    },
+    "Grid": {
+      "type": "object",
+      "description": "A responsive CSS Grid container for laying out child `<ed-grid-item>` elements. Supports multiple responsive column variants (2up, 3up, 4up, etc.), gap sizing (none, sm, lg), and breakpoint control (faster, slower).",
+      "properties": {
+        "component": {
+          "const": "Grid"
+        },
+        "variant": {
+          "type": "string",
+          "enum": [
+            "side-by-side",
+            "2up",
+            "3up",
+            "1-3up",
+            "4up",
+            "1-4up",
+            "1-2-4up",
+            "2-4-6up"
+          ],
+          "description": "Column layout variant. **Pick by how narrow an item can get before it stops working, not by how many items you have.** The variant sets the column count at each width, so the question it answers is \"how much room does one of these need?\" A…"
+        },
+        "gap": {
+          "type": "string",
+          "enum": [
+            "none",
+            "sm",
+            "lg"
+          ],
+          "description": "Gutter between grid items. Unset is the default gutter, which suits cards and anything else carrying its own border or surface. - `\"none\"` — Items meet edge to edge."
+        },
+        "break": {
+          "type": "string",
+          "enum": [
+            "faster",
+            "slower"
+          ],
+          "description": "Shifts where the chosen `variant` changes column count. It never changes the counts themselves — if you want different counts, pick a different variant. - `\"faster\"` — Break to more columns at narrower widths."
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "The grid items (typically `<ed-grid-item>` components)"
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-grid",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-web-components",
+          "eddie_atomicLevel": "molecule",
+          "eddie_docs": "eddie_get_component(\"ed-grid\")",
+          "eddie_category": "Layout & Containers",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>",
+          "eddie_composesWith": [
+            "ed-black-friday-modal",
+            "ed-grid-item",
+            "ed-layout-container",
+            "ed-p-dashboard",
+            "ed-p-grid",
+            "ed-p-homepage",
+            "ed-p-pricing",
+            "ed-primary-nav-item",
+            "ed-section",
+            "ed-stack"
+          ],
+          "eddie_useWhen": [
+            "a collection of like items — cards, thumbnails, tiles, entries — should sit in equal columns that collapse to one on small screens",
+            "the items are peers: any one of them could swap places with another without changing what the page means",
+            "a listing or catalog of visual items — projects, courses, merchandise — needs laying out",
+            "a short set of recommended or related videos — lessons that answer a question, \"watch next\" — is chosen from by looking",
+            "a dashboard needs a row of stat or summary cards of equal importance",
+            "wordless miniatures — the logos of clients or partner organisations, avatars, swatches — need tidy equal columns"
+          ],
+          "eddie_notWhen": [
+            "one or two items in the set deserve more visual weight than the rest — use `ed-r-bento`, whose cells span different widths and heights",
+            "the columns are unequal, or one is chrome around another (content + sidebar) — use `ed-layout`",
+            "the items are one row that should wrap at their own natural widths (tags, chips, a row of buttons) — use `ed-cluster`",
+            "there is one column of siblings — use `ed-stack`, whose gap is a spacing role",
+            "the items are label-and-value facts about a single subject — use `ed-key-value-table`",
+            "order in time is the point — use `ed-timeline`",
+            "every item is a small picture beside a few lines of text, such as a person or a comment — use `ed-media-block`s in an `ed-stack`",
+            "there are only a few items and every item carries a large picture, a headline and an action — use `ed-feature`, read in turn down the page",
+            "most visitors want only a couple of the entries, as in an FAQ — use `ed-accordion`",
+            "the items are short labels such as topics or filters — use `ed-tag-list`",
+            "the items are text only and there are many of them — use `ed-list`; a column per title multiplies the length of the page",
+            "people will compare the items across the same attributes (dates, prices, places) — use `ed-table`, which puts each attribute in a line the eye can run down",
+            "there is a single item, or the job is capping the measure — use `ed-layout-container`",
+            "items must overlap or be positioned freely — no Eddie layout does that; compose it inside the component that owns the overlap"
+          ]
+        }
+      }
+    },
+    "Heading": {
+      "type": "object",
+      "description": "Semantic heading component that renders the appropriate HTML heading tag (`h1`–`h6`) with flexible typography styling via preset variants.",
+      "properties": {
+        "component": {
+          "const": "Heading"
+        },
+        "variant": {
+          "type": "string",
+          "enum": [
+            "display-fluid",
+            "display-xl",
+            "display-lg",
+            "display-default",
+            "headline-lg",
+            "headline-default",
+            "headline-sm",
+            "title-lg",
+            "title-default",
+            "title-sm",
+            "label-lg",
+            "label-default",
+            "label-sm",
+            "body-lg",
+            "body-default",
+            "body-sm",
+            "meta-default",
+            "meta-sm"
+          ],
+          "description": "Typography variant that controls visual style independently of heading level. If not set, defaults based on `tagName`: h1→headline-lg, h2→headline-default, h3→headline-sm, h4→title-lg, h5→title-default, h6→title-sm."
+        },
+        "tagName": {
+          "type": "string",
+          "enum": [
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6"
+          ],
+          "default": "h2",
+          "description": "The semantic HTML heading tag (h1–h6). Decoupled from visual style to allow correct document structure regardless of visual hierarchy. Defaults to h2."
+        },
+        "wrap": {
+          "type": "string",
+          "enum": [
+            "balance",
+            "pretty",
+            "normal"
+          ],
+          "description": "How the heading breaks across lines. Leave it unset — headings balance (`text-wrap: balance`, which is also what `\"balance\"` names explicitly) by default, which evens the line lengths out and is what a title wants nearly always."
+        },
+        "visuallyHidden": {
+          "type": "boolean",
+          "description": "Remove the heading from view while leaving it in the accessibility tree and the document outline."
+        },
+        "enhance": {
+          "type": "boolean",
+          "description": "Enhance mode: progressive enhancement of author-written light-DOM markup; see AGENTS.md. Author the real elements yourself; not for generated specs, whose children are catalog nodes. Supported since 0.50.0"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "The heading text content. Slot an `<a>` here to make the whole heading a link — it is styled by the system, so don't add your own link CSS"
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-heading",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-web-components",
+          "eddie_atomicLevel": "atom",
+          "eddie_docs": "eddie_get_component(\"ed-heading\")",
+          "eddie_category": "Text",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>",
+          "eddie_composesWith": [
+            "ed-accordion-panel",
+            "ed-alert",
+            "ed-black-friday-modal",
+            "ed-card",
+            "ed-cluster",
+            "ed-drawer",
+            "ed-feature",
+            "ed-grid-item",
+            "ed-header",
+            "ed-hero",
+            "ed-layout-container",
+            "ed-media-block",
+            "ed-modal",
+            "ed-p-app-dashboard",
+            "ed-p-article",
+            "ed-p-authentication",
+            "ed-p-chat",
+            "ed-p-dashboard",
+            "ed-p-detail",
+            "ed-p-form",
+            "ed-p-grid",
+            "ed-p-homepage",
+            "ed-p-job",
+            "ed-p-pricing",
+            "ed-p-reference",
+            "ed-p-settings",
+            "ed-p-visualzzz-background",
+            "ed-p-wizard",
+            "ed-p-workspace",
+            "ed-page-header",
+            "ed-r-article-card",
+            "ed-r-example-form",
+            "ed-r-icon-card",
+            "ed-r-page-banner",
+            "ed-r-project-card",
+            "ed-r-promo-block",
+            "ed-r-speaking-card",
+            "ed-r-stat-card",
+            "ed-r-theme-customizer",
+            "ed-r-timeline-node",
+            "ed-r-video-card",
+            "ed-r-viz-controls",
+            "ed-section",
+            "ed-stack",
+            "ed-timeline-node",
+            "ed-toast",
+            "ed-toolbar"
+          ],
+          "eddie_useWhen": [
+            "screen-reader users navigating by headings should be able to find this part of the page",
+            "a title has to look bigger or smaller than the outline level implies",
+            "a title should also link to the item it introduces",
+            "a short eyebrow line should sit above a title — and it genuinely labels what follows, since it adds an entry to the outline"
+          ],
+          "eddie_notWhen": [
+            "it is the title of the whole page together with a description — use `ed-page-header`",
+            "it is the headline of an opening banner — use `ed-hero`, and slot this component into it as the `h1`",
+            "the words should merely look large or bold and are not a title of anything — use `ed-text-passage`",
+            "the titles sit inside CMS or markdown prose — use `ed-text-passage`, which styles the headings inside it",
+            "a region needs a title and a description above content — use `ed-section`, and slot this component into it"
+          ]
+        }
+      }
+    },
+    "BarChart": {
+      "type": "object",
+      "description": "Bar chart recipe — categorical data rendered with Chart.js 4.",
+      "properties": {
+        "component": {
+          "const": "BarChart"
+        },
+        "data": {
+          "$comment": "Eddie type: BarChartData",
+          "description": "Chart data — labels and one or more datasets with optional semantic hints. A `null` in a dataset's `values` is a category with no data: no bar is drawn and the data table reads \"no data\". Use `0` only for a measured zero."
+        },
+        "orientation": {
+          "type": "string",
+          "enum": [
+            "vertical",
+            "horizontal"
+          ],
+          "default": "vertical",
+          "description": "Bar orientation: `vertical` (default) or `horizontal`. `vertical` when the categories have a natural order along the bottom — months, quarters, age bands — and their names are short."
+        },
+        "variant": {
+          "type": "string",
+          "enum": [
+            "grouped",
+            "stacked"
+          ],
+          "default": "grouped",
+          "description": "Multi-series layout: side-by-side (`grouped`, default) or layered (`stacked`). `grouped` when readers compare the series with one another inside a category — this year against last."
+        },
+        "chartLabel": {
+          "type": "string",
+          "default": "",
+          "description": "Accessible label for the chart region (required for a11y). Write it as `chartLabel` or `chart-label`; both bind, like every multi-word Eddie prop."
+        },
+        "dataTable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Render a toggle-able linked data table (default `true`). Write it as `dataTable` or `data-table`; both bind, like every multi-word Eddie prop."
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "Optional extended description (e.g., a trend callout) rendered between the chart and the data table."
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-r-bar-chart",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-charts",
+          "eddie_atomicLevel": "recipe",
+          "eddie_docs": "eddie_get_component(\"ed-r-bar-chart\")",
+          "eddie_category": "Charts",
+          "eddie_projectScope": "common",
+          "eddie_recipeKind": "declarative",
+          "eddie_scriptTag": "<script type=\"module\">import '@brad-frost-web/eddie-charts/…';</script>",
+          "eddie_useWhen": [
+            "readers should see which of several categories leads, and by how much — teams, products, channels, answers to a survey",
+            "this year should sit beside last year for every category, or a total should show what it is made of"
+          ],
+          "eddie_notWhen": [
+            "a measure is followed through continuous time and the rise and fall is the story — use `ed-r-line-chart`",
+            "the point is how a whole divides into a few shares — use `ed-r-doughnut`",
+            "what happened must be told apart from what is expected — use `ed-r-projection`",
+            "reading the exact figures is the main job, or there are more than twenty or so categories — use `ed-table`; the chart's own data table is a fallback for assistive technology, not the display",
+            "there are only one or two headline numbers — use `ed-r-stat-card`"
+          ]
+        }
+      }
+    },
+    "StatCard": {
+      "type": "object",
+      "description": "A compact KPI display composed of `ed-card` + two `ed-heading`s + `ed-text-passage`, with an optional icon. The label is the card's semantic heading; the value is a display-sized sub-heading; the meta line is supporting body text.",
+      "properties": {
+        "component": {
+          "const": "StatCard"
+        },
+        "label": {
+          "type": "string",
+          "default": "",
+          "description": "Descriptive label rendered above the value. The card's primary semantic heading — set `headingTagName` to match the surrounding document outline."
+        },
+        "meta": {
+          "type": "string",
+          "default": "",
+          "description": "Optional secondary context line rendered beneath the value."
+        },
+        "variant": {
+          "$comment": "Eddie type: CardVariant | 'positive' | 'warning' | 'danger' | 'default'",
+          "description": "The card's look, forwarded to `ed-card` (#2019). Unset is the outlined card. The tone values `positive | warning | danger` are also accepted here and still tint the value: that was this prop's only job before #2020."
+        },
+        "padding": {
+          "type": "string",
+          "enum": [
+            "none",
+            "sm",
+            "lg"
+          ],
+          "description": "The card's inset, forwarded to `ed-card`. Unset is the medium inset. `none` for a tile sitting flush in an `ed-r-bento` cell, where the dividers do the separating; `sm` for a dense row of many tiles; `lg` for a marketing stat with room arou…"
+        },
+        "status": {
+          "$comment": "Eddie type: Tone | 'positive' | 'danger'",
+          "description": "Semantic tone for the value — `success`, `warning` or `error`, matching `ed-alert`, `ed-badge` and the `--ed-theme-color-content-utility-*` tokens."
+        },
+        "size": {
+          "type": "string",
+          "enum": [
+            "sm",
+            "lg"
+          ],
+          "description": "Scale of the value and the icon. Unset is the medium scale — today's size. `sm` suits a dense 4-up grid, where a long currency value would otherwise overflow (#1984); `lg` suits a marketing stat."
+        },
+        "iconName": {
+          "type": "string",
+          "description": "Optional decorative glyph above the label, by Eddie icon name. Rendered first in the card body, so it sits in the card's inset and heads the lockup (#2204)."
+        },
+        "headingTagName": {
+          "type": "string",
+          "enum": [
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6"
+          ],
+          "default": "h3",
+          "description": "Heading tag for the label. Pick by where the tile sits in the outline, never for looks: `h2` only when the tile itself titles a top-level region; `h3` (default) inside an `h2`-titled section; `h4`, `h5` or `h6` when the tiles are nested dee…"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "The primary value — typically a large number, currency, or percentage. Plain text is the common case; a short `<span>` or a future `ed-r-sparkline` can nest here. Not a sentence and not the metric's name: those are `meta` and `label`."
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-r-stat-card",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-recipes",
+          "eddie_atomicLevel": "recipe",
+          "eddie_docs": "eddie_get_component(\"ed-r-stat-card\")",
+          "eddie_category": "Cards",
+          "eddie_projectScope": "common",
+          "eddie_recipeKind": "declarative",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>\n<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-recipes/cdn/eddie-recipes-autoloader.js\"></script>",
+          "eddie_composesWith": [
+            "ed-card",
+            "ed-grid-item",
+            "ed-heading",
+            "ed-icon",
+            "ed-r-bento-item",
+            "ed-text-passage"
+          ],
+          "eddie_useWhen": [
+            "a dashboard should open with key numbers — revenue, sign-ups, response time — every figure with a label and a line of context",
+            "a landing page wants to present a few impressive figures",
+            "a number should be tinted as good or bad news, with the label or the context line saying so in words"
+          ],
+          "eddie_notWhen": [
+            "many figures that readers compare across rows and columns — use `ed-table`",
+            "a figure changes over time and the trend should be drawn — use `ed-r-line-chart` or `ed-r-bar-chart`",
+            "the tile would carry a phrase such as Free shipping instead of a figure — use `ed-r-icon-card`",
+            "the tile would hold a picture, a title and a description — use `ed-card`",
+            "label-and-value facts about a single record — use `ed-key-value-table`",
+            "the figure is a share of a limit — storage used, seats taken — and should be drawn as a bar filling up — use `ed-progress`",
+            "a couple of the numbers matter more than the rest — use `ed-r-bento`, with these tiles inside it"
+          ]
+        }
+      }
+    },
+    "TimelineNodeLink": {
+      "type": "object",
+      "description": "A shared-link entry on a timeline: date-labeled marker, linked title first, source attribution, and one line of commentary — the link-blog pattern.",
+      "properties": {
+        "component": {
+          "const": "TimelineNodeLink"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "Short body content — an excerpt, a note, one or two lines"
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-r-timeline-node-link",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-recipes",
+          "eddie_atomicLevel": "recipe",
+          "eddie_docs": "eddie_get_component(\"ed-r-timeline-node-link\")",
+          "eddie_category": "Lists",
+          "eddie_projectScope": "common",
+          "eddie_recipeKind": "declarative",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>\n<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-recipes/cdn/eddie-recipes-autoloader.js\"></script>",
+          "eddie_composesWith": [
+            "ed-text-passage",
+            "ed-timeline",
+            "ed-timeline-node"
+          ],
+          "eddie_useWhen": [
+            "a stream of activity passes along articles, tools and sites found elsewhere, with a sentence on why they matter"
+          ],
+          "eddie_notWhen": [
+            "the writing is the author's own — use `ed-r-timeline-node-blog`",
+            "it points at a film or a recorded talk — use `ed-r-timeline-node-video`",
+            "the destinations have no order in time — use `ed-link-list`"
+          ]
+        }
+      }
+    },
+    "Tab": {
+      "type": "object",
+      "description": "Tab panel component for use within ed-tabs containers. Each tab represents a content panel with a label (shown in the tab list trigger) and content (shown when the tab is active).",
+      "properties": {
+        "component": {
+          "const": "Tab"
+        },
+        "ariaLabelledBy": {
+          "type": "string",
+          "description": "Aria labelledby property 1) Used to connect tab trigger and tab panel for accessibility"
+        },
+        "href": {
+          "type": "string",
+          "description": "An author-chosen id for the panel. Set it when the panel must be addressable by an id you control — a deep link, a test selector, a persisted \"last open tab\". Leave it unset otherwise: the panel generates its own unique id."
+        },
+        "tabId": {
+          "type": "string",
+          "description": "Tab ID 1) Used to connect the href of the tab trigger to the panel"
+        },
+        "label": {
+          "type": "string",
+          "description": "The trigger text. The parent `ed-tabs` renders it as this panel's tab in the tablist, so it is the panel's accessible name too. Every tab needs one: 1–2 words, sentence case, parallel across siblings (\"Overview\", \"Pricing\", \"Reviews\")."
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "Tab panel content (shown when tab is active)"
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-tab",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-web-components",
+          "eddie_atomicLevel": "atom",
+          "eddie_docs": "eddie_get_component(\"ed-tab\")",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>",
+          "eddie_composesWith": [
+            "ed-layout",
+            "ed-p-detail",
+            "ed-section",
+            "ed-tabs"
+          ]
+        }
+      }
+    },
+    "Table": {
+      "type": "object",
+      "description": "A semantic table component for displaying structured data in rows and columns. Tables support variants for visual styling (zebra striping, hover effects) and full-width layouts.",
+      "properties": {
+        "component": {
+          "const": "Table"
+        },
+        "variant": {
+          "type": "string",
+          "enum": [
+            "zebra"
+          ],
+          "description": "Style variants * - **zebra** Alternating row colors to improve readability in dense data tables"
+        },
+        "hoverRows": {
+          "type": "boolean",
+          "description": "Hover rows variant 1) If set to true, rows can be hovered over and change color to help readability"
+        },
+        "fullWidth": {
+          "type": "boolean",
+          "description": "Full-width variant 1) Table expands to the full width of its container when set to `true`"
+        },
+        "label": {
+          "type": "string",
+          "description": "Accessible label for the horizontal scroll region that wraps the table. When a wide table can't fit its container it scrolls within its own bounds (rather than overflowing the page — #1247)."
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "The table structure (ed-table-header and ed-table-body)"
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-table",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-web-components",
+          "eddie_atomicLevel": "organism",
+          "eddie_docs": "eddie_get_component(\"ed-table\")",
+          "eddie_category": "Tables",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>",
+          "eddie_composesWith": [
+            "ed-section",
+            "ed-table-body",
+            "ed-table-cell",
+            "ed-table-header",
+            "ed-table-object",
+            "ed-table-row"
+          ],
+          "eddie_useWhen": [
+            "readers need to compare items across the same attributes — which features every pricing plan includes, workshops by dates, city and venue",
+            "somebody is looking up a particular record in a long set of transactions, orders or members",
+            "figures need lining up in columns so they can be read down as well as across",
+            "comparing suppliers or contracts by cost, reliability and renewal dates; the dates are record attributes rather than values being entered"
+          ],
+          "eddie_notWhen": [
+            "label-and-value facts about a single subject — use `ed-key-value-table`",
+            "the items are browsed by their pictures rather than compared — use `ed-grid` with `ed-card`",
+            "a few headline numbers — use `ed-r-stat-card`",
+            "rows of mostly text with no shared columns — use `ed-list`",
+            "arranging parts of a page — use `ed-grid` or `ed-layout`",
+            "the shape of the figures matters more than reading them exactly — use `ed-r-bar-chart` for categories, `ed-r-line-chart` for change over time; every chart carries its own data table, so the figures stay reachable",
+            "the table is wider than a phone, or needs a title bar and a footer around it — use `ed-table-object` around this component"
+          ]
+        }
+      }
+    },
+    "TableBody": {
+      "type": "object",
+      "description": "Table body section container. Renders as semantic `<tbody>` element. Contains multiple `ed-table-row` children with `ed-table-cell` content for data rows.",
+      "properties": {
+        "component": {
+          "const": "TableBody"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "Table body rows (multiple ed-table-row elements)"
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-table-body",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-web-components",
+          "eddie_atomicLevel": "atom",
+          "eddie_docs": "eddie_get_component(\"ed-table-body\")",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>",
+          "eddie_composesWith": [
+            "ed-table",
+            "ed-table-row"
+          ]
+        }
+      }
+    },
+    "TableCell": {
+      "type": "object",
+      "description": "Table data cell. Renders as semantic `<td>` element. Used in table-body rows to display cell content. Supports horizontal and vertical alignment, and column spanning.",
+      "properties": {
+        "component": {
+          "const": "TableCell"
+        },
+        "align": {
+          "type": "string",
+          "enum": [
+            "right",
+            "center"
+          ],
+          "description": "Horizontal alignment of cell content - **right** Use for numeric or currency data that benefits from right alignment - **center** Use for centered content like status indicators or icons **right** for anything read by magnitude, so the digi…"
+        },
+        "verticalAlign": {
+          "type": "string",
+          "enum": [
+            "center"
+          ],
+          "description": "Vertical alignment of cell content * - **center** Vertically center content for alignment with icons or tall cells"
+        },
+        "colSpan": {
+          "type": "number",
+          "description": "Column span prop 1) Used for spanning cells to a set number of columns"
+        },
+        "rowSpan": {
+          "type": "number",
+          "description": "Number of rows this cell spans, rendered as the native `rowspan` — the twin of `colSpan`."
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "Cell content (text, components, or HTML)"
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-table-cell",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-web-components",
+          "eddie_atomicLevel": "atom",
+          "eddie_docs": "eddie_get_component(\"ed-table-cell\")",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>",
+          "eddie_composesWith": [
+            "ed-menu",
+            "ed-table",
+            "ed-table-row"
+          ],
+          "eddie_useWhen": [
+            "a row of a table needs one of its values placed under a column",
+            "a summary row should stretch a total or a no-results message across several columns"
+          ],
+          "eddie_notWhen": [
+            "it names a column rather than holding a value — use `ed-table-header-cell`",
+            "the row is a label and its value about a single subject — use `ed-key-value-table-row`",
+            "the value is a status in a word or two — put an `ed-tag` inside the cell rather than colouring the cell"
+          ]
+        }
+      }
+    },
+    "TableHeader": {
+      "type": "object",
+      "description": "Table header section container. Renders as semantic `<thead>` element. Contains a single `ed-table-row` with `ed-table-header-cell` children for column definitions.",
+      "properties": {
+        "component": {
+          "const": "TableHeader"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "Table header rows (typically one ed-table-row with header cells)"
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-table-header",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-web-components",
+          "eddie_atomicLevel": "atom",
+          "eddie_docs": "eddie_get_component(\"ed-table-header\")",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>",
+          "eddie_composesWith": [
+            "ed-table",
+            "ed-table-row"
+          ]
+        }
+      }
+    },
+    "TableRow": {
+      "type": "object",
+      "description": "Table row container. Renders as semantic `<tr>` element. Used in both `ed-table-header` (with header-cell children) and `ed-table-body` (with cell children).",
+      "properties": {
+        "component": {
+          "const": "TableRow"
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "Table cells (ed-table-cell or ed-table-header-cell elements)"
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-table-row",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-web-components",
+          "eddie_atomicLevel": "atom",
+          "eddie_docs": "eddie_get_component(\"ed-table-row\")",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>",
+          "eddie_composesWith": [
+            "ed-table",
+            "ed-table-body",
+            "ed-table-cell",
+            "ed-table-header",
+            "ed-table-header-cell"
+          ]
+        }
+      }
+    },
+    "Tabs": {
+      "type": "object",
+      "description": "A tabbed interface component that organizes content into multiple panels. Only one tab is active at a time; clicking a tab label shows its content panel.",
+      "properties": {
+        "component": {
+          "const": "Tabs"
+        },
+        "knockout": {
+          "type": "boolean",
+          "default": false,
+          "description": "Knockout color variant for dark backgrounds. Adjusts the tabs' colors for proper contrast on dark surfaces."
+        },
+        "inverted": {
+          "type": "boolean",
+          "default": false,
+          "description": "@deprecated Use `knockout` instead. `inverted` is a backward-compatible alias scheduled for removal on 2026-10-12 (3 months after its 2026-07-12 deprecation). See issue #1020."
+        },
+        "activeIndex": {
+          "type": "number",
+          "description": "Active tab state 1) Sets the initial active tab (e.g. 0 sets the first tab, 1 sets the second tab, etc.)"
+        },
+        "align": {
+          "type": "string",
+          "enum": [
+            "center",
+            "right"
+          ],
+          "description": "Align variants Unset, the tabs start at the reading edge, which is right for most uses. - **center** aligns the tabs in the center of the screen on medium/large screens."
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "Tab panels (ed-tab elements)"
+        },
+        "slots": {
+          "type": "object",
+          "description": "Named-slot children, keyed by slot. Each value is a child list.",
+          "properties": {
+            "tabsAfter": {
+              "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+              "description": "Optional content after tab list (filters, actions, etc.)"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-tabs",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-web-components",
+          "eddie_atomicLevel": "organism",
+          "eddie_docs": "eddie_get_component(\"ed-tabs\")",
+          "eddie_category": "Interactive",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>",
+          "eddie_slotAttrs": {
+            "tabsAfter": "tabsAfter"
+          },
+          "eddie_composesWith": [
+            "ed-p-detail",
+            "ed-stack",
+            "ed-tab"
+          ],
+          "eddie_useWhen": [
+            "account settings split into a few parallel areas such as profile, billing and notifications, a single area visible at a time",
+            "the same subject can be viewed several ways — overview, activity, files — and visitors switch between views",
+            "a code sample is available in several languages"
+          ],
+          "eddie_notWhen": [
+            "readers need to compare the content of the panels — use `ed-table`, or plain `ed-section`s so everything stays visible",
+            "there are many panels, or labels too long to fit in a row — use `ed-accordion`",
+            "the choices lead to different pages — use `ed-primary-nav` or `ed-link-list`",
+            "steps that must happen in order — compose `ed-section`s in sequence; tabs imply no order",
+            "a single block of optional detail — use `ed-show-hide`",
+            "the control turns a preference on or off rather than changing what is displayed — use `ed-toggle`",
+            "the choice is a value submitted with a form rather than a change of what is displayed — use `ed-radio-field`",
+            "the control moves between pages of the same results — use `ed-pagination`"
+          ]
+        }
+      }
+    },
+    "Tag": {
+      "type": "object",
+      "description": "A compact labelled pill: a category, a status, a filter, a keyword.",
+      "properties": {
+        "component": {
+          "const": "Tag"
+        },
+        "behavior": {
+          "type": "string",
+          "enum": [
+            "static",
+            "dismissible",
+            "selectable",
+            "link",
+            "action"
+          ],
+          "default": "static",
+          "description": "What this tag does. `static` (the default) is an inert label. `link`, `action` and `selectable` expect you to slot the matching interactive element — this renders chrome around it and nothing else."
+        },
+        "variant": {
+          "type": "string",
+          "enum": [
+            "brand",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "description": "Semantic colour. Unset renders the neutral default. - `brand`: brand-coloured — for a label that promotes rather than reports: New, Featured, Pro."
+        },
+        "appearance": {
+          "type": "string",
+          "enum": [
+            "subtle",
+            "solid"
+          ],
+          "description": "Emphasis, orthogonal to `variant`. - `subtle` (default): tinted background, coloured border and text - `solid`: filled knockout background, no border."
+        },
+        "size": {
+          "type": "string",
+          "enum": [
+            "sm",
+            "md"
+          ],
+          "description": "Typography and padding step. `sm` (default) or `md`. A tag is compact by definition; there is deliberately no `lg` or `xl`. `sm` sits inside dense content — table rows, card meta, a byline."
+        },
+        "iconName": {
+          "type": "string",
+          "description": "Optional leading icon, rendered before the label and inheriting the tag's content colour. Decorative — never the only carrier of meaning."
+        },
+        "text": {
+          "type": "string",
+          "description": "The label, as a property. **Prefer slotted content.** A string prop renders nothing until JavaScript runs, so a `text`-only tag is blank on first paint without Declarative Shadow DOM, while slotted text is there in the markup."
+        },
+        "dismissed": {
+          "type": "boolean",
+          "default": false,
+          "description": "Hidden after a dismissal. Settable to restore a tag you removed optimistically and then had to bring back."
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "The tag's content. Plain text for `static` and `dismissible`; your own `<a>` for `link`; your own `<button>` for `action` and `selectable`."
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-tag",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-web-components",
+          "eddie_atomicLevel": "atom",
+          "eddie_docs": "eddie_get_component(\"ed-tag\")",
+          "eddie_category": "Forms",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>",
+          "eddie_composesWith": [
+            "ed-accordion-panel",
+            "ed-badge",
+            "ed-card",
+            "ed-cluster",
+            "ed-icon",
+            "ed-link-list-item",
+            "ed-list-item",
+            "ed-p-detail",
+            "ed-p-grid",
+            "ed-p-job",
+            "ed-page-header",
+            "ed-r-page-banner",
+            "ed-r-project-card",
+            "ed-r-theme-customizer",
+            "ed-tag-list"
+          ],
+          "eddie_useWhen": [
+            "an article, a product or a record needs a short label saying which category it belongs to or which state it is in",
+            "a row in a table needs a status such as Draft, Published or Failed at a glance",
+            "the filters applied to a listing should appear as chips that can be removed",
+            "visitors narrow a listing by toggling facets"
+          ],
+          "eddie_notWhen": [
+            "the control triggers an action such as Save or Delete — use `ed-button`",
+            "several labels appear together — use `ed-tag-list` around them",
+            "the message is a sentence, or demands attention — use `ed-alert`, or `ed-field-note` under a form field",
+            "the label is a key on the keyboard — use `ed-kbd`",
+            "a person should be identified — use `ed-avatar`"
+          ]
+        }
+      }
+    },
+    "TagList": {
+      "type": "object",
+      "description": "A semantic list container for arranging multiple tag elements with consistent spacing.",
+      "properties": {
+        "component": {
+          "const": "TagList"
+        },
+        "label": {
+          "type": "string",
+          "description": "Accessible name for the list, rendered as `aria-label` on the inner `<ul>` — the element assistive technology reads."
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "Tag elements (`ed-tag` components) to arrange in a list"
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-tag-list",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-web-components",
+          "eddie_atomicLevel": "molecule",
+          "eddie_docs": "eddie_get_component(\"ed-tag-list\")",
+          "eddie_category": "Buttons",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>",
+          "eddie_composesWith": [
+            "ed-accordion-panel",
+            "ed-p-grid",
+            "ed-r-project-card",
+            "ed-r-theme-customizer",
+            "ed-stack",
+            "ed-tag",
+            "ed-toolbar"
+          ],
+          "eddie_useWhen": [
+            "an article, a product or a search result carries several keywords, topics or categories",
+            "shoppers should see at a glance which refinements are narrowing their results, and clear any of them"
+          ],
+          "eddie_notWhen": [
+            "only a lone label is needed, such as the status of a table row — use `ed-tag`",
+            "the row mixes labels with buttons, bylines or icons — use `ed-cluster`",
+            "the items are the navigation of the site rather than topics or keywords — use `ed-link-list`",
+            "the row holds Save, Cancel and the like — use `ed-button-group`"
+          ]
+        }
+      }
+    },
+    "TextPassage": {
+      "type": "object",
+      "description": "Container for rich text content from CMS or markdown sources.",
+      "properties": {
+        "component": {
+          "const": "TextPassage"
+        },
+        "knockout": {
+          "type": "boolean",
+          "description": "Knockout color variant for dark backgrounds. Adjusts text and link color for proper contrast on dark surfaces."
+        },
+        "inverted": {
+          "type": "boolean",
+          "description": "@deprecated Use `knockout` instead. `inverted` is a backward-compatible alias scheduled for removal on 2026-10-12 (3 months after its 2026-07-12 deprecation). See issue #1020."
+        },
+        "size": {
+          "type": "string",
+          "enum": [
+            "sm",
+            "lg",
+            "xl"
+          ],
+          "default": "undefined",
+          "description": "Size variant that scales the overall typography up or down from the default body size."
+        },
+        "capLinelength": {
+          "type": "boolean",
+          "description": "Constrain maximum line length to an optimal reading width. When enabled, wraps content in an `ed-linelength-container` to prevent uncomfortable long lines. Disable for full-width layouts or when width is pre-constrained."
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "The text passage content — unclassed HTML as a CMS or markdown renderer emits it: `p`, `h1`–`h6`, `ul`/`ol` (nested too), `dl`/`dt`/`dd`, `blockquote`, `figure`/`figcaption`, `table`, `hr`, `img`, `iframe`, `pre`/`code`, and inline `kbd`, `…"
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-text-passage",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-web-components",
+          "eddie_atomicLevel": "organism",
+          "eddie_docs": "eddie_get_component(\"ed-text-passage\")",
+          "eddie_category": "Text",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>",
+          "eddie_composesWith": [
+            "ed-accordion-panel",
+            "ed-alert",
+            "ed-black-friday-modal",
+            "ed-button",
+            "ed-card",
+            "ed-drawer",
+            "ed-feature",
+            "ed-figure",
+            "ed-grid-item",
+            "ed-hero",
+            "ed-hr",
+            "ed-kbd",
+            "ed-layout-container",
+            "ed-linelength-container",
+            "ed-list-item",
+            "ed-media-block",
+            "ed-modal",
+            "ed-p-app-dashboard",
+            "ed-p-article",
+            "ed-p-authentication",
+            "ed-p-chat",
+            "ed-p-dashboard",
+            "ed-p-detail",
+            "ed-p-grid",
+            "ed-p-homepage",
+            "ed-p-job",
+            "ed-p-pricing",
+            "ed-p-reference",
+            "ed-p-settings",
+            "ed-p-visualzzz-background",
+            "ed-p-wizard",
+            "ed-p-workspace",
+            "ed-page-header",
+            "ed-popover",
+            "ed-r-article-card",
+            "ed-r-icon-card",
+            "ed-r-page-banner",
+            "ed-r-project-card",
+            "ed-r-promo-block",
+            "ed-r-stat-card",
+            "ed-r-theme-customizer",
+            "ed-r-timeline-node",
+            "ed-r-timeline-node-blog",
+            "ed-r-timeline-node-book",
+            "ed-r-timeline-node-client",
+            "ed-r-timeline-node-concert",
+            "ed-r-timeline-node-course",
+            "ed-r-timeline-node-link",
+            "ed-r-timeline-node-location",
+            "ed-r-timeline-node-milestone",
+            "ed-r-timeline-node-newsletter",
+            "ed-r-timeline-node-note",
+            "ed-r-timeline-node-playlist",
+            "ed-r-timeline-node-podcast",
+            "ed-r-timeline-node-song",
+            "ed-r-timeline-node-speaking",
+            "ed-r-timeline-node-video",
+            "ed-r-video-card",
+            "ed-r-video-embed",
+            "ed-section",
+            "ed-show-hide",
+            "ed-show-more",
+            "ed-stack",
+            "ed-text-link",
+            "ed-timeline-node",
+            "ed-toast",
+            "ed-toolbar",
+            "ed-tooltip"
+          ],
+          "eddie_useWhen": [
+            "the body of an article, a post or a product description arrives as markdown or HTML from a CMS and needs to look right without a class on any element",
+            "comments, reviews or forum posts contain whatever formatting their authors chose, and nobody controls the markup",
+            "long-form writing needs comfortable spacing between paragraphs, headings and lists"
+          ],
+          "eddie_notWhen": [
+            "the words are a lone title — use `ed-heading`",
+            "the content is being assembled from Eddie components rather than arriving as raw HTML — compose it directly, with `ed-stack` for the spacing",
+            "a stray sentence would sit by itself between regions of a page — compose it inside the `ed-section` it introduces, or the `ed-page-header`",
+            "the text is a snippet of source or a terminal command — use `ed-code`",
+            "the prose only needs a narrower measure — use `ed-linelength-container` around it, or this component's own line-length cap",
+            "the words are being collected from a visitor rather than displayed — use `ed-textarea-field`"
+          ]
+        }
+      }
+    },
+    "Timeline": {
+      "type": "object",
+      "description": "A timeline that displays a chronological sequence of entries along a shared connecting line. Wraps `ed-timeline-node` children — bare, content-agnostic containers — to give them the line, correctly-sized markers, and consistent spacing.",
+      "properties": {
+        "component": {
+          "const": "Timeline"
+        },
+        "orientation": {
+          "type": "string",
+          "enum": [
+            "vertical",
+            "horizontal"
+          ],
+          "default": "vertical",
+          "description": "Layout axis: `vertical` (default) runs the connecting line top-to-bottom; `horizontal` runs it left-to-right with nodes laid out as columns."
+        },
+        "arrangement": {
+          "type": "string",
+          "enum": [
+            "stacked",
+            "alternating"
+          ],
+          "description": "Node arrangement: `stacked` (default) places every node on the same side of the connecting line; `alternating` flanks the line so consecutive nodes appear on opposite sides."
+        },
+        "behavior": {
+          "type": "string",
+          "enum": [
+            "stacked",
+            "alternating"
+          ],
+          "description": "@deprecated Renamed to `arrangement` (#1249) — this alias maps to the same values and is removed in the release after next. When both are set, `arrangement` wins. See `arrangement` for what `stacked` and `alternating` do."
+        },
+        "size": {
+          "type": "string",
+          "enum": [
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ],
+          "description": "Default marker size for every child node: `sm` (1.5rem) · `md` (3.25rem, default) · `lg` (4rem) · `xl` (5rem)."
+        },
+        "markerBorder": {
+          "type": "boolean",
+          "default": false,
+          "description": "Draw a border on every child node's marker. The switch: it turns the ring on at the `md` width in the default border color; `markerBorderWidth` and `markerBorderColor` refine it."
+        },
+        "markerBorderWidth": {
+          "type": "string",
+          "enum": [
+            "none",
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ],
+          "description": "Marker border width for every child node: `sm` · `md` (what the `markerBorder` switch uses) · `lg` · `xl`, from the `--ed-theme-border-width-*` scale — plus `none`, which is only useful as a per-node opt-out."
+        },
+        "markerBorderColor": {
+          "type": "string",
+          "enum": [
+            "default",
+            "subtle",
+            "strong",
+            "knockout",
+            "brand",
+            "accent-1",
+            "accent-2",
+            "accent-3",
+            "accent-4",
+            "accent-5",
+            "accent-6",
+            "accent-7",
+            "accent-8"
+          ],
+          "description": "Marker border color for every child node, each value a `--ed-theme-color-border-*` token. Setting a color implies the border. - `default` — the neutral rule color, and what the bare `markerBorder` switch uses."
+        },
+        "markerShadow": {
+          "type": "string",
+          "enum": [
+            "none",
+            "sm",
+            "md",
+            "bold"
+          ],
+          "description": "Box shadow on every child node's marker: `sm` · `md` · `bold` (the stacked offset shadow, `bfw` only and falling back to `md` in the other themes) — plus `none`, useful as a per-node opt-out."
+        },
+        "layout": {
+          "type": "string",
+          "enum": [
+            "snake"
+          ],
+          "description": "Layout mode: unset (default) renders the single connecting line; `snake` (#1371) wraps the timeline into serpentine runs with true half-circle U-turns."
+        },
+        "runLength": {
+          "type": "number",
+          "description": "Nodes per snake run (a row by default; a column with `orientation=\"horizontal\"`). Unset, runs auto-fit the container inline size and re-wrap on resize, like text. Only meaningful with `layout=\"snake\"`."
+        },
+        "motion": {
+          "type": "string",
+          "enum": [
+            "draw"
+          ],
+          "description": "Built-in motion treatment (#1375, the animate axis from #1249 — named `motion` because a property named `animate` would shadow the native `Element.animate()` method)."
+        },
+        "scrollable": {
+          "type": "boolean",
+          "default": false,
+          "description": "Give a horizontal timeline its own horizontal scroll container (#1423). Without it, horizontal orientations compress every node into the container width — 24 entries become 24 unreadable slivers."
+        },
+        "curve": {
+          "type": "boolean",
+          "default": false,
+          "description": "Draw the connecting line as one smooth spline through the node anchors instead of straight runs (#1372)."
+        },
+        "reveal": {
+          "type": "string",
+          "enum": [
+            "always",
+            "hover",
+            "tooltip"
+          ],
+          "description": "How much of each entry's content is showing at rest (#1426): - `always` (default) — every entry's content is visible; the timeline reads as a list."
+        },
+        "labelReveal": {
+          "type": "string",
+          "enum": [
+            "always",
+            "hover",
+            "tooltip"
+          ],
+          "description": "How much of each entry's marker LABEL is showing at rest (#1455) — the `reveal` axis applied to the bead rather than the body: - `always` (default) — the label sits in the dot, as it always has."
+        },
+        "children": {
+          "$ref": "https://a2ui.org/specification/v1_0/common_types.json#/$defs/ChildList",
+          "description": "Timeline node elements (`ed-timeline-node`)"
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "ed-timeline",
+          "eddie_kind": "primitive",
+          "eddie_package": "eddie-web-components",
+          "eddie_atomicLevel": "molecule",
+          "eddie_docs": "eddie_get_component(\"ed-timeline\")",
+          "eddie_category": "Lists",
+          "eddie_scriptTag": "<script type=\"module\" src=\"https://unpkg.com/@brad-frost-web/eddie-web-components/cdn/eddie-autoloader.js\"></script>",
+          "eddie_composesWith": [
+            "ed-band",
+            "ed-layout-container",
+            "ed-r-timeline-node",
+            "ed-r-timeline-node-art",
+            "ed-r-timeline-node-blog",
+            "ed-r-timeline-node-book",
+            "ed-r-timeline-node-client",
+            "ed-r-timeline-node-concert",
+            "ed-r-timeline-node-course",
+            "ed-r-timeline-node-link",
+            "ed-r-timeline-node-location",
+            "ed-r-timeline-node-milestone",
+            "ed-r-timeline-node-newsletter",
+            "ed-r-timeline-node-note",
+            "ed-r-timeline-node-playlist",
+            "ed-r-timeline-node-podcast",
+            "ed-r-timeline-node-song",
+            "ed-r-timeline-node-speaking",
+            "ed-r-timeline-node-video",
+            "ed-timeline-node"
+          ],
+          "eddie_useWhen": [
+            "a career history, the phases of a project or the releases of a product should unfold chronologically",
+            "the gaps and the busy stretches between dated entries are part of the story",
+            "a personal site wants to present years of posts, talks and releases as a single continuous stream"
+          ],
+          "eddie_notWhen": [
+            "the entries have dates but are browsed in any order, like a blog index — use `ed-list` or `ed-r-article-card`",
+            "somebody needs to find a particular release and check who shipped it — use `ed-table`",
+            "there is a single entry — use `ed-card`",
+            "the items have no order — pick the display from docs/CHOOSING-A-DISPLAY.md: `ed-list` for text, `ed-table` for compared attributes, `ed-grid` with `ed-card` for browsed visual peers"
+          ]
+        }
+      }
+    },
+    "Text": {
+      "type": "object",
+      "description": "A run of text inside a container: plain text, or wrapped in a p / span / strong / em / li. Use it for paragraphs in a TextPassage, the value inside a StatCard, a label inside a Button.",
+      "properties": {
+        "component": {
+          "const": "Text"
+        },
+        "text": {
+          "type": "string",
+          "description": "The text."
+        },
+        "tagName": {
+          "type": "string",
+          "enum": [
+            "p",
+            "span",
+            "strong",
+            "em",
+            "li"
+          ],
+          "description": "Optional wrapper element; omit for a bare text node."
+        }
+      },
+      "required": [
+        "component",
+        "text"
+      ],
+      "metadata": {
+        "extensions": {
+          "eddie_tag": "#text",
+          "eddie_kind": "text",
+          "eddie_docs": "docs/A2UI-EDDIE.md §4 — the built-in text node."
+        }
+      }
+    }
+  },
+  "functions": {},
+  "antiPatterns": [
+    {
+      "id": "card-gt-heading-slot-header",
+      "selector": "ed-card > ed-heading[slot=header]",
+      "reason": "the header slot is for media only; a heading there paints as an image band and loses its place in the document outline",
+      "fix": "put headings and copy in the default slot, media in header, actions in footer",
+      "severity": "error",
+      "source": "ed-card",
+      "tags": [
+        "ed-card",
+        "ed-heading"
+      ]
+    },
+    {
+      "id": "card-gt-text-passage-slot-header",
+      "selector": "ed-card > ed-text-passage[slot=header]",
+      "reason": "the header slot is for media only; prose there is styled as an image band",
+      "fix": "put ed-text-passage in the default slot",
+      "severity": "error",
+      "source": "ed-card",
+      "tags": [
+        "ed-card",
+        "ed-text-passage"
+      ]
+    }
+  ]
+}

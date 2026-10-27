@@ -37,6 +37,8 @@ module.exports = function () {
 		});
 
 		const resource = {
+			id: file.replace(/\.md$/, ""),
+			essential: Boolean(data.essential),
 			title: data.title || "Untitled",
 			href: data.url || "#",
 			tags,

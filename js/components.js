@@ -19,3 +19,25 @@ import "@brad-frost-web/eddie-web-components/components/accordion-panel/accordio
 import "@brad-frost-web/eddie-web-components/components/toolbar/toolbar.js";
 import "@brad-frost-web/eddie-web-components/components/select-field/select-field.js";
 import "./course-hero.js";
+
+import "@brad-frost-web/eddie-web-components/components/page/page.js";
+import "@brad-frost-web/eddie-web-components/components/section/section.js";
+import "@brad-frost-web/eddie-web-components/components/stack/stack.js";
+import "@brad-frost-web/eddie-web-components/components/cluster/cluster.js";
+import "@brad-frost-web/eddie-web-components/components/timeline/timeline.js";
+import "@brad-frost-web/eddie-web-components/components/timeline-node/timeline-node.js";
+import "@brad-frost-web/eddie-web-components/components/text-link/text-link.js";
+import "@brad-frost-web/eddie-web-components/components/table-object/table-object.js";
+import "@brad-frost-web/eddie-web-components/components/table/table.js";
+import "@brad-frost-web/eddie-web-components/components/table-header/table-header.js";
+import "@brad-frost-web/eddie-web-components/components/table-body/table-body.js";
+import "@brad-frost-web/eddie-web-components/components/table-row/table-row.js";
+import "@brad-frost-web/eddie-web-components/components/table-header-cell/table-header-cell.js";
+import "@brad-frost-web/eddie-web-components/components/table-cell/table-cell.js";
+import "@brad-frost-web/eddie-web-components/components/tabs/tabs.js";
+import "@brad-frost-web/eddie-web-components/components/tab/tab.js";
+import "@brad-frost-web/eddie-web-components/components/tag-list/tag-list.js";
+import "@brad-frost-web/eddie-recipes/recipes/common/page-banner/page-banner.js";
+import "@brad-frost-web/eddie-web-components/components/single-field-form/single-field-form.js";
+import "@brad-frost-web/eddie-recipes/recipes/common/video-card/video-card.js";
+import "@brad-frost-web/eddie-charts/charts/common/bar-chart/bar-chart.js";

@@ -20,3 +20,9 @@
 @use "components/resource-category-list" as *;
 
 // Special
+
+// Project-local composition: readable disclosure for generated wire messages.
+.ed-r-adaptive-resources pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
