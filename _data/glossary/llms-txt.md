@@ -1,16 +1,19 @@
 ---
 term: "llms.txt"
 aliases:
-  - "llms.txt file"
   - "llms-full.txt"
 source:
-  type: "course"
-  name: "AI & Design Systems Course"
-lessons: []
-status: "in-progress"
+  type: "industry"
+  name: "Industry"
+references:
+  - label: "llmstxt.org"
+    url: "https://llmstxt.org"
+  - label: "State of AI in Design Systems — Is llms.txt universal?"
+    url: "https://state-of-ai-in-design-systems.netlify.app/questions/llms-txt-adoption.md"
 tags:
   - "ai"
-  - "design systems"
   - "documentation"
+  - "context"
 ---
-A plain-text file published at the root of a site (like robots.txt, but for language models) that gives AI agents a curated, machine-readable map of the documentation. Rather than making an agent crawl and guess at a docs site built for humans, llms.txt hands it an organized index of what exists and where to find it. Mature design systems publish several narrower slices (components, styling, theming, migration) alongside a full dump, so agents with limited context can pull only what they need. The strongest implementations generate this file automatically on every release rather than maintaining it by hand, because hand-written agent documentation goes stale the moment the system changes.
+
+A Markdown file at a website's root that gives language models an index of the site's content, pointing to clean Markdown versions of the docs. It's a convention rather than a ratified standard, but most design systems surveyed in mid-2026 publish one as a baseline for machine-readable documentation.

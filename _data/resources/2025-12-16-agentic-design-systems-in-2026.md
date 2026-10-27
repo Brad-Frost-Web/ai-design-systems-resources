@@ -12,5 +12,4 @@ tags:
   - "concepts|default"
   - "storybook|purple"
   - "workflow|default"
-essential: true
 ---

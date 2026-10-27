@@ -23,7 +23,7 @@
  */
 import { LitElement, html, render } from "lit";
 import { loadIntel } from "../intel-store.js";
-import { canonicalAsk, composeSpec, hydrate, validateRemoteSpec, LENSES, SUGGESTED_ASKS } from "../intent-engine.js";
+import { composeSpec, hydrate, validateRemoteSpec, LENSES, SUGGESTED_ASKS } from "../intent-engine.js";
 
 const COMPOSE_URL = "/.netlify/functions/compose";
 const STORAGE_KEY = "resources-concierge-engine";
@@ -55,6 +55,7 @@ export class EdRCConcierge extends LitElement {
 		_busy: { state: true },
 		_engine: { state: true },
 		_useBrain: { state: true },
+		_freshness: { state: true },
 	};
 
 	createRenderRoot() {
@@ -139,6 +140,10 @@ export class EdRCConcierge extends LitElement {
 			if (requestId !== this._requestId) return;
 			// 1. The floor: instant, on-device, private.
 			const local = composeSpec({ ask, lens: this._lens, intel });
+			local.evaluation.requestedEngine = engine;
+			if (engine !== "device" && ask) {
+				local.engine = {...local.engine, label:`Local preview · waiting for ${engine}`, attempted:engine, detail:"Local preview while the selected live engine processes this question."};
+			}
 			this._emit(local, intel);
 
 			// 2. The enhancement: same ask to Claude, same contract back.
@@ -155,13 +160,12 @@ export class EdRCConcierge extends LitElement {
 						method: "POST",
 						signal: AbortSignal.any([controller.signal, AbortSignal.timeout(35000)]),
 						headers: { "Content-Type": "application/json" },
-						// Claude gets the canonical ask too, so a typed variant and the
-						// scripted line compose the same view on both engines.
-						body: JSON.stringify({ ask: canonicalAsk(ask).ask, typed: ask, lens: this._lens, engine, useBrain: engine === "claude" && this._useBrain }),
+						// Send the visitor’s actual question, without demo-script rewriting.
+						body: JSON.stringify({ ask, corpusRevision: intel.revision, lens: this._lens, engine, useBrain: engine === "claude" && this._useBrain }),
 					});
 					if (requestId !== this._requestId) return; // a newer ask superseded this one
-					if (!res.ok) throw new Error(`compose ${res.status}`);
 					const remote = await res.json();
+					if (!res.ok || remote.error) throw Object.assign(new Error(remote.error || `compose ${res.status}`), {attempt:remote.attempt});
 					if (requestId !== this._requestId) return;
 					validateRemoteSpec(remote, intel);
 					remote.engine = { ...remote.engine, latencyMs: Math.round(performance.now() - started) };
@@ -171,8 +175,9 @@ export class EdRCConcierge extends LitElement {
 					console.warn("concierge: model path unavailable, keeping on-device result —", err.message);
 					const fallback = {
 						...local,
-						engine: { ...local.engine, attempted: engine, label: `On-device fallback · ${engine} unavailable`, detail: "The live request did not produce a usable view; local rules supplied this result.", },
-						reasoning: [`${engine === "jev" ? "Jev" : "Claude"} was asked but didn't answer (${err.message}) — this is the on-device result.`, ...local.reasoning],
+						evaluation:{...local.evaluation, liveAttempt:err.attempt || {engine, responseReceived:false, error:err.message}},
+						engine: { ...local.engine, attempted: engine, label: `On-device fallback · ${engine} unavailable`, detail: "The live request did not produce a usable view; local rules supplied this result.", failureReason: err.message, modelCalled:err.attempt?.responseReceived ? true : null, },
+						reasoning: [`${engine === "jev" ? "Jev" : "Claude"} did not produce an accepted view (${err.message}) — this is the on-device result.`, ...local.reasoning],
 					};
 					this._emit(fallback, intel);
 				}
@@ -213,6 +218,7 @@ export class EdRCConcierge extends LitElement {
 			(form || recipe).addEventListener("submit", (e) => this._onSubmit(e));
 		}
 		this._watchToggles();
+		loadIntel().then(intel => { this._freshness = intel.freshness; }).catch(() => {});
 	}
 
 	_onLensChange(event) {
@@ -240,7 +246,7 @@ export class EdRCConcierge extends LitElement {
 			writePrefs({ engine: this._engine, useBrain });
 			if (this._engine === "claude" && this._readField()) this._ask(this._readField());
 		}, 0);
-		const controls = this.querySelector(".ed-r-c-concierge__engine");
+		const controls = this.querySelector(".ed-r-c-concierge");
 		controls?.addEventListener("click", onInteract);
 		controls?.addEventListener("keyup", onInteract);
 		controls?.addEventListener("change", onInteract);
@@ -283,33 +289,21 @@ export class EdRCConcierge extends LitElement {
 					clearButtonText="Clear"
 				></ed-r-search-form>
 
-				<ed-show-hide
-					class="ed-r-c-concierge__more"
-					buttonText="More options"
-					hideButtonText="Fewer options"
-					buttonVariant="link"
-					size="sm"
-					iconName="chevron-down"
-					iconPosition="after"
-				>
+				<ed-toolbar behavior="responsive" class="ed-r-c-concierge__controls">
+					<div slot="left" class="ed-r-c-concierge__engine">
+						<ed-select-field fieldId="concierge-engine" label="Engine"
+							.items=${[{value:"device", label:"On-device · rules (no AI model)"}, {value:"claude", label:"Claude · live composition"}, {value:"jev", label:"Jev · live typed decisions"}].map(item => ({...item, selected:item.value === this._engine}))}
+							.value=${this._engine} @change=${this._onEngineChange}></ed-select-field>
+					</div>
+					<ed-text-passage slot="right" size="sm"><p>${this._engine === "device" ? "Local rules only — no model request. Choose Claude or Jev for live AI." : this._engine === "claude" ? "Claude selects components and records from this collection’s metadata." : "Jev chooses presentation and perspective; local rules select the records."}</p></ed-text-passage>
+				</ed-toolbar>
+				${this._freshness ? html`<ed-text-passage size="sm"><p>Resources checked: ${this._freshness.checkedAt?.slice(0,10) || "not recorded"}. Latest resource added: ${this._freshness.newestResource?.slice(0,10) || "unknown"}. Searches use this collection, not the live web.</p></ed-text-passage>` : ""}
+				<ed-show-hide class="ed-r-c-concierge__more" buttonText="More options" hideButtonText="Fewer options" buttonVariant="link" size="sm" iconName="chevron-down" iconPosition="after">
 					<ed-toolbar behavior="responsive" class="ed-r-c-concierge__controls">
 						<div slot="left" class="ed-r-c-concierge__lens">
-							<ed-select-field
-								fieldId="concierge-lens"
-								label="My role"
-								.items=${LENS_ITEMS}
-								value=${this._lens || ""}
-								@change=${this._onLensChange}
-							></ed-select-field>
+							<ed-select-field fieldId="concierge-lens" label="My role" .items=${LENS_ITEMS} value=${this._lens || ""} @change=${this._onLensChange}></ed-select-field>
 						</div>
-						<div slot="right" class="ed-r-c-concierge__engine">
-							<ed-select-field
-								fieldId="concierge-engine" label="Engine"
-								.items=${[{value:"device", label:"On-device · rules"}, {value:"claude", label:"Claude · composition"}, {value:"jev", label:"Jev · typed decisions"}].map(item => ({...item, selected:item.value === this._engine}))}
-								.value=${this._engine} @change=${this._onEngineChange}
-							></ed-select-field>
-							${this._switch("engine-brain", "Consult eddie-brain live", this._useBrain, this._engine !== "claude")}
-						</div>
+						<div slot="right">${this._switch("engine-brain", "Consult eddie-brain live", this._useBrain, this._engine !== "claude")}</div>
 					</ed-toolbar>
 				</ed-show-hide>
 			</div>

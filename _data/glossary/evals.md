@@ -1,17 +1,28 @@
 ---
 term: "Evals"
 aliases:
-  - "Eval"
-  - "Evaluation suite"
-  - "LLM-as-judge"
+  - "Evaluations"
+  - "AI Evals"
+  - "LLM as a Judge"
 source:
   type: "course"
   name: "AI & Design Systems Course"
-lessons: []
-status: "in-progress"
+lessons:
+  - number: "3.testing.00"
+    chapter: "Chapter 3"
+    title: "Deterministic and Agentic Testing with FigmaLint"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76603751-deterministic-and-agentic-testing-with-figmalint"
+  - number: "3.testing.01"
+    chapter: "Chapter 3"
+    title: "Evals Testing"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76603841-evals-testing"
+references:
+  - label: "Anthropic — Demystifying evals for AI agents"
+    url: "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents"
 tags:
   - "ai"
-  - "design systems"
   - "quality"
+  - "testing"
 ---
-Repeatable tests that measure whether an AI agent actually follows your design system's rules, rather than assuming it does because you wrote the rules down. An eval gives the agent a task, then scores the output against known-good criteria — often with a second model acting as the judge. Because language models are non-deterministic, a rule that works in one session can quietly fail in the next, so a one-time spot check proves nothing. This is the engine light for AI-assisted work: without evals you know your guardrails exist, but you have no idea whether they held. The teams furthest ahead run evals on every pull request and publish their failures alongside their wins.
+
+Repeatable tests that score AI output against a standard, so you know whether your setup works instead of judging it by feel. The course pairs deterministic pass/fail checks (does it use real components and tokens?) with an LLM acting as a judge for subjective scoring on top. Jam sessions have pushed the idea into tiers: scripted checks, adherence to the system's rules, and human judgment of taste, which an AI alone can't be trusted to grade.

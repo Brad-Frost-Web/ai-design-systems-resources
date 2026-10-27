@@ -2,6 +2,7 @@
 title: "designmd.co - DESIGN.md Files Roundup"
 url: "https://www.designmd.co/"
 created: "2026-08-24T23:50:40.000Z"
+notionId: "3ca3c932-3e86-8139-8f3b-d86d813ebb36"
 source: "slack"
 slackMessageUrl: "https://bradfrost.slack.com/archives/C09TMK7DS7J/p1787615440382989"
 slackSummary: "Brad shared this roundup site collecting DESIGN.md files from various projects and organizations, calling it 'interesting.' DESIGN.md files are machine-readable design context documents that AI agents can use to understand a product's visual language and design system constraints without Figma access."

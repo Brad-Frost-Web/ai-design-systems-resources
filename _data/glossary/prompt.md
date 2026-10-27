@@ -16,4 +16,4 @@ tags:
   - "ai"
 ---
 
-The natural-language input a user feeds an LLM to ask it to do something. The course demonstrates prompting via typed text and via dictation (Wispr Flow), and shows how prompts and other inputs (images, audio, video) can be chained across tools to generate and iterate on work.
+The natural-language input a user feeds an LLM to ask it to do something. The course demonstrates prompting via typed text and via dictation (Wispr Flow), and shows how prompts and other inputs (images, audio, video) can be chained across tools to generate and iterate on work. The industry has since widened its focus from prompt engineering to context engineering: everything the model sees, not just the request.

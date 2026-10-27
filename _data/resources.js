@@ -14,14 +14,14 @@ module.exports = function () {
 	// Get all markdown files in the resources directory
 	const files = fs
 		.readdirSync(resourcesDir)
-		.filter((file) => file.endsWith(".md"));
+		.filter((file) => file.endsWith(".md")).sort();
 
 	if (files.length === 0) {
 		console.warn("⚠️  No markdown files found in resources directory.");
 		return [];
 	}
 
-	const resources = files.map((file) => {
+	const records = files.map((file) => {
 		const filePath = path.join(resourcesDir, file);
 		const fileContents = fs.readFileSync(filePath, "utf8");
 		const { data } = matter(fileContents);
@@ -37,6 +37,7 @@ module.exports = function () {
 		});
 
 		const resource = {
+			id: file.replace(/\.md$/, ""),
 			title: data.title || "Untitled",
 			href: data.url || "#",
 			tags,
@@ -55,6 +56,8 @@ module.exports = function () {
 		return resource;
 	});
 
+	const resources = uniqueResources(records);
+
 	// Sort by created date (newest first)
 	resources.sort((a, b) => {
 		if (!a.created) return 1;
@@ -65,3 +68,30 @@ module.exports = function () {
 	console.log(`✅ Loaded ${resources.length} resources from markdown files`);
 	return resources;
 };
+
+// Keep source files intact, but render/count each public URL once.
+function resourceKey(href) {
+	try {
+		const url = new URL(href);
+		if (!["http:", "https:"].includes(url.protocol) || ["mail.google.com", "outlook.office.com", "outlook.live.com"].includes(url.hostname)) return null;
+		return url.href.replace(/\/$/, "");
+	} catch { return null; }
+}
+function uniqueResources(records) {
+	const unique = new Map();
+	for (const record of records) {
+		const key = resourceKey(record.href);
+		if (!key) continue;
+		const previous = unique.get(key);
+		if (!previous) { unique.set(key, {...record}); continue; }
+		// First filename supplies the stable ID; first-seen date supplies chronology.
+		const richer = (record.slackSummary?.length || 0) > (previous.slackSummary?.length || 0) ? record : previous;
+		unique.set(key, {...previous, ...richer, id:previous.id,
+			created:[previous.created, record.created].filter(Boolean).sort()[0] || null,
+			essential:previous.essential || record.essential,
+			tags:[...new Map([...previous.tags, ...record.tags].map(tag=>[tag.name,tag])).values()]});
+	}
+	return [...unique.values()];
+}
+module.exports.resourceKey = resourceKey;
+module.exports.uniqueResources = uniqueResources;

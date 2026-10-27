@@ -25,11 +25,13 @@
  * notionId, or (failing that) the same URL. URL is unique in the database.
  */
 
+const {resourceKey} = require("../_data/resources.js");
 const { Client } = require("@notionhq/client");
 const fs = require("fs");
 const path = require("path");
 require("dotenv").config();
 
+const DEFAULT_DATABASE_ID = "2b03c932-3e86-8129-be69-c04cfa50c151";
 const RESOURCES_DIR = path.join(__dirname, "..", "_data", "resources");
 
 // Create slug from title
@@ -116,8 +118,8 @@ function pageToResource(page) {
 				name: tag.name,
 				color: tag.color,
 			})) || [],
-		type: properties.Type?.select?.name || null,
-		created: properties.Created?.created_time || null,
+		type: properties.Type?.select?.name || properties.Type?.multi_select?.[0]?.name || null,
+		created: properties.Created?.created_time || page.created_time || null,
 		// Human-set "essential reading / core tool" flag — weighted heavily by
 		// the resource explorer's ranking and badged on the card.
 		essential: properties.Essential?.checkbox === true,
@@ -176,19 +178,19 @@ function readTagNames(raw) {
 	return out.filter(Boolean);
 }
 
-async function sync() {
-	const notion = new Client({ auth: process.env.NOTION_API_KEY });
-	const databaseId = process.env.NOTION_DATABASE_ID;
+async function sync({pullOnly = false, notionClient, resourcesDir = RESOURCES_DIR, syncPath = path.join(__dirname, "..", "_data", "resourceSync.json")} = {}) {
+	const notion = notionClient || new Client({ auth: process.env.NOTION_API_KEY });
+	const databaseId = process.env.NOTION_DATABASE_ID || DEFAULT_DATABASE_ID;
 
-	if (!databaseId || !process.env.NOTION_API_KEY) {
+	if (!notionClient && (!databaseId || !process.env.NOTION_API_KEY)) {
 		console.error(
 			"❌ Notion credentials not found. Set NOTION_API_KEY and NOTION_DATABASE_ID in .env"
 		);
 		process.exit(1);
 	}
 
-	if (!fs.existsSync(RESOURCES_DIR)) {
-		fs.mkdirSync(RESOURCES_DIR, { recursive: true });
+	if (!fs.existsSync(resourcesDir)) {
+		fs.mkdirSync(resourcesDir, { recursive: true });
 	}
 
 	console.log("📡 Fetching resources from Notion...");
@@ -197,12 +199,12 @@ async function sync() {
 
 	// Index the local files we already have.
 	const localFiles = fs
-		.readdirSync(RESOURCES_DIR)
+		.readdirSync(resourcesDir)
 		.filter((f) => f.endsWith(".md"));
 	const byNotionId = new Map(); // notionId -> filename
 	const byUrl = new Map(); // url -> filename
 	for (const filename of localFiles) {
-		const raw = fs.readFileSync(path.join(RESOURCES_DIR, filename), "utf8");
+		const raw = fs.readFileSync(path.join(resourcesDir, filename), "utf8");
 		const fm = readFrontmatter(raw);
 		if (fm.notionId) byNotionId.set(fm.notionId, filename);
 		if (fm.url) byUrl.set(fm.url, filename);
@@ -217,6 +219,7 @@ async function sync() {
 	// --- 1. Notion -> files ---------------------------------------------------
 	for (const page of pages) {
 		const resource = pageToResource(page);
+		if (!resourceKey(resource.href)) continue;
 		if (resource.href && resource.href !== "#") notionUrls.add(resource.href);
 
 		const existing =
@@ -229,7 +232,7 @@ async function sync() {
 				: "undated";
 			const filename = `${datePrefix}-${slugify(resource.title)}.md`;
 			fs.writeFileSync(
-				path.join(RESOURCES_DIR, filename),
+				path.join(resourcesDir, filename),
 				toMarkdown(resource),
 				"utf8"
 			);
@@ -240,7 +243,7 @@ async function sync() {
 			continue;
 		}
 
-		const filePath = path.join(RESOURCES_DIR, existing);
+		const filePath = path.join(resourcesDir, existing);
 		const raw = fs.readFileSync(filePath, "utf8");
 		const fm = readFrontmatter(raw);
 
@@ -262,11 +265,12 @@ async function sync() {
 		}
 	}
 
+	if (!pullOnly) {
 	// --- 2. files -> Notion ---------------------------------------------------
 	for (const filename of fs
-		.readdirSync(RESOURCES_DIR)
+		.readdirSync(resourcesDir)
 		.filter((f) => f.endsWith(".md"))) {
-		const filePath = path.join(RESOURCES_DIR, filename);
+		const filePath = path.join(resourcesDir, filename);
 		const raw = fs.readFileSync(filePath, "utf8");
 		const fm = readFrontmatter(raw);
 		if (!fm.url || fm.url === "#") continue;
@@ -291,12 +295,18 @@ async function sync() {
 		}
 	}
 
+	}
+	const dated = pages.map(p => pageToResource(p).created).filter(Boolean).sort();
+	fs.writeFileSync(syncPath, JSON.stringify({checkedAt:new Date().toISOString(), source:"Notion resources database", sourceUrl:`https://www.notion.so/${databaseId.replace(/-/g, "")}`, sourceCount:pages.length, newestSourceEntry:dated.at(-1) || null, direction:pullOnly ? "pull-only" : "two-way"}, null, 2)+"\n");
+
 	console.log(
 		`\n✨ Sync complete. created ${created}, updated ${updated}, linked ${stamped}, pushed to Notion ${pushedToNotion}. Nothing deleted.`
 	);
 }
 
-sync().catch((error) => {
+module.exports = {sync, pageToResource};
+
+if (require.main === module) sync({pullOnly:process.argv.includes("--pull-only")}).catch((error) => {
 	console.error("❌ Sync failed:", error.message);
 	process.exit(1);
 });

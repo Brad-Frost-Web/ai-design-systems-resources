@@ -8,5 +8,4 @@ tags:
   - "storybook|green"
   - "mcp|purple"
 source: "course"
-essential: true
 ---

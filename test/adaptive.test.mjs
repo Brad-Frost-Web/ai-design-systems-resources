@@ -74,3 +74,60 @@ test('compose endpoint rejects invalid methods and malformed requests',async()=>
   assert.equal((await handler({httpMethod:'POST',body:'{'})).statusCode,400);
   assert.equal((await handler({httpMethod:'POST',body:JSON.stringify({engine:'other'})})).statusCode,400);
 });
+
+const NOW = Date.parse('2026-10-27T12:00:00Z');
+const datedIntel = {...intel, revision:'fixture-revision', resources:[
+  { ...intel.resources[0], id:'august', created:'2026-08-05T12:00:00Z'},
+  { ...intel.resources[0], id:'before', created:'2026-09-27T23:59:59Z'},
+  { ...intel.resources[0], id:'boundary', created:'2026-09-28T00:00:00Z'},
+  { ...intel.resources[0], id:'october', created:'2026-10-19T12:00:00Z'},
+  { ...intel.resources[0], id:'future', created:'2026-10-28T00:00:00Z'},
+]};
+import {resolveDateWindow, scopeIntel} from '../js/intent-engine.js';
+test('screenshot question uses real last-30-days boundaries, without demo rewriting',()=>{
+  const ask='What did I miss in the last month?';
+  const spec=composeSpec({ask,intel:datedIntel,now:NOW});
+  assert.equal(spec.ask,ask);
+  assert.equal(spec.shape,'latest');
+  assert.equal(spec.evaluation.window.start,'2026-09-28');
+  assert.equal(spec.evaluation.window.end,'2026-10-28');
+  assert.deepEqual(nodes(spec).find(n=>n.component==='resourceTimeline').props.items,['october','boundary']);
+  assert.equal(spec.engine.modelCalled,false);
+  assert.equal(spec.evaluation.candidates.resources,2);
+  assert.equal(spec.evaluation.candidates.lessons,0);
+});
+test('calendar, named month, empty window and year boundaries are explicit',()=>{
+  assert.equal(resolveDateWindow('What changed last month?',NOW).end,'2026-10-01');
+  assert.equal(resolveDateWindow('What changed last month?',Date.parse('2027-01-10')).start,'2026-12-01');
+  assert.equal(resolveDateWindow('Show entries in September 2026',NOW).start,'2026-09-01');
+  assert.equal(resolveDateWindow('Resources in 2025',NOW).end,'2026-01-01');
+  const empty=composeSpec({ask:'What was added today?',intel:datedIntel,now:NOW});
+  assert.equal(empty.shape,'none');
+  assert.match(empty.summary,/No matching entries/);
+  assert.equal(scopeIntel('Resources this month',datedIntel,NOW).intel.resources.length,1);
+});
+test('remote date-scoped result cannot sneak an August ID into October results',()=>{
+  const spec=composeSpec({ask:'What did I miss in the last month?',intel:datedIntel,now:NOW});
+  spec.engine={kind:'claude',label:'Claude',detail:'Fixture'};
+  validateRemoteSpec(spec,datedIntel);
+  nodes(spec).find(n=>n.component==='resourceTimeline').props.items.push('august');
+  assert.throws(()=>validateRemoteSpec(spec,datedIntel));
+});
+test('live Jev receipt preserves the literal query and filters records after typed choice',async()=>{
+  let sent;
+  const spec=await composeWithJev({ask:'What did I miss in the last month?',intel:datedIntel,now:NOW,runId:'fixture-run',fetchImpl:async(url,request)=>{
+    sent=JSON.parse(request.body);
+    return {ok:true,headers:new Headers({'x-request-id':'provider-fixture'}),json:async()=>({model:'jev-fixture',answers:{presentation:{choice:'latest',confidence:.97},perspective:{choice:'none',confidence:1}}})};
+  }});
+  assert.equal(sent.state.question,spec.ask);
+  assert.equal(sent.state.dateWindow.start,'2026-09-28');
+  assert.equal(spec.engine.modelCalled,true);
+  assert.equal(spec.engine.providerResponseId,'provider-fixture');
+  assert.equal(spec.evaluation.runId,'fixture-run');
+  assert.equal(spec.evaluation.decisions.presentation.choice,'latest');
+  assert.equal(spec.evaluation.selected.resources,2);
+  assert.match(spec.evaluation.validation,/Passed/);
+});
+test('null and array request bodies return 400',async()=>{
+  for(const body of ['null','[]']) assert.equal((await handler({httpMethod:'POST',body})).statusCode,400);
+});

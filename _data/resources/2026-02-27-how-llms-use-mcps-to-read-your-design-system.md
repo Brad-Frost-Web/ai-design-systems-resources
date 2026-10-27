@@ -12,5 +12,4 @@ tags:
   - "mcp|purple"
   - "documentation|green"
   - "prompting|default"
-essential: true
 ---

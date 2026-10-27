@@ -271,3 +271,19 @@ See [open issues](https://github.com/Brad-Frost-Web/ai-design-systems-resources/
 ## License
 
 ISC
+
+
+## Demo freshness and run evidence (October 27, 2026)
+
+Continue on `design/13-chameleon-resources`. The original renderer, nine shapes, topic graph, theme controls and A2UI inspector remain in place.
+
+- **Engine is always visible.** On-device means deterministic browser rules, with no local AI model. Claude makes a live composition request using the collection metadata and component catalog. Jev makes a live typed presentation/perspective decision; the local composer selects records. Keys stay on the server (`ANTHROPIC_API_KEY`, `JEV_API_KEY`).
+- **Your literal question is sent.** Suggested prompts are examples; typed variations are no longer rewritten to a scripted prompt.
+- **Run evidence** shows the exact question, model, provider response ID when available, server run ID, Claude token usage, Jev decisions, corpus revision, date window, candidates and validation result. Rejected Jev responses retain their decision/confidence receipt. Confidence is model-reported or heuristic, not an accuracy evaluation.
+- **Freshness is explicit.** `npm run sync:pull` reads the resources Notion database without writing to it, records a source-check receipt, and supports its current multi-select Type property. Run `npm run build` afterward and reload the browser. Main's current glossary/resource files were brought into this design branch; lessons remain the existing published pointers.
+- **Date requests filter before model composition and again at validation.** “In the last month” means the past 30 UTC days; bare “last month” means the previous calendar month. The range is shown. These are dates added to the collection, not publication dates. Undated glossary terms are excluded; lessons enter a date query only when explicitly requested.
+- The corpus renders/counts each public URL once, merging metadata from duplicate source files. Mail-app URLs and non-HTTP links are excluded. Corpus revisions prevent a stale client from hydrating a newer server's selection.
+
+Current checked resource source: October 27; latest added entry: October 19. There is only one unique resource in the September 28–October 27 window. Neither live engine fetches or fact-checks linked articles, and collection coverage is not coverage of everything happening on the web.
+
+Validation: `npm test` (16 tests), `npm run build`, and live local-browser requests. The Eddie `ed-code` content-refresh issue has a local keyed-remount workaround; its upstream report is drafted in `docs/drafts/eddie-code-refresh-issue.md` pending publication approval.

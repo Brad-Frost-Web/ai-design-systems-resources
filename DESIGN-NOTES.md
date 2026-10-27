@@ -134,3 +134,16 @@ proxies the Eleventy server on 8080 so `/.netlify/functions/compose` resolves).
   (drop definitions?) before anything public.
 - Theme CSS adds ~185KB raw (5 extra themes); gzips well, but a
   `<link media>`/lazy-load strategy would be nicer.
+
+
+## 2026-10-27 — current data and inspectable live runs
+
+What exists: the original concierge, A2UI-shaped composer/renderer, inspector, Notion sync and Eddie controls carry this work. Strengthened: source freshness, literal prompts, strict shared date scope, provider receipts and response validation. Reduced: duplicate URLs in rendered counts, scripted question rewriting, hidden engine selection and stale inspector snippets. No new UI system or separate feature is needed; these are corrections to the existing demo.
+
+Read-only resource sync uses `--pull-only`, with a recorded source check, current Notion multi-select types and the verified database ID fallback. Source records are retained except the newly imported mail-app record, which is excluded from public data and future imports. The URL loader deduplicates counts without deleting canonical source files. First filename supplies an ID; earliest recorded date supplies chronology; richer summary, tags and essential flags are combined.
+
+Run evidence is server-owned for live responses: actual provider response/model, timing, Claude usage, Jev typed decisions, candidate/selected counts and catalog/date/ID validation. This proves execution and structural checks, not relevance accuracy or article fact-checking. On-device remains browser heuristics. No local inference model was introduced.
+
+Eddie 0.60 `ed-code` captures content on connection only. The consumer keys both JSON displays by spec to remount on response changes; it does not fork or patch the component. The upstream issue draft is `docs/drafts/eddie-code-refresh-issue.md`; automatic approval review rejected publication without explicit user approval. The associated report is therefore pending, not filed.
+
+Independent spec and standards reviews caught duplicate-source inflation and unlabeled global totals; both are fixed. Automated coverage checks UTC date boundaries, empty windows, stale record rejection, typed Jev evidence, pull-only sync safety and URL consolidation. No promotion, integration merge or deployment is part of this Design-lane work.

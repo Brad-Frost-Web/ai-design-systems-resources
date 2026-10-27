@@ -14,7 +14,8 @@
 		"sync:lessons": "node scripts/sync-lessons.js",
 		"build:catalog": "node scripts/build-catalog.js",
 		"test": "node --test test/*.test.mjs",
-		"demo": "npm run build && node scripts/demo-server.mjs"
+		"demo": "npm run build && node scripts/demo-server.mjs",
+		"sync:pull": "node scripts/sync-notion.js --pull-only"
 	},
 	"keywords": [],
 	"author": "",

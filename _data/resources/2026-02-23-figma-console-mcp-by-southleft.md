@@ -12,5 +12,4 @@ tags:
   - "figma|brown"
   - "mcp|purple"
   - "tool|orange"
-essential: true
 ---

@@ -15,6 +15,7 @@
  * its sleeve, and the raw messages + the catalog are one disclosure away.
  */
 import { LitElement, html, nothing } from "lit";
+import {keyed} from "lit/directives/keyed.js";
 import { FALLBACK_CATALOG, freshness } from "../intent-engine.js";
 
 const CHAPTER_VARIANT = ["accent-1", "accent-2", "accent-3", "accent-4", "accent-5", "accent-6", "accent-7", "accent-8"];
@@ -359,9 +360,9 @@ export class EdRCAdaptiveStage extends LitElement {
 		let stats;
 		if (p.stats === "collection" || !p.counts) {
 			stats = [
-				{ label: "Resources", value: counts.resources ?? 0, meta: `${counts.essential ?? 0} flagged essential reading` },
-				{ label: "Course lessons", value: counts.lessons ?? 0, meta: "pointers to published videos" },
-				{ label: "Glossary terms", value: counts.terms ?? 0, meta: "wired back to lessons" },
+				{ label: "Resources", value: counts.resources ?? 0, meta: `whole collection · ${counts.essential ?? 0} essential` },
+				{ label: "Course lessons", value: counts.lessons ?? 0, meta: "whole collection · video pointers" },
+				{ label: "Glossary terms", value: counts.terms ?? 0, meta: "whole collection · glossary" },
 			];
 		} else {
 			stats = [
@@ -458,6 +459,11 @@ export class EdRCAdaptiveStage extends LitElement {
 						: nothing}
 				</p>
 
+				<ed-text-passage size="sm">
+					<p>${["claude", "jev"].includes(e.kind) ? `Live response from ${e.model || e.kind}.` : "This view was assembled by local rules; no model generated it."} ${e.failureReason ? `Live request failed: ${e.failureReason}` : ""}</p>
+					${spec.evaluation?.window ? html`<p>${spec.evaluation.window.label} · ${spec.evaluation.candidates.resources} resource ${spec.evaluation.candidates.resources === 1 ? "candidate" : "candidates"}. Dates mean added to this collection.</p>` : nothing}
+				</ed-text-passage>
+
 				${this.busy
 					? html`<div class="ed-r-c-stage__busy" role="status">
 							<ed-loading-indicator></ed-loading-indicator>
@@ -469,7 +475,7 @@ export class EdRCAdaptiveStage extends LitElement {
 
 				<ed-accordion class="ed-r-c-stage__meta">
 					<ed-accordion-panel>
-						<span slot="header">Why am I seeing this?</span>
+						<span slot="header">How this view was built — run evidence</span>
 						<ed-text-passage size="sm">
 							<ul>
 								<li>Engine: ${e.label}${e.model ? ` (${e.model})` : ""} — ${e.detail || ""}</li>
@@ -477,15 +483,15 @@ export class EdRCAdaptiveStage extends LitElement {
 								${spec.reasoning.map((r) => html`<li>${r}</li>`)}
 								${this._renderTrace()}
 								<li>
-									Confidence: ${Math.round(spec.confidence * 100)}% — under 50% the engine says so instead of
-									guessing.
+									${["claude", "jev"].includes(e.kind) ? "Model-reported" : "Heuristic"} confidence: ${Math.round(spec.confidence * 100)}%. This is not a measured accuracy score.
 								</li>
 								<li>
-									This view is ephemeral: composed for this ask and never stored. Everything in it also lives in
+									This demo saves no interaction history. It selects collection metadata; it does not read or fact-check linked articles. Everything in it also lives in
 									<a href="#collection">the whole collection</a> below.
 								</li>
 							</ul>
 						</ed-text-passage>
+						${keyed(spec, html`<ed-code language="json">${JSON.stringify({question:spec.ask, engine:e, ...spec.evaluation, components:this._surface()?.components.filter(n=>n.component !== "Column").map(n=>n.component)}, null, 2)}</ed-code>`)}
 					</ed-accordion-panel>
 					<ed-accordion-panel>
 						<span slot="header">The messages — the agent speaks JSON, not code (A2UI-shaped)</span>
@@ -498,7 +504,7 @@ export class EdRCAdaptiveStage extends LitElement {
 								and this contract doesn't change.
 							</p>
 						</ed-text-passage>
-						<ed-code language="json">${JSON.stringify(spec.messages, null, 2)}</ed-code>
+						${keyed(spec, html`<ed-code language="json">${JSON.stringify(spec.messages, null, 2)}</ed-code>`)}
 					</ed-accordion-panel>
 					${this._renderCatalogPanel()}
 				</ed-accordion>

@@ -9,5 +9,4 @@ tags:
   - "mcp|purple"
   - "claude|gray"
 source: "course"
-essential: true
 ---

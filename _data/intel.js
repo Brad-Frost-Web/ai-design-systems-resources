@@ -17,6 +17,7 @@
  * teaches, applied to the site's own content.
  */
 const fs = require("fs");
+const {createHash} = require("node:crypto");
 const path = require("path");
 const resources = require("./resources.js");
 const glossary = require("./glossary.js");
@@ -33,7 +34,7 @@ function loadCatalog() {
 
 module.exports = function () {
 	const allResources = resources().map((r, i) => ({
-		id: `r${i}`,
+		id: r.id,
 		title: r.title,
 		url: r.href,
 		type: r.type,
@@ -76,7 +77,12 @@ module.exports = function () {
 
 	const catalog = loadCatalog();
 
+	const syncPath = path.join(__dirname, "resourceSync.json");
+	const sync = fs.existsSync(syncPath) ? JSON.parse(fs.readFileSync(syncPath, "utf8")) : {};
+	const revision = createHash("sha256").update(JSON.stringify({allResources,terms,allLessons,catalog})).digest("hex").slice(0,16);
 	return {
+		revision,
+		freshness: {...sync, newestResource:allResources.map(r=>r.created).filter(Boolean).sort().at(-1) || null},
 		generated: new Date().toISOString(),
 		counts: {
 			resources: allResources.length,

@@ -2,16 +2,32 @@
 term: "AGENTS.md"
 aliases:
   - "CLAUDE.md"
-  - "agent instruction file"
-  - "repo agent files"
+  - "Context Files"
+  - "Rules Files"
+  - ".cursorrules"
 source:
   type: "course"
   name: "AI & Design Systems Course"
-lessons: []
-status: "in-progress"
+lessons:
+  - number: "3.s6.eddie-demo.01"
+    chapter: "Chapter 3"
+    title: "Eddie: Fixing Synchronization in Knowledge Graph & CLAUDE.md"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76682098-eddie-fixing-synchronization-in-knowledge-graph-claude"
+  - number: "4.bf.02"
+    chapter: "Chapter 4"
+    title: "Reviewing the project SPEC"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76793225-bradfrost-com-reviewing-the-project-spec"
+  - number: "4.bf.06"
+    chapter: "Chapter 4"
+    title: "Keeping Product On The Eddie Rails: Multi-Phase bfw-process, Settings, Rules, & Validation"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/77065460-bradfrost-com-keeping-product-on-the-eddie-rails-multi-phase-bfw-process-settings-rules-validation"
+references:
+  - label: "agents.md"
+    url: "https://agents.md"
 tags:
   - "ai"
-  - "design systems"
-  - "workflow"
+  - "agents"
+  - "tooling"
 ---
-A markdown file at the root of a repository that tells AI coding agents the rules of the project: what to use, what never to use, how to run checks, and what conventions to follow. AGENTS.md is the vendor-neutral name; CLAUDE.md is the Claude-specific equivalent, and different tools look for different filenames. The most effective ones state plainly that the instructions outrank the surrounding code, which matters in older codebases where the existing patterns are exactly what you are trying to move away from. Plain text survives context-window compression and model summarization better than comments buried in source files, which is why this humble format has become the standard place to encode a design system's hard rules.
+
+A Markdown file at the root of a repository that briefs every coding agent session: what the project is, its conventions, its non-negotiables, and how to build and test it. AGENTS.md is the vendor-neutral name; CLAUDE.md, .cursorrules, and copilot-instructions.md are tool-specific equivalents. There's no canonical file to download: yours should say what's true of your system. Keep it short, since it loads into every session's context window, and govern it like any other source of truth so it doesn't drift.

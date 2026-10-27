@@ -1,16 +1,15 @@
 ---
-term: "Tool-gating"
-aliases:
-  - "Tool gating"
-  - "Capability gating"
+term: "Tool-Gating"
 source:
-  type: "course"
-  name: "AI & Design Systems Course"
-lessons: []
-status: "in-progress"
+  type: "industry"
+  name: "Industry"
+references:
+  - label: "State of AI in Design Systems — Prohibition vs tool-gating"
+    url: "https://state-of-ai-in-design-systems.netlify.app/questions/prohibition-vs-tool-gating.md"
 tags:
   - "ai"
+  - "quality"
   - "mcp"
-  - "design systems"
 ---
-Restricting what an AI agent can do by exposing only approved operations as callable tools, usually through an MCP server. The logic is blunt and effective: an agent cannot hallucinate a component that was never exposed as something it can call. In practice this looks like requiring a lookup before any component can be used, capping how many results come back so the context stays bounded, and refusing to answer at all until the agent has searched the real system. Tool-gating shifts the design system from something the model recalls to something it must consult, which is the difference between a confident guess and a verified answer.
+
+Structuring an agent's work so it must get answers from a tool, like an MCP call that returns the real component list, instead of from its training data, leaving nothing to invent. It contrasts with prohibitions like 'never invent components', which ask the model to behave. Both get called guardrails; the evidence suggests tool-gating works better.

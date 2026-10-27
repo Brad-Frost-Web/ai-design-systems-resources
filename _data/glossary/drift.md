@@ -1,16 +1,24 @@
 ---
 term: "Drift"
 aliases:
-  - "Design system drift"
-  - "Drifting off-system"
+  - "Design-Code Drift"
+  - "Parity"
 source:
   type: "course"
   name: "AI & Design Systems Course"
-lessons: []
-status: "in-progress"
+lessons:
+  - number: "3.s6.intro"
+    chapter: "Chapter 3"
+    title: "Station 6: Orchestration"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76552067-station-6-orchestration"
+  - number: "3.s6.eddie-demo.01"
+    chapter: "Chapter 3"
+    title: "Eddie: Fixing Synchronization in Knowledge Graph & CLAUDE.md"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76682098-eddie-fixing-synchronization-in-knowledge-graph-claude"
 tags:
   - "design systems"
   - "quality"
-  - "ai"
+  - "workflow"
 ---
-The gradual slide away from the design system: hardcoded hex values instead of tokens, one-off components instead of the real ones, raw utility classes instead of the system's styling approach. Drift has always happened when humans are under deadline pressure, but AI accelerates it dramatically, because a model with no constraints will happily invent a whole parallel component library in seconds. Every anti-hallucination technique in modern design systems is fundamentally a drift-prevention technique. The important insight is that drift is measurable — you can grep for raw values, lint for banned patterns, and score how far a codebase has wandered — which turns a vague quality complaint into something a team can actually fix.
+
+The gap that opens up as Figma, code, packages, documentation, and AI context files fall out of sync with each other, or as AI output wanders away from the system. Drift is usually silent until it isn't. Orchestration work, parity checks, and component contracts all exist to detect it early and route a fix to whichever side is wrong.

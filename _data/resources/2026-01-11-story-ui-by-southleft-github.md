@@ -12,5 +12,4 @@ tags:
   - "storybook|purple"
   - "tool|orange"
   - "open-source|default"
-essential: true
 ---

@@ -81,7 +81,7 @@ const PHRASES = ["figma console mcp", "figma make", "storybook mcp", "code conne
 /** Words in nearly every title in this corpus — they barely discriminate. */
 const GENERIC = new Set(["design", "system", "systems", "ai", "build", "building", "use", "using", "tools", "tool", "component", "components", "course", "intro", "introduction"]);
 
-const LATEST_WORDS = ["latest", "what's new", "whats new", "recent", "this week", "this month", "catch up", "stay current", "keep up", "newest", "fresh"];
+const LATEST_WORDS = ["what did i miss", "catch me up", "last month", "past month", "last week", "past week", "latest", "what's new", "whats new", "recent", "this week", "this month", "catch up", "stay current", "keep up", "newest", "fresh"];
 const START_WORDS = ["start", "begin", "new to", "beginner", "overwhelmed", "where do i", "first step", "basics"];
 const CHART_WORDS = ["month-by-month", "month by month", "per month", "breakdown", "how many", "chart", "graph", "over time", "by month", "by tag", "by type", "per tag", "per type", "count", "growth", "trend"];
 const COMPARE_WORDS = ["compare", "comparison", "versus", " vs ", "which tools", "which tool", "what tools", "worth it", "options", "difference between", "when do i use which", "which should i"];
@@ -110,61 +110,6 @@ const STOP = new Set(["what", "does", "with", "that", "this", "from", "have", "i
 /* ------------------------------------------------------------------------ */
 /* Canonical asks — a typed question resolves to the same ask as the script   */
 /* ------------------------------------------------------------------------ */
-
-const PREAMBLES = [
-	"can you tell me about", "could you tell me about", "tell me more about", "tell me about", "tell me",
-	"what do you know about", "i want to know about", "i'd like to know about", "i want to learn about",
-	"help me understand", "help me with", "teach me about", "learn about", "everything about", "more about",
-	"anything about", "information about", "info on", "what about", "how about", "show me", "explain",
-	"what is", "what's", "what are", "about",
-];
-
-/** Strip conversational preamble + trailing punctuation: "Tell me about X?" → "x". */
-function coreOf(ask) {
-	let q = norm(ask).replace(/[?.!]+$/g, "").trim();
-	let stripped = true;
-	while (stripped) {
-		stripped = false;
-		for (const p of PREAMBLES) {
-			if (q.startsWith(p + " ")) {
-				q = q.slice(p.length + 1).trim();
-				stripped = true;
-			}
-		}
-	}
-	return q.replace(/^(the|a|an)\s+/, "");
-}
-
-/**
- * Resolve an ask to its canonical form when it is clearly one of the known
- * asks phrased differently. "Tell me about Figma Console MCP" → "Figma
- * Console MCP"; "how do I keep design and code in sync with AI" → the
- * scripted sentence. Exact-core matches always win; otherwise the content
- * words must overlap heavily (Jaccard ≥ 0.6, at least two shared words).
- */
-export function canonicalAsk(ask) {
-	// Preserve explicit presentation intent before stripping conversational preambles.
-	if ([...LATEST_WORDS, ...CHART_WORDS, ...COMPARE_WORDS, ...PATH_WORDS].some(word => norm(ask).includes(word))) return {ask, matched:null};
-	const core = coreOf(ask);
-	if (!core) return { ask, matched: null };
-	let best = null;
-	for (const known of SUGGESTED_ASKS) {
-		const kcore = coreOf(known);
-		if (kcore === core) return { ask: known, matched: known, how: "exact" };
-		const a = new Set(askWords(core));
-		const b = new Set(askWords(kcore));
-		if (a.size < 1 || b.size < 1) continue;
-		const shared = [...a].filter((w) => b.has(w)).length;
-		const jaccard = shared / new Set([...a, ...b]).size;
-		if (shared >= 2 && jaccard >= 0.6 && (!best || jaccard > best.jaccard)) best = { known, jaccard };
-		// A short core that is contained whole in a known ask (or vice versa)
-		if (core.length > 8 && (kcore.includes(core) || core.includes(kcore)) && (!best || best.jaccard < 0.95)) best = { known, jaccard: 0.95 };
-	}
-	if (best) return { ask: best.known, matched: best.known, how: "fuzzy" };
-	// No scripted match: still use the stripped core so "tell me about X"
-	// and "X" score identically.
-	return { ask: core === norm(ask).replace(/[?.!]+$/g, "").trim() ? ask : core, matched: null };
-}
 
 function askWords(ask) {
 	return norm(ask)
@@ -266,7 +211,7 @@ function scoreResources({ ask, lens, topics, resources, wantLatest }) {
 
 	const max = Math.max(...scored.map((s) => s.score), 1);
 	return scored
-		.filter((s) => s.score > (wantLatest ? 2 : 3))
+		.filter((s) => wantLatest && !topics.length ? true : s.score > (wantLatest ? 2 : 3))
 		.sort((a, b) => (wantLatest ? new Date(b.r.created) - new Date(a.r.created) : b.score - a.score))
 		.map((s) => ({ ...s, fit: Math.min(99, Math.round((s.score / max) * 100)) }));
 }
@@ -317,7 +262,7 @@ function chartFor(ask, intel) {
 	const counts = new Map();
 	for (const r of items) {
 		const d = new Date(r.created);
-		const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+		const key = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
 		counts.set(key, (counts.get(key) || 0) + 1);
 	}
 	const keys = [...counts.keys()].sort();
@@ -334,22 +279,22 @@ function chartFor(ask, intel) {
 /* The main entry: ask + lens + corpus → A2UI-shaped message list           */
 /* ------------------------------------------------------------------------ */
 
-export function composeSpec({ ask = "", lens = null, intel, presentation = null }) {
+export function composeSpec({ ask = "", lens = null, intel, presentation = null, now = Date.now() }) {
 	const started = performance.now();
-	const typed = ask;
-	const canon = canonicalAsk(ask);
-	ask = canon.ask;
+		const evaluation = evaluationFor(ask, intel, now);
+	const scoped = scopeIntel(ask, intel, now);
+	intel = scoped.intel;
 	const q = norm(ask);
 	const topics = detectTopics(ask);
 	const terms = matchTerms(ask, intel.terms);
-	const wantLatest = presentation ? presentation === "latest" : LATEST_WORDS.some((w) => q.includes(w));
+	const wantLatest = Boolean(scoped.window) || (presentation ? presentation === "latest" : LATEST_WORDS.some((w) => q.includes(w)));
 	const wantStart = START_WORDS.some((w) => q.includes(w));
 	const wantChart = presentation ? presentation === "chart" : CHART_WORDS.some((w) => q.includes(w)) && !terms.length;
 	const wantCompare = presentation ? presentation === "compare" : COMPARE_WORDS.some((w) => q.includes(w));
 	const wantPath = presentation ? presentation === "path" : PATH_WORDS.some((w) => q.includes(w));
 	const reasoning = [];
 
-	if (canon.matched && norm(typed) !== norm(canon.matched)) reasoning.push(`Read “${typed.trim()}” as “${canon.matched}”.`);
+	if (scoped.window) reasoning.push(`Date filter: ${scoped.window.label}; based on date added.`);
 	if (lens && LENSES[lens]) reasoning.push(`Lens: ${LENSES[lens].label} — related topics weigh more.`);
 	for (const t of topics) reasoning.push(`Detected topic: ${t.label}.`);
 	for (const t of terms) reasoning.push(`“${t.term}” is a course glossary term — surfacing its definition and lessons.`);
@@ -384,8 +329,8 @@ export function composeSpec({ ask = "", lens = null, intel, presentation = null 
 	} else if (presentation === "none" || (!lessons.length && !terms.length && !ranked.length)) {
 		shape = "none";
 		reasoning.push("No confident match — showing the shape of the collection instead of guessing.");
-		summary = "Nothing in the collection matched that with confidence. Low confidence gets honesty, not hallucination — try rephrasing, or browse the collection below.";
-		add("note", "note", { heading: "Low confidence, high honesty", text: summary });
+		summary = scoped.window ? `No matching entries were added during ${scoped.window.label}. This is a gap in this collection, not a claim that nothing happened elsewhere.` : "Nothing in the collection matched that with confidence. Try rephrasing, or browse the collection below.";
+		add("note", "note", { heading: scoped.window ? "No entries in this date window" : "No confident match", text: summary });
 		add("stats", "statRow", { stats: "collection" });
 	} else {
 		const parts = [];
@@ -450,17 +395,19 @@ export function composeSpec({ ask = "", lens = null, intel, presentation = null 
 	// summary is a real framing, emits its own summary node.
 	const spec = {
 		version: SPEC_VERSION,
+		evaluation,
 		summary,
 		engine: {
 			kind: "heuristics",
 			label: "On-device heuristics",
 			detail: "Deterministic keyword routing in your browser. No server saw this ask.",
 			model: null,
+			modelCalled: false,
 			latencyMs: Math.round(performance.now() - started),
 			trace: [],
 		},
 		ask,
-		typedAsk: typed,
+		typedAsk: ask,
 		lens,
 		shape,
 		confidence: Math.round(confidence * 100) / 100,
@@ -510,6 +457,62 @@ export function hydrate(spec, intel) {
 	return { ...spec, messages };
 }
 
+/** Explicit date windows are code, shared by local and live engines. UTC days. */
+export function resolveDateWindow(ask, now = Date.now()) {
+	const q = norm(ask);
+	const today = new Date(now);
+	const year = today.getUTCFullYear(), month = today.getUTCMonth(), day = today.getUTCDate();
+	const endToday = Date.UTC(year, month, day + 1);
+	let start, end = endToday, label;
+	const days = q.match(/(?:last|past|previous)\s+(\d+)\s+days?/);
+	if (days) {
+		const count = Math.max(1, Math.min(3660, Number(days[1])));
+		start = endToday - count * 86400000; label = `Past ${count} days`;
+	} else if (/\b(?:(?:in|over|during) the last month|past month|last 30 days)\b/.test(q)) {
+		start = endToday - 30 * 86400000; label = "Past 30 days";
+	} else if (/\blast month\b/.test(q)) {
+		start = Date.UTC(year, month - 1, 1); end = Date.UTC(year, month, 1); label = "Previous calendar month";
+	} else if (/\bthis month\b/.test(q)) {
+		start = Date.UTC(year, month, 1); label = "This month";
+	} else if (/\b(last week|past week|this week)\b/.test(q)) {
+		start = endToday - 7 * 86400000; label = "Past 7 days";
+	} else if (/\btoday\b/.test(q)) {
+		start = Date.UTC(year, month, day); label = "Today";
+	} else {
+		const named = q.match(/\b(?:in|during|for)\s+(january|february|march|april|may|june|july|august|september|october|november|december)(?:\s+(20\d\d))?\b/);
+		if (named) {
+			const m = ["january","february","march","april","may","june","july","august","september","october","november","december"].indexOf(named[1]);
+			const y = Number(named[2] || year);
+			start = Date.UTC(y,m,1); end = Date.UTC(y,m+1,1); label = `${named[1]} ${y}`;
+		} else {
+			const y = q.match(/\b(?:in|during|for|added in)\s+(20\d\d)\b/);
+			if (y) {start=Date.UTC(Number(y[1]),0,1); end=Date.UTC(Number(y[1])+1,0,1); label=y[1];}
+		}
+	}
+	if (start === undefined) return null;
+	const iso = ms => new Date(ms).toISOString().slice(0,10);
+	return {start:iso(start), end:iso(end), label:`${label}: ${iso(start)} through ${iso(end-1)} (UTC)`, basis:"date added to collection"};
+}
+
+export function scopeIntel(ask, intel, now = Date.now()) {
+	const window = resolveDateWindow(ask, now);
+	if (!window) return {intel, window};
+	const within = record => {
+		const time = Date.parse(record.created);
+		return Number.isFinite(time) && time >= Date.parse(window.start) && time < Date.parse(window.end);
+	};
+	const resources = intel.resources.filter(within);
+	const lessons = /\b(lessons?|course videos?)\b/.test(norm(ask)) ? intel.lessons.filter(within) : [];
+	return {window, intel:{...intel, resources, lessons, terms:[], counts:{resources:resources.length, essential:resources.filter(r=>r.essential).length, lessons:lessons.length, terms:0}}};
+}
+
+export function evaluationFor(ask, intel, now = Date.now()) {
+	const scoped = scopeIntel(ask,intel,now);
+	return {evaluatedAt:new Date(now).toISOString(), corpusRevision:intel.revision || null,
+		sourceCheckedAt:intel.freshness?.checkedAt || null, newestResource:intel.freshness?.newestResource || null,
+		window:scoped.window, candidates:{resources:scoped.intel.resources.length, lessons:scoped.intel.lessons.length, terms:scoped.intel.terms.length}};
+}
+
 /** Validate model structure before hydration; keep the prototype's existing contract. */
 export function validateRemoteSpec(spec, intel) {
 	const fail = () => { throw new Error("The live engine returned an invalid view."); };
@@ -528,6 +531,7 @@ export function validateRemoteSpec(spec, intel) {
 	const root = nodes.find(n => n.id === "root");
 	if (root?.component !== "Column" || !Array.isArray(root.children) || root.children.length !== nodes.length - 1) fail();
 	if (new Set(root.children).size !== root.children.length || root.children.some(id => id === "root" || !nodes.some(n => n.id === id))) fail();
+	intel = scopeIntel(spec.ask, intel, spec.evaluation?.evaluatedAt ? Date.parse(spec.evaluation.evaluatedAt) : Date.now()).intel;
 	const catalog = new Set(intel.catalog.nodes.map(n => n.node));
 	const resources = new Set(intel.resources.map(r => r.id));
 	const lessons = new Set(intel.lessons.map(l => l.id));
@@ -572,6 +576,7 @@ export function validateRemoteSpec(spec, intel) {
 	for (const node of nodes) if (node.component === "statRow" && node.props.stats === "result") {
 		node.props.counts = Object.fromEntries(Object.entries(selected).map(([kind, values]) => [kind, values.size]));
 	}
+	spec.evaluation = {...spec.evaluation, validation:"Passed catalog, record IDs, date scope and structure checks; chart and result counts computed in code.", selected:Object.fromEntries(Object.entries(selected).map(([kind, values]) => [kind, values.size]))};
 	// A remote data model is never authoritative; hydrate only from our corpus.
 	spec.messages = spec.messages.filter(m => m.beginRendering || m.surfaceUpdate);
 	return spec;

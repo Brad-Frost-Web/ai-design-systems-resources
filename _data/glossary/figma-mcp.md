@@ -23,10 +23,13 @@ lessons:
     chapter: "Chapter 3"
     title: "Using Figma MCP to Translate from Code to Design"
     url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74942444-figma-mcp-translating-component-variant-in-code-into-figma"
+references:
+  - label: "Figma — What is the Figma MCP server?"
+    url: "https://help.figma.com/hc/en-us/articles/35280968300439"
 tags:
   - "figma"
   - "mcp"
   - "tooling"
 ---
 
-The official Figma MCP server that bridges Figma and code so AI can read design metadata and translate in both directions. The course installs it into the Claude Desktop app (via Connectors) and into Claude Code in the terminal, enabling the desktop MCP server in Figma's dev mode and passing a component by copying a link to the selection. It is used to translate an AI-ready Figma component into code (pulling metadata, aligning with existing house conventions, and generating component, style, story, and test files) and, going the other direction, to translate a variant from code back into the Figma design file. The course frames it as a tether sitting in the seam between design and code that helps keep the two notoriously-misaligned worlds in sync.
+The official Figma MCP server that bridges Figma and code so AI can read design metadata and translate in both directions. The course installs it into the Claude Desktop app (via Connectors) and into Claude Code in the terminal, enabling the desktop MCP server in Figma's dev mode and passing a component by copying a link to the selection. It is used to translate an AI-ready Figma component into code (pulling metadata, aligning with existing house conventions, and generating component, style, story, and test files) and, going the other direction, to translate a variant from code back into the Figma design file. The course frames it as a tether sitting in the seam between design and code that helps keep the two notoriously-misaligned worlds in sync. Figma also hosts a remote version of the server, and it works best alongside Code Connect, which maps Figma components to the real code that implements them.

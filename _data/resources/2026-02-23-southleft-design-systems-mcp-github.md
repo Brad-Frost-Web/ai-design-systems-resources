@@ -12,5 +12,4 @@ tags:
   - "mcp|purple"
   - "tool|orange"
   - "open-source|default"
-essential: true
 ---

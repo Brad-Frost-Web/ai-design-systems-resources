@@ -7,5 +7,4 @@ notionId: "2c33c932-3e86-8169-a72c-e445e7b0d40d"
 tags:
   - "ai|blue"
 source: "course"
-essential: true
 ---

@@ -9,5 +9,4 @@ tags:
   - "mcp|purple"
   - "concepts|default"
 source: "course"
-essential: true
 ---
