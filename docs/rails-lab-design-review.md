@@ -203,3 +203,44 @@ Verification: production build; 16 passing tests including cycling/wraparound, m
 Brad directed removing the example count and playback controls, resolving the competing robot header, and aligning the spectrum. The composer now contains only prompt text and decorative plus/send artwork, with no interactive controls. The animation switch moved into existing Settings; reduced motion starts it off, and timers still stop on hidden tabs and disconnect. AI headers put the number and label together, with the original robot reduced to 32px and aligned at the far right.
 
 The seven label columns remain equal-width. The native slider now has an explicit token-sized thumb and inset travel matching their centers. Browser measurements at 1280px found a maximum center discrepancy below 0.007px across all seven positions. WebKit and Firefox thumb/track styles are specified. A standards review caught the inactive track's subtle-border contrast (2.68:1); changed it to the default border token. Spec review caught the animation setting's missing visible slot label; fixed and browser-verified. Build and all 16 tests pass; no Eddie validator errors, with the same 15 documented primitive-token warnings. Original demo unchanged.
+
+### Workshop cleanup — 2026-10-28
+
+P1.0–P2.2: resumed issue #33's approved feature branch in the managed
+`rails-workshop` checkout; the primary checkout's unrelated design work is intact.
+Fetched origin, retained the existing branch (six commits behind main) deliberately.
+Read the pinned 0.24.0 rules and recorded Brad's approved punch-list amendment.
+
+P3.2–P3.3: upgraded Eddie components, recipes and tokens to 0.72.1. Removed the
+masthead, settings panel, endpoint labels, footer and redundant review-loop copy.
+Concept title buttons toggle all descriptions; packages use a default-collapsed
+Eddie accordion. Main section headings are centered, numbered cards square, and
+human header icons use the same right-aligned 32px size as robots. The slider uses
+background-role utility knockout tokens for its red-to-green gradient. Steel code
+uses the existing neutral palette (two additional primitive-token warnings; removing
+the card radius drops one, leaving 16 warnings total and no validation errors).
+
+Prompts crossfade in a shared grid cell, preserving the tallest example's height.
+The composer itself toggles pause with click/tap or Enter/Space; Escape pauses.
+No playback controls are shown. Its accessible description follows the active
+prompt; reduced motion starts paused and hidden tabs/disconnect stop timers.
+
+The inline eddie-brain introduction and concise bfw-process copy reduce overhead.
+Page template metadata was verified in Eddie's component index builder and MCP
+server: `components.json` contains `ed-p-*` entries, discovered by `list_pages` and
+read with `get_component`; `recipes.json` contains composition recipes. DESIGN.md
+is described as an option, outside Brad's setup example.
+
+P4.1: 17 tests pass, production build succeeds, template/JS validate without issues,
+CSS has zero errors and 16 documented visual-treatment warnings. Independent Spec
+and Standards reviews passed after fixing gradient token roles and prompt pause
+accessibility. Browser checks on 8081 confirm global description toggling, keyboard
+activation, package expansion/collapse, 32px human icons, neutral Steel code,
+constant 72px prompt region across all three examples, no page overflow at 1280px,
+and no console errors. No new narrow-viewport or no-JS browser run was performed;
+existing responsive rules and unenhanced prompt content remain intact.
+
+P4.2–P4.3: local workshop preview only; ship gate, PR, merge and deployment are not
+part of this request. P5.1: this record supersedes the earlier settings/controls and
+human-header descriptions. Original demo source and authored source data remain
+unchanged; the shared Eddie dependency upgrade applies site-wide as requested.

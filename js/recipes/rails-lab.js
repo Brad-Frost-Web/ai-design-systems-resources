@@ -1,9 +1,9 @@
 import "@brad-frost-web/eddie-web-components/components/band/band.js";
 import "@brad-frost-web/eddie-web-components/components/layout-section/layout-section.js";
 import "@brad-frost-web/eddie-web-components/components/icon/icon.js";
-import "@brad-frost-web/eddie-web-components/components/toggle/toggle.js";
+import "@brad-frost-web/eddie-web-components/components/accordion/accordion.js";
+import "@brad-frost-web/eddie-web-components/components/accordion-panel/accordion-panel.js";
 import "@brad-frost-web/eddie-web-components/components/cluster/cluster.js";
-import "@brad-frost-web/eddie-web-components/components/button-group/button-group.js";
 import { clampRung, rungFromSearch, pieceState, isShown, rungForKey } from "./rails-stage-state.mjs";
 
 /** Product-local teaching diagram; all application chrome is Eddie. */
@@ -22,24 +22,16 @@ class RailsLab extends HTMLElement {
 		const on = (target, event, handler) => target.addEventListener(event, handler, { signal: this.abort.signal });
 		this.all = selector => [...this.querySelectorAll(selector)];
 		this.one = selector => this.querySelector(selector);
-		this.all("[data-controls], [data-present], [data-settings-button]").forEach(el => el.hidden = false);
+		this.all("[data-controls]").forEach(el => el.hidden = false);
 		this.lastRung = Number(this.one("[data-range]").max);
 		this.readURL();
 		this.setupPrompts(on);
 		on(this.one("[data-range]"), "input", e => this.setRung(e.target.value));
 		this.all("[data-step]").forEach(el => on(el, "click", () => this.setRung(el.dataset.step)));
-		on(this.one("[data-settings-button]"), "click", () => {
-			const panel = this.one("[data-settings]");
-			panel.hidden = !panel.hidden;
-			this.one("[data-settings-button]").setAttribute("aria-expanded", String(!panel.hidden));
-		});
-		for (const name of ["descriptions"]) {
-			on(this.one(`[data-${name}]`), "change", e => {
-				this[name] = e.currentTarget.checked;
-				this.render(); this.writeURL();
-			});
-		}
-		on(this.one("[data-present]"), "click", () => { this.present = !this.present; this.render(); this.writeURL(); });
+		this.all("[data-concept-toggle]").forEach(button => on(button, "click", () => {
+			this.descriptions = !this.descriptions;
+			this.render(); this.writeURL();
+		}));
 		this.all("[data-station]").forEach(button => {
 			on(button, "click", () => {
 				this.selected = this.selected === button.dataset.station ? null : button.dataset.station;
@@ -48,9 +40,9 @@ class RailsLab extends HTMLElement {
 		});
 		on(window, "popstate", () => this.readURL());
 		on(document, "keydown", e => {
-			if (e.key === "Escape") { this.present = false; this.render(); this.writeURL(); return; }
+			if (e.key === "Escape") { this.promptPaused = true; this.renderPrompt(); return; }
 			if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
-			if (e.composedPath().some(el => el instanceof Element && el.matches("input,select,textarea,[contenteditable=true],ed-toggle,[data-pipeline-scroll]"))) return;
+			if (e.composedPath().some(el => el instanceof Element && el.matches("input,select,textarea,[contenteditable=true],[data-pipeline-scroll]"))) return;
 			const next = rungForKey(/^[1-7]$/.test(e.key) ? String(Number(e.key) - 1) : e.key, this.rung, this.lastRung);
 			if (next !== null) { e.preventDefault(); this.setRung(next); }
 		});
@@ -61,9 +53,13 @@ class RailsLab extends HTMLElement {
 		this.promptIndex = 0;
 		this.promptMotion = matchMedia("(prefers-reduced-motion: reduce)");
 		this.promptPaused = this.promptMotion.matches;
-		on(this.one("[data-prompt-motion]"), "change", e => {
-			this.promptPaused = !e.currentTarget.checked;
-			this.renderPrompt();
+		this.composer = this.one(".ed-r-rails-lab__composer");
+		this.composer.setAttribute("role", "button");
+		this.composer.setAttribute("tabindex", "0");
+		const toggle = () => { this.promptPaused = !this.promptPaused; this.renderPrompt(); };
+		on(this.composer, "click", toggle);
+		on(this.composer, "keydown", e => {
+			if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
 		});
 		on(this.promptMotion, "change", () => {
 			if (this.promptMotion.matches) this.promptPaused = true;
@@ -78,8 +74,14 @@ class RailsLab extends HTMLElement {
 	}
 	renderPrompt() {
 		clearTimeout(this.promptTimer);
-		this.prompts.forEach((prompt, index) => prompt.hidden = index !== this.promptIndex);
-		this.one("[data-prompt-motion]").checked = !this.promptPaused;
+		this.composer.setAttribute("aria-label", this.promptPaused ? "Resume prompt examples" : "Pause prompt examples");
+		this.composer.setAttribute("aria-describedby", `lab-prompt-${this.promptIndex} lab-motion-help`);
+		this.composer.setAttribute("title", this.promptPaused ? "Resume prompt examples" : "Pause prompt examples");
+		this.one("[data-prompt-examples]").setAttribute("data-enhanced", "");
+		this.prompts.forEach((prompt, index) => {
+			prompt.toggleAttribute("data-active", index === this.promptIndex);
+			prompt.setAttribute("aria-hidden", String(index !== this.promptIndex));
+		});
 		if (!this.promptPaused && !document.hidden && this.isConnected) {
 			this.promptTimer = setTimeout(() => this.advancePrompt(), 4500);
 		}
@@ -88,7 +90,7 @@ class RailsLab extends HTMLElement {
 	readURL() {
 		const params = new URLSearchParams(location.search);
 		this.rung = rungFromSearch(location.search, this.lastRung);
-		for (const key of ["descriptions", "present"]) this[key] = params.get(key) === "1";
+		this.descriptions = params.get("descriptions") === "1";
 		this.selected = null;
 		this.render();
 		this.writeURL();
@@ -96,8 +98,9 @@ class RailsLab extends HTMLElement {
 	writeURL() {
 		const url = new URL(location.href);
 		url.searchParams.delete("future");
+		url.searchParams.delete("present");
 		url.searchParams.set("rung", this.rung);
-		for (const key of ["descriptions", "present"]) {
+		for (const key of ["descriptions"]) {
 			if (this[key]) url.searchParams.set(key, "1"); else url.searchParams.delete(key);
 		}
 		history.replaceState(null, "", url);
@@ -105,12 +108,8 @@ class RailsLab extends HTMLElement {
 	setRung(value) { this.rung = clampRung(value, this.lastRung); this.selected = null; this.render(); this.writeURL(); }
 	render() {
 		this.dataset.rung = this.rung;
-		this.toggleAttribute("data-presenting", this.present);
-		this.one("[data-present]").setAttribute("text", this.present ? "Exit presentation" : "Present");
-		this.one("[data-present]").setAttribute("aria-pressed", String(this.present));
 		const range = this.one("[data-range]");
 		range.value = this.rung;
-		range.style.setProperty("--ed-rails-progress", `${this.rung / this.lastRung * 100}%`);
 		const step = this.one(`[data-step="${this.rung}"]`);
 		range.setAttribute("aria-valuetext", `Level ${this.rung + 1} of ${this.lastRung + 1}: ${step.dataset.title}`);
 		this.all("[data-step]").forEach(el => {
@@ -125,7 +124,7 @@ class RailsLab extends HTMLElement {
 			el.querySelectorAll("button").forEach(button => button.disabled = state === "future");
 		});
 		this.all("[data-description]").forEach(el => el.hidden = !this.descriptions);
-		for (const key of ["descriptions"]) this.one(`[data-${key}]`).checked = this[key];
+		this.all("[data-concept-toggle]").forEach(button => button.setAttribute("aria-expanded", String(this.descriptions)));
 		this.all("[data-piece-group]").forEach(group => {
 			group.hidden = ![...group.querySelectorAll("[data-piece]")].some(piece => !piece.hidden);
 		});

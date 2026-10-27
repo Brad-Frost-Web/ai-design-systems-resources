@@ -119,11 +119,12 @@ async function promptHarness(reducedMotion = false) {
 	class Node extends EventTarget {
 		attrs = new Map();
 		setAttribute(name, value) { this.attrs.set(name, value); }
+		toggleAttribute(name, value) { if (value) this.attrs.set(name, ""); else this.attrs.delete(name); }
 	}
 	const document = new Node();
 	const media = new Node();
 	media.matches = reducedMotion;
-	const nodes = Object.fromEntries(["[data-prompt-motion]"].map(key => [key, new Node()]));
+	const nodes = Object.fromEntries(["[data-prompt-examples]", ".ed-r-rails-lab__composer"].map(key => [key, new Node()]));
 	const prompts = lab.terminals.entry.prompts.map(textContent => Object.assign(new Node(), { textContent }));
 	runInNewContext(source, {
 		HTMLElement: Node, document, matchMedia: () => media,
@@ -136,23 +137,23 @@ async function promptHarness(reducedMotion = false) {
 	recipe.all = () => prompts;
 	recipe.one = selector => nodes[selector];
 	recipe.setupPrompts((target, event, callback) => target.addEventListener(event, callback));
-	const animate = enabled => { nodes["[data-prompt-motion]"].checked = enabled; nodes["[data-prompt-motion]"].dispatchEvent(new Event("change")); };
 	const tick = () => { const task = [...timers.entries()][0]; if (task) { timers.delete(task[0]); task[1](); } };
-	const visible = () => prompts.filter(prompt => !prompt.hidden).map(prompt => prompt.textContent);
-	return { recipe, nodes, document, media, timers, animate, tick, visible };
+	const visible = () => prompts.filter(prompt => prompt.attrs.has("data-active")).map(prompt => prompt.textContent);
+	return { recipe, nodes, document, media, timers, tick, visible };
 }
 
-test("ambient prompts cycle verbatim, honor the settings switch, and stop on disconnect", async () => {
+test("ambient prompts cycle without removing layout boxes and stop on disconnect", async () => {
 	const h = await promptHarness();
 	for (let index = 0; index < 4; index++) {
 		assert.deepEqual(h.visible(), [lab.terminals.entry.prompts[index % 3]]);
 		assert.equal(h.timers.size, 1);
 		h.tick();
 	}
-	h.animate(false);
+	assert.ok(h.recipe.prompts.every(prompt => prompt.hidden !== true));
+	h.nodes[".ed-r-rails-lab__composer"].dispatchEvent(new Event("click"));
 	assert.equal(h.timers.size, 0);
-	const paused = h.visible(); h.tick(); assert.deepEqual(h.visible(), paused);
-	h.animate(true);
+	assert.equal(h.recipe.composer.attrs.get("aria-label"), "Resume prompt examples");
+	h.nodes[".ed-r-rails-lab__composer"].dispatchEvent(new Event("click"));
 	assert.equal(h.timers.size, 1);
 	h.document.hidden = true; h.document.dispatchEvent(new Event("visibilitychange"));
 	assert.equal(h.timers.size, 0);
@@ -166,9 +167,16 @@ test("ambient prompts start still for reduced motion and respond to preference c
 	const h = await promptHarness(true);
 	assert.equal(h.timers.size, 0);
 	assert.deepEqual(h.visible(), [lab.terminals.entry.prompts[0]]);
-	h.animate(true); // Explicit settings choice may override the initial preference.
-	assert.equal(h.timers.size, 1);
+	h.media.matches = false;
 	h.media.dispatchEvent(new Event("change"));
-	assert.equal(h.timers.size, 0);
-	assert.equal(h.nodes["[data-prompt-motion]"].checked, false);
+	assert.equal(h.timers.size, 0); // Motion preference never silently restarts a paused lesson.
+});
+
+test("workshop copy clarifies page templates and distinguishes DESIGN.md from Brad's setup", () => {
+	const rules = lab.concepts.find(concept => concept.id === "cfg-project");
+	assert.equal(rules.presentationLabel, "Rule files");
+	assert.match(rules.presentationDescription, /DESIGN\.md/);
+	assert.doesNotMatch(rules.example, /DESIGN\.md/);
+	assert.match(lab.files.find(file => file.id === "brain-components").presentationDescription, /page templates/);
+	assert.ok(lab.process.presentationDescription.length < lab.process.description.length);
 });

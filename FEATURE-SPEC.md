@@ -5,8 +5,11 @@ branch: feature/33-rails-visual-sibling
 owners:
   - Brad Frost
   - Ian Frost
-last_updated: 2026-10-25
+last_updated: 2026-10-28
 amendments:
+  - date: 2026-10-28
+    author: Brad Frost
+    summary: Workshop punch list approved in chat. Upgrade Eddie to latest published release; remove masthead, settings, endpoint labels and footer; concept titles toggle all descriptions; gradient spectrum; square cards; consistent human badges and right-aligned icons; stable fading prompts; simplify rule-file, Brain and process copy; collapse packages by default; clarify page templates in components.json; neutral inline code on Steel Curtain. Keep original demo source intact and preview on 8081.
   - date: 2026-10-25
     author: Brad Frost
     summary: Use the course robot for the automated Validate card, retaining its validation classification and authored copy.

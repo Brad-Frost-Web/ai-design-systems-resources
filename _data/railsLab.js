@@ -20,6 +20,10 @@ const concepts = base.groups[0].pieces.map((piece, i) => {
 	const source = originalItem(piece.id);
 	return { ...piece, rungIn: conceptLevels[i], icon: conceptIcons[i], description: content(source, "cfg__meta"), example: content(source, "cfg__mine") };
 });
+// Workshop wording: DESIGN.md is a possible prose format, not Brad's setup.
+const ruleFiles = concepts.find(concept => concept.id === "cfg-project");
+ruleFiles.presentationLabel = "Rule files";
+ruleFiles.presentationDescription = `${ruleFiles.description} Design guidance can also live in a <code>DESIGN.md</code> file.`;
 const stations = [
 	{ id: "s1", icon: "search", in: 2, kind: "ai", uses: "cfg-standing cfg-project cfg-mcp pkg-brain" },
 	{ id: "s2", icon: "file-text", in: 1, kind: "ai", uses: "cfg-standing cfg-project cfg-process" },
@@ -68,6 +72,8 @@ const packages = [...original.matchAll(/<li class="pkg" data-id="([^"]+)"/g)].ma
 const files = base.groups[2].pieces.filter(piece => piece.kind === "file").map(piece => ({
 	...piece, rungIn: piece.rungIn === 10 ? 6 : 2, label: content(originalItem(piece.id), "file__name"), description: content(originalItem(piece.id), "file__meta"),
 }));
+// Page templates share the component index; recipes.json describes compositions.
+files.find(file => file.id === "brain-components").presentationDescription = "Components, recipe components, and page templates (ed-p-*), with their real props, slots, and guidelines. Page templates are discovered with list_pages and read with get_component.";
 const brainHeading = authoredField(original, "pkgs-head brain-head");
 const packagesHeading = authoredField(original, "pkgs-head");
 const eddie = {
@@ -80,6 +86,7 @@ const process = {
 	phases: authoredField(original, "proc__phases"),
 	chips: [...authoredField(original, "proc__chips").matchAll(/<li>([\s\S]*?)<\/li>/g)].map(match => match[1]),
 };
+process.presentationDescription = "<strong>A versioned rulebook installed in the repo.</strong> It defines the workflow, Eddie standards, and required checks. <strong>People approve the specification and the release;</strong> automated gates verify the work between them.";
 // Levels describe infrastructure, not chronological steps in a single run.
 const rungs = [
 	{ short: "Prompted", title: "Prompted", adds: "A human’s request and the model’s existing knowledge.",
