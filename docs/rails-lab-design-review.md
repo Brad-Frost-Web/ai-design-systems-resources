@@ -261,3 +261,13 @@ report no findings; template and JS validate with zero issues. Browser checked
 all seven review states, visible Consult graph highlights, and the complete
 Shipped UI card. No console errors. P5.1: original source and original demo intact;
 local preview only, no ship gate or deployment requested.
+
+### Spectrum yellow midpoint — 2026-10-28
+
+P3.3: user-directed refinement holds Eddie yellow-300 from 33.333% to 66.667%
+(steps 3–5), transitioning from red and into green at the endpoints. A default
+border-token outline maintains the track's non-text contrast. Both native browser
+track selectors match. This illustrative hue adds four primitive-token warnings;
+20 total, zero errors. P4.1: build and browser visual check pass; independent Spec
+and Standards reviews clear. CSS-only change; no new tests needed. P5.1: recorded
+here, local preview only.
