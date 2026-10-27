@@ -1,8 +1,8 @@
 ---
 title: "An AI-assisted workflow: go, check, ship, wrap"
-url: https://lnkd.in/p/eHVNM2y3
-created: 2026-10-09T16:25:18.952Z
-source: slack
+url: "https://lnkd.in/p/eHVNM2y3"
+created: "2026-10-09T16:25:18.952Z"
+source: "slack"
 slackSummary: "Someone asked me about my thinking process. So I explained it, in
   detail. 🧠 What they actually wanted to see was what I type to Claude.
   Honestly? Mostly one word. 🫠 go. check. ship. wrap. That only works because

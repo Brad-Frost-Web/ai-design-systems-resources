@@ -1,8 +1,8 @@
 ---
-title: Component contract editor — Javier Cuello
-url: https://www.linkedin.com/feed/update/urn:li:activity:7520506654413512705
-created: 2026-10-27T15:57:27.031Z
-source: slack
+title: "Component contract editor — Javier Cuello"
+url: "https://www.linkedin.com/feed/update/urn:li:activity:7520506654413512705"
+created: "2026-10-27T15:57:27.031Z"
+source: "slack"
 slackSummary: "I'm building a component contract editor: design a fully-specced
   component outside Figma, save it as agnostic JSON, push it to Figma and code.
   How it works: ❖ Set its props: text, on/off, options, swaps, slots. ❖ It knows

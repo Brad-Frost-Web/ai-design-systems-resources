@@ -1,9 +1,9 @@
 ---
-title: Design Systems, AI, and Unruly Dogs with Martha Stewart | TJ Pitre posted
-  on the topic | LinkedIn
-url: https://lnkd.in/p/eRpSwcPC
-created: 2026-10-13T03:29:14.671Z
-source: slack
+title: "Design Systems, AI, and Unruly Dogs with Martha Stewart | TJ Pitre
+  posted on the topic | LinkedIn"
+url: "https://lnkd.in/p/eRpSwcPC"
+created: "2026-10-13T03:29:14.671Z"
+source: "slack"
 slackSummary: "What do Martha Stewart, AI hallucinations, and a bunch of unruly
   dogs have in common? Apparently, design systems. 😂 I had the absolute
   pleasure of joining Chris Coyier and Dave Rupert on ShopTalk Show for 70

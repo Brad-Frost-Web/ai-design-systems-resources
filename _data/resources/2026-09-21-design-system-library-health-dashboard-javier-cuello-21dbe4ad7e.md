@@ -1,8 +1,8 @@
 ---
-title: Design system library health dashboard — Javier Cuello
-url: https://lnkd.in/p/e9PDt4wS
-created: 2026-09-21T14:52:56.389Z
-source: slack
+title: "Design system library health dashboard — Javier Cuello"
+url: "https://lnkd.in/p/e9PDt4wS"
+created: "2026-09-21T14:52:56.389Z"
+source: "slack"
 slackSummary: "I built a dashboard that helps me see where a library stands,
   even before I open Figma. My design systems library audits escalated quickly.
   From running one-off plugins to skills, and from terminal outputs to md files,
