@@ -87,3 +87,13 @@ Acceptance checks:
 - Website coverage matches a completed receipt; publication progress is reported separately.
 
 **Current status:** investigation complete; replacement, private-channel backfill, scheduler changes, and production deployment have not been performed.
+
+## Backfill implementation update — October 27, 2026
+
+Brad approved an owned bf-brain importer and private-channel reads. The replacement is implemented in [bf-brain PR #1709](https://github.com/Brad-Frost-Web/bf-brain/pull/1709); the public resource records are isolated in [resources PR #49](https://github.com/Brad-Frost-Web/ai-design-systems-resources/pull/49). The earlier status above describes the investigation checkpoint, not this later work.
+
+The model-free collector completed four history pages (767 parents), 84 reply pages/threads, and 517 messages between August 30 and the fixed October 27 17:50:37 UTC cutoff. Its 149 link occurrences normalized to 133 URLs; reconciliation found 32 existing records or lessons, 34 other exclusions, and **67 accepted missing resources: 36 September and 31 October**. No pending candidate remains from this backfill. New records contain public page metadata and shared dates, not private conversation summaries or author identities.
+
+The existing design checkout now contains 398 resources. The browser's on-device query “What's new this month?” reports **32 October matches**, including the previously present October record, with zero server round trips. The timeline currently displays the newest 12; the match count covers the full month. All 17 resource-site tests passed and the build succeeded. The design branch itself was not merged or promoted.
+
+PR #49 passed its ship gate and deploy preview. Production merge is still awaiting the repository's required one approving review. No administrator bypass was used. The owned importer has passed the primary bf-brain ship gate and real direct-API delivery tests; its scheduled activation and retirement of the Cowork task are tracked in the bf-brain PR/runbook.
