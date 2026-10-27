@@ -179,6 +179,8 @@ are synced — transcripts stay in Notion.
 
 Resources flow in two ways:
 
+**Slack ingestion incident (October 27):** The former importer was a Claude Cowork scheduled task whose last recorded run was September 2. GitHub authentication and an interactive fallback approval prevented its final runs from publishing. It was not registered in bf-brain. See the [investigation and proposed owned replacement](docs/research/2026-10-resource-ingestion.md). Slack backfill and the replacement worker are not yet running.
+
 **Notion sync** — `npm run sync:pull` reads the Notion resources database and writes/updates markdown files in `_data/resources/`. The GitHub Actions workflow is scheduled every six hours and opens a rolling sync PR for review. It does not ingest Slack. Source-marked local records are preserved. `npm run sync` is the separate two-way command and can write local records back to Notion; it is not used by the scheduled workflow on this design branch.
 
 **Manual** — Add a `.md` file directly to `_data/resources/`. Frontmatter shape:
