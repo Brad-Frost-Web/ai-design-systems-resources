@@ -303,7 +303,7 @@ export class EdRCConcierge extends LitElement {
 						</div>
 						<div slot="right">${this._switch("engine-brain", "Consult eddie-brain live", this._useBrain, this._engine !== "claude")}</div>
 					</ed-toolbar>
-					${this._freshness ? html`<ed-text-passage size="sm"><p>Resources checked: ${this._freshness.checkedAt?.slice(0,10) || "not recorded"}. Latest resource added: ${this._freshness.newestResource?.slice(0,10) || "unknown"}. Searches use this collection, not the live web.</p></ed-text-passage>` : ""}
+					${this._freshness ? html`<ed-text-passage size="sm"><p>Notion checked: ${this._freshness.checkedAt?.slice(0,10) || "not recorded"}. Slack coverage: ${this._freshness.slack?.checkedAt ? `${this._freshness.slack.from} through ${this._freshness.slack.through} (checked ${this._freshness.slack.checkedAt.slice(0,10)})` : "not verified"}. Latest Slack resource: ${this._freshness.slack?.newestResource?.slice(0,10) || "unknown"}. Searches use this collection, not the live web.</p></ed-text-passage>` : ""}
 				</ed-show-hide>
 			</div>
 

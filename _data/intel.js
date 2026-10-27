@@ -79,10 +79,13 @@ module.exports = function () {
 
 	const syncPath = path.join(__dirname, "resourceSync.json");
 	const sync = fs.existsSync(syncPath) ? JSON.parse(fs.readFileSync(syncPath, "utf8")) : {};
+	const slackSyncPath = path.join(__dirname, "slackSync.json");
+	const slackSync = fs.existsSync(slackSyncPath) ? JSON.parse(fs.readFileSync(slackSyncPath, "utf8")) : {};
 	const revision = createHash("sha256").update(JSON.stringify({allResources,terms,allLessons,catalog})).digest("hex").slice(0,16);
 	return {
 		revision,
-		freshness: {...sync, newestResource:allResources.map(r=>r.created).filter(Boolean).sort().at(-1) || null},
+		freshness: {...sync, newestResource:allResources.map(r=>r.created).filter(Boolean).sort().at(-1) || null,
+			slack: {...slackSync, newestResource:allResources.filter(r=>r.source === "slack").map(r=>r.created).filter(Boolean).sort().at(-1) || null}},
 		generated: new Date().toISOString(),
 		counts: {
 			resources: allResources.length,

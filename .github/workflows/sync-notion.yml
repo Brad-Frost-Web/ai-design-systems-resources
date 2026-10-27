@@ -1,5 +1,11 @@
 name: Sync Notion Database
 
+# Serialize the source read as well as the push: a slower older run must not
+# replace a newer snapshot after obtaining a fresh lease on the rolling branch.
+concurrency:
+  group: notion-resource-sync
+  cancel-in-progress: false
+
 on:
   # Run on a schedule (every 6 hours)
   schedule:
@@ -34,7 +40,7 @@ jobs:
         run: npm ci
 
       - name: Sync from Notion
-        run: npm run sync
+        run: npm run sync:pull
         env:
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
@@ -50,16 +56,23 @@ jobs:
           # Instead, push the sync to a rolling branch and open/update a PR.
 
           # Nothing changed? Then there's nothing to sync — exit cleanly.
-          if [ -z "$(git status --porcelain -- _data/resources/)" ]; then
+          if [ -z "$(git status --porcelain -- _data/resources/ _data/resourceSync.json)" ]; then
             echo "No Notion changes to sync."
             exit 0
           fi
 
           BRANCH="automated/notion-sync"
+          # Checkout only fetches main. Read the rolling branch before taking
+          # its lease; otherwise every push after the first rejects stale info.
+          EXPECTED=""
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null; then
+            git fetch origin "refs/heads/$BRANCH"
+            EXPECTED=$(git rev-parse FETCH_HEAD)
+          fi
           git checkout -B "$BRANCH"
-          git add -A _data/resources/
+          git add -A _data/resources/ _data/resourceSync.json
           git commit -m "Sync resources from Notion [automated]"
-          git push --force-with-lease origin "$BRANCH"
+          git push --force-with-lease="refs/heads/$BRANCH:$EXPECTED" origin "HEAD:refs/heads/$BRANCH"
 
           # Open a PR only if one isn't already open for this branch;
           # otherwise the force-push above has already updated the existing PR.
