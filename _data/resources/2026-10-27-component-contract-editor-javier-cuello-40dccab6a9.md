@@ -1,15 +1,12 @@
 ---
-title: "Component contract editor — Javier Cuello"
-url: "https://www.linkedin.com/feed/update/urn:li:activity:7520506654413512705"
-created: "2026-10-27T15:57:27.031Z"
-source: "slack"
-slackSummary: "I'm building a component contract editor: design a fully-specced
-  component outside Figma, save it as agnostic JSON, push it to Figma and code.
-  How it works: ❖ Set its props: text, on/off, options, swaps, slots. ❖ It knows
-  your library: it suggests props, names and conventions you already use. ❖ Lay
-  out its anatomy: every part, its layout and tokens, straight from the library.
-  ❖ Edit each variant on a stage that works like Figma's instance panel. ❖ It
-  saves as one JSON contract, in words no platform owns. Then: ❖ To Figma: a
-  bridge plugin draws it as a real component set, variants and propertie"
-tags: []
+"title": "Component Contract Editor — Javier Cuello"
+"url": "https://www.linkedin.com/feed/update/urn:li:activity:7520506654413512705"
+"created": "2026-10-27T15:57:27.031Z"
+"source": "slack"
+"slackSummary": "An experimental visual editor for describing a component as platform-independent JSON, then sending it to Figma and code and checking both against the contract. Shared as work in progress, it explores how a common specification could connect component properties, anatomy, variants, and implementation."
+"tags":
+  - "components|green"
+  - "figma|brown"
+  - "tools|teal"
+"slackMessageUrl": "https://bradfrost.slack.com/archives/C09TMK7DS7J/p1793116647031129"
 ---

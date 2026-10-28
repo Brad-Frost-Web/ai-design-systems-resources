@@ -1,16 +1,11 @@
 ---
-title: "An AI-assisted workflow: go, check, ship, wrap"
-url: "https://lnkd.in/p/eHVNM2y3"
-created: "2026-10-09T16:25:18.952Z"
-source: "slack"
-slackSummary: "Someone asked me about my thinking process. So I explained it, in
-  detail. 🧠 What they actually wanted to see was what I type to Claude.
-  Honestly? Mostly one word. 🫠 go. check. ship. wrap. That only works because
-  the long part is already written. ✍️ Every rule I kept repeating is now a
-  skill: lock the concept before building, check the page at every width, hand
-  off cleanly at the end of the day. And the work is split across a small team
-  of agents, each with a name and a job. 👯 Here's how it runs: → ⌨️ For the
-  routine, I type one word. → ✍️ When something's wrong, I write it out
-  properly. Tha"
-tags: []
+"title": "An AI-Assisted Workflow — Go, Check, Ship, Wrap"
+"url": "https://lnkd.in/p/eHVNM2y3"
+"created": "2026-10-09T16:25:18.952Z"
+"source": "slack"
+"slackSummary": "A walkthrough of an AI-assisted workflow where short commands trigger skills containing the detailed rules. The example separates routine actions from deliberate corrections and uses distinct agent roles, illustrating how written procedures can make repeated work more consistent without restating every instruction each time."
+"tags":
+  - "workflow|default"
+  - "ai-coding|pink"
+"slackMessageUrl": "https://bradfrost.slack.com/archives/C09TMK7DS7J/p1791563118952459?thread_ts=1791563118.952459&cid=C09TMK7DS7J"
 ---

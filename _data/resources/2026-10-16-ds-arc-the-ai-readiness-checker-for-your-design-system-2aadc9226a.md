@@ -1,11 +1,12 @@
 ---
-title: "DS ARC — the AI readiness checker for your design system"
-url: "https://zeroheight.com/arc"
-created: "2026-10-16T15:55:51.504Z"
-source: "slack"
-slackSummary: "Your documentation was written for humans. Here's what happens
-  when an AI reads it: DS ARC scores your design system docs against the DSDS
-  and runs eight real agent jobs against them, then shows you the transcripts
-  where the agent got them wrong — with fixes. Free, by zeroheight."
-tags: []
+"title": "DS ARC — Design System Agent Readiness Checker"
+"url": "https://zeroheight.com/arc"
+"created": "2026-10-16T15:55:51.504Z"
+"source": "slack"
+"slackSummary": "zeroheight’s DS ARC checks published design-system documentation against a machine-readability rubric and runs agents through practical tasks. It presents transcripts and suggestions alongside the assessment, helping teams inspect where their documentation supports an agent and where it leaves room for incorrect assumptions."
+"tags":
+  - "assessment|yellow"
+  - "documentation|green"
+  - "zeroheight|brown"
+"slackMessageUrl": "https://bradfrost.slack.com/archives/C09TMK7DS7J/p1792166151504709?thread_ts=1792166151.504709&cid=C09TMK7DS7J"
 ---
