@@ -149,7 +149,7 @@ Publishing is the **owner's** step, always — the one irreversible outward acti
 | Step | Who does it | Why not automated |
 |---|---|---|
 | Merging the release PR into `main` | **A human** | On the automated model that merge is the publish — the irreversible outward action. An agent prepares and stops. |
-| `BFW_OWNER_OVERRIDE=1` | **A BFW co-owner, on explicit instruction** | Bypassing the ship gate is non-delegable human authority (§7). An agent never runs it, in any phase, for any reason. |
+| `BFW_OWNER_OVERRIDE=1` | **A config-listed owner, on explicit instruction** | Bypassing the ship gate is non-delegable human authority (§7). An agent never runs it, in any phase, for any reason. |
 | `npm publish` on the manual model | **The owner** | Same reason: publishing is outward and irreversible. |
 | Reconciling the CHANGELOG against merged PRs | A human or agent, by hand (Phase 0) | The changelog gates assert a heading, not completeness, and they exempt release branches (#203). |
 | Closing the shipped issues | A human or agent, by hand | Gitflow merges into `develop` never fire closing keywords (§9.6). Nothing closes them for you. |

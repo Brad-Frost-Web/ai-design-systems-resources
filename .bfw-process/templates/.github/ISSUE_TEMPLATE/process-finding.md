@@ -8,6 +8,10 @@ assignees: ''
 
 _**Public repo? File the sanitised version (§9.1a).** Credentials, NDA'd client names, money, personal data and blame by name stay out — name the pattern, and keep the specifics in the private channel that owns them._
 
+## What I'm trying to do
+
+_What were you trying to get done when you hit this? One first-person sentence: it is quoted as the goal of every PR that fixes this issue._
+
 ## What's wrong
 
 _Plain-English description of the violation. One sentence, if possible._

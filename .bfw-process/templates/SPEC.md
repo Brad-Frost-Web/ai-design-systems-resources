@@ -2,7 +2,6 @@
 status: draft
 owners:
   - Brad Frost
-  - Ian Frost
 last_updated: YYYY-MM-DD
 amendments: []
 ---

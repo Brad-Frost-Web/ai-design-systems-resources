@@ -6,6 +6,10 @@ labels: recipe-request
 assignees: ''
 ---
 
+## What I'm trying to do
+
+_What are you trying to build? One first-person sentence: it is quoted as the goal of every PR that fixes this issue._
+
 ## What pattern is needed
 
 _Describe the UI pattern that doesn't exist in Eddie yet. Include a screenshot or sketch if helpful._
