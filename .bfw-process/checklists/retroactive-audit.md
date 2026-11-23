@@ -4,7 +4,7 @@ When adopting `bfw-process` into an existing project, use this checklist to syst
 
 ## Before you start
 
-- [ ] Read `AGENTS.md` in full — you're auditing against these rules
+- [ ] Run `bfw-process rules --all` and read it — you're auditing against these rules
 - [ ] Create BFW labels in the repo (`bfw-process init` does this, or run the `gh label create` commands from `checklists/labels.md`)
 - [ ] Have `eddie-brain` MCP server connected if the project touches Eddie
 

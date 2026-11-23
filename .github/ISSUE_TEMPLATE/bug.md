@@ -6,6 +6,10 @@ labels: bug
 assignees: ''
 ---
 
+## What I'm trying to do
+
+_What were you trying to get done when this broke? One first-person sentence: it is quoted as the goal of every PR that fixes this issue._
+
 ## What happened
 
 _Describe the bug. What did you do? What did you expect to happen? What actually happened?_

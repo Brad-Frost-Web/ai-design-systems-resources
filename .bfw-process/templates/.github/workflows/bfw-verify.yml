@@ -36,7 +36,13 @@ concurrency:
 
 jobs:
   ship-gate:
-    runs-on: ubuntu-latest
+    # Pinned, not ubuntu-latest (eddie-design-system#2675). When ubuntu-latest
+    # began rolling to 26.04 in November 2026, `playwright install --with-deps`
+    # refused it ("Playwright does not support chromium on ubuntu26.04-x64"),
+    # so every consumer whose `bfw:ci:setup` installs a browser went red
+    # before a test ran. Move this pin forward on purpose, once the Playwright
+    # versions consumers resolve support the newer image.
+    runs-on: ubuntu-24.04
     # A wedged browser-mode suite otherwise runs to the Actions 6-hour default
     # (#196; first live occurrence eddie-design-system#1677 burned 2h before a
     # human cancelled it — and eddie's July 2026 precedent was seven 6-hour

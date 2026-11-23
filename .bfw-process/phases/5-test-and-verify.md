@@ -32,7 +32,7 @@ This script (added by `bfw-process init`) runs `bfw-process verify-phase ship` v
 
 ## Owner bypass
 
-A co-owner (someone in `owners[]` in `.bfw-process/config.json`) can bypass the gate in emergencies:
+A config-listed owner (someone in `owners[]` in `.bfw-process/config.json`) can bypass the gate in emergencies:
 
 ```bash
 BFW_OWNER_OVERRIDE=1 npm run bfw:ship

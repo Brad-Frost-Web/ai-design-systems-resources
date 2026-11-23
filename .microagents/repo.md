@@ -6,7 +6,7 @@ agent: CodeActAgent
 
 # BFW Repo Microagent (Always-On)
 
-You are working in a Brad Frost Web project. This microagent loads on every agent session in this repo. The authoritative source for all rules is `AGENTS.md` at the repo root — read it in full on your first turn. This file summarizes the must-know rules so they're in context immediately.
+You are working in a Brad Frost Web project. This microagent loads on every agent session in this repo. The rules start at `AGENTS.md` at the repo root, a short page that names each topic of the rulebook; read it on your first turn, then pull a topic with `bfw-process rules <topic>` before the work that needs it. This file summarizes the must-know rules so they're in context immediately.
 
 ## Cold start: pull the rules if they weren't pushed to you
 
@@ -14,8 +14,9 @@ If this session did not automatically load `AGENTS.md`, run `bfw-process rules`
 (add `--json` for a machine-readable bundle). It prints mode, branch, lane,
 which gates apply, spec status, the §2 always-on rules, and which guardrails
 actually fail a command versus which are advisory. A harness that can't be
-handed the rules can still fetch them (AGENTS.md §2.16). It does not replace
-reading `AGENTS.md` in full, and nothing verifies that you did.
+handed the rules can still fetch them (`bfw-process rules sessions`, §2.16). It
+does not replace pulling the topics the work reaches, and nothing verifies
+that you did.
 
 ## Non-negotiables (even in Quick mode)
 
@@ -45,7 +46,7 @@ In Full mode, **do not begin implementation** (Phase 3+) until `FEATURE-SPEC.md`
 
 ## The Phase 5 hard gate
 
-Before shipping, run `npm run bfw:ship` (the canonical invocation; it runs `bfw-process verify-phase ship` via the pinned devDependency). If it exits non-zero, do not deploy. Only BFW co-owners (in `.bfw-process/config.json`'s `owners` array) can bypass via `BFW_OWNER_OVERRIDE=1`, and only on explicit human instruction.
+Before shipping, run `npm run bfw:ship` (the canonical invocation; it runs `bfw-process verify-phase ship` via the pinned devDependency). If it exits non-zero, do not deploy. Only config-listed owners (in `.bfw-process/config.json`'s `owners` array) can bypass via `BFW_OWNER_OVERRIDE=1`, and only on explicit human instruction.
 
 **Agents: do not run `BFW_OWNER_OVERRIDE=1` unilaterally.**
 

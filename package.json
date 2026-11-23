@@ -29,7 +29,7 @@
     "sass": "^1.82.0"
   },
   "devDependencies": {
-    "@brad-frost-web/bfw-process": "0.25.0",
+    "@brad-frost-web/bfw-process": "0.26.0",
     "esbuild": "^0.27.0",
     "postcss": "^8.5.6",
     "postcss-cli": "^11.0.1",

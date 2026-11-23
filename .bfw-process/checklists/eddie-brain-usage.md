@@ -1,6 +1,6 @@
 # Eddie Brain Usage Checklist
 
-Quick-reference for the 8 `eddie-brain` MCP tools and when to use each. Full rules in `AGENTS.md` §2.5.
+Quick-reference for the `eddie-brain` MCP tools and when to use each. Full rules: `bfw-process rules eddie-brain` (§2.5).
 
 ## Every session that touches Eddie
 

@@ -4,7 +4,6 @@ issue: NNN
 branch: feature/NNN-slug
 owners:
   - Brad Frost
-  - Ian Frost
 last_updated: YYYY-MM-DD
 amendments: []
 ---

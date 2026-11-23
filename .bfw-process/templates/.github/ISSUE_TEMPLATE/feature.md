@@ -10,7 +10,7 @@ assignees: ''
 
 ## What I'm trying to do
 
-_First-person user goal in plain language. What outcome do you want?_
+_First-person user goal in plain language. What outcome do you want? Agents quote this paragraph as the goal of every PR that fixes this issue, so write it for a reader who sees nothing else._
 
 ## Why it matters
 

@@ -17,7 +17,7 @@ This project follows the BFW Software Creation Process. Mode and owners are defi
 
 - Read `SPEC.md` before making architectural changes.
 - Phase 5 (ship-readiness) is a hard gate: run `npm run bfw:ship` before deploying.
-- Ship-gate bypass is available to BFW co-owners only.
+- Ship-gate bypass is available to config-listed owners only.
 
 ## Getting started
 
