@@ -330,3 +330,20 @@ outlived its beat, fixed in ab05bd5 with the rest of their findings.
 **Not here.** The ship gate (#32), the Eddie 0.72 → 0.80 upgrade, site-wide
 `ed-page` (#38). The missing step-built diagram primitive is dual-filed on
 Brad-Frost-Web/eddie-design-system#2151.
+
+### The lab's real cards, with a camera — 2026-11-25
+
+Brad replaced the `ed-dot` nodes with the lab's existing cards, for their authored
+language and the chat composer. The card macros and the pipeline markup now live in
+`_includes/rails-cards.njk` and `_includes/rails-pipeline.njk`; the lab and the
+presentation render the same cards, and `js/recipes/rails-cards.mjs` holds what both
+do to them (level copy, step numbers, prompt interval). The lab's output is unchanged.
+
+Fifteen cards can't share a 1920px frame at a readable size, so the presentation lays
+them out on a canvas at their real size and a camera frames each beat: the new card
+and the one before it (every new card measured at full 16px text), or, for pill-only
+beats, the new pills. Each flow beat pulls back to the whole system with every
+connection. Reduced motion cuts instead of panning. The composer cycles its prompts
+and pauses on select; a card's own control pins its connections. The dot version's
+density tiers are gone. Independent Standards and Spec reviews ran on the change; their
+findings are fixed in 4532a52.
