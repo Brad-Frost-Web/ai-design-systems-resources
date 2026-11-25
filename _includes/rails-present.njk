@@ -32,8 +32,7 @@
 				{%- for node in lane.nodes %}
 				{%- if lane.id == "pipeline" %}
 				<li class="ed-r-rails-present__node ed-r-rails-present__node--dot ed-r-rails-present__node--{{ node.kind }}" data-present-node="{{ node.id }}" hidden>
-					<span class="ed-r-rails-present__sweep" aria-hidden="true"></span>
-					<ed-dot class="ed-r-rails-present__dot" variant="{{ node.variant }}" size="sm" label="{{ node.label }}">{% if node.kind == "ai" %}<ed-icon name="course-robot" iconUrl="/images/course-robot.svg"></ed-icon>{% else %}<ed-icon name="{{ node.icon }}"></ed-icon>{% endif %}</ed-dot>
+					<span class="ed-r-rails-present__dot-frame"><ed-dot class="ed-r-rails-present__dot" variant="{{ node.variant }}" size="sm" label="{{ node.label }}">{% if node.kind == "ai" %}<ed-icon name="course-robot" iconUrl="/images/course-robot.svg"></ed-icon>{% else %}<ed-icon name="{{ node.icon }}"></ed-icon>{% endif %}</ed-dot><span class="ed-r-rails-present__sweep" aria-hidden="true"></span></span>
 					<span class="ed-r-rails-present__kind">{{ kindLabel[node.kind] }}</span>
 				</li>
 				{%- else %}
@@ -45,7 +44,12 @@
 			</ol>
 		</section>
 		{%- endfor %}
-		<p class="ed-r-rails-present__hint"><ed-kbd>←</ed-kbd> <ed-kbd>→</ed-kbd> step · <ed-kbd>1</ed-kbd>–<ed-kbd>7</ed-kbd> level · <ed-kbd>Esc</ed-kbd> exit</p>
+		<div class="ed-r-rails-present__controls">
+			<p class="ed-r-rails-present__hint"><ed-kbd>←</ed-kbd> <ed-kbd>→</ed-kbd> step · <ed-kbd>1</ed-kbd>–<ed-kbd>7</ed-kbd> level · <ed-kbd>F</ed-kbd> full screen · <ed-kbd>Esc</ed-kbd> exit</p>
+			<ed-button size="sm" variant="bare" iconName="arrow-left" text="Previous step" hideText data-present-prev aria-keyshortcuts="ArrowLeft"></ed-button>
+			<ed-button size="sm" variant="bare" iconName="arrow-right" text="Next step" hideText data-present-next aria-keyshortcuts="ArrowRight"></ed-button>
+			<ed-button size="sm" variant="secondary" iconName="x" text="Exit" data-present-exit aria-keyshortcuts="Escape"></ed-button>
+		</div>
 		<p class="ed-u-visually-hidden" aria-live="polite" data-present-live></p>
 	</aids-rails-present>
 </dialog>

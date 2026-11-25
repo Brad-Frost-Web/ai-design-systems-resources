@@ -8,7 +8,9 @@ import {
 
 const SVG = "http://www.w3.org/2000/svg";
 const reducedMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
-const SEGMENT_MS = 320;
+// The choreography, in multiples of Eddie's --ed-theme-animation-move-long so
+// a theme that retimes motion retimes the whole presentation with it.
+const CHOREOGRAPHY = { segment: 0.8, sweepSpread: 1.5, flowLead: 1.25, highlightHold: 2.25 };
 
 /**
  * aids-rails-present — the Rails lab as a one-frame, step-built diagram (#33).
@@ -54,6 +56,13 @@ class RailsPresent extends HTMLElement {
 		});
 		on(document, "keydown", e => this.onKey(e));
 		on(this.dialog, "close", () => this.onClose());
+		// Pointer and touch get the same moves as the keyboard.
+		on(this, "click", e => {
+			const control = e.target.closest?.("[data-present-prev], [data-present-next], [data-present-exit]");
+			if (!control) return;
+			if (control.matches("[data-present-exit]")) this.dialog.close();
+			else this.go(stepForKey(control.matches("[data-present-next]") ? "ArrowRight" : "ArrowLeft", this.step, this.steps));
+		});
 		on(this, "pointerover", e => this.focusNode(e.target.closest?.("[data-present-node]")));
 		on(this, "pointerout", () => this.focusNode(null));
 
@@ -72,7 +81,6 @@ class RailsPresent extends HTMLElement {
 		const next = stepForKey(e.key, this.step, this.steps);
 		if (next === null) return;
 		e.preventDefault();
-		e.stopImmediatePropagation();
 		this.go(next);
 	}
 
@@ -90,7 +98,7 @@ class RailsPresent extends HTMLElement {
 	}
 
 	onClose() {
-		this.flowToken = null;
+		this.stopFlow();
 		if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
 		const url = new URL(location.href);
 		url.searchParams.delete("present");
@@ -98,7 +106,7 @@ class RailsPresent extends HTMLElement {
 		history.replaceState(null, "", url);
 		// Hand the level back so the lab shows where the talk ended.
 		const lab = document.querySelector("aids-rails-lab");
-		lab?.setRung?.(this.steps[this.step].level);
+		lab?.setRung(this.steps[this.step].level);
 		document.querySelector("[data-present-open]")?.focus();
 	}
 
@@ -112,7 +120,6 @@ class RailsPresent extends HTMLElement {
 		const width = this.offsetWidth || 1;
 		const height = this.offsetHeight || 1;
 		const scale = Math.min(this.dialog.clientWidth / width, this.dialog.clientHeight / height);
-		this.scale = scale;
 		this.style.setProperty("--_scale", String(scale));
 		this.style.setProperty("--_offset-x", `${(this.dialog.clientWidth - width * scale) / 2}px`);
 		this.style.setProperty("--_offset-y", `${(this.dialog.clientHeight - height * scale) / 2}px`);
@@ -125,9 +132,27 @@ class RailsPresent extends HTMLElement {
 		this.render({ arriving: forward });
 	}
 
-	render({ arriving = false } = {}) {
+	/** Stop a pulse mid-run; its marching loops stop with it. */
+	stopFlow() {
 		this.flowToken = null;
 		this.pulse.hidden = true;
+		this.classList.remove("is-flowing");
+	}
+
+	/** A CHOREOGRAPHY timing, in ms, scaled from the theme's motion token. */
+	motion(name) {
+		return this.ms("--ed-theme-animation-move-long") * CHOREOGRAPHY[name];
+	}
+
+	/** A CSS time token's computed value, in ms. */
+	ms(name) {
+		const value = getComputedStyle(this).getPropertyValue(name).trim();
+		const n = parseFloat(value);
+		return value.endsWith("ms") ? n : n * 1000;
+	}
+
+	render({ arriving = false } = {}) {
+		this.stopFlow();
 		const step = this.steps[this.step];
 		const shown = shownAt(this.steps, this.step);
 		// Only animate arrivals when stepping forward; a jump just shows the state.
@@ -178,7 +203,7 @@ class RailsPresent extends HTMLElement {
 		for (const id of fresh) {
 			const el = this.nodes.get(id);
 			const x = this.boxOf(el).x / width;
-			el.style.setProperty("--_sweep-delay", `${Math.round(x * 600)}ms`);
+			el.style.setProperty("--_sweep-delay", `${Math.round(x * this.motion("sweepSpread"))}ms`);
 		}
 	}
 
@@ -213,7 +238,10 @@ class RailsPresent extends HTMLElement {
 			const to = this.boxOf(el);
 			const dx = from.x - to.x, dy = from.y - to.y;
 			if (Math.abs(dx) < 1 && Math.abs(dy) < 1) continue;
-			el.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "none" }], { duration: 450, easing: "cubic-bezier(.2,.7,.2,1)" });
+			el.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "none" }], {
+				duration: this.ms("--ed-theme-animation-move-long"),
+				easing: getComputedStyle(this).getPropertyValue("--ed-theme-animation-ease").trim() || "ease",
+			});
 		}
 	}
 
@@ -322,9 +350,9 @@ class RailsPresent extends HTMLElement {
 		let i = 0;
 		while (i < order.length - 1) {
 			const here = order[i];
-			const loop = loops.find(l => l.from === here && !taken.has(l.key ?? `${l.from}>${l.to}`) && l.from !== "feedback");
+			const loop = loops.find(l => l.from === here && !taken.has(l.from) && l.from !== "feedback");
 			if (loop) {
-				taken.add(loop.key ?? `${loop.from}>${loop.to}`);
+				taken.add(loop.from);
 				route.push(`loop:${loop.from}>${loop.to}`);
 				i = order.indexOf(loop.to);
 				continue;
@@ -342,20 +370,20 @@ class RailsPresent extends HTMLElement {
 		const token = {};
 		this.flowToken = token;
 		this.classList.add("is-flowing");
-		await new Promise(resolve => setTimeout(resolve, 500));
+		await new Promise(resolve => setTimeout(resolve, this.motion("flowLead")));
 		this.pulse.hidden = false;
 		for (const key of this.route()) {
 			if (this.flowToken !== token) return;
 			const path = this.edgeLayer.querySelector(`[data-key="${CSS.escape(key)}"]`);
 			if (!path) continue;
 			this.arrive(path.dataset.from);
-			await this.travel(path, key.startsWith("loop") ? SEGMENT_MS * 2.4 : SEGMENT_MS, token);
+			const segment = this.motion("segment");
+			await this.travel(path, key.startsWith("loop") ? segment * 2.4 : segment, token);
 		}
 		if (this.flowToken !== token) return;
 		const order = visiblePipeline(this.data.pipeline, this.shown);
 		this.arrive(order.at(-1));
-		this.pulse.hidden = true;
-		this.classList.remove("is-flowing");
+		this.stopFlow();
 	}
 
 	travel(path, duration, token) {
@@ -384,7 +412,7 @@ class RailsPresent extends HTMLElement {
 		el.classList.add("is-pulsed");
 		this.edgeLayer.querySelectorAll(`.ed-r-rails-present__edge--uses[data-from="${CSS.escape(id)}"]`).forEach(path => {
 			path.classList.add("is-active");
-			setTimeout(() => path.classList.remove("is-active"), 900);
+			setTimeout(() => path.classList.remove("is-active"), this.motion("highlightHold"));
 		});
 	}
 }

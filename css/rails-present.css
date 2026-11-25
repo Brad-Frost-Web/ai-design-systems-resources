@@ -1,9 +1,6 @@
 /* Presentation view for Keep AI on the Rails (#33): the lab as a one-frame,
    step-built diagram in eddie-diagrams' visual language. Tokens only. */
 
-.ed-r-rails-lab__spectrum-labels { position: relative; }
-.ed-r-rails-lab__present { position: absolute; inset-inline-end: 0; inset-block-start: 50%; translate: 0 -50%; }
-
 /* ---- dialog: the whole viewport, letterboxing a fixed 16:9 stage ---- */
 .ed-r-rails-present {
 	inline-size: 100vw; block-size: 100vh; max-inline-size: none; max-block-size: none;
@@ -15,8 +12,10 @@
 .ed-r-rails-present [hidden] { display: none !important; }
 
 /* 1920 × 1080 at the root size: the frame the lesson is recorded in. */
+/* Letterboxed by centring, so physical `top`/`left` pair with the physical
+   transform origin: the sanctioned centring exception (AGENTS.md §2.3). */
 .ed-r-rails-present__stage {
-	position: absolute; inset-block-start: var(--_offset-y, 0); inset-inline-start: var(--_offset-x, 0);
+	position: absolute; top: var(--_offset-y, 0); left: var(--_offset-x, 0);
 	inline-size: 120rem; block-size: 67.5rem;
 	transform: scale(var(--_scale, 1)); transform-origin: top left;
 	display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--ed-theme-spacing-block);
@@ -83,15 +82,17 @@
 	margin: 0; padding: 0; list-style: none;
 }
 /* The pipeline leaves room above it for the retry loops' arcs. */
-.ed-r-rails-present__lane--pipeline { padding-block-start: 8.5rem; }
-.ed-r-rails-present__lane--pipeline .ed-r-rails-present__nodes { gap: 1.75rem; align-items: start; }
+.ed-r-rails-present__lane--pipeline { padding-block-start: calc(var(--ed-theme-spacing-xxl) * 2); }
+.ed-r-rails-present__lane--pipeline .ed-r-rails-present__nodes { gap: var(--ed-theme-spacing-lg); align-items: start; }
 
 /* ---- nodes ---- */
 .ed-r-rails-present__node { position: relative; }
 .ed-r-rails-present__node--dot {
-	display: grid; justify-items: center; gap: var(--ed-theme-spacing-xs); inline-size: 6rem;
+	display: grid; justify-items: center; gap: var(--ed-theme-spacing-xs); inline-size: min-content;
 	text-align: center;
 }
+/* The ring and the sweep take the dot's own size, whatever ed-dot size is set. */
+.ed-r-rails-present__dot-frame { position: relative; display: grid; }
 .ed-r-rails-present__kind {
 	font-size: var(--ed-theme-typography-meta-sm-font-size); letter-spacing: var(--ed-theme-typography-meta-sm-letter-spacing);
 	text-transform: var(--ed-theme-typography-meta-sm-text-transform); color: var(--ed-theme-color-content-subtle);
@@ -117,8 +118,7 @@
 
 /* The circle a dot's ring and sweep are clipped to. */
 .ed-r-rails-present__sweep {
-	position: absolute; inset-block-start: 0; inset-inline-start: 0;
-	inline-size: 6rem; aspect-ratio: 1; border-radius: var(--ed-theme-border-radius-round);
+	position: absolute; inset: 0; border-radius: var(--ed-theme-border-radius-round);
 	overflow: hidden; pointer-events: none; z-index: 1;
 }
 
@@ -133,15 +133,15 @@
 	/* A slash with a light core and brand edges reads on every node colour. */
 	background: linear-gradient(110deg, transparent 36%, var(--ed-theme-color-background-brand) 42%, color-mix(in srgb, var(--ed-theme-color-background-default) 85%, transparent) 46% 54%, var(--ed-theme-color-background-brand) 58%, transparent 64%);
 	translate: -100% 0;
-	animation: rails-present-slash 900ms var(--ed-theme-animation-ease) calc(var(--_sweep-delay, 0ms) + 250ms) 2 both;
+	animation: rails-present-slash calc(var(--ed-theme-animation-move-long) * 2.25) var(--ed-theme-animation-ease) calc(var(--_sweep-delay, 0ms) + var(--ed-theme-animation-fade-quick)) 2 both;
 }
 .ed-r-rails-present__node--pill[data-new]::after { border-radius: inherit; }
 @keyframes rails-present-arrive { from { opacity: 0; scale: 0.7; } to { opacity: 1; scale: 1; } }
 @keyframes rails-present-slash { from { translate: -100% 0; } to { translate: 100% 0; } }
 
 /* The pulse arrives: a ring rolls out of the dot. */
-.ed-r-rails-present__node.is-pulsed .ed-r-rails-present__sweep { animation: rails-present-ring 700ms var(--ed-theme-animation-ease); }
-.ed-r-rails-present__node--pill.is-pulsed { animation: rails-present-ring 700ms var(--ed-theme-animation-ease); }
+.ed-r-rails-present__node.is-pulsed .ed-r-rails-present__sweep { animation: rails-present-ring calc(var(--ed-theme-animation-move-long) * 1.75) var(--ed-theme-animation-ease); }
+.ed-r-rails-present__node--pill.is-pulsed { animation: rails-present-ring calc(var(--ed-theme-animation-move-long) * 1.75) var(--ed-theme-animation-ease); }
 @keyframes rails-present-ring {
 	from { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ed-theme-color-background-brand) 70%, transparent); }
 	to { box-shadow: 0 0 0 var(--ed-theme-spacing-md) transparent; }
@@ -151,26 +151,27 @@
 .ed-r-rails-present__edges { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; overflow: visible; pointer-events: none; z-index: 2; }
 .ed-r-rails-present__edges marker path { fill: var(--ed-theme-color-content-default); }
 .ed-r-rails-present__edge { fill: none; stroke-linecap: round; }
-.ed-r-rails-present__edge--flow { stroke: var(--ed-theme-color-content-default); stroke-width: 3; }
-.ed-r-rails-present__edge--loop { stroke: var(--ed-theme-color-content-subtle); stroke-width: 2.5; stroke-dasharray: 8 7; }
-.ed-r-rails-present__edge--uses { stroke: var(--ed-theme-color-content-brand); stroke-width: 2; stroke-dasharray: 2 6; opacity: 0; transition: opacity var(--ed-theme-animation-fade-quick) var(--ed-theme-animation-ease); }
+.ed-r-rails-present__edge--flow { stroke: var(--ed-theme-color-content-default); stroke-width: var(--ed-theme-border-width-lg); }
+.ed-r-rails-present__edge--loop { stroke: var(--ed-theme-color-content-subtle); stroke-width: var(--ed-theme-border-width-md); stroke-dasharray: 8 7; }
+.ed-r-rails-present__edge--uses { stroke: var(--ed-theme-color-content-brand); stroke-width: var(--ed-theme-border-width-md); stroke-dasharray: 2 6; opacity: 0.2; transition: opacity var(--ed-theme-animation-fade-quick) var(--ed-theme-animation-ease); }
 .ed-r-rails-present__edge--uses:is(.is-lit, .is-hovered, .is-active) { opacity: 1; }
-.ed-r-rails-present__edge--uses.is-active { stroke-width: 3; }
-.ed-r-rails-present__stage.is-flowing .ed-r-rails-present__edge--loop { animation: rails-present-march 900ms linear infinite; stroke: var(--ed-theme-color-content-brand); }
+.ed-r-rails-present__edge--uses.is-active { stroke-width: var(--ed-theme-border-width-lg); }
+.ed-r-rails-present__stage.is-flowing .ed-r-rails-present__edge--loop { animation: rails-present-march calc(var(--ed-theme-animation-move-long) * 2.25) linear infinite; stroke: var(--ed-theme-color-content-brand); }
 @keyframes rails-present-march { to { stroke-dashoffset: -30; } }
-.ed-r-rails-present__edge.is-drawing { stroke-dasharray: 1; stroke-dashoffset: 1; animation: rails-present-draw 650ms var(--ed-theme-animation-ease) 350ms forwards; }
+.ed-r-rails-present__edge.is-drawing { stroke-dasharray: 1; stroke-dashoffset: 1; animation: rails-present-draw calc(var(--ed-theme-animation-move-long) * 1.6) var(--ed-theme-animation-ease) var(--ed-theme-animation-move-long) forwards; }
 @keyframes rails-present-draw { to { stroke-dashoffset: 0; } }
 .ed-r-rails-present__loop-label {
 	fill: var(--ed-theme-color-content-subtle);
 	font-family: var(--ed-theme-typography-body-default-font-family);
 	font-size: var(--ed-theme-typography-meta-sm-font-size);
 }
-.ed-r-rails-present__pulse { fill: var(--ed-theme-color-background-brand); stroke: var(--ed-theme-color-background-default); stroke-width: 4; }
+.ed-r-rails-present__pulse { fill: var(--ed-theme-color-background-brand); stroke: var(--ed-theme-color-background-default); stroke-width: var(--ed-theme-border-width-lg); }
 
-.ed-r-rails-present__hint {
-	position: absolute; inset-block-end: var(--ed-theme-spacing-md); inset-inline-end: var(--ed-theme-spacing-xl); margin: 0;
-	font-size: var(--ed-theme-typography-meta-sm-font-size); color: var(--ed-theme-color-content-subtle);
+.ed-r-rails-present__controls {
+	position: absolute; inset-block-end: var(--ed-theme-spacing-md); inset-inline-end: var(--ed-theme-spacing-xl);
+	display: flex; align-items: center; gap: var(--ed-theme-spacing-inline);
 }
+.ed-r-rails-present__hint { margin: 0; font-size: var(--ed-theme-typography-meta-sm-font-size); color: var(--ed-theme-color-content-subtle); }
 
 /* ---- reduced motion: no sweep, no pulse, no drawing; a static marker instead ---- */
 @media (prefers-reduced-motion: reduce) {

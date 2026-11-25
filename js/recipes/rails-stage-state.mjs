@@ -1,5 +1,5 @@
 /**
- * Pure state for ed-r-c-rails-stage (#33): which rung is showing, and where
+ * Pure state for the Rails lab (aids-rails-lab, #33): which level is showing, and where
  * each diagram piece stands relative to it. No DOM, so it is unit-tested.
  */
 

@@ -1,90 +1,10 @@
 /**
- * Keep AI on the Rails (#33): the rungs of the story and the diagram pieces
- * each one adds. A piece is on screen from `rungIn` until (not including)
- * `rungOut`, when it has one. Beat copy is a draft for Brad's edit; the
- * diagram copy comes from his edited artifact
+ * Keep AI on the Rails (#33): the diagram's pieces, grouped. The lab
+ * (_data/railsLab.js) reads these groups and maps each piece's `rungIn`
+ * onto its own seven levels; the eleven-rung stepper they were written
+ * for is gone. Copy comes from Brad's edited artifact
  * (_data/resources/keep-ai-on-the-rails-claude.html).
  */
-
-const rungs = [
-	{
-		short: "Prompt",
-		title: "Just prompt it",
-		adds: "Nothing. You type “Build me a pricing page” and hit enter.",
-		now: "You get a pricing page! It just isn’t yours: AI-default gradients, a font you didn’t pick, cards nobody designed.",
-		breaks: "The model has never heard of your design system, so it makes one up.",
-	},
-	{
-		short: "Settings",
-		title: "Tell it your preferences",
-		adds: "Always-on agent settings: use our brand blue, use our typeface, meet WCAG AA.",
-		now: "Closer! The colors and type drift toward your brand.",
-		breaks: "Describing your brand isn’t using your design system. The components are still invented, and the hex codes are guesses.",
-	},
-	{
-		short: "Rules",
-		title: "Write the rules down",
-		adds: "Project rule files (AGENTS.md, CLAUDE.md) plus a DESIGN.md that describes your design language in prose.",
-		now: "More consistent output, project after project.",
-		breaks: "A description of a system is a copy of it, and copies drift. The model still writes .my-card CSS and hardcodes values it read in the prose.",
-	},
-	{
-		short: "Install",
-		title: "Install the real design system",
-		adds: "Your tokens and web components, installed as real packages.",
-		now: "Real components show up on the page.",
-		breaks: "The model remembers their API and guesses wrong: invented slots, fake properties, content that silently disappears.",
-	},
-	{
-		short: "MCP",
-		title: "Give the agent the brain",
-		adds: "eddie-brain over MCP. The agent checks the live design system before writing anything, then looks up real props, slots and tokens.",
-		now: "The right components, used the right way.",
-		breaks: "Correct parts, assembled from scratch: stacked card grids, hand-rolled page chrome.",
-	},
-	{
-		short: "Compose",
-		title: "Compose from ingredients",
-		adds: "Skills that carry the workflow, plus recipes and page templates to start from.",
-		now: "Pages composed the way someone on your team would build them.",
-		breaks: "Nothing checks the work. One slip, and it ships quietly.",
-	},
-	{
-		short: "Validate",
-		title: "Check the work automatically",
-		adds: "A hook validates every file the moment it’s written, and a render check proves the markup actually displays.",
-		now: "Token, naming, slot and accessibility mistakes get caught and fixed in the loop.",
-		breaks: "Correct isn’t the same as good.",
-	},
-	{
-		short: "Review",
-		title: "You review it",
-		adds: "You look at the rendered result and approve it, reject it, or ask for tweaks.",
-		now: "Taste and product intent stay human.",
-		breaks: "It’s one-off judgment. No spec, no phases, nothing that says what “done” means.",
-	},
-	{
-		short: "Process",
-		title: "Put a process underneath",
-		adds: "bfw-process: a versioned rulebook installed into the repo, with a spec gate, six phases and nine checklists.",
-		now: "Every piece of work starts from an approved spec and moves through the same phases.",
-		breaks: "Good work still needs a wall before it reaches main.",
-	},
-	{
-		short: "Steel Curtain",
-		title: "The Steel Curtain",
-		adds: "CI runs the whole gauntlet on every pull request: tests, accessibility, responsive, user flows, performance, then a two-axis AI eval. A person approves the merge.",
-		now: "Nothing gets past the gates, and no agent merges its own work.",
-		breaks: "It works, but the system learns nothing from what shipped.",
-	},
-	{
-		short: "Loop",
-		title: "Close the loop",
-		adds: "eddie-reporter scans shipped products and reports what they actually use back to eddie-brain. Gaps become GitHub issues.",
-		now: "The front of the line gets smarter from the end of it.",
-		breaks: null,
-	},
-];
 
 const groups = [
 	{
@@ -158,4 +78,4 @@ for (const group of groups) {
 	group.rungIn = Math.min(...group.pieces.map((piece) => piece.rungIn));
 }
 
-module.exports = { rungs, groups, lastRung: rungs.length - 1 };
+module.exports = { groups };

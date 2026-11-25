@@ -1,6 +1,5 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createRequire } from "node:module";
 import {
 	clampRung,
 	rungFromSearch,
@@ -9,7 +8,6 @@ import {
 	rungForKey,
 } from "../js/recipes/rails-stage-state.mjs";
 
-const rails = createRequire(import.meta.url)("../_data/rails.js");
 
 test("clampRung keeps rungs whole and in range", () => {
 	assert.equal(clampRung(4, 10), 4);
@@ -48,33 +46,4 @@ test("rungForKey steps, jumps and ignores other keys", () => {
 	assert.equal(rungForKey("End", 2, 10), 10);
 	assert.equal(rungForKey("7", 2, 10), 7);
 	assert.equal(rungForKey("a", 2, 10), null);
-});
-
-test("the rung data tells a complete story", () => {
-	assert.equal(rails.rungs.length, 11);
-	assert.equal(rails.lastRung, 10);
-	rails.rungs.forEach((rung, i) => {
-		assert.ok(rung.title && rung.adds && rung.now, `rung ${i} is missing a beat`);
-		// Only the last rung has nothing left that breaks.
-		assert.equal(rung.breaks === null, i === rails.lastRung, `rung ${i} breaks`);
-	});
-});
-
-test("every rung adds at least one piece, and every piece is reachable", () => {
-	const pieces = rails.groups.flatMap((group) => group.pieces);
-	const ids = new Set();
-	for (const piece of pieces) {
-		assert.ok(!ids.has(piece.id), `duplicate piece id ${piece.id}`);
-		ids.add(piece.id);
-		assert.ok(piece.rungIn >= 0 && piece.rungIn <= rails.lastRung, `${piece.id} rungIn`);
-	}
-	for (let rung = 1; rung <= rails.lastRung; rung++) {
-		assert.ok(
-			pieces.some((piece) => piece.rungIn === rung),
-			`rung ${rung} adds nothing to the diagram`,
-		);
-	}
-	// At the last rung, everything except replaced pieces is on screen.
-	const shown = pieces.filter((p) => isShown(pieceState(p.rungIn, p.rungOut, rails.lastRung)));
-	assert.equal(shown.length, pieces.filter((p) => p.rungOut === undefined).length);
 });

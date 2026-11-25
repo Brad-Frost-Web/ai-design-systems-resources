@@ -49,7 +49,7 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 <ed-layout-container><ed-stack gap="inline">
 	<h1 class="ed-u-visually-hidden">Keep AI on the rails</h1>
 	<section class="ed-r-rails-lab__spectrum" aria-label="Spectrum of system-guided UI generation" data-controls hidden>
-		<div class="ed-r-rails-lab__spectrum-labels"><span>Spectrum of system-guided UI generation</span><ed-button class="ed-r-rails-lab__present" size="sm" iconName="play" text="Present" data-present-open aria-keyshortcuts="P"></ed-button></div>
+		<div class="ed-r-rails-lab__spectrum-labels"><span>Spectrum of system-guided UI generation</span><span class="ed-r-rails-lab__present"><ed-button size="sm" iconName="play" text="Present" data-present-open aria-keyshortcuts="P"></ed-button><ed-kbd>P</ed-kbd></span></div>
 		<label class="ed-u-visually-hidden" for="lab-spectrum">System guidance level</label>
 		<input class="ed-r-rails-lab__range" id="lab-spectrum" data-range type="range" min="0" max="{{ railsLab.lastRung }}" step="1" value="0">
 		<nav class="ed-r-rails-lab__ticks" aria-label="System guidance levels">
