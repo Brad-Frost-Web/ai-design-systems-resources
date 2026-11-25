@@ -28,8 +28,10 @@
 .ed-r-rails-lab__pipeline-scroll { overflow-x: auto; padding-block: var(--ed-theme-spacing-inline); padding-inline: 0; scrollbar-width: auto; }
 .ed-r-rails-lab__pipeline-scroll:focus-visible { outline: var(--ed-theme-border-width-md) solid var(--ed-theme-color-border-default); }
 .ed-r-rails-lab__pipeline { display: flex; flex-wrap: nowrap; align-items: stretch; gap: calc(var(--ed-theme-spacing-flow) * 2); padding: 0; margin: 0; list-style: none; }
-.ed-r-rails-lab__pipeline > li { flex: 1 0 calc(var(--ed-theme-spacing-flow) * 20); min-width: 0; position: relative; display: flex; }
-.ed-r-rails-lab__pipeline > .ed-r-rails-lab__station--steel { flex-basis: calc(var(--ed-theme-spacing-flow) * 32); }
+/* Card widths, named once: the presentation view (#33) sets the same cards at the same widths. */
+.ed-r-rails-lab { --ed-r-rails-lab-card-width: calc(var(--ed-theme-spacing-flow) * 20); --ed-r-rails-lab-steel-width: calc(var(--ed-theme-spacing-flow) * 32); }
+.ed-r-rails-lab__pipeline > li { flex: 1 0 var(--ed-r-rails-lab-card-width); min-width: 0; position: relative; display: flex; }
+.ed-r-rails-lab__pipeline > .ed-r-rails-lab__station--steel { flex-basis: var(--ed-r-rails-lab-steel-width); }
 .ed-r-rails-lab__connector { position: absolute; inset-inline-start: calc(-2 * var(--ed-theme-spacing-flow)); inset-block-start: 50%; width: calc(var(--ed-theme-spacing-flow) * 2); display: flex; justify-content: center; color: var(--ed-theme-color-content-accent-1); }
 .ed-r-rails-lab__connector ed-icon { --ed-icon-width: calc(var(--ed-theme-spacing-flow) * 1.5); --ed-icon-height: calc(var(--ed-theme-spacing-flow) * 1.5); }
 .ed-r-rails-lab__card { display: flex; flex-direction: column; gap: var(--ed-theme-spacing-inline); flex: 1; min-width: 0; padding: var(--ed-theme-spacing-flow); border: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-border-subtle); border-radius: 0; background: var(--ed-theme-color-background-surface); color: var(--ed-theme-color-content-default); }

@@ -33,6 +33,7 @@
 			<p class="ed-r-rails-present__lane-label">{{ lane.label }}</p>
 			{%- if lane.id == "pipeline" %}
 			{%- set railsIdPrefix = "present" %}
+			{%- set railsMotionHelp = "Select the examples to pause or resume them." %}
 			{% include "rails-pipeline.njk" %}
 			{%- else %}
 			<ol class="ed-r-rails-present__nodes">

@@ -5,14 +5,16 @@ import {
 	visiblePipeline, visibleLoops, visibleUses,
 } from "./rails-present-state.mjs";
 import { pieceState, isShown } from "./rails-stage-state.mjs";
+import { applyCardCopy, renumberCards, PROMPT_INTERVAL_MS } from "./rails-cards.mjs";
 
 const SVG = "http://www.w3.org/2000/svg";
 const reducedMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 // The choreography, in multiples of Eddie's --ed-theme-animation-move-long so
 // a theme that retimes motion retimes the whole presentation with it.
-const CHOREOGRAPHY = { segment: 0.8, sweepSpread: 1.5, flowLead: 1.25, highlightHold: 2.25, camera: 2, prompt: 11.25 };
-// What the camera keeps around a focus, in canvas pixels, so new pieces
-// arrive with their neighbours in view rather than filling the frame alone.
+const CHOREOGRAPHY = { segment: 0.8, sweepSpread: 1.5, flowLead: 1.25, highlightHold: 2.25 };
+// Camera geometry in canvas pixels (the canvas is laid out at the cards'
+// real size): breathing room around what's framed, and the narrowest view,
+// so a lone card shows with its neighbours rather than filling the frame.
 const FRAME_MARGIN = 96;
 const FRAME_MIN_WIDTH = 1200;
 
@@ -75,7 +77,9 @@ class RailsPresent extends HTMLElement {
 			if (station) {
 				const node = station.closest("[data-present-node]");
 				this.pinned = this.pinned === node ? null : node;
-				station.setAttribute("aria-pressed", String(this.pinned === node));
+				this.canvas.querySelectorAll("[data-station]").forEach(button => {
+					button.setAttribute("aria-pressed", String(button.closest("[data-present-node]") === this.pinned));
+				});
 				this.focusNode(this.pinned);
 				return;
 			}
@@ -86,7 +90,7 @@ class RailsPresent extends HTMLElement {
 		});
 		on(this, "pointerover", e => this.focusNode(e.target.closest?.("[data-present-node]") || this.pinned));
 		on(this, "pointerout", () => this.focusNode(this.pinned));
-		this.setupComposer();
+		this.setupComposer(on);
 
 		const url = presentFromSearch(location.search, this.steps);
 		if (url.present) this.open(url.step);
@@ -100,6 +104,8 @@ class RailsPresent extends HTMLElement {
 			return;
 		}
 		if (e.key === "f" || e.key === "F") { e.preventDefault(); this.toggleFullscreen(); return; }
+		// Space presses a focused control; it only steps the deck from elsewhere.
+		if (e.key === " " && e.composedPath().some(el => el instanceof Element && el.matches("button, ed-button, [role=button]"))) return;
 		const next = stepForKey(e.key, this.step, this.steps);
 		if (next === null) return;
 		e.preventDefault();
@@ -222,28 +228,24 @@ class RailsPresent extends HTMLElement {
 			el.hidden = !isShown(pieceState(Number(el.dataset.in), el.dataset.out === undefined ? undefined : Number(el.dataset.out), level));
 		}
 		const rung = this.data.rungs[level];
-		const copy = { "[data-review-copy]": rung.reviewDescription, "[data-output-title]": rung.outputTitle, "[data-output-caption]": rung.outputCaption, "[data-generation-copy]": rung.generation };
-		for (const [selector, text] of Object.entries(copy)) this.canvas.querySelectorAll(selector).forEach(el => { el.textContent = text; });
-		[...this.canvas.querySelectorAll(".ed-r-rails-lab__pipeline > li")].filter(li => !li.hidden)
-			.flatMap(li => [...li.querySelectorAll("[data-process-number]")])
-			.forEach((badge, index) => { badge.textContent = index + 1; });
+		// Generate stays on screen until Compose replaces it, a beat into the
+		// level after the lab stops showing it; keep its last description.
+		const generation = this.data.rungs.slice(0, level + 1).reverse().find(r => r.generation)?.generation || "";
+		applyCardCopy(this.canvas, { review: rung.reviewDescription, resultTitle: rung.outputTitle, resultCaption: rung.outputCaption, generation });
+		renumberCards(this.canvas);
 	}
 
 	/**
 	 * Point the camera: on a flow beat, the whole system; otherwise what this
-	 * beat added, plus the cards it connects to, with room around it.
+	 * beat added, with the card before each new card for context. Connected
+	 * pills stay out of the frame here so new cards arrive readable; the flow
+	 * beat shows every connection.
 	 */
 	aim(step, fresh) {
 		let ids = [...this.shown];
 		if (step.kind !== "flow" && fresh.size) {
 			const order = visiblePipeline(this.data.pipeline, this.shown);
 			const focus = new Set(fresh);
-			for (const [from, uses] of Object.entries(this.data.uses)) {
-				const targets = uses.split(" ");
-				if (fresh.has(from)) targets.filter(id => this.shown.has(id)).forEach(id => focus.add(id));
-				if (this.shown.has(from) && targets.some(id => fresh.has(id))) focus.add(from);
-			}
-			// A new card arrives beside the one before it.
 			for (const id of fresh) { const i = order.indexOf(id); if (i > 0) focus.add(order[i - 1]); }
 			ids = [...focus];
 		}
@@ -258,16 +260,25 @@ class RailsPresent extends HTMLElement {
 		const x = view.width / 2 - ((left + right) / 2) * scale;
 		const y = view.height / 2 - ((top + bottom) / 2) * scale;
 		this.canvas.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-		this.canvas.style.setProperty("--_camera-scale", String(scale));
 		// Keep the pulse the same size on screen however far the camera pulls back.
 		this.pulse.setAttribute("r", String(12 / scale));
 	}
 
 	/** The prompt card's examples cycle while presenting, as they do in the lab. */
-	setupComposer() {
+	setupComposer(on) {
 		this.prompts = [...this.canvas.querySelectorAll("[data-prompt-example]")];
 		this.promptIndex = 0;
+		this.promptPaused = false;
 		this.canvas.querySelector("[data-prompt-examples]")?.setAttribute("data-enhanced", "");
+		const composer = this.canvas.querySelector(".ed-r-rails-lab__composer");
+		if (composer) {
+			composer.setAttribute("role", "button");
+			composer.setAttribute("tabindex", "0");
+			const toggle = () => { this.promptPaused = !this.promptPaused; this.cyclePrompts(); };
+			on(composer, "click", toggle);
+			on(composer, "keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); toggle(); } });
+		}
+		this.composer = composer;
 		this.showPrompt();
 	}
 
@@ -280,12 +291,13 @@ class RailsPresent extends HTMLElement {
 
 	cyclePrompts() {
 		clearTimeout(this.promptTimer);
-		if (!this.dialog.open || reducedMotion() || this.prompts.length < 2) return;
+		this.composer?.setAttribute("aria-label", this.promptPaused ? "Resume prompt examples" : "Pause prompt examples");
+		if (!this.dialog.open || this.promptPaused || reducedMotion() || this.prompts.length < 2) return;
 		this.promptTimer = setTimeout(() => {
 			this.promptIndex = (this.promptIndex + 1) % this.prompts.length;
 			this.showPrompt();
 			this.cyclePrompts();
-		}, this.motion("prompt"));
+		}, PROMPT_INTERVAL_MS);
 	}
 
 	renderHud(step, arriving) {

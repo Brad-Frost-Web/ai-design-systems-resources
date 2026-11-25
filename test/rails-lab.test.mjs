@@ -91,8 +91,9 @@ test("every rendered level puts resulting UI before human review and release", (
 	const template = readFileSync(new URL("../demos/keep-ai-on-the-rails.njk", import.meta.url), "utf8");
 	// Resolve includes the way Eleventy does, from _includes/.
 	const env = new nunjucks.Environment(new nunjucks.FileSystemLoader(new URL("../_includes", import.meta.url).pathname));
-	// The lab's own pipeline only; the presentation view renders the same cards.
-	const html = env.renderString(template, { railsLab: lab }).split("data-present-dialog")[0];
+	// The lab's own pipeline list (the first one); the presentation renders the same cards later.
+	const page = env.renderString(template, { railsLab: lab });
+	const html = page.match(/<ol class="ed-r-rails-lab__pipeline">[\s\S]*?<\/ol>/)[0];
 	const cards = [...html.matchAll(/<li class="ed-r-rails-lab__(?:station|endpoint)[^"]*"([^>]*)>/g)].map(([, attrs]) => ({
 		id: attrs.match(/data-piece="([^"]+)"/)?.[1] || "prompt",
 		start: Number(attrs.match(/data-in="([^"]+)"/)?.[1] || 0),
@@ -129,7 +130,10 @@ async function promptHarness(reducedMotion = false) {
 	media.matches = reducedMotion;
 	const nodes = Object.fromEntries(["[data-prompt-examples]", ".ed-r-rails-lab__composer"].map(key => [key, new Node()]));
 	const prompts = lab.terminals.entry.prompts.map(textContent => Object.assign(new Node(), { textContent }));
+	// The recipe's imports are stripped above; hand it the shared card module.
+	const cards = await import("../js/recipes/rails-cards.mjs");
 	runInNewContext(source, {
+		...cards,
 		HTMLElement: Node, document, matchMedia: () => media,
 		setTimeout: callback => { timers.set(++nextTimer, callback); return nextTimer; },
 		clearTimeout: id => timers.delete(id), cancelAnimationFrame() {},

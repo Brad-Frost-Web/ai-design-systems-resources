@@ -25,7 +25,8 @@
 	background-size: var(--ed-theme-spacing-lg) var(--ed-theme-spacing-lg);
 	font-family: var(--ed-theme-typography-body-default-font-family);
 }
-.ed-r-rails-present__stage ed-icon { --ed-icon-width: 1.25em; --ed-icon-height: 1.25em; flex: none; }
+/* The presentation's own icons; the cards keep the lab's icon sizes. */
+:is(.ed-r-rails-present__hud, .ed-r-rails-present__node--pill) ed-icon { --ed-icon-width: 1.25em; --ed-icon-height: 1.25em; flex: none; }
 
 /* ---- HUD: the seven levels and the current beat ---- */
 .ed-r-rails-present__hud { display: grid; gap: var(--ed-theme-spacing-flow); }
@@ -100,8 +101,8 @@
 .ed-r-rails-present__canvas .ed-r-rails-lab__pipeline { inline-size: max-content; }
 /* The lab's card widths, fixed: a max-content canvas would otherwise let
    each card grow to its text's unwrapped length. */
-.ed-r-rails-present__canvas .ed-r-rails-lab__pipeline > li { flex: 0 0 calc(var(--ed-theme-spacing-flow) * 20); overflow: hidden; }
-.ed-r-rails-present__canvas .ed-r-rails-lab__pipeline > .ed-r-rails-lab__station--steel { flex-basis: calc(var(--ed-theme-spacing-flow) * 32); }
+.ed-r-rails-present__canvas .ed-r-rails-lab__pipeline > li { flex: 0 0 var(--ed-r-rails-lab-card-width); overflow: hidden; }
+.ed-r-rails-present__canvas .ed-r-rails-lab__pipeline > .ed-r-rails-lab__station--steel { flex-basis: var(--ed-r-rails-lab-steel-width); }
 .ed-r-rails-present__canvas .ed-r-rails-lab__connector { display: none; }
 
 /* ---- pills: concepts, the brain's files, packages, process ---- */
@@ -173,8 +174,9 @@
 
 /* ---- reduced motion: no sweep, no pulse, no drawing; a static marker instead ---- */
 @media (prefers-reduced-motion: reduce) {
+	/* The camera cuts instead of panning. */
+	.ed-r-rails-present__canvas { transition: none; }
 	[data-present-node][data-new],
-	.ed-r-rails-present__canvas,
 	.ed-r-rails-present__edge.is-drawing,
 	.ed-r-rails-present__stage.is-flowing .ed-r-rails-present__edge--loop { animation: none; }
 	.ed-r-rails-present__edge.is-drawing { stroke-dasharray: none; stroke-dashoffset: 0; }

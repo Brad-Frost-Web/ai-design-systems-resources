@@ -5,6 +5,7 @@ import "@brad-frost-web/eddie-web-components/components/accordion/accordion.js";
 import "@brad-frost-web/eddie-web-components/components/accordion-panel/accordion-panel.js";
 import "@brad-frost-web/eddie-web-components/components/cluster/cluster.js";
 import { clampRung, rungFromSearch, pieceState, isShown, rungForKey } from "./rails-stage-state.mjs";
+import { applyCardCopy, renumberCards, PROMPT_INTERVAL_MS } from "./rails-cards.mjs";
 
 /** Product-local teaching diagram; all application chrome is Eddie. */
 class RailsLab extends HTMLElement {
@@ -85,7 +86,7 @@ class RailsLab extends HTMLElement {
 			prompt.setAttribute("aria-hidden", String(index !== this.promptIndex));
 		});
 		if (!this.promptPaused && !document.hidden && this.isConnected) {
-			this.promptTimer = setTimeout(() => this.advancePrompt(), 4500);
+			this.promptTimer = setTimeout(() => this.advancePrompt(), PROMPT_INTERVAL_MS);
 		}
 	}
 
@@ -129,13 +130,8 @@ class RailsLab extends HTMLElement {
 		this.all("[data-piece-group]").forEach(group => {
 			group.hidden = ![...group.querySelectorAll("[data-piece]")].some(piece => !piece.hidden);
 		});
-		this.one("[data-review-copy]").textContent = step.dataset.review;
-		this.one("[data-output-title]").textContent = step.dataset.resultTitle;
-		this.one("[data-output-caption]").textContent = step.dataset.resultCaption;
-		this.one("[data-generation-copy]").textContent = step.dataset.generation;
-		this.all(".ed-r-rails-lab__pipeline > li").filter(el => !el.hidden)
-			.flatMap(el => [...el.querySelectorAll("[data-process-number]")])
-			.forEach((badge, index) => badge.textContent = index + 1);
+		applyCardCopy(this, { review: step.dataset.review, resultTitle: step.dataset.resultTitle, resultCaption: step.dataset.resultCaption, generation: step.dataset.generation });
+		renumberCards(this);
 		this.all("[data-station-reference]").forEach(reference => {
 			reference.textContent = this.one(`[data-piece="${reference.dataset.stationReference}"] [data-process-number]`).textContent;
 		});
