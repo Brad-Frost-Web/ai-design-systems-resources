@@ -31,10 +31,15 @@ lessons:
     chapter: "Chapter 1"
     title: "AI Tools Recap"
     url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74427656-ai-tools-recap"
+references:
+  - label: "modelcontextprotocol.io"
+    url: "https://modelcontextprotocol.io"
+  - label: "State of AI in Design Systems — MCP server adoption"
+    url: "https://state-of-ai-in-design-systems.netlify.app/questions/mcp-server-adoption.md"
 tags:
   - "ai"
   - "tooling"
   - "mcp"
 ---
 
-A standard way to connect AI tools to external data and services, originally invented by Anthropic (Claude was one of the first models to use it). The course's favorite analogy is that an MCP is 'like a USB port' — a universal interface for AI integrations — with APIs as a looser analogy. The AI communicates with a connected application through the MCP: when the AI asks the connected platform to do something (e.g. update a variable), the MCP may have a tool for it or bridge to the platform's API, and the result or an error comes back to the AI. The course leans on MCPs heavily, with examples including the Slack, Figma (the big one), Google Drive, and GitHub MCPs.
+A standard way to connect AI tools to external data and services, originally invented by Anthropic (Claude was one of the first models to use it). The course's favorite analogy is that an MCP is 'like a USB port' — a universal interface for AI integrations — with APIs as a looser analogy. The AI communicates with a connected application through the MCP: when the AI asks the connected platform to do something (e.g. update a variable), the MCP may have a tool for it or bridge to the platform's API, and the result or an error comes back to the AI. The course leans on MCPs heavily, with examples including the Slack, Figma (the big one), Google Drive, and GitHub MCPs. By mid-2026, 18 of the 21 design systems in the State of AI in Design Systems survey shipped an official MCP server, making it table stakes rather than an experiment.

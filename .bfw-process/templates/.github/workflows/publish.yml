@@ -1,21 +1,30 @@
 # BFW CI-driven npm publish — thin caller (library projects)
 #
 # Copy to .github/workflows/publish.yml in a BFW library repo. All the logic
-# lives in the reusable workflow in Brad-Frost-Web/bfw-process: on every push
-# to main it publishes package.json's version IF it isn't on the registry yet
-# (so docs/chore pushes no-op), with tests, provenance, §9.5.9 rebuild, a
-# vX.Y.Z tag, a GitHub Release from the CHANGELOG, and the consumer beacon
-# (#110/#112). Merging the release PR is the human approval; there is no
-# separate tag-push step to forget.
+# lives in the reusable workflow in Brad-Frost-Web/bfw-process
+# (.github/workflows/publish.yml there — this file only calls it, so the two
+# are deliberately not identical). On every push to main it reconciles
+# package.json's version: publishes it IF it isn't on the registry yet (tests,
+# provenance, §9.5.9 rebuild), then creates whatever is still missing — the
+# vX.Y.Z tag, the GitHub Release from the CHANGELOG, the consumer beacon
+# (#110/#112/#282). A fully-released version no-ops, so docs/chore pushes
+# cost one cheap job. Merging the release PR is the human approval; there is
+# no separate tag-push step to forget.
+#
+# Catch-up: if a run went red partway (slow registry, missing token), run
+# this workflow on main (`gh workflow run publish.yml --ref main`). It skips
+# what exists and completes what doesn't — never republishes, never moves a
+# tag.
 #
 # One-time setup:
 #   1. Auth (either):
 #      - npm trusted publishing (preferred): register this repo + workflow as
 #        a trusted publisher for the package on npmjs.com. No secret needed.
 #      - or an npm automation token as the NPM_TOKEN repo/org secret.
-#   2. Beacon (optional): BFW_FANOUT_TOKEN org secret — a token that can send
-#      repository_dispatch to org repos. Absent → beacon skips; the weekly
-#      sweep (bfw-process#113) is the backstop.
+#   2. Beacon: BFW_FANOUT_TOKEN org secret — a token that can send
+#      repository_dispatch to org repos. Absent → the beacon job FAILS the
+#      run: a release no consumer was told about is a failed propagation,
+#      not a notice (bfw-process#227).
 #   3. bfw-process repo → Settings → Actions → General → Access must allow
 #      org repositories to use its workflows (required for workflow_call
 #      from a private repo).
@@ -32,7 +41,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write # tag + GitHub Release
+  contents: write # tag + GitHub Release + beacon receipt
   id-token: write # npm provenance / trusted publishing
 
 jobs:

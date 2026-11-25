@@ -13,7 +13,7 @@ The site serves as a trusted reference where practitioners can find quality arti
 | Section | Status | Description |
 |---|---|---|
 | **Resources** | Live | ~300 curated articles, videos, and tools |
-| **Glossary** | Live | 115 key terms extracted from course transcripts |
+| **Glossary** | Live | 145 key terms from the course, its community, and the field |
 | **Links** | Planned | Course-specific and community links by chapter |
 | **Timeline** | Planned | Resources along a time axis |
 | **Graph** | In progress | Knowledge graph of resource relationships |

@@ -19,10 +19,18 @@ lessons:
     chapter: "Chapter 3"
     title: "Fixing Component Issues with FigmaLint"
     url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74881525-fixing-component-issues-with-figmalint"
+  - number: "3.s9.intro"
+    chapter: "Chapter 3"
+    title: "Station 9: Machine-Readable Docs & Context"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76569496-station-9-machine-readable-docs-context"
+  - number: "3.s10.intro"
+    chapter: "Chapter 3"
+    title: "Station 10: Agent Access"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/76569538-station-10-agent-access"
 tags:
   - "design systems"
   - "ai"
   - "workflow"
 ---
 
-The course's notion of how prepared a design system component is for AI tooling to consume and translate it reliably. FigmaLint expresses this as a score (e.g., 72% is not great; 100% is the goal) reflecting whether the component avoids hardcoded values, uses design tokens, has clean layer names, defined interactive states, a component description, and proper metadata. A high score means AI tools (like the Figma MCP) can confidently translate the design into code and generate the component as expected, rather than producing garbage.
+The course's notion of how prepared a design system component is for AI tooling to consume and translate it reliably. FigmaLint expresses this as a score (e.g., 72% is not great; 100% is the goal) reflecting whether the component avoids hardcoded values, uses design tokens, has clean layer names, defined interactive states, a component description, and proper metadata. A high score means AI tools (like the Figma MCP) can confidently translate the design into code and generate the component as expected, rather than producing garbage. Later in Chapter 3 the idea widens beyond individual components: Station 9 asks whether the system's documentation is machine-readable, and Station 10 asks whether agents can access the system at all.

@@ -16,7 +16,7 @@ No further prompting is needed, and no phase gate has to be open first. This is 
 ls .github/workflows/publish.yml
 ```
 
-- **Automated** — the file exists (the #110 pipeline, adopted from `templates/.github/workflows/publish.yml`). **Merging the release PR into `main` IS the publish.** The workflow notices a `package.json` version that isn't on the registry, runs `npm ci`, `npm test --if-present` and `npm run build --if-present`, publishes (with provenance when an `NPM_TOKEN` secret is set; via trusted publishing otherwise), creates the `v<version>` tag, builds the GitHub Release from the CHANGELOG, and fans a `bfw-library-published` beacon out to consumers.
+- **Automated** — the file exists (the #110 pipeline, adopted from `templates/.github/workflows/publish.yml`). **Merging the release PR into `main` IS the publish.** The workflow notices a `package.json` version that isn't on the registry, runs `npm ci`, `npm test --if-present` and `npm run build --if-present`, publishes (with provenance when an `NPM_TOKEN` secret is set; via trusted publishing otherwise), creates the `v<version>` tag, builds the GitHub Release from the CHANGELOG, and fans a `bfw-library-published` beacon out to consumers. Every run reconciles: whatever of those four already exists is skipped, so a run that went red partway is finished by running it again (Phase 5).
 - **Manual** — no such file. A human tags and publishes at the end.
 
 ---
@@ -100,13 +100,23 @@ A branch that has been sitting on `develop` for weeks predates gates that have s
   gh run watch <run-id> --exit-status
   ```
 - [ ] Verify the outcomes, not the green check:
-  - `npm view <package> version` → the new version. **npm is where BFW libraries are actually deployed** (§2.8). The pipeline does poll the registry before it goes green, so this is a second reading rather than the only one — but it is the reading that matches what a consumer's `npm install` will see.
+  - `npm view <package> version` → the new version. **npm is where BFW libraries are actually deployed** (§2.8). The pipeline does poll the registry before it goes green — for up to ten minutes, in the beacon job, since consumers install on arrival — so this is a second reading rather than the only one, but it is the reading that matches what a consumer's `npm install` will see.
   - `git fetch --tags && git tag -l v<version>` → the tag exists
   - `gh release view v<version>` → the body is the CHANGELOG section for this version, not GitHub's auto-notes (see the heading trap in Phase 2). The pipeline creates this Release itself — there is no hand-written release-notes step in this ceremony.
+  - `gh release view v<version> --json assets --jq '.assets[].name'` → lists `bfw-beacon-<package>.json` (`bfw-beacon-brad-frost-web-bfw-process.json` here), the beacon's receipt naming every consumer it dispatched to. No receipt means no consumer was told.
 
-**If the publish fails — capture the output before you do anything else,** including read-only commands. npm keeps only about a dozen debug logs in `~/.npm/_logs`, and ordinary `npm view` calls are enough to rotate the relevant one out. Diagnosing the v0.46.0 partial publish was materially harder for exactly this reason. Save the terminal output to a file first; diagnose second.
+**If the run is red — capture the output before you do anything else,** including read-only commands. npm keeps only about a dozen debug logs in `~/.npm/_logs`, and ordinary `npm view` calls are enough to rotate the relevant one out. Diagnosing the v0.46.0 partial publish was materially harder for exactly this reason. Save the terminal output to a file first; diagnose second.
 
-Then: the version is merged but unpublished. Fix the cause on a `hotfix/<N>-slug` branch and open a PR to `main` — merging it re-triggers the workflow. `workflow_dispatch` is the documented catch-up path for a version already merged and never published. Nothing about the merge needs undoing. (`bfw-process doctor`'s registry-currency check reports this **on the canonical bfw-process repo**, where the anchor is its own `package.json` version; in a consumer the same check compares that repo's *bfw-process pin* against npm and will not notice the repo's own unpublished release.)
+Then read **which job** failed — the pipeline is four jobs, `check → publish → release → beacon`, and each does only what the version still owes (#282):
+
+- **`publish` failed** (tests, build, npm auth): the version is merged but unpublished, and nothing after it ran. Fix the cause on a `hotfix/<N>-slug` branch and open a PR to `main` — merging it re-triggers the workflow. Nothing about the merge needs undoing. **One exception:** if the log says npm *"cannot publish over the previously published versions"*, the version **is** published — this run started inside npm's propagation window and saw it as absent. Treat it as the next bullet.
+- **`publish` succeeded, and `release` or `beacon` failed** — a slow registry ("published but not yet visible"), a missing `BFW_FANOUT_TOKEN`, a dispatch that failed: the version **is** on npm. Do not republish, and do not tag by hand. Fix the cause if there is one (set the secret; wait for `npm view` to answer), then re-run the pipeline on `main`:
+  ```bash
+  gh workflow run publish.yml --ref main
+  ```
+  Every run reconciles the current version: it prints, per step, what already exists and skips it, and does only what is missing — the tag (placed on the commit the registry says was published, its `gitHead`, never on `main`'s newer HEAD), the Release, the beacon. A version that is fully released no-ops green. The next ordinary push to `main` would do the same, but don't wait for one: consumers are owed the beacon now. If the run stops on *"the registry records no gitHead"*, that is the one case to tag by hand — `gh release create v<version> --target <release commit sha>`, as the error says; a draft Release is likewise yours to publish or delete before re-running.
+
+(`bfw-process doctor`'s registry-currency check reports a merged-but-unpublished version **on the canonical bfw-process repo**, where the anchor is its own `package.json` version; in a consumer the same check compares that repo's *bfw-process pin* against npm and will not notice the repo's own unpublished release.)
 
 ### Manual model
 
@@ -130,7 +140,7 @@ Publishing is the **owner's** step, always — the one irreversible outward acti
 - [ ] Verify both remotes are in sync and the two trees agree afterwards — don't trust push output, which can report a protection warning and a successful ref update in the same breath.
 - [ ] Delete the release branch: `git branch -d release/<version> && git push origin :release/<version>`
 - [ ] **Close the issues that shipped.** Gitflow does not auto-close: GitHub honours `Fixes #N` only into the default branch, and these PRs landed on `develop` (§9.6). Per issue: `gh issue close <N> --comment "Shipped in v<version>."`
-- [ ] Consumers: on the automated model the beacon fans a `bfw-library-published` dispatch out to every org repo that pins the package, so their upgrade PRs open within minutes. It is **best-effort** — absent a `BFW_FANOUT_TOKEN` it skips with a notice, and it can fail per repo. The named backstops are `bfw-process doctor`'s freshness reporting and a reconciliation sweep that is **filed but not yet built** (#113), so until it exists, a missed beacon is caught by someone looking. A missed beacon is not a failed release.
+- [ ] Consumers: on the automated model the beacon fans a `bfw-library-published` dispatch out to every org repo that pins the package, so their upgrade PRs open within minutes. A beacon that cannot do its job **fails the run** — no `BFW_FANOUT_TOKEN`, an org listing it can't read, a dispatch that bounces (#227) — and records nothing, so it stays owed until a re-run on `main` delivers it (Phase 5). Success leaves a `bfw-beacon.json` receipt on the Release. What it cannot reach is a consumer with no receiver installed; `bfw-process doctor`'s freshness reporting and a reconciliation sweep that is **filed but not yet built** (#113) are the backstops for those.
 
 ---
 
@@ -143,7 +153,7 @@ Publishing is the **owner's** step, always — the one irreversible outward acti
 | `npm publish` on the manual model | **The owner** | Same reason: publishing is outward and irreversible. |
 | Reconciling the CHANGELOG against merged PRs | A human or agent, by hand (Phase 0) | The changelog gates assert a heading, not completeness, and they exempt release branches (#203). |
 | Closing the shipped issues | A human or agent, by hand | Gitflow merges into `develop` never fire closing keywords (§9.6). Nothing closes them for you. |
-| The consumer beacon | The pipeline, best-effort | It can skip (no token) or fail per repo, and the reconciliation sweep meant to backstop it is not built yet (#113). |
+| Re-running the pipeline after a red release or beacon job | A human or agent: `gh workflow run publish.yml --ref main` | The run reconciles on its own, but something has to start it; a partial release otherwise waits for the next push to `main` (#282). |
 
 ## Anti-patterns
 

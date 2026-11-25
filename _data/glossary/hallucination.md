@@ -23,9 +23,13 @@ lessons:
     chapter: "Chapter 1"
     title: "Why MCPs Matter"
     url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/74427618-why-mcps-matter"
+  - number: "4.bf.06"
+    chapter: "Chapter 4"
+    title: "Keeping Product On The Eddie Rails: Multi-Phase bfw-process, Settings, Rules, & Validation"
+    url: "https://courses.bradfrost.com/courses/take/ai-design-systems-course/lessons/77065460-bradfrost-com-keeping-product-on-the-eddie-rails-multi-phase-bfw-process-settings-rules-validation"
 tags:
   - "ai"
   - "llm"
 ---
 
-When an LLM confidently produces incorrect information and states it as if it were true — the course's example is an LLM insisting that 'strawberry' has only two R's. The risk of hallucination rises during longer, multi-step interactions, and the course notes it is one reason live data access (such as via MCPs) matters: a steady, real-time connection to a platform lowers the chance of hallucination.
+When an LLM confidently produces incorrect information and states it as if it were true — the course's example is an LLM insisting that 'strawberry' has only two R's. The risk of hallucination rises during longer, multi-step interactions, and the course notes it is one reason live data access (such as via MCPs) matters: a steady, real-time connection to a platform lowers the chance of hallucination. Later chapters teach a fuller stack of countermeasures: rule files like AGENTS.md, a mandatory lookup before generating, a knowledge graph of what actually exists, validation hooks, and CI gates. See Tool-Gating and Self-Healing Loop.

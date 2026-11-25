@@ -19,4 +19,4 @@ tags:
   - "llm"
 ---
 
-A defining hard quality of AI. Traditional programming is deterministic — the same input run through a program returns the same predictable, reliable output every time. AI instead runs input through a neural network making guesses along the way, so the output can differ each time; we gain superpowers but lose predictability and reliability, which also makes output quality uneven and hard to verify.
+A defining hard quality of AI. Traditional programming is deterministic — the same input run through a program returns the same predictable, reliable output every time. AI instead runs input through a neural network making guesses along the way, so the output can differ each time; we gain superpowers but lose predictability and reliability, which also makes output quality uneven and hard to verify. That's why the course reaches for deterministic generation and checks wherever it can.

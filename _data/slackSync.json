@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-10-27T21:35:40.941Z",
+  "from": "2026-08-30",
+  "through": "2026-10-27",
+  "coverageThrough": "2026-10-27T21:35:38.620Z",
+  "counts": {
+    "historyPages": 4,
+    "parents": 767,
+    "replyPages": 3,
+    "threads": 3,
+    "messages": 13,
+    "links": 5
+  },
+  "pendingReview": 0,
+  "engine": "owned-slack-api",
+  "note": "Complete source capture; publication excludes existing lessons and links requiring review."
+}

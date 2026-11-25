@@ -3,8 +3,15 @@ status: draft
 owners:
   - Brad Frost
   - Ian Frost
-last_updated: 2026-10-07
-amendments: []
+last_updated: 2026-10-19
+amendments:
+  - date: 2026-10-19
+    author: Brad Frost (via #40)
+    summary: >-
+      The glossary is no longer course-transcript-only. Terms can come from the
+      course, its jam sessions and community, or the wider field; course terms
+      cite their lessons, and terms the course doesn't teach directly cite public
+      references instead. Updates §1, §4, §6 and §8.
 ---
 
 # SPEC.md — ai-design-systems-resources
@@ -19,7 +26,7 @@ amendments: []
 
 ## 1. What this project is
 
-The public companion website to the AI & Design Systems online course, at resources.aianddesign.systems. It collects curated articles, videos and tools about AI and design systems (synced from a Notion database and the course Slack), a glossary of terms pulled from the course transcripts with links back to the lessons that teach them, and, increasingly, the course's own teaching artifacts and interactive demos. It is an Eleventy site built with the Eddie Design System.
+The public companion website to the AI & Design Systems online course, at resources.aianddesign.systems. It collects curated articles, videos and tools about AI and design systems (synced from a Notion database and the course Slack), a glossary of the terms the course, its community and the wider field use, linked back to the lessons that teach them, and, increasingly, the course's own teaching artifacts and interactive demos. It is an Eleventy site built with the Eddie Design System.
 
 ## 2. Why it exists
 
@@ -34,7 +41,7 @@ Students and practitioners need a trusted, current reference while they work thr
 ## 4. Goals
 
 - Every resource, term and demo on the site is accurate and current, and its source is traceable.
-- Every glossary term and demo points to the course lesson that teaches it.
+- Every glossary term and demo points to the course lesson that teaches it, or, for terms the course doesn't teach directly, to a public source that defines it. Private material (Slack, meetings, jam recordings) is never cited.
 - The site is itself an example of the course's teaching: 100% Eddie components, recipes and tokens, accessible, and progressively enhanced.
 - Teaching demos live here, at stable public URLs, next to the material they belong to (#27).
 
@@ -49,7 +56,7 @@ Students and practitioners need a trusted, current reference while they work thr
 
 - **Project type:** content-site. Eleventy v3 with Nunjucks templates, SCSS + PostCSS, and esbuild bundling `js/components.js` and `js/scripts.js`.
 - **UI layer:** Eddie (`@brad-frost-web/eddie-web-components`, `eddie-recipes`, `eddie-design-tokens`, `eddie-charts`). Patterns Eddie lacks become project-local recipes (`ed-r-c-*`), and the gap is dual-filed upstream (AGENTS.md §9.4.1).
-- **Content pipeline:** `scripts/sync-notion.js` pulls resources from Notion into `_data/resources/` as Markdown with frontmatter; the glossary comes from course transcripts. Some resource syncs run as automated commits.
+- **Content pipeline:** `scripts/sync-notion.js` pulls resources from Notion into `_data/resources/` as Markdown with frontmatter; the glossary is hand-curated Markdown in `_data/glossary/`, drawn from course transcripts, jam sessions, the community and industry sources (`docs/research/` holds the gap analyses behind it). Some resource syncs run as automated commits.
 - **Eleventy treats `.md` and `.html` as templates.** Process and rules files are kept out of the build with `.eleventyignore`, so they are never published.
 - **Demos live at `/demos/<slug>/`**, starting with `/demos/keep-ai-on-the-rails/` (#33).
 - **Interactive layers are progressive enhancement.** Every page reads correctly as server-rendered HTML with JavaScript off.
@@ -62,6 +69,7 @@ Netlify builds `main` with `npm run build` and publishes `_site`. Netlify Functi
 
 - **Resources:** the Notion resources database. `_data/resources/` is a synced copy.
 - **Course lessons and their URLs:** the Notion transcripts database and Thinkific.
+- **Glossary references:** the public primary source each term cites, verified live when added.
 - **Eddie components, tokens and recipes:** eddie-brain (`ds.bradfrost.com/mcp`) and the published `@brad-frost-web/eddie-*` packages. Never memory.
 - **The process:** `@brad-frost-web/bfw-process`, pinned in `devDependencies`. `AGENTS.md` is generated from it.
 

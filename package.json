@@ -11,7 +11,7 @@
 		"build:css": "sass --load-path=node_modules css/styles.scss css/styles.tmp.css && postcss css/styles.tmp.css -o css/styles.css",
 		"build:eleventy": "ELEVENTY_ENV=production eleventy",
 		"sync": "node scripts/sync-notion.js",
-		"test": "node --test test/*.test.mjs",
+		"test": "node --test test/*.test.js test/*.test.mjs",
 		"bfw:ship": "bfw-process verify-phase ship"
 	},
 	"keywords": [],
@@ -29,7 +29,7 @@
 		"sass": "^1.82.0"
 	},
 	"devDependencies": {
-		"@brad-frost-web/bfw-process": "0.24.0",
+		"@brad-frost-web/bfw-process": "0.25.0",
 		"esbuild": "^0.27.0",
 		"postcss": "^8.5.6",
 		"postcss-cli": "^11.0.1",

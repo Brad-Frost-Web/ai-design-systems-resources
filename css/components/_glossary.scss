@@ -1,12 +1,5 @@
 // Glossary page
 
-.glossary-intro {
-	max-inline-size: 60ch;
-	// ed-main owns the space above (docs/SPACING.md); only the gap below is ours.
-	margin-block: 0 2rem;
-	color: var(--ed-theme-color-content-subtle);
-}
-
 // A–Z jump index
 .glossary-az {
 	display: flex;
