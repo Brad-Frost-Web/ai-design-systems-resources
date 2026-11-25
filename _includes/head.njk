@@ -33,5 +33,9 @@
     <link rel="canonical" href="https://aianddesign.systems" />
 
     <link rel="stylesheet" href="/css/styles.css" />
+    {%- if edPage %}
+    {#- ed-page's flush-edge rules, so a bleed masthead hugs the header at first paint -#}
+    <link rel="stylesheet" href="/css/page-light-dom.css" />
+    {%- endif %}
     {% include "analytics.njk" %}
   </head>

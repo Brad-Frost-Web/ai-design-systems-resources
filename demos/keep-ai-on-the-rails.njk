@@ -1,0 +1,95 @@
+---
+permalink: /demos/keep-ai-on-the-rails/
+eleventyExcludeFromCollections: true
+eddie-template: none — product-local horizontal teaching diagram, layout directed by Brad
+---
+<!doctype html>
+<html lang="en" class="bfw">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Keep AI on the Rails — Interactive Lesson</title>
+	<meta name="description" content="Build the system, one guardrail at a time. An interactive AI and design systems lesson.">
+	<link rel="icon" href="/favicon.svg">
+	<link rel="stylesheet" href="/css/styles.css">
+	<link rel="stylesheet" href="/css/rails-lab.css">
+	<link rel="stylesheet" href="/css/rails-present.css">
+</head>
+<body class="ed-r-rails-lab-page">
+<ed-page variant="flush"><ed-main flush>
+<aids-rails-lab class="ed-r-rails-lab" data-bleed>
+<ed-stack gap="inline">
+<ed-layout-container><ed-stack gap="inline">
+	<h1 class="ed-u-visually-hidden">Keep AI on the rails</h1>
+	<section class="ed-r-rails-lab__spectrum" aria-label="Spectrum of system-guided UI generation" data-controls hidden>
+		<div class="ed-r-rails-lab__spectrum-labels"><span>Spectrum of system-guided UI generation</span><span class="ed-r-rails-lab__present"><ed-button size="sm" iconName="play" text="Present" data-present-open aria-keyshortcuts="P"></ed-button><ed-kbd>P</ed-kbd></span></div>
+		<label class="ed-u-visually-hidden" for="lab-spectrum">System guidance level</label>
+		<input class="ed-r-rails-lab__range" id="lab-spectrum" data-range type="range" min="0" max="{{ railsLab.lastRung }}" step="1" value="0">
+		<nav class="ed-r-rails-lab__ticks" aria-label="System guidance levels">
+		{% for rung in railsLab.rungs %}<button class="ed-r-rails-lab__tick" data-step="{{ loop.index0 }}" data-title="{{ rung.title | escape }}" data-result-title="{{ rung.outputTitle | escape }}" data-result-caption="{{ rung.outputCaption | escape }}" data-review="{{ rung.reviewDescription | escape }}" data-generation="{{ rung.generation | default('') | escape }}" title="{{ rung.adds | escape }}" type="button" aria-label="Level {{ loop.index }}: {{ rung.title }}"><span class="ed-r-rails-lab__tick-number">{{ loop.index }}</span><span>{{ rung.short }}</span></button>{% endfor %}
+		</nav>
+	</section>
+</ed-stack></ed-layout-container>
+	<ed-band class="ed-r-rails-lab__band" data-piece-group><ed-layout-container>
+	<aside class="ed-r-rails-lab__rail" aria-label="AI dev concepts and techniques">
+				<ed-heading tagName="h2" variant="title-sm">AI dev concepts &amp; techniques</ed-heading>
+				<div class="ed-r-rails-lab__concepts">
+				{% for concept in railsLab.concepts %}
+					<article class="ed-r-rails-lab__concept" data-piece="{{ concept.id }}" data-in="{{ concept.rungIn }}">
+						<ed-cluster gap="inline"><ed-icon name="{{ concept.icon }}"></ed-icon><ed-heading tagName="h3" variant="title-sm"><button class="ed-r-rails-lab__concept-toggle" type="button" data-concept-toggle aria-expanded="true" title="Show or hide all concept descriptions">{{ concept.presentationLabel or concept.label }}<ed-icon name="chevron-down"></ed-icon></button></ed-heading></ed-cluster>
+						<div class="ed-r-rails-lab__description" data-description><ed-text-passage size="sm"><p>{{ (concept.presentationDescription or concept.description) | safe }}</p><p>{{ concept.example | replace('Station&nbsp;8', 'Station&nbsp;<span data-station-reference="s8">9</span>') | safe }}</p></ed-text-passage></div>
+					</article>
+				{% endfor %}
+				</div>
+			</aside></ed-layout-container></ed-band>
+	<ed-layout-container><section class="ed-r-rails-lab__canvas" aria-label="UI creation process">
+		<ed-heading tagName="h2" variant="title-sm">Process</ed-heading>
+		<div class="ed-r-rails-lab__pipeline-scroll" data-pipeline-scroll tabindex="0" role="region" aria-label="Left-to-right pipeline; scroll horizontally for later steps">
+		{%- set railsIdPrefix = "lab" %}
+		{% include "rails-pipeline.njk" %}
+		</div>
+	</section>
+	</ed-layout-container>
+	<ed-band class="ed-r-rails-lab__band" variant="knockout" data-piece-group><ed-layout-container>
+		<section class="ed-r-rails-lab__rail" aria-label="Eddie design system">
+			<ed-heading tagName="h2" variant="title-sm">{{ railsLab.eddie.title | safe }}</ed-heading>
+			<section class="ed-r-rails-lab__rail" data-piece-group aria-label="Eddie brain knowledge graph">
+				<ed-text-passage knockout class="ed-r-rails-lab__brain-intro"><p><strong>{{ railsLab.eddie.brainTitle | safe }}</strong> is Eddie Design System’s machine-readable knowledge graph that AI agents communicate with via MCP.</p></ed-text-passage>
+				<ul class="ed-r-rails-lab__packages">
+				{% for file in railsLab.files %}
+					<li class="ed-r-rails-lab__package" data-piece="{{ file.id }}" data-in="{{ file.rungIn }}"><ed-heading tagName="h4" variant="title-sm">{{ file.label | safe }}</ed-heading><ed-text-passage knockout size="sm"><p>{{ (file.presentationDescription or file.description) | safe }}</p></ed-text-passage></li>
+				{% endfor %}
+				</ul>
+			</section>
+			<section class="ed-r-rails-lab__rail" data-piece-group aria-label="Eddie DS Packages">
+				<ed-accordion knockout spacing="condensed"><ed-accordion-panel>
+				<ed-heading slot="header" tagName="h3" variant="title-sm">{{ railsLab.eddie.packagesTitle | safe }}</ed-heading>
+				<ed-text-passage knockout><p>{{ railsLab.eddie.packagesDescription | safe }}</p></ed-text-passage>
+				<ul class="ed-r-rails-lab__packages">
+				{% for package in railsLab.packages %}
+					<li class="ed-r-rails-lab__package" data-piece="{{ package.id }}" data-in="{{ package.rungIn }}"><ed-cluster gap="inline"><ed-icon name="{{ package.icon }}" knockout></ed-icon><ed-heading tagName="h4" variant="title-sm">{{ package.label | safe }}</ed-heading></ed-cluster><ed-text-passage knockout size="sm"><p>{{ package.description | safe }}</p></ed-text-passage></li>
+				{% endfor %}
+				</ul>
+				</ed-accordion-panel></ed-accordion>
+			</section>
+		</section>
+	</ed-layout-container></ed-band>
+	<ed-band class="ed-r-rails-lab__band" data-piece="cfg-process" data-in="5"><ed-layout-container>
+		<section class="ed-r-rails-lab__rail" aria-label="Organizational process">
+			<ed-heading tagName="h2" variant="title-sm">{{ railsLab.process.label | safe }}</ed-heading>
+			<ed-text-passage><p>{{ railsLab.process.presentationDescription | safe }}</p></ed-text-passage>
+			<ol class="ed-r-rails-lab__phases">{{ railsLab.process.phases | replace('ph__n', 'ed-r-rails-lab__phase-number') | replace('ph--hard', 'ed-r-rails-lab__phase-gate--hard') | replace('ph--gate', 'ed-r-rails-lab__phase-gate') | safe }}</ol>
+		</section>
+	</ed-layout-container></ed-band>
+	<ed-layout-container>
+
+	<p class="ed-u-visually-hidden" aria-live="polite" data-live></p>
+	</ed-layout-container>
+</ed-stack>
+</aids-rails-lab>
+</ed-main></ed-page>
+{#- Outside ed-page: ed-main caps slotted children at its content width. -#}
+{% include "rails-present.njk" %}
+<script type="module" src="/js/components.js"></script>
+</body>
+</html>

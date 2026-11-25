@@ -1,0 +1,189 @@
+/* Presentation view for Keep AI on the Rails (#33): the lab as a one-frame,
+   step-built diagram in eddie-diagrams' visual language. Tokens only. */
+
+/* ---- dialog: the whole viewport, letterboxing a fixed 16:9 stage ---- */
+.ed-r-rails-present {
+	inline-size: 100vw; block-size: 100vh; max-inline-size: none; max-block-size: none;
+	margin: 0; padding: 0; border: 0; overflow: hidden;
+	background: var(--ed-theme-color-background-default);
+	color: var(--ed-theme-color-content-default);
+}
+.ed-r-rails-present::backdrop { background: var(--ed-theme-color-background-default); }
+.ed-r-rails-present [hidden] { display: none !important; }
+
+/* 1920 × 1080 at the root size: the frame the lesson is recorded in. */
+/* Letterboxed by centring, so physical `top`/`left` pair with the physical
+   transform origin: the sanctioned centring exception (AGENTS.md §2.3). */
+.ed-r-rails-present__stage {
+	position: absolute; top: var(--_offset-y, 0); left: var(--_offset-x, 0);
+	inline-size: 120rem; block-size: 67.5rem;
+	transform: scale(var(--_scale, 1)); transform-origin: top left;
+	display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); gap: var(--ed-theme-spacing-block);
+	padding: var(--ed-theme-spacing-xl);
+	background-color: var(--ed-theme-color-background-default);
+	background-image: radial-gradient(var(--ed-theme-color-border-subtle) 0.0625rem, transparent 0.0625rem);
+	background-size: var(--ed-theme-spacing-lg) var(--ed-theme-spacing-lg);
+	font-family: var(--ed-theme-typography-body-default-font-family);
+}
+/* The presentation's own icons; the cards keep the lab's icon sizes. */
+:is(.ed-r-rails-present__hud, .ed-r-rails-present__node--pill) ed-icon { --ed-icon-width: 1.25em; --ed-icon-height: 1.25em; flex: none; }
+
+/* ---- HUD: the seven levels and the current beat ---- */
+.ed-r-rails-present__hud { display: grid; gap: var(--ed-theme-spacing-flow); }
+.ed-r-rails-present__levels {
+	display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--ed-theme-spacing-xs);
+	margin: 0; padding: 0; list-style: none;
+}
+.ed-r-rails-present__level {
+	position: relative; overflow: hidden;
+	display: flex; align-items: center; gap: var(--ed-theme-spacing-inline);
+	padding: var(--ed-theme-spacing-xs) var(--ed-theme-spacing-sm);
+	border-block-end: var(--ed-theme-border-width-lg) solid var(--ed-theme-color-border-subtle);
+	font-size: var(--ed-theme-typography-label-default-font-size);
+	color: var(--ed-theme-color-content-subtle);
+}
+.ed-r-rails-present__level-number {
+	display: grid; place-items: center; inline-size: 1.75em; aspect-ratio: 1;
+	border: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-border-default);
+	border-radius: var(--ed-theme-border-radius-round);
+}
+.ed-r-rails-present__level[data-state="past"] { color: var(--ed-theme-color-content-default); border-block-end-color: var(--ed-theme-color-border-strong); }
+.ed-r-rails-present__level[data-state="past"] .ed-r-rails-present__level-number { background: var(--ed-theme-color-background-accent-2); }
+.ed-r-rails-present__level[data-state="current"] {
+	color: var(--ed-theme-color-content-default); font-weight: var(--ed-theme-typography-emphasis-font-weight);
+	border-block-end-color: var(--ed-theme-color-border-brand);
+}
+.ed-r-rails-present__level[data-state="current"] .ed-r-rails-present__level-number {
+	background: var(--ed-theme-color-background-accent-3); color: var(--ed-theme-color-content-on-accent-3); border-color: transparent;
+}
+.ed-r-rails-present__caption { display: grid; gap: var(--ed-theme-spacing-xs); }
+.ed-r-rails-present__caption > * { margin: 0; }
+.ed-r-rails-present__eyebrow {
+	font-size: var(--ed-theme-typography-meta-sm-font-size); letter-spacing: var(--ed-theme-typography-meta-sm-letter-spacing);
+	text-transform: var(--ed-theme-typography-meta-sm-text-transform); color: var(--ed-theme-color-content-subtle);
+}
+.ed-r-rails-present__beat {
+	font-family: var(--ed-theme-typography-headline-default-font-family);
+	font-size: var(--ed-theme-typography-headline-lg-font-size);
+	line-height: var(--ed-theme-typography-headline-lg-line-height);
+	font-weight: var(--ed-theme-typography-headline-lg-font-weight);
+}
+.ed-r-rails-present__adds { font-size: var(--ed-theme-typography-body-lg-font-size); color: var(--ed-theme-color-content-subtle); }
+
+/* ---- the camera: a viewport onto a canvas laid out at the cards' real size ---- */
+.ed-r-rails-present__viewport { position: relative; overflow: hidden; }
+.ed-r-rails-present__canvas {
+	position: absolute; inset-block-start: 0; inset-inline-start: 0;
+	display: grid; justify-items: center; gap: var(--ed-theme-spacing-xl);
+	inline-size: max-content; padding: 0;
+	transform-origin: 0 0;
+	transition: transform calc(var(--ed-theme-animation-move-long) * 2) var(--ed-theme-animation-ease);
+}
+.ed-r-rails-present__canvas[data-camera-instant] { transition: none; }
+
+/* ---- lanes keep their place even before anything arrives in them ---- */
+.ed-r-rails-present__lane { display: grid; gap: var(--ed-theme-spacing-xs); justify-items: center; }
+.ed-r-rails-present__lane[data-empty] { visibility: hidden; }
+.ed-r-rails-present__lane-label {
+	margin: 0; justify-self: start;
+	font-size: var(--ed-theme-typography-meta-sm-font-size); letter-spacing: var(--ed-theme-typography-meta-sm-letter-spacing);
+	text-transform: var(--ed-theme-typography-meta-sm-text-transform); color: var(--ed-theme-color-content-subtle);
+}
+.ed-r-rails-present__nodes {
+	display: flex; flex-wrap: nowrap; justify-content: center; gap: var(--ed-theme-spacing-lg);
+	margin: 0; padding: 0; list-style: none;
+}
+:is(.ed-r-rails-present__lane--brain, .ed-r-rails-present__lane--packages) .ed-r-rails-present__nodes { gap: var(--ed-theme-spacing-xs); }
+
+/* The pipeline is the lab's own cards. Room above for the retry loops' arcs;
+   the SVG draws the arrows, so the lab's connector icons step aside. */
+.ed-r-rails-present__lane--pipeline { padding-block-start: calc(var(--ed-theme-spacing-xxl) * 3); }
+.ed-r-rails-present__canvas .ed-r-rails-lab__pipeline { inline-size: max-content; }
+/* The lab's card widths, fixed: a max-content canvas would otherwise let
+   each card grow to its text's unwrapped length. */
+.ed-r-rails-present__canvas .ed-r-rails-lab__pipeline > li { flex: 0 0 var(--ed-r-rails-lab-card-width); overflow: hidden; }
+.ed-r-rails-present__canvas .ed-r-rails-lab__pipeline > .ed-r-rails-lab__station--steel { flex-basis: var(--ed-r-rails-lab-steel-width); }
+.ed-r-rails-present__canvas .ed-r-rails-lab__connector { display: none; }
+
+/* ---- pills: concepts, the brain's files, packages, process ---- */
+.ed-r-rails-present__node { position: relative; }
+.ed-r-rails-present__node--pill {
+	display: flex; align-items: center; gap: var(--ed-theme-spacing-inline);
+	padding: var(--ed-theme-spacing-sm) var(--ed-theme-spacing-md);
+	border: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-border-default);
+	border-radius: var(--ed-theme-border-radius-round);
+	background: var(--ed-theme-color-background-surface);
+	font-size: var(--ed-theme-typography-label-default-font-size);
+	white-space: nowrap; overflow: hidden;
+}
+.ed-r-rails-present__node--file { font-family: var(--ed-theme-typography-code-font-family); }
+.ed-r-rails-present__lane--packages .ed-r-rails-present__node--pill { background: var(--ed-theme-color-background-diagram-package); color: var(--ed-theme-color-content-on-diagram-package); border-color: transparent; }
+.ed-r-rails-present__node--gate { background: var(--ed-theme-color-background-utility-warning); border-color: var(--ed-theme-color-border-utility-warning); }
+
+/* ---- new on this beat: arrive, then a left-to-right slash sweeps across ---- */
+[data-present-node][data-new] { animation: rails-present-arrive var(--ed-theme-animation-move-long) var(--ed-theme-animation-ease) var(--_sweep-delay, 0ms) both; }
+.ed-r-rails-present__node--pill[data-new] { box-shadow: 0 0 0 var(--ed-theme-border-width-lg) var(--ed-theme-color-background-brand); }
+[data-present-node][data-new] > .ed-r-rails-lab__card { box-shadow: 0 0 0 var(--ed-theme-border-width-lg) var(--ed-theme-color-background-brand); }
+.ed-r-rails-present__node--pill[data-new]::after,
+.ed-r-rails-lab__pipeline > [data-new]::after,
+.ed-r-rails-present__level[data-new]::after {
+	content: ""; z-index: 1; position: absolute; inset: 0; pointer-events: none;
+	/* A slash with a light core and brand edges reads on every node colour. */
+	background: linear-gradient(110deg, transparent 36%, var(--ed-theme-color-background-brand) 42%, color-mix(in srgb, var(--ed-theme-color-background-default) 85%, transparent) 46% 54%, var(--ed-theme-color-background-brand) 58%, transparent 64%);
+	translate: -100% 0;
+	animation: rails-present-slash calc(var(--ed-theme-animation-move-long) * 2.25) var(--ed-theme-animation-ease) calc(var(--_sweep-delay, 0ms) + var(--ed-theme-animation-fade-quick)) 2 both;
+}
+.ed-r-rails-present__node--pill[data-new]::after { border-radius: inherit; }
+@keyframes rails-present-arrive { from { opacity: 0; scale: 0.7; } to { opacity: 1; scale: 1; } }
+@keyframes rails-present-slash { from { translate: -100% 0; } to { translate: 100% 0; } }
+
+/* The pulse arrives: a ring rolls out of the card or pill. */
+.ed-r-rails-lab__pipeline > .is-pulsed > .ed-r-rails-lab__card { animation: rails-present-ring calc(var(--ed-theme-animation-move-long) * 1.75) var(--ed-theme-animation-ease); }
+.ed-r-rails-present__node--pill.is-pulsed { animation: rails-present-ring calc(var(--ed-theme-animation-move-long) * 1.75) var(--ed-theme-animation-ease); }
+@keyframes rails-present-ring {
+	from { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ed-theme-color-background-brand) 70%, transparent); }
+	to { box-shadow: 0 0 0 var(--ed-theme-spacing-md) transparent; }
+}
+
+/* ---- edges: an SVG over the whole stage, under nothing interactive ---- */
+.ed-r-rails-present__edges { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; overflow: visible; pointer-events: none; z-index: 2; }
+.ed-r-rails-present__edges marker path { fill: var(--ed-theme-color-content-default); }
+.ed-r-rails-present__edge { fill: none; stroke-linecap: round; }
+.ed-r-rails-present__edge--flow { stroke: var(--ed-theme-color-content-default); stroke-width: var(--ed-theme-border-width-lg); }
+.ed-r-rails-present__edge--loop { stroke: var(--ed-theme-color-content-subtle); stroke-width: var(--ed-theme-border-width-md); stroke-dasharray: 8 7; }
+.ed-r-rails-present__edge--uses { stroke: var(--ed-theme-color-content-brand); stroke-width: var(--ed-theme-border-width-md); stroke-dasharray: 2 6; opacity: 0.2; transition: opacity var(--ed-theme-animation-fade-quick) var(--ed-theme-animation-ease); }
+.ed-r-rails-present__edge--uses:is(.is-lit, .is-hovered, .is-active) { opacity: 1; }
+.ed-r-rails-present__edge--uses.is-active { stroke-width: var(--ed-theme-border-width-lg); }
+/* A loop still drawing in finishes drawing before it starts to march. */
+.ed-r-rails-present__stage.is-flowing .ed-r-rails-present__edge--loop:not(.is-drawing) { animation: rails-present-march calc(var(--ed-theme-animation-move-long) * 2.25) linear infinite; stroke: var(--ed-theme-color-content-brand); }
+@keyframes rails-present-march { to { stroke-dashoffset: -30; } }
+.ed-r-rails-present__edge.is-drawing { stroke-dasharray: 1; stroke-dashoffset: 1; animation: rails-present-draw calc(var(--ed-theme-animation-move-long) * 1.6) var(--ed-theme-animation-ease) var(--ed-theme-animation-move-long) forwards; }
+@keyframes rails-present-draw { to { stroke-dashoffset: 0; } }
+.ed-r-rails-present__loop-label {
+	fill: var(--ed-theme-color-content-subtle);
+	font-family: var(--ed-theme-typography-body-default-font-family);
+	font-size: var(--ed-theme-typography-meta-sm-font-size);
+}
+.ed-r-rails-present__pulse { fill: var(--ed-theme-color-background-brand); stroke: var(--ed-theme-color-background-default); stroke-width: var(--ed-theme-border-width-lg); }
+
+.ed-r-rails-present__controls {
+	position: absolute; inset-block-end: var(--ed-theme-spacing-md); inset-inline-end: var(--ed-theme-spacing-xl);
+	display: flex; align-items: center; gap: var(--ed-theme-spacing-inline);
+}
+.ed-r-rails-present__hint { margin: 0; font-size: var(--ed-theme-typography-meta-sm-font-size); color: var(--ed-theme-color-content-subtle); }
+
+/* ---- reduced motion: no sweep, no pulse, no drawing; a static marker instead ---- */
+@media (prefers-reduced-motion: reduce) {
+	/* The camera cuts instead of panning. */
+	.ed-r-rails-present__canvas { transition: none; }
+	[data-present-node][data-new],
+	.ed-r-rails-present__edge.is-drawing,
+	.ed-r-rails-present__stage.is-flowing .ed-r-rails-present__edge--loop { animation: none; }
+	.ed-r-rails-present__edge.is-drawing { stroke-dasharray: none; stroke-dashoffset: 0; }
+	.ed-r-rails-present__node--pill[data-new]::after,
+	.ed-r-rails-lab__pipeline > [data-new]::after,
+	.ed-r-rails-present__level[data-new]::after {
+		animation: none; transition: none; translate: 0 0;
+		background: repeating-linear-gradient(110deg, color-mix(in srgb, var(--ed-theme-color-background-brand) 30%, transparent) 0 0.25rem, transparent 0.25rem 0.75rem);
+	}
+}

@@ -1,0 +1,59 @@
+{#- Presentation view for Keep AI on the Rails (#33). A native modal dialog
+    owns focus, the top layer and Escape. The pipeline is the lab's own cards
+    (rails-pipeline.njk); concepts, the brain, packages and process are pill
+    lanes. Everything sits on a canvas a camera frames beat by beat; the edges
+    are a decorative SVG on that canvas. Data: railsLab.presentation. -#}
+{%- set p = railsLab.presentation -%}
+<dialog class="ed-r-rails-present" aria-label="Presentation: Keep AI on the rails" data-present-dialog>
+	<aids-rails-present class="ed-r-rails-present__stage">
+		<script type="application/json" data-present-data>{{ railsLab.presentation.clientJSON | safe }}</script>
+		<header class="ed-r-rails-present__hud">
+			<ol class="ed-r-rails-present__levels">
+				{%- for rung in railsLab.rungs %}
+				<li class="ed-r-rails-present__level" data-present-level="{{ loop.index0 }}"><span class="ed-r-rails-present__level-number">{{ loop.index }}</span><span>{{ rung.short }}</span></li>
+				{%- endfor %}
+			</ol>
+			<div class="ed-r-rails-present__caption">
+				<p class="ed-r-rails-present__eyebrow" data-present-eyebrow></p>
+				<h2 class="ed-r-rails-present__beat" data-present-beat></h2>
+				<p class="ed-r-rails-present__adds" data-present-adds></p>
+			</div>
+		</header>
+		<div class="ed-r-rails-present__viewport" data-present-viewport>
+		<div class="ed-r-rails-present__canvas ed-r-rails-lab" data-present-canvas>
+		<svg class="ed-r-rails-present__edges" aria-hidden="true" focusable="false">
+			<defs>
+				<marker id="rails-present-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z"></path></marker>
+			</defs>
+			<g data-present-edges></g>
+			<circle class="ed-r-rails-present__pulse" data-present-pulse r="12" hidden></circle>
+		</svg>
+		{%- for lane in p.lanes %}
+		<section class="ed-r-rails-present__lane ed-r-rails-present__lane--{{ lane.id }}" aria-label="{{ lane.label }}" data-present-lane>
+			<p class="ed-r-rails-present__lane-label">{{ lane.label }}</p>
+			{%- if lane.id == "pipeline" %}
+			{%- set railsIdPrefix = "present" %}
+			{%- set railsMotionHelp = "Select the examples to pause or resume them." %}
+			{% include "rails-pipeline.njk" %}
+			{%- else %}
+			<ol class="ed-r-rails-present__nodes">
+				{%- for node in lane.nodes %}
+				<li class="ed-r-rails-present__node ed-r-rails-present__node--pill{% if node.file %} ed-r-rails-present__node--file{% endif %}{% if node.gate %} ed-r-rails-present__node--gate{% endif %}" data-present-node="{{ node.id }}" hidden>
+					<ed-icon name="{{ node.icon }}"></ed-icon><span>{{ node.label | safe }}</span>
+				</li>
+				{%- endfor %}
+			</ol>
+			{%- endif %}
+		</section>
+		{%- endfor %}
+		</div>
+		</div>
+		<div class="ed-r-rails-present__controls">
+			<p class="ed-r-rails-present__hint"><ed-kbd>←</ed-kbd> <ed-kbd>→</ed-kbd> step · <ed-kbd>1</ed-kbd>–<ed-kbd>7</ed-kbd> level · <ed-kbd>F</ed-kbd> full screen · <ed-kbd>Esc</ed-kbd> exit</p>
+			<ed-button size="sm" variant="bare" iconName="arrow-left" text="Previous step" hideText data-present-prev aria-keyshortcuts="ArrowLeft"></ed-button>
+			<ed-button size="sm" variant="bare" iconName="arrow-right" text="Next step" hideText data-present-next aria-keyshortcuts="ArrowRight"></ed-button>
+			<ed-button size="sm" variant="secondary" iconName="x" text="Exit" data-present-exit aria-keyshortcuts="Escape"></ed-button>
+		</div>
+		<p class="ed-u-visually-hidden" aria-live="polite" data-present-live></p>
+	</aids-rails-present>
+</dialog>

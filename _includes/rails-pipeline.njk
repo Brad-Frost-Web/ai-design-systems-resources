@@ -1,0 +1,44 @@
+{#- The Rails pipeline (#33): prompt, stations, results and feedback loop,
+    rendered by the lab and by its presentation view. Set railsIdPrefix
+    before including so the composer's ids stay unique on the page, and
+    railsMotionHelp when the composer pauses some other way. -#}
+{%- from "rails-cards.njk" import stationCard, interfaceCard -%}
+		<ol class="ed-r-rails-lab__pipeline">
+			<li class="ed-r-rails-lab__endpoint"><article class="ed-r-rails-lab__card ed-r-rails-lab__entry">
+				<span class="ed-r-rails-lab__human-mark"><ed-icon name="user"></ed-icon><span>Human</span></span><ed-heading tagName="h3" variant="title-sm">{{ railsLab.terminals.entry.title | safe }}</ed-heading>
+				<div class="ed-r-rails-lab__composer" role="group" aria-label="Example prompts" aria-describedby="{{ railsIdPrefix }}-motion-help">
+					<span id="{{ railsIdPrefix }}-motion-help" class="ed-u-visually-hidden">{{ railsMotionHelp or "Press Escape to pause the animated examples." }}</span>
+					<div class="ed-r-rails-lab__prompt-examples" data-prompt-examples aria-live="off">{% for prompt in railsLab.terminals.entry.prompts %}<ed-text-passage data-prompt-example id="{{ railsIdPrefix }}-prompt-{{ loop.index0 }}"><p>{{ prompt | safe }}</p></ed-text-passage>{% endfor %}</div>
+					<div class="ed-r-rails-lab__composer-tools" aria-hidden="true">
+						<ed-icon name="plus"></ed-icon><span class="ed-r-rails-lab__send"><ed-icon name="arrow-up"></ed-icon></span>
+					</div>
+				</div>
+			</article></li>
+			<li class="ed-r-rails-lab__station ed-r-rails-lab__station--human" data-piece="specification" data-in="5" data-uses="cfg-process">
+				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
+				<article class="ed-r-rails-lab__card"><span class="ed-r-rails-lab__station-control"><span class="ed-r-rails-lab__number" data-process-number>1</span><span>HUMAN + AI</span><ed-icon class="ed-r-rails-lab__actor" name="user"></ed-icon></span><ed-heading tagName="h3" variant="title-sm">Agree on what to build</ed-heading><ed-text-passage><p>Define the intended result, requirements, and acceptance criteria. A human approves the specification before the agent starts building.</p></ed-text-passage><ul class="ed-r-rails-lab__tools"><li>FEATURE-SPEC.md</li><li>human approval</li></ul></article>
+			</li>
+			{% for station in railsLab.buildStations %}
+			{% if station.id == 's4' %}
+			<li class="ed-r-rails-lab__station" data-piece="generate" data-in="0" data-out="3" hidden>
+				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
+				<article class="ed-r-rails-lab__card"><span class="ed-r-rails-lab__station-control"><span class="ed-r-rails-lab__number" data-process-number>1</span><span>AI AGENT</span><ed-icon class="ed-r-rails-lab__robot" name="course-robot" iconUrl="/images/course-robot.svg"></ed-icon></span><ed-heading tagName="h3" variant="title-sm">Generate &amp; render UI</ed-heading><ed-text-passage><p data-generation-copy>{{ railsLab.rungs[0].generation }}</p></ed-text-passage></article>
+			</li>
+			{% endif %}
+			{{ stationCard(station) }}
+			{% endfor %}
+			<li class="ed-r-rails-lab__endpoint" data-piece="output-preview" data-in="0">
+				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
+				{{ interfaceCard("Resulting UI", railsLab.rungs[6].outputCaption, railsLab.rungs[6].outputTitle) }}
+			</li>
+			{{ stationCard(railsLab.review) }}
+			{% for station in railsLab.deliveryStations %}{{ stationCard(station) }}{% endfor %}
+			<li class="ed-r-rails-lab__endpoint" data-piece="output-final" data-in="5">
+				<span class="ed-r-rails-lab__connector"><ed-icon name="arrow-forward"></ed-icon></span>
+				{{ interfaceCard("Shipped UI", railsLab.terminals.output.description) }}
+			</li>
+			<li class="ed-r-rails-lab__endpoint" data-piece="feedback" data-in="6" data-uses="pkg-reporter pkg-brain cfg-process brain-learning brain-adoption brain-activity">
+				<span class="ed-r-rails-lab__connector"><ed-icon name="refresh-cw" iconTitle="Product and design system feedback loop"></ed-icon></span>
+				<article class="ed-r-rails-lab__card ed-r-rails-lab__feedback"><ed-heading tagName="h3" variant="title-sm"><button type="button" data-station="feedback" aria-pressed="false" title="Highlight product and design system connections">{{ railsLab.terminals.feedback.title | safe }}</button></ed-heading><ed-text-passage><p>{{ railsLab.terminals.feedback.description | safe }}</p></ed-text-passage></article>
+			</li>
+		</ol>

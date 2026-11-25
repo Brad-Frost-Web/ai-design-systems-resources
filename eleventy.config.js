@@ -25,6 +25,9 @@ export default async function (eleventyConfig) {
 	eleventyConfig.addPassthroughCopy({
 		"node_modules/@brad-frost-web/eddie-design-tokens/core/fonts": "core/fonts",
 	});
+	eleventyConfig.addPassthroughCopy({
+		"node_modules/@brad-frost-web/eddie-web-components/components/page/page-light-dom.css": "css/page-light-dom.css",
+	});
 	eleventyConfig.addPassthroughCopy("images");
 	eleventyConfig.addPassthroughCopy("favicon.svg");
 	eleventyConfig.addPassthroughCopy("favicon.ico");

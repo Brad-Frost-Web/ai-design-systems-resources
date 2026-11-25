@@ -10,3 +10,10 @@
 # - GITHUB_PAT: Personal Access Token with repo scope (for triggering Actions)
 # - GITHUB_REPO: Your repo in "owner/repo" format
 
+
+# The Rails lab became the one Keep AI on the Rails lesson (#33).
+# Query strings (?rung, ?present&step) carry across.
+[[redirects]]
+  from = "/demos/keep-ai-on-the-rails-lab/*"
+  to = "/demos/keep-ai-on-the-rails/:splat"
+  status = 301
