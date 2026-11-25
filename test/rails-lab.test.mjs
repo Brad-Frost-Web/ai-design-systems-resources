@@ -88,7 +88,7 @@ test("spectrum levels keep human review universal and delivery governed", () => 
 
 test("every rendered level puts resulting UI before human review and release", () => {
 	const nunjucks = require("nunjucks");
-	const template = readFileSync(new URL("../demos/keep-ai-on-the-rails-lab.njk", import.meta.url), "utf8");
+	const template = readFileSync(new URL("../demos/keep-ai-on-the-rails.njk", import.meta.url), "utf8");
 	// Resolve includes the way Eleventy does, from _includes/.
 	const env = new nunjucks.Environment(new nunjucks.FileSystemLoader(new URL("../_includes", import.meta.url).pathname));
 	const html = env.renderString(template, { railsLab: lab });

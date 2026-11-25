@@ -23,6 +23,5 @@ import "@brad-frost-web/eddie-web-components/components/page/page.js";
 import "@brad-frost-web/eddie-web-components/components/band/band.js";
 import "@brad-frost-web/eddie-web-components/components/stack/stack.js";
 import "./course-hero.js";
-import "./recipes/rails-stage.js";
 import "./recipes/rails-lab.js";
 import "./recipes/rails-present.js";
