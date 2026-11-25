@@ -40,6 +40,7 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 	<link rel="icon" href="/favicon.svg">
 	<link rel="stylesheet" href="/css/styles.css">
 	<link rel="stylesheet" href="/css/rails-lab.css">
+	<link rel="stylesheet" href="/css/rails-present.css">
 </head>
 <body class="ed-r-rails-lab-page">
 <ed-page variant="flush"><ed-main flush>
@@ -48,7 +49,7 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 <ed-layout-container><ed-stack gap="inline">
 	<h1 class="ed-u-visually-hidden">Keep AI on the rails</h1>
 	<section class="ed-r-rails-lab__spectrum" aria-label="Spectrum of system-guided UI generation" data-controls hidden>
-		<div class="ed-r-rails-lab__spectrum-labels">Spectrum of system-guided UI generation</div>
+		<div class="ed-r-rails-lab__spectrum-labels"><span>Spectrum of system-guided UI generation</span><ed-button class="ed-r-rails-lab__present" size="sm" iconName="play" text="Present" data-present-open aria-keyshortcuts="P"></ed-button></div>
 		<label class="ed-u-visually-hidden" for="lab-spectrum">System guidance level</label>
 		<input class="ed-r-rails-lab__range" id="lab-spectrum" data-range type="range" min="0" max="{{ railsLab.lastRung }}" step="1" value="0">
 		<nav class="ed-r-rails-lab__ticks" aria-label="System guidance levels">
@@ -151,6 +152,8 @@ eddie-template: none — product-local horizontal teaching diagram, layout direc
 </ed-stack>
 </aids-rails-lab>
 </ed-main></ed-page>
+{#- Outside ed-page: ed-main caps slotted children at its content width. -#}
+{% include "rails-present.njk" %}
 <script type="module" src="/js/components.js"></script>
 </body>
 </html>

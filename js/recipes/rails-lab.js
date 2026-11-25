@@ -40,6 +40,8 @@ class RailsLab extends HTMLElement {
 		});
 		on(window, "popstate", () => this.readURL());
 		on(document, "keydown", e => {
+			// The presentation view owns the keyboard while it is open.
+			if (document.querySelector("dialog[open]")) return;
 			if (e.key === "Escape") { this.promptPaused = true; this.renderPrompt(); return; }
 			if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
 			if (e.composedPath().some(el => el instanceof Element && el.matches("input,select,textarea,[contenteditable=true],[data-pipeline-scroll]"))) return;
@@ -98,7 +100,6 @@ class RailsLab extends HTMLElement {
 	writeURL() {
 		const url = new URL(location.href);
 		url.searchParams.delete("future");
-		url.searchParams.delete("present");
 		url.searchParams.set("rung", this.rung);
 		for (const key of ["descriptions"]) {
 			if (this[key]) url.searchParams.set(key, "1"); else url.searchParams.delete(key);

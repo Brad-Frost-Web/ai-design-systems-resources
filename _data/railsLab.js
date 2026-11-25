@@ -122,4 +122,77 @@ review.presentationDescription = rungs[6].reviewDescription;
 // Put construction and delivery on opposite sides of the visible result.
 const buildStations = stations.slice(0, 6);
 const deliveryStations = stations.slice(7);
-module.exports = { concepts, stations, buildStations, review, deliveryStations, terminals, packages, files, eddie, process, rungs, lastRung: rungs.length - 1 };
+// Presentation view (#33, 2026-11-25): the same pieces as a one-frame diagram
+// in eddie-diagrams' visual language. Nodes reuse the lab's ids and levels;
+// beats order what each level adds, then a flow beat runs the pipeline.
+const stationById = Object.fromEntries(stations.map(station => [station.id, station]));
+const dot = { ai: "accent-2", human: "accent-4", check: "accent-3", steel: "accent-5", ui: "diagram-product" };
+const pipelineNode = (id, label, kind, icon, extra = {}) => ({ id, label, kind, icon, variant: dot[kind], uses: stationById[id]?.uses || "", ...extra });
+const presentation = {
+	lanes: [
+		{ id: "concepts", label: "AI dev concepts & techniques", nodes: concepts.map(c => ({ id: c.id, label: c.presentationLabel || c.label, icon: c.icon })) },
+		{ id: "pipeline", label: "Process", nodes: [
+			pipelineNode("entry", "Prompt", "human", "user"),
+			pipelineNode("specification", "Agree on a spec", "human", "user", { uses: "cfg-process" }),
+			pipelineNode("s1", "Ground", "ai", "search"),
+			pipelineNode("s2", "Rules", "ai", "file-text"),
+			pipelineNode("s3", "Consult", "ai", "link"),
+			pipelineNode("generate", "Generate", "ai", "zap"),
+			pipelineNode("s4", "Compose", "ai", "layers"),
+			pipelineNode("s5", "Validate", "check", "check-square"),
+			pipelineNode("s6", "Render", "ai", "eye"),
+			pipelineNode("output-preview", "Resulting UI", "ui", "grid"),
+			pipelineNode("s7", "Review", "human", "user"),
+			pipelineNode("s8", "Steel Curtain", "steel", "lock"),
+			pipelineNode("s9", "Approve merge", "human", "thumbs-up"),
+			pipelineNode("output-final", "Shipped UI", "ui", "grid"),
+			pipelineNode("feedback", "Feedback loop", "ui", "refresh-cw", { uses: "pkg-reporter pkg-brain brain-learning brain-adoption brain-activity" }),
+		] },
+		{ id: "brain", label: "eddie-brain knowledge graph", nodes: files.map(f => ({ id: f.id, label: f.label, icon: "file-text", file: true })) },
+		{ id: "packages", label: "Eddie DS packages", nodes: packages.map(p => ({ id: p.id, label: p.label, icon: p.icon })) },
+		{ id: "process", label: "bfw-process", nodes: [
+			{ id: "cfg-process", label: "6 phases, 2 gates", icon: "book-open" },
+			{ id: "gate-spec", label: "FEATURE-SPEC.md approved", icon: "lock", gate: true },
+			{ id: "gate-ship", label: "npm run bfw:ship", icon: "lock", gate: true },
+		] },
+	],
+	// Beat labels are draft copy for Brad's edit.
+	levels: [
+		[{ label: "You ask for UI", add: ["entry"] },
+			{ label: "The model generates it", add: ["generate"] },
+			{ label: "You get a result", add: ["output-preview"] },
+			{ label: "You review it", add: ["s7"] }],
+		[{ label: "Write down your preferences and rules", add: ["cfg-standing", "cfg-project"] },
+			{ label: "The agent reads them first", add: ["s2"] }],
+		[{ label: "Install the design system", add: ["pkg-design-tokens", "pkg-web-components", "pkg-icons", "pkg-charts", "pkg-boilerplates", "pkg-website"] },
+			{ label: "Connect the brain over MCP", add: ["cfg-mcp", "pkg-brain", "brain-components", "brain-tokens", "brain-recipes"] },
+			{ label: "Ground and consult before generating", add: ["s1", "s3"] }],
+		[{ label: "Add recipes, page templates and skills", add: ["cfg-skills", "pkg-recipes", "pkg-pages"] },
+			{ label: "Compose from the system’s ingredients", add: ["s4"], remove: ["generate"] }],
+		[{ label: "Add validation hooks", add: ["cfg-hook"] },
+			{ label: "Validate and render-check every change", add: ["s5", "s6"] }],
+		[{ label: "Install a shared process", add: ["cfg-process", "gate-spec", "gate-ship"] },
+			{ label: "Agree on a spec first", add: ["specification"] },
+			{ label: "The Steel Curtain", add: ["s8"] },
+			{ label: "A person approves the merge", add: ["s9", "output-final"] }],
+		[{ label: "Report what ships", add: ["pkg-reporter", "brain-learning", "brain-adoption", "brain-activity"] },
+			{ label: "Close the loop", add: ["feedback"] }],
+	],
+	// Retry loops drawn as arcs above the pipeline; `to` is the first visible
+	// candidate, so review returns to Generate early and Compose later.
+	loops: [
+		{ from: "s5", to: ["s4"], label: "Fix and check again" },
+		{ from: "s7", to: ["s4", "generate"], label: "Request changes" },
+		{ from: "s8", to: ["s4"], label: "Fix what CI caught" },
+		{ from: "feedback", to: ["s1"], label: "The system gets smarter" },
+	],
+	flowLabel: "See it run",
+};
+// What the client needs, serialized once; `<` escaped so it can sit in a script tag.
+presentation.clientJSON = JSON.stringify({
+	levels: presentation.levels, loops: presentation.loops, flowLabel: presentation.flowLabel,
+	pipeline: presentation.lanes.find(lane => lane.id === "pipeline").nodes.map(node => node.id),
+	uses: Object.fromEntries(presentation.lanes.flatMap(lane => lane.nodes).filter(node => node.uses).map(node => [node.id, node.uses])),
+	rungs: rungs.map(({ short, title, adds }) => ({ short, title, adds })),
+}).replace(/</g, "\\u003c");
+module.exports = { concepts, stations, buildStations, review, deliveryStations, terminals, packages, files, eddie, process, rungs, presentation, lastRung: rungs.length - 1 };
