@@ -5,8 +5,29 @@ branch: feature/33-rails-visual-sibling
 owners:
   - Brad Frost
   - Ian Frost
-last_updated: 2026-10-28
+last_updated: 2026-11-25
 amendments:
+  - date: 2026-11-25
+    author: Brad Frost
+    summary: |
+      Approved in chat ("Yes to all … Go!"). Adds a presentation view to the
+      lab and makes the lab the one public lesson.
+      1. Presentation mode on the lab page, eddie-diagrams' convention: P or a
+         Present button enters, Esc exits, ?present&step=N deep-links.
+      2. Rendered by a project-local recipe in this site from railsLab.js, in
+         eddie-diagrams' visual language: ed-dot pipeline nodes, system lanes,
+         drawn edges. No new dependency; one source of data.
+      3. Builds within each level: new pieces arrive one beat at a time, then a
+         flow beat runs a pulse through the pipeline (retry loops, the Steel
+         Curtain, and at level 7 the feedback loop back into the system).
+         Whatever is new on a beat is highlighted with a left-to-right slash
+         sweep, matching the slider's left-to-right progression; the newly
+         reached spectrum segment gets the same sweep.
+      4. The lab replaces the original stepper at /demos/keep-ai-on-the-rails/
+         (the -lab URL redirects there); it ships to main once #32 turns the
+         ship gate on.
+      Fits one 1920×1080 frame at every beat. Reduced motion: no sweep or
+      pulse; new pieces get a static marker and edges appear without drawing.
   - date: 2026-10-28
     author: Brad Frost
     summary: Workshop punch list approved in chat. Upgrade Eddie to latest published release; remove masthead, settings, endpoint labels and footer; concept titles toggle all descriptions; gradient spectrum; square cards; consistent human badges and right-aligned icons; stable fading prompts; simplify rule-file, Brain and process copy; collapse packages by default; clarify page templates in components.json; neutral inline code on Steel Curtain. Keep original demo source intact and preview on 8081.
