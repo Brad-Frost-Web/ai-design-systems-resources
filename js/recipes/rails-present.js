@@ -11,6 +11,14 @@ const reducedMotion = () => matchMedia("(prefers-reduced-motion: reduce)").match
 // The choreography, in multiples of Eddie's --ed-theme-animation-move-long so
 // a theme that retimes motion retimes the whole presentation with it.
 const CHOREOGRAPHY = { segment: 0.8, sweepSpread: 1.5, flowLead: 1.25, highlightHold: 2.25 };
+// The diagram zooms out as it grows: few pipeline nodes get big dots and
+// room between them; the dots step down a size as the pipeline fills.
+// Each tier fits the 1920px frame at its fullest (see css: [data-density]).
+const DENSITY = [
+	{ upTo: 6, density: "roomy", size: "lg" },
+	{ upTo: 10, density: "medium", size: "md" },
+	{ upTo: Infinity, density: "dense", size: "sm" },
+];
 
 /**
  * aids-rails-present — the Rails lab as a one-frame, step-built diagram (#33).
@@ -169,9 +177,16 @@ class RailsPresent extends HTMLElement {
 		this.renderHud(step, arriving);
 		this.shown = shown;
 		this.fresh = fresh;
-		this.setSweepDelays(fresh);
-		this.flip(before);
-		this.drawEdges();
+		const dots = this.applyDensity(shown);
+		// ed-dot re-renders its size asynchronously; measure only once it has.
+		const token = (this.layoutToken = {});
+		Promise.all(dots.map(dot => dot.updateComplete)).then(() => {
+			if (this.layoutToken !== token) return;
+			this.setSweepDelays(fresh);
+			this.flip(before);
+			this.drawEdges();
+			if (step.kind === "flow") this.runFlow();
+		});
 
 		const url = new URL(location.href);
 		url.searchParams.set("present", "");
@@ -180,7 +195,16 @@ class RailsPresent extends HTMLElement {
 
 		this.querySelector("[data-present-live]").textContent =
 			`Level ${step.level + 1}, ${this.data.rungs[step.level].title}. ${step.label}.`;
-		if (step.kind === "flow") this.runFlow();
+	}
+
+	/** Size the pipeline's dots, and its gaps via data-density, by how many are on screen. */
+	applyDensity(shown) {
+		const count = visiblePipeline(this.data.pipeline, shown).length;
+		const tier = DENSITY.find(t => count <= t.upTo);
+		this.dataset.density = tier.density;
+		const dots = [...this.querySelectorAll(".ed-r-rails-present__lane--pipeline ed-dot")];
+		dots.forEach(dot => dot.setAttribute("size", tier.size));
+		return dots;
 	}
 
 	renderHud(step, arriving) {

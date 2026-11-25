@@ -84,6 +84,10 @@
 /* The pipeline leaves room above it for the retry loops' arcs. */
 .ed-r-rails-present__lane--pipeline { padding-block-start: calc(var(--ed-theme-spacing-xxl) * 2); }
 .ed-r-rails-present__lane--pipeline .ed-r-rails-present__nodes { gap: var(--ed-theme-spacing-lg); align-items: start; }
+.ed-r-rails-present__stage[data-density="medium"] .ed-r-rails-present__lane--pipeline .ed-r-rails-present__nodes { gap: var(--ed-theme-spacing-xl); }
+.ed-r-rails-present__stage[data-density="roomy"] .ed-r-rails-present__lane--pipeline .ed-r-rails-present__nodes { gap: var(--ed-theme-spacing-xxl); }
+/* Concepts and process have few pills; give them room. */
+:is(.ed-r-rails-present__lane--concepts, .ed-r-rails-present__lane--process) .ed-r-rails-present__nodes { gap: var(--ed-theme-spacing-lg); }
 
 /* ---- nodes ---- */
 .ed-r-rails-present__node { position: relative; }
