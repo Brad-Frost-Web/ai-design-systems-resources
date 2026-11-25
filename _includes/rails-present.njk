@@ -1,8 +1,9 @@
 {#- Presentation view for Keep AI on the Rails (#33). A native modal dialog
-    owns focus, the top layer and Escape. Nodes are real lists; the edges are
-    a decorative SVG drawn by aids-rails-present. Data: railsLab.presentation. -#}
+    owns focus, the top layer and Escape. The pipeline is the lab's own cards
+    (rails-pipeline.njk); concepts, the brain, packages and process are pill
+    lanes. Everything sits on a canvas a camera frames beat by beat; the edges
+    are a decorative SVG on that canvas. Data: railsLab.presentation. -#}
 {%- set p = railsLab.presentation -%}
-{%- set kindLabel = { ai: "AI agent", human: "Human", check: "Automated check", steel: "Automated gate", ui: "Result" } -%}
 <dialog class="ed-r-rails-present" aria-label="Presentation: Keep AI on the rails" data-present-dialog>
 	<aids-rails-present class="ed-r-rails-present__stage">
 		<script type="application/json" data-present-data>{{ railsLab.presentation.clientJSON | safe }}</script>
@@ -18,6 +19,8 @@
 				<p class="ed-r-rails-present__adds" data-present-adds></p>
 			</div>
 		</header>
+		<div class="ed-r-rails-present__viewport" data-present-viewport>
+		<div class="ed-r-rails-present__canvas ed-r-rails-lab" data-present-canvas>
 		<svg class="ed-r-rails-present__edges" aria-hidden="true" focusable="false">
 			<defs>
 				<marker id="rails-present-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z"></path></marker>
@@ -28,22 +31,22 @@
 		{%- for lane in p.lanes %}
 		<section class="ed-r-rails-present__lane ed-r-rails-present__lane--{{ lane.id }}" aria-label="{{ lane.label }}" data-present-lane>
 			<p class="ed-r-rails-present__lane-label">{{ lane.label }}</p>
+			{%- if lane.id == "pipeline" %}
+			{%- set railsIdPrefix = "present" %}
+			{% include "rails-pipeline.njk" %}
+			{%- else %}
 			<ol class="ed-r-rails-present__nodes">
 				{%- for node in lane.nodes %}
-				{%- if lane.id == "pipeline" %}
-				<li class="ed-r-rails-present__node ed-r-rails-present__node--dot ed-r-rails-present__node--{{ node.kind }}" data-present-node="{{ node.id }}" hidden>
-					<span class="ed-r-rails-present__dot-frame"><ed-dot class="ed-r-rails-present__dot" variant="{{ node.variant }}" size="sm" label="{{ node.label }}">{% if node.kind == "ai" %}<ed-icon name="course-robot" iconUrl="/images/course-robot.svg"></ed-icon>{% else %}<ed-icon name="{{ node.icon }}"></ed-icon>{% endif %}</ed-dot><span class="ed-r-rails-present__sweep" aria-hidden="true"></span></span>
-					<span class="ed-r-rails-present__kind">{{ kindLabel[node.kind] }}</span>
-				</li>
-				{%- else %}
 				<li class="ed-r-rails-present__node ed-r-rails-present__node--pill{% if node.file %} ed-r-rails-present__node--file{% endif %}{% if node.gate %} ed-r-rails-present__node--gate{% endif %}" data-present-node="{{ node.id }}" hidden>
 					<ed-icon name="{{ node.icon }}"></ed-icon><span>{{ node.label | safe }}</span>
 				</li>
-				{%- endif %}
 				{%- endfor %}
 			</ol>
+			{%- endif %}
 		</section>
 		{%- endfor %}
+		</div>
+		</div>
 		<div class="ed-r-rails-present__controls">
 			<p class="ed-r-rails-present__hint"><ed-kbd>←</ed-kbd> <ed-kbd>→</ed-kbd> step · <ed-kbd>1</ed-kbd>–<ed-kbd>7</ed-kbd> level · <ed-kbd>F</ed-kbd> full screen · <ed-kbd>Esc</ed-kbd> exit</p>
 			<ed-button size="sm" variant="bare" iconName="arrow-left" text="Previous step" hideText data-present-prev aria-keyshortcuts="ArrowLeft"></ed-button>

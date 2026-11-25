@@ -1,31 +1,28 @@
-import "@brad-frost-web/eddie-web-components/components/dot/dot.js";
 import "@brad-frost-web/eddie-web-components/components/kbd/kbd.js";
 import "@brad-frost-web/eddie-web-components/components/icon/icon.js";
 import {
 	buildSteps, shownAt, newAt, firstStepOfLevel, presentFromSearch, stepForKey,
 	visiblePipeline, visibleLoops, visibleUses,
 } from "./rails-present-state.mjs";
+import { pieceState, isShown } from "./rails-stage-state.mjs";
 
 const SVG = "http://www.w3.org/2000/svg";
 const reducedMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 // The choreography, in multiples of Eddie's --ed-theme-animation-move-long so
 // a theme that retimes motion retimes the whole presentation with it.
-const CHOREOGRAPHY = { segment: 0.8, sweepSpread: 1.5, flowLead: 1.25, highlightHold: 2.25 };
-// The diagram zooms out as it grows: few pipeline nodes get big dots and
-// room between them; the dots step down a size as the pipeline fills.
-// Each tier fits the 1920px frame at its fullest (see css: [data-density]).
-const DENSITY = [
-	{ upTo: 6, density: "roomy", size: "lg" },
-	{ upTo: 10, density: "medium", size: "md" },
-	{ upTo: Infinity, density: "dense", size: "sm" },
-];
+const CHOREOGRAPHY = { segment: 0.8, sweepSpread: 1.5, flowLead: 1.25, highlightHold: 2.25, camera: 2, prompt: 11.25 };
+// What the camera keeps around a focus, in canvas pixels, so new pieces
+// arrive with their neighbours in view rather than filling the frame alone.
+const FRAME_MARGIN = 96;
+const FRAME_MIN_WIDTH = 1200;
 
 /**
- * aids-rails-present — the Rails lab as a one-frame, step-built diagram (#33).
+ * aids-rails-present — the Rails lab, built step by step for presenting (#33).
  * Lives inside a native <dialog>. P (or a [data-present-open] control) enters,
  * Escape exits, ←/→ step, 1–7 jump to a level, ?present&step=N deep-links.
- * Each beat adds pieces with a left-to-right slash sweep; each level ends on a
- * flow beat that runs a pulse through the pipeline and its retry loops.
+ * The pipeline is the lab's own cards on a canvas; a camera frames what each
+ * beat adds (with a left-to-right slash sweep) and pulls back to the whole
+ * system on each level's flow beat, which runs a pulse through the pipeline.
  */
 class RailsPresent extends HTMLElement {
 	connectedCallback() {
@@ -48,7 +45,14 @@ class RailsPresent extends HTMLElement {
 		this.data = JSON.parse(this.querySelector("[data-present-data]").textContent);
 		this.steps = buildSteps(this.data.levels, this.data.flowLabel);
 		this.dialog = this.closest("dialog");
+		this.viewport = this.querySelector("[data-present-viewport]");
+		this.canvas = this.querySelector("[data-present-canvas]");
 		this.svg = this.querySelector(".ed-r-rails-present__edges");
+		// The pipeline's cards are the nodes; the prompt card carries no piece id.
+		const cards = [...this.querySelectorAll(".ed-r-rails-lab__pipeline > li")];
+		cards.forEach(li => { li.dataset.presentNode = li.dataset.piece || "entry"; });
+		// Pieces inside cards (the Rules card's early and governed copy) follow the level.
+		this.levelPieces = cards.flatMap(li => [...li.querySelectorAll("[data-piece][data-in]")]);
 		this.edgeLayer = this.querySelector("[data-present-edges]");
 		this.pulse = this.querySelector("[data-present-pulse]");
 		this.nodes = new Map([...this.querySelectorAll("[data-present-node]")].map(el => [el.dataset.presentNode, el]));
@@ -66,13 +70,23 @@ class RailsPresent extends HTMLElement {
 		on(this.dialog, "close", () => this.onClose());
 		// Pointer and touch get the same moves as the keyboard.
 		on(this, "click", e => {
+			// A card's own control pins its connections, as it highlights them in the lab.
+			const station = e.target.closest?.("[data-station]");
+			if (station) {
+				const node = station.closest("[data-present-node]");
+				this.pinned = this.pinned === node ? null : node;
+				station.setAttribute("aria-pressed", String(this.pinned === node));
+				this.focusNode(this.pinned);
+				return;
+			}
 			const control = e.target.closest?.("[data-present-prev], [data-present-next], [data-present-exit]");
 			if (!control) return;
 			if (control.matches("[data-present-exit]")) this.dialog.close();
 			else this.go(stepForKey(control.matches("[data-present-next]") ? "ArrowRight" : "ArrowLeft", this.step, this.steps));
 		});
-		on(this, "pointerover", e => this.focusNode(e.target.closest?.("[data-present-node]")));
-		on(this, "pointerout", () => this.focusNode(null));
+		on(this, "pointerover", e => this.focusNode(e.target.closest?.("[data-present-node]") || this.pinned));
+		on(this, "pointerout", () => this.focusNode(this.pinned));
+		this.setupComposer();
 
 		const url = presentFromSearch(location.search, this.steps);
 		if (url.present) this.open(url.step);
@@ -102,11 +116,18 @@ class RailsPresent extends HTMLElement {
 		this.dialog.showModal();
 		this.dialog.requestFullscreen?.().catch(() => {});
 		this.fit();
+		this.canvas.dataset.cameraInstant = "";
 		this.render({ arriving: true });
+		// showModal focused the first control on the canvas, which the first
+		// beat may hide; keep focus on the deck's own control instead.
+		this.querySelector("[data-present-next]")?.focus();
+		requestAnimationFrame(() => delete this.canvas.dataset.cameraInstant);
+		this.cyclePrompts();
 	}
 
 	onClose() {
 		this.stopFlow();
+		clearTimeout(this.promptTimer);
 		if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
 		const url = new URL(location.href);
 		url.searchParams.delete("present");
@@ -161,6 +182,8 @@ class RailsPresent extends HTMLElement {
 
 	render({ arriving = false } = {}) {
 		this.stopFlow();
+		this.pinned = null;
+		this.canvas.querySelectorAll("[data-station]").forEach(button => button.setAttribute("aria-pressed", "false"));
 		const step = this.steps[this.step];
 		const shown = shownAt(this.steps, this.step);
 		// Only animate arrivals when stepping forward; a jump just shows the state.
@@ -174,19 +197,15 @@ class RailsPresent extends HTMLElement {
 		this.querySelectorAll("[data-present-lane]").forEach(lane => {
 			lane.toggleAttribute("data-empty", ![...lane.querySelectorAll("[data-present-node]")].some(n => !n.hidden));
 		});
+		this.renderCards(step.level);
 		this.renderHud(step, arriving);
 		this.shown = shown;
 		this.fresh = fresh;
-		const dots = this.applyDensity(shown);
-		// ed-dot re-renders its size asynchronously; measure only once it has.
-		const token = (this.layoutToken = {});
-		Promise.all(dots.map(dot => dot.updateComplete)).then(() => {
-			if (this.layoutToken !== token) return;
-			this.setSweepDelays(fresh);
-			this.flip(before);
-			this.drawEdges();
-			if (step.kind === "flow") this.runFlow();
-		});
+		this.setSweepDelays(fresh);
+		this.flip(before);
+		this.drawEdges();
+		this.aim(step, fresh);
+		if (step.kind === "flow") this.runFlow();
 
 		const url = new URL(location.href);
 		url.searchParams.set("present", "");
@@ -197,14 +216,76 @@ class RailsPresent extends HTMLElement {
 			`Level ${step.level + 1}, ${this.data.rungs[step.level].title}. ${step.label}.`;
 	}
 
-	/** Size the pipeline's dots, and its gaps via data-density, by how many are on screen. */
-	applyDensity(shown) {
-		const count = visiblePipeline(this.data.pipeline, shown).length;
-		const tier = DENSITY.find(t => count <= t.upTo);
-		this.dataset.density = tier.density;
-		const dots = [...this.querySelectorAll(".ed-r-rails-present__lane--pipeline ed-dot")];
-		dots.forEach(dot => dot.setAttribute("size", tier.size));
-		return dots;
+	/** The cards' level-dependent copy and step numbers, as the lab sets them. */
+	renderCards(level) {
+		for (const el of this.levelPieces) {
+			el.hidden = !isShown(pieceState(Number(el.dataset.in), el.dataset.out === undefined ? undefined : Number(el.dataset.out), level));
+		}
+		const rung = this.data.rungs[level];
+		const copy = { "[data-review-copy]": rung.reviewDescription, "[data-output-title]": rung.outputTitle, "[data-output-caption]": rung.outputCaption, "[data-generation-copy]": rung.generation };
+		for (const [selector, text] of Object.entries(copy)) this.canvas.querySelectorAll(selector).forEach(el => { el.textContent = text; });
+		[...this.canvas.querySelectorAll(".ed-r-rails-lab__pipeline > li")].filter(li => !li.hidden)
+			.flatMap(li => [...li.querySelectorAll("[data-process-number]")])
+			.forEach((badge, index) => { badge.textContent = index + 1; });
+	}
+
+	/**
+	 * Point the camera: on a flow beat, the whole system; otherwise what this
+	 * beat added, plus the cards it connects to, with room around it.
+	 */
+	aim(step, fresh) {
+		let ids = [...this.shown];
+		if (step.kind !== "flow" && fresh.size) {
+			const order = visiblePipeline(this.data.pipeline, this.shown);
+			const focus = new Set(fresh);
+			for (const [from, uses] of Object.entries(this.data.uses)) {
+				const targets = uses.split(" ");
+				if (fresh.has(from)) targets.filter(id => this.shown.has(id)).forEach(id => focus.add(id));
+				if (this.shown.has(from) && targets.some(id => fresh.has(id))) focus.add(from);
+			}
+			// A new card arrives beside the one before it.
+			for (const id of fresh) { const i = order.indexOf(id); if (i > 0) focus.add(order[i - 1]); }
+			ids = [...focus];
+		}
+		const boxes = ids.map(id => this.boxOf(this.nodes.get(id)));
+		let left = Math.min(...boxes.map(b => b.x)) - FRAME_MARGIN;
+		let right = Math.max(...boxes.map(b => b.x + b.width)) + FRAME_MARGIN;
+		const top = Math.min(...boxes.map(b => b.y)) - FRAME_MARGIN;
+		const bottom = Math.max(...boxes.map(b => b.y + b.height)) + FRAME_MARGIN;
+		if (right - left < FRAME_MIN_WIDTH) { const grow = (FRAME_MIN_WIDTH - (right - left)) / 2; left -= grow; right += grow; }
+		const view = { width: this.viewport.offsetWidth, height: this.viewport.offsetHeight };
+		const scale = Math.min(1, view.width / (right - left), view.height / (bottom - top));
+		const x = view.width / 2 - ((left + right) / 2) * scale;
+		const y = view.height / 2 - ((top + bottom) / 2) * scale;
+		this.canvas.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+		this.canvas.style.setProperty("--_camera-scale", String(scale));
+		// Keep the pulse the same size on screen however far the camera pulls back.
+		this.pulse.setAttribute("r", String(12 / scale));
+	}
+
+	/** The prompt card's examples cycle while presenting, as they do in the lab. */
+	setupComposer() {
+		this.prompts = [...this.canvas.querySelectorAll("[data-prompt-example]")];
+		this.promptIndex = 0;
+		this.canvas.querySelector("[data-prompt-examples]")?.setAttribute("data-enhanced", "");
+		this.showPrompt();
+	}
+
+	showPrompt() {
+		this.prompts.forEach((prompt, index) => {
+			prompt.toggleAttribute("data-active", index === this.promptIndex);
+			prompt.setAttribute("aria-hidden", String(index !== this.promptIndex));
+		});
+	}
+
+	cyclePrompts() {
+		clearTimeout(this.promptTimer);
+		if (!this.dialog.open || reducedMotion() || this.prompts.length < 2) return;
+		this.promptTimer = setTimeout(() => {
+			this.promptIndex = (this.promptIndex + 1) % this.prompts.length;
+			this.showPrompt();
+			this.cyclePrompts();
+		}, this.motion("prompt"));
 	}
 
 	renderHud(step, arriving) {
@@ -223,7 +304,7 @@ class RailsPresent extends HTMLElement {
 
 	/** The sweep crosses the diagram left to right: delay by horizontal position. */
 	setSweepDelays(fresh) {
-		const width = this.offsetWidth || 1;
+		const width = this.canvas.offsetWidth || 1;
 		for (const id of fresh) {
 			const el = this.nodes.get(id);
 			const x = this.boxOf(el).x / width;
@@ -231,20 +312,18 @@ class RailsPresent extends HTMLElement {
 		}
 	}
 
-	// ---- geometry: offsets within the stage, which transforms don't affect ----
+	// ---- geometry: offsets within the canvas, which transforms don't affect ----
 
 	boxOf(el) {
 		let x = 0, y = 0, node = el;
-		while (node && node !== this) { x += node.offsetLeft; y += node.offsetTop; node = node.offsetParent; }
+		while (node && node !== this.canvas) { x += node.offsetLeft; y += node.offsetTop; node = node.offsetParent; }
 		return { x, y, width: el.offsetWidth, height: el.offsetHeight };
 	}
 
-	/** The circle for pipeline nodes, the pill for everything else. */
+	/** A node's box on the canvas, with its centre. */
 	anchorOf(id) {
-		const el = this.nodes.get(id);
-		const target = el.querySelector("ed-dot") || el;
-		const b = this.boxOf(target);
-		return { ...b, cx: b.x + b.width / 2, cy: b.y + b.height / 2, lane: el.closest("[data-present-lane]") };
+		const b = this.boxOf(this.nodes.get(id));
+		return { ...b, cx: b.x + b.width / 2, cy: b.y + b.height / 2 };
 	}
 
 	measureAll() {
@@ -315,24 +394,22 @@ class RailsPresent extends HTMLElement {
 	loopHeights(loops, order) {
 		const span = loop => Math.abs(order.indexOf(loop.from) - order.indexOf(loop.to));
 		const sorted = [...loops].sort((a, b) => span(a) - span(b));
-		return new Map(sorted.map((loop, i) => [loop.key, 40 + i * 42]));
+		return new Map(sorted.map((loop, i) => [loop.key, 48 + i * 56]));
 	}
 
 	pathFor(edge, height) {
 		const a = this.anchorOf(edge.from);
 		const b = this.anchorOf(edge.to);
-		const r = a.width / 2;
 		if (edge.kind === "flow") {
-			return `M ${a.cx + r} ${a.cy} L ${b.cx - b.width / 2 - 4} ${b.cy}`;
+			return `M ${a.x + a.width} ${a.cy} L ${b.x - 4} ${b.cy}`;
 		}
 		if (edge.kind === "loop") {
 			const top = Math.min(a.y, b.y) - height;
 			return `M ${a.cx} ${a.y} C ${a.cx} ${top}, ${b.cx} ${top}, ${b.cx} ${b.y - 4}`;
 		}
-		// uses: vertical curve from the node (dot plus its kind label) to the pill
-		const node = this.boxOf(this.nodes.get(edge.from));
+		// uses: vertical curve from the card to the pill above or below it
 		const above = b.y < a.y;
-		const y1 = above ? a.y : node.y + node.height;
+		const y1 = above ? a.y : a.y + a.height;
 		const y2 = above ? b.y + b.height : b.y;
 		const mid = (y1 + y2) / 2;
 		return `M ${a.cx} ${y1} C ${a.cx} ${mid}, ${b.cx} ${mid}, ${b.cx} ${y2}`;

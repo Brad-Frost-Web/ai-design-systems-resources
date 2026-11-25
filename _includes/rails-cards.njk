@@ -1,0 +1,29 @@
+{#- The Rails lesson's pipeline cards (#33), shared by the lab and its
+    presentation view so both speak with the same authored copy. -#}
+{% macro stationCard(station) %}
+{% set isAgent = station.kind == "ai" or station.id == "s5" %}
+			<li class="ed-r-rails-lab__station ed-r-rails-lab__station--{{ station.kind }}{% if station.id == 's8' %} ed-r-rails-lab__station--steel{% endif %}" data-piece="{{ station.id }}" data-in="{{ station.in }}" data-uses="{{ station.uses }}">
+				<span class="ed-r-rails-lab__connector" data-connector="{{ station.id }}"><ed-icon name="{{ station.connector }}"{% if station.connector == "refresh-cw" %} iconTitle="Revise and check again"{% endif %}></ed-icon></span>
+				<article class="ed-r-rails-lab__card">
+					<button class="ed-r-rails-lab__station-control" type="button" data-station="{{ station.id }}" aria-pressed="false" title="Highlight connections">
+						<span class="ed-r-rails-lab__number" data-process-number>{{ (station.id | replace("s", "") | int) + 1 }}</span><span>{{ station.kicker | safe }}</span>{% if not isAgent %}<ed-icon class="ed-r-rails-lab__actor" name="{% if station.kind == 'human' %}user{% else %}{{ station.icon }}{% endif %}"></ed-icon>{% endif %}{% if isAgent %}<ed-icon class="ed-r-rails-lab__robot" name="course-robot" iconUrl="/images/course-robot.svg"></ed-icon>{% endif %}
+					</button>
+					<ed-heading tagName="h3" variant="title-sm">{{ (station.presentationTitle or station.title) | safe }}</ed-heading>
+					{% if station.id == 's2' %}
+					<ed-text-passage data-piece="rules-basic" data-in="1" data-out="5" hidden><p>The agent reads your preferences, project rules, design guidance, and examples before generating UI.</p></ed-text-passage>
+					<ed-text-passage data-piece="rules-governed" data-in="5"><p>{{ station.description | safe }}</p></ed-text-passage>
+					{% else %}<ed-text-passage><p{% if station.id == "s7" %} data-review-copy{% endif %}>{{ (station.presentationDescription or station.description) | safe }}</p></ed-text-passage>{% endif %}
+					<ul class="ed-r-rails-lab__tools">{% for tool in station.tools %}<li{% if station.id == "s2" and tool == "bfw-process" %} data-piece="rules-process-tool" data-in="5"{% endif %}>{{ tool | safe }}</li>{% endfor %}</ul>
+					<div class="ed-r-rails-lab__prevents"><ed-text-passage><p>{{ station.prevents | replace('blocks__label', 'ed-r-rails-lab__prevents-label') | safe }}</p></ed-text-passage></div>
+				</article>
+			</li>
+{% endmacro %}
+{% macro interfaceCard(title, description, outputTitle) %}
+<article class="ed-r-rails-lab__card ed-r-rails-lab__output ed-r-rails-lab__interface">
+	<span class="ed-r-rails-lab__window-bar" aria-hidden="true"><i></i><i></i><i></i><span></span></span>
+	<div class="ed-r-rails-lab__interface-copy">
+		<div class="ed-r-rails-lab__interface-hero"><ed-icon name="grid"></ed-icon><ed-heading tagName="h3" variant="title-sm">{{ title }}</ed-heading></div>
+		<ed-text-passage>{% if outputTitle %}<p><strong data-output-title>{{ outputTitle }}</strong></p>{% endif %}<p{% if outputTitle %} data-output-caption{% endif %}>{{ description | safe }}</p></ed-text-passage>
+	</div>
+</article>
+{% endmacro %}

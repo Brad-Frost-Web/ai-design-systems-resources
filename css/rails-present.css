@@ -18,7 +18,7 @@
 	position: absolute; top: var(--_offset-y, 0); left: var(--_offset-x, 0);
 	inline-size: 120rem; block-size: 67.5rem;
 	transform: scale(var(--_scale, 1)); transform-origin: top left;
-	display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--ed-theme-spacing-block);
+	display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); gap: var(--ed-theme-spacing-block);
 	padding: var(--ed-theme-spacing-xl);
 	background-color: var(--ed-theme-color-background-default);
 	background-image: radial-gradient(var(--ed-theme-color-border-subtle) 0.0625rem, transparent 0.0625rem);
@@ -69,6 +69,17 @@
 }
 .ed-r-rails-present__adds { font-size: var(--ed-theme-typography-body-lg-font-size); color: var(--ed-theme-color-content-subtle); }
 
+/* ---- the camera: a viewport onto a canvas laid out at the cards' real size ---- */
+.ed-r-rails-present__viewport { position: relative; overflow: hidden; }
+.ed-r-rails-present__canvas {
+	position: absolute; inset-block-start: 0; inset-inline-start: 0;
+	display: grid; justify-items: center; gap: var(--ed-theme-spacing-xl);
+	inline-size: max-content; padding: 0;
+	transform-origin: 0 0;
+	transition: transform calc(var(--ed-theme-animation-move-long) * 2) var(--ed-theme-animation-ease);
+}
+.ed-r-rails-present__canvas[data-camera-instant] { transition: none; }
+
 /* ---- lanes keep their place even before anything arrives in them ---- */
 .ed-r-rails-present__lane { display: grid; gap: var(--ed-theme-spacing-xs); justify-items: center; }
 .ed-r-rails-present__lane[data-empty] { visibility: hidden; }
@@ -78,29 +89,23 @@
 	text-transform: var(--ed-theme-typography-meta-sm-text-transform); color: var(--ed-theme-color-content-subtle);
 }
 .ed-r-rails-present__nodes {
-	display: flex; flex-wrap: nowrap; justify-content: center; gap: var(--ed-theme-spacing-sm);
+	display: flex; flex-wrap: nowrap; justify-content: center; gap: var(--ed-theme-spacing-lg);
 	margin: 0; padding: 0; list-style: none;
 }
-/* The pipeline leaves room above it for the retry loops' arcs. */
-.ed-r-rails-present__lane--pipeline { padding-block-start: calc(var(--ed-theme-spacing-xxl) * 2); }
-.ed-r-rails-present__lane--pipeline .ed-r-rails-present__nodes { gap: var(--ed-theme-spacing-lg); align-items: start; }
-.ed-r-rails-present__stage[data-density="medium"] .ed-r-rails-present__lane--pipeline .ed-r-rails-present__nodes { gap: var(--ed-theme-spacing-xl); }
-.ed-r-rails-present__stage[data-density="roomy"] .ed-r-rails-present__lane--pipeline .ed-r-rails-present__nodes { gap: var(--ed-theme-spacing-xxl); }
-/* Concepts and process have few pills; give them room. */
-:is(.ed-r-rails-present__lane--concepts, .ed-r-rails-present__lane--process) .ed-r-rails-present__nodes { gap: var(--ed-theme-spacing-lg); }
+:is(.ed-r-rails-present__lane--brain, .ed-r-rails-present__lane--packages) .ed-r-rails-present__nodes { gap: var(--ed-theme-spacing-xs); }
 
-/* ---- nodes ---- */
+/* The pipeline is the lab's own cards. Room above for the retry loops' arcs;
+   the SVG draws the arrows, so the lab's connector icons step aside. */
+.ed-r-rails-present__lane--pipeline { padding-block-start: calc(var(--ed-theme-spacing-xxl) * 3); }
+.ed-r-rails-present__canvas .ed-r-rails-lab__pipeline { inline-size: max-content; }
+/* The lab's card widths, fixed: a max-content canvas would otherwise let
+   each card grow to its text's unwrapped length. */
+.ed-r-rails-present__canvas .ed-r-rails-lab__pipeline > li { flex: 0 0 calc(var(--ed-theme-spacing-flow) * 20); overflow: hidden; }
+.ed-r-rails-present__canvas .ed-r-rails-lab__pipeline > .ed-r-rails-lab__station--steel { flex-basis: calc(var(--ed-theme-spacing-flow) * 32); }
+.ed-r-rails-present__canvas .ed-r-rails-lab__connector { display: none; }
+
+/* ---- pills: concepts, the brain's files, packages, process ---- */
 .ed-r-rails-present__node { position: relative; }
-.ed-r-rails-present__node--dot {
-	display: grid; justify-items: center; gap: var(--ed-theme-spacing-xs); inline-size: min-content;
-	text-align: center;
-}
-/* The ring and the sweep take the dot's own size, whatever ed-dot size is set. */
-.ed-r-rails-present__dot-frame { position: relative; display: grid; }
-.ed-r-rails-present__kind {
-	font-size: var(--ed-theme-typography-meta-sm-font-size); letter-spacing: var(--ed-theme-typography-meta-sm-letter-spacing);
-	text-transform: var(--ed-theme-typography-meta-sm-text-transform); color: var(--ed-theme-color-content-subtle);
-}
 .ed-r-rails-present__node--pill {
 	display: flex; align-items: center; gap: var(--ed-theme-spacing-inline);
 	padding: var(--ed-theme-spacing-sm) var(--ed-theme-spacing-md);
@@ -111,29 +116,17 @@
 	white-space: nowrap; overflow: hidden;
 }
 .ed-r-rails-present__node--file { font-family: var(--ed-theme-typography-code-font-family); }
-/* The system lanes hold the most pieces: a denser pill keeps ten on one line. */
-:is(.ed-r-rails-present__lane--brain, .ed-r-rails-present__lane--packages) .ed-r-rails-present__nodes { gap: var(--ed-theme-spacing-xs); }
-:is(.ed-r-rails-present__lane--brain, .ed-r-rails-present__lane--packages) .ed-r-rails-present__node--pill {
-	padding: var(--ed-theme-spacing-xs) var(--ed-theme-spacing-sm); gap: var(--ed-theme-spacing-xs);
-	font-size: var(--ed-theme-typography-label-sm-font-size);
-}
 .ed-r-rails-present__lane--packages .ed-r-rails-present__node--pill { background: var(--ed-theme-color-background-diagram-package); color: var(--ed-theme-color-content-on-diagram-package); border-color: transparent; }
 .ed-r-rails-present__node--gate { background: var(--ed-theme-color-background-utility-warning); border-color: var(--ed-theme-color-border-utility-warning); }
 
-/* The circle a dot's ring and sweep are clipped to. */
-.ed-r-rails-present__sweep {
-	position: absolute; inset: 0; border-radius: var(--ed-theme-border-radius-round);
-	overflow: hidden; pointer-events: none; z-index: 1;
-}
-
 /* ---- new on this beat: arrive, then a left-to-right slash sweeps across ---- */
-.ed-r-rails-present__node[data-new] { animation: rails-present-arrive var(--ed-theme-animation-move-long) var(--ed-theme-animation-ease) var(--_sweep-delay, 0ms) both; }
+[data-present-node][data-new] { animation: rails-present-arrive var(--ed-theme-animation-move-long) var(--ed-theme-animation-ease) var(--_sweep-delay, 0ms) both; }
 .ed-r-rails-present__node--pill[data-new] { box-shadow: 0 0 0 var(--ed-theme-border-width-lg) var(--ed-theme-color-background-brand); }
-.ed-r-rails-present__node--dot[data-new] .ed-r-rails-present__sweep { box-shadow: inset 0 0 0 var(--ed-theme-border-width-lg) var(--ed-theme-color-background-brand); }
+[data-present-node][data-new] > .ed-r-rails-lab__card { box-shadow: 0 0 0 var(--ed-theme-border-width-lg) var(--ed-theme-color-background-brand); }
 .ed-r-rails-present__node--pill[data-new]::after,
-.ed-r-rails-present__node--dot[data-new] .ed-r-rails-present__sweep::after,
+.ed-r-rails-lab__pipeline > [data-new]::after,
 .ed-r-rails-present__level[data-new]::after {
-	content: ""; position: absolute; inset: 0; pointer-events: none;
+	content: ""; z-index: 1; position: absolute; inset: 0; pointer-events: none;
 	/* A slash with a light core and brand edges reads on every node colour. */
 	background: linear-gradient(110deg, transparent 36%, var(--ed-theme-color-background-brand) 42%, color-mix(in srgb, var(--ed-theme-color-background-default) 85%, transparent) 46% 54%, var(--ed-theme-color-background-brand) 58%, transparent 64%);
 	translate: -100% 0;
@@ -143,8 +136,8 @@
 @keyframes rails-present-arrive { from { opacity: 0; scale: 0.7; } to { opacity: 1; scale: 1; } }
 @keyframes rails-present-slash { from { translate: -100% 0; } to { translate: 100% 0; } }
 
-/* The pulse arrives: a ring rolls out of the dot. */
-.ed-r-rails-present__node.is-pulsed .ed-r-rails-present__sweep { animation: rails-present-ring calc(var(--ed-theme-animation-move-long) * 1.75) var(--ed-theme-animation-ease); }
+/* The pulse arrives: a ring rolls out of the card or pill. */
+.ed-r-rails-lab__pipeline > .is-pulsed > .ed-r-rails-lab__card { animation: rails-present-ring calc(var(--ed-theme-animation-move-long) * 1.75) var(--ed-theme-animation-ease); }
 .ed-r-rails-present__node--pill.is-pulsed { animation: rails-present-ring calc(var(--ed-theme-animation-move-long) * 1.75) var(--ed-theme-animation-ease); }
 @keyframes rails-present-ring {
 	from { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ed-theme-color-background-brand) 70%, transparent); }
@@ -160,7 +153,8 @@
 .ed-r-rails-present__edge--uses { stroke: var(--ed-theme-color-content-brand); stroke-width: var(--ed-theme-border-width-md); stroke-dasharray: 2 6; opacity: 0.2; transition: opacity var(--ed-theme-animation-fade-quick) var(--ed-theme-animation-ease); }
 .ed-r-rails-present__edge--uses:is(.is-lit, .is-hovered, .is-active) { opacity: 1; }
 .ed-r-rails-present__edge--uses.is-active { stroke-width: var(--ed-theme-border-width-lg); }
-.ed-r-rails-present__stage.is-flowing .ed-r-rails-present__edge--loop { animation: rails-present-march calc(var(--ed-theme-animation-move-long) * 2.25) linear infinite; stroke: var(--ed-theme-color-content-brand); }
+/* A loop still drawing in finishes drawing before it starts to march. */
+.ed-r-rails-present__stage.is-flowing .ed-r-rails-present__edge--loop:not(.is-drawing) { animation: rails-present-march calc(var(--ed-theme-animation-move-long) * 2.25) linear infinite; stroke: var(--ed-theme-color-content-brand); }
 @keyframes rails-present-march { to { stroke-dashoffset: -30; } }
 .ed-r-rails-present__edge.is-drawing { stroke-dasharray: 1; stroke-dashoffset: 1; animation: rails-present-draw calc(var(--ed-theme-animation-move-long) * 1.6) var(--ed-theme-animation-ease) var(--ed-theme-animation-move-long) forwards; }
 @keyframes rails-present-draw { to { stroke-dashoffset: 0; } }
@@ -179,14 +173,15 @@
 
 /* ---- reduced motion: no sweep, no pulse, no drawing; a static marker instead ---- */
 @media (prefers-reduced-motion: reduce) {
-	.ed-r-rails-present__node[data-new],
+	[data-present-node][data-new],
+	.ed-r-rails-present__canvas,
 	.ed-r-rails-present__edge.is-drawing,
 	.ed-r-rails-present__stage.is-flowing .ed-r-rails-present__edge--loop { animation: none; }
 	.ed-r-rails-present__edge.is-drawing { stroke-dasharray: none; stroke-dashoffset: 0; }
 	.ed-r-rails-present__node--pill[data-new]::after,
-	.ed-r-rails-present__node--dot[data-new] .ed-r-rails-present__sweep::after,
+	.ed-r-rails-lab__pipeline > [data-new]::after,
 	.ed-r-rails-present__level[data-new]::after {
-		animation: none; translate: 0 0;
+		animation: none; transition: none; translate: 0 0;
 		background: repeating-linear-gradient(110deg, color-mix(in srgb, var(--ed-theme-color-background-brand) 30%, transparent) 0 0.25rem, transparent 0.25rem 0.75rem);
 	}
 }

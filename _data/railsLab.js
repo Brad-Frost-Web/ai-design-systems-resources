@@ -193,6 +193,8 @@ presentation.clientJSON = JSON.stringify({
 	levels: presentation.levels, loops: presentation.loops, flowLabel: presentation.flowLabel,
 	pipeline: presentation.lanes.find(lane => lane.id === "pipeline").nodes.map(node => node.id),
 	uses: Object.fromEntries(presentation.lanes.flatMap(lane => lane.nodes).filter(node => node.uses).map(node => [node.id, node.uses])),
-	rungs: rungs.map(({ short, title, adds }) => ({ short, title, adds })),
+	// Per-level copy the shared cards change with, exactly as the lab does.
+	rungs: rungs.map(({ short, title, adds, reviewDescription, outputTitle, outputCaption, generation }) =>
+		({ short, title, adds, reviewDescription, outputTitle, outputCaption, generation: generation || "" })),
 }).replace(/</g, "\\u003c");
 module.exports = { concepts, stations, buildStations, review, deliveryStations, terminals, packages, files, eddie, process, rungs, presentation, lastRung: rungs.length - 1 };

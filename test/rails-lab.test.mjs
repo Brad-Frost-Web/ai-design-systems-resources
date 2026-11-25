@@ -91,7 +91,8 @@ test("every rendered level puts resulting UI before human review and release", (
 	const template = readFileSync(new URL("../demos/keep-ai-on-the-rails.njk", import.meta.url), "utf8");
 	// Resolve includes the way Eleventy does, from _includes/.
 	const env = new nunjucks.Environment(new nunjucks.FileSystemLoader(new URL("../_includes", import.meta.url).pathname));
-	const html = env.renderString(template, { railsLab: lab });
+	// The lab's own pipeline only; the presentation view renders the same cards.
+	const html = env.renderString(template, { railsLab: lab }).split("data-present-dialog")[0];
 	const cards = [...html.matchAll(/<li class="ed-r-rails-lab__(?:station|endpoint)[^"]*"([^>]*)>/g)].map(([, attrs]) => ({
 		id: attrs.match(/data-piece="([^"]+)"/)?.[1] || "prompt",
 		start: Number(attrs.match(/data-in="([^"]+)"/)?.[1] || 0),
