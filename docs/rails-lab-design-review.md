@@ -1,8 +1,9 @@
-# Keep AI on the Rails: sibling teaching demo
+# Keep AI on the Rails: the lesson and its presentation view
 
-Local route: `/demos/keep-ai-on-the-rails-lab/`, port 8081.
-Branch: `feature/33-rails-visual-sibling`. Continues issue #33; this is a local
-teaching-design pass, not a production release or completion of the parent epic.
+Route: `/demos/keep-ai-on-the-rails/` (since 2026-11-25; the old
+`/demos/keep-ai-on-the-rails-lab/` 301s there on Netlify, query string kept).
+Branch: `feature/33-rails-visual-sibling`, issue #33. The sections below record
+the lab's design passes in order; the newest is last.
 
 ## Assessment and sources
 
@@ -271,3 +272,61 @@ track selectors match. This illustrative hue adds four primitive-token warnings;
 20 total, zero errors. P4.1: build and browser visual check pass; independent Spec
 and Standards reviews clear. CSS-only change; no new tests needed. P5.1: recorded
 here, local preview only.
+
+## The lab becomes the lesson, with a presentation view — 2026-11-25
+
+Brad approved four decisions in chat (recorded as the 2026-11-25 FEATURE-SPEC
+amendment) plus a slash sweep for whatever is new.
+
+**The lab is the one lesson.** It moved to `/demos/keep-ai-on-the-rails/`; the
+original eleven-rung stepper's template, recipe and styles were removed.
+`_data/rails.js` keeps only the `groups` the lab maps onto its seven levels.
+
+**Presentation view.** `P` or the Present button (or `?present&step=N`) opens
+the lab as a one-frame diagram in a native modal `<dialog>`; `Esc` or Exit
+closes it and leaves the lab on the level the talk reached. `←`/`→`, Space and
+PageUp/PageDown step, `1`–`7` jump to a level, `F` toggles full screen, and
+visible Previous / Next / Exit buttons do the same for pointer and touch.
+
+- *Data.* `railsLab.presentation` holds the lanes, the beats per level and the
+  retry loops, reusing the lab's ids. A test holds every node to arriving at the
+  level the lab shows it. Beat labels are draft copy for Brad's edit.
+- *Look.* eddie-diagrams' language: `ed-dot` pipeline nodes coloured by actor
+  (AI light blue, human mustard, checks dark, results green) with a kind label
+  under each; concepts, the brain's files, packages and bfw-process as pill
+  lanes that hold their place before anything arrives; a dotted canvas.
+- *Steps.* 26 in all. Each level adds its pieces one beat at a time, then a
+  flow beat sends a pulse down the pipeline, once round each visible retry loop,
+  and at level 7 back from the feedback loop to Ground.
+- *New.* What a beat adds gets a brand ring and a slash that sweeps left to
+  right, delayed by each piece's position so the sweep crosses the diagram; the
+  newly reached level in the header gets it too.
+- *Edges.* A decorative SVG: pipeline arrows, four labelled loop arcs, and
+  "uses" lines from each station to what it consults, faint at rest and lit for
+  new pieces, on hover and as the pulse passes.
+- *Frame.* A fixed 120 × 67.5rem (1920 × 1080) stage letterboxed to any screen.
+- *Motion.* Timings are multiples of `--ed-theme-animation-move-long`. Reduced
+  motion swaps the sweep for a static hatch and skips the pulse, line drawing
+  and node gliding.
+
+The dialog sits outside `ed-page`: `ed-main` caps slotted children at its
+content width, which first shrank the stage to 1120px.
+
+**Where it reinterprets the lab.** The lab marks five iteration connectors; the
+presentation draws four named loops (Validate→Compose, Review→Compose or
+Generate, Steel Curtain→Compose, Feedback→Ground). The two bfw-process gates
+are their own pills here; in the lab they are phases. Packages show from level
+3, where the lab keeps them in a collapsed accordion.
+
+**Verification.** 31 Node tests (7 new for the presentation state), production
+build, `eddie_validate_file` clean on the new CSS, JS and built page. Playwright
+at 1920×1080 stepped all 26 beats with nothing outside the frame and no console
+errors; checked the slash mid-sweep, the flow pulse, reduced motion, the no-JS
+page (dialog shut, Present hidden, all 15 pipeline cards readable), modal focus
+and its return to Present, deep links, and the Previous/Next/Exit buttons.
+Independent Standards and Spec reviews ran; both caught a flowing state that
+outlived its beat, fixed in ab05bd5 with the rest of their findings.
+
+**Not here.** The ship gate (#32), the Eddie 0.72 → 0.80 upgrade, site-wide
+`ed-page` (#38). The missing step-built diagram primitive is dual-filed on
+Brad-Frost-Web/eddie-design-system#2151.
