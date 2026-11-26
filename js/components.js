@@ -22,6 +22,13 @@ import "@brad-frost-web/eddie-web-components/components/page-header/page-header.
 import "@brad-frost-web/eddie-web-components/components/page/page.js";
 import "@brad-frost-web/eddie-web-components/components/band/band.js";
 import "@brad-frost-web/eddie-web-components/components/stack/stack.js";
+import "@brad-frost-web/eddie-web-components/components/cluster/cluster.js";
+import "@brad-frost-web/eddie-web-components/components/kbd/kbd.js";
+import "@brad-frost-web/eddie-web-components/components/text-link/text-link.js";
+import "@brad-frost-web/eddie-web-components/components/toggle/toggle.js";
+import "@brad-frost-web/eddie-web-components/components/single-field-form/single-field-form.js";
+import "@brad-frost-web/eddie-recipes/recipes/common/stat-card/stat-card.js";
 import "./course-hero.js";
 import "./recipes/rails-lab.js";
 import "./recipes/rails-present.js";
+import "./recipes/rails-alive.js";

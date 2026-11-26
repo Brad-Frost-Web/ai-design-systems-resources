@@ -1,0 +1,42 @@
+/* Keep AI on the Rails, alive (#56): a full-bleed playable stage with Eddie chrome. */
+.ed-r-rails-alive { display: block; padding-block: var(--ed-theme-spacing-flow) var(--ed-theme-spacing-section); color: var(--ed-theme-color-content-default); }
+.ed-r-rails-alive [hidden] { display: none !important; }
+
+.ed-r-rails-alive__header { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--ed-theme-spacing-flow); row-gap: var(--ed-theme-spacing-inline); padding-block-end: var(--ed-theme-spacing-flow); }
+.ed-r-rails-alive__header ed-text-passage p { margin: 0; }
+
+/* The stage keeps 16:9 and fits the viewport height, leaving room for the level buttons below. */
+.ed-r-rails-alive__stage {
+	width: min(calc(100% - var(--ed-theme-spacing-flow) * 2), calc((100dvh - var(--ed-theme-spacing-flow) * 8) * 16 / 9));
+	min-width: min(100%, calc(var(--ed-theme-spacing-flow) * 40));
+	margin-inline: auto;
+	aspect-ratio: 16 / 9;
+	border: var(--ed-theme-border-width-lg) solid var(--ed-theme-color-border-strong);
+	border-radius: var(--ed-theme-border-radius-lg);
+	overflow: hidden;
+	background: var(--ed-theme-color-background-default);
+}
+.ed-r-rails-alive__canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
+
+.ed-r-rails-alive__deck {
+	display: grid;
+	grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+	gap: var(--ed-theme-spacing-flow) calc(var(--ed-theme-spacing-flow) * 2);
+	padding-block-start: var(--ed-theme-spacing-flow);
+}
+.ed-r-rails-alive__levels, .ed-r-rails-alive__settings { grid-column: 1 / -1; }
+.ed-r-rails-alive__levels { display: flex; justify-content: center; }
+.ed-r-rails-alive__caption, .ed-r-rails-alive__play, .ed-r-rails-alive__build { display: flex; flex-direction: column; gap: var(--ed-theme-spacing-inline); min-width: 0; }
+.ed-r-rails-alive__caption ed-text-passage p { margin-block: 0 var(--ed-theme-spacing-inline); }
+.ed-r-rails-alive__eyebrow { margin: 0; font-family: var(--ed-theme-typography-code-font-family); font-size: var(--ed-theme-typography-meta-sm-font-size); text-transform: uppercase; color: var(--ed-theme-color-content-subtle); }
+.ed-r-rails-alive__build { grid-column: 1 / -1; }
+.ed-r-rails-alive__keys { margin: 0; font-size: var(--ed-theme-typography-body-sm-font-size); }
+
+.ed-r-rails-alive__key-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(var(--ed-theme-spacing-flow) * 14), 1fr)); gap: var(--ed-theme-spacing-flow); margin: 0; padding: 0; list-style: none; }
+.ed-r-rails-alive__key-list > li { display: flex; flex-direction: column; gap: var(--ed-theme-spacing-inline); padding: var(--ed-theme-spacing-flow); border: var(--ed-theme-border-width-sm) solid var(--ed-theme-color-border-subtle); background: var(--ed-theme-color-background-surface); }
+.ed-r-rails-alive__key-list ed-text-passage p { margin: 0; }
+.ed-r-rails-alive__key { display: flex; flex-direction: column; gap: var(--ed-theme-spacing-flow); }
+
+@media (max-width: 60rem) {
+	.ed-r-rails-alive__deck { grid-template-columns: minmax(0, 1fr); }
+}

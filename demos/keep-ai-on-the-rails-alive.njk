@@ -1,0 +1,103 @@
+---
+permalink: /demos/keep-ai-on-the-rails-alive/
+eleventyExcludeFromCollections: true
+eddie-template: none — a full-bleed playable stage (design spike #56); no Pages/Common template is a canvas toy, and ed-p-workspace is a draft editor frame
+---
+<!doctype html>
+<html lang="en" class="bfw">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Keep AI on the Rails, alive — Playable Lesson</title>
+	<meta name="description" content="Prompt an AI agent, then add guardrails one level at a time. A playable AI and design systems lesson.">
+	<meta name="robots" content="noindex">
+	<link rel="icon" href="/favicon.svg">
+	<link rel="stylesheet" href="/css/styles.css">
+	<link rel="stylesheet" href="/css/rails-alive.css">
+</head>
+<body class="ed-r-rails-alive-page">
+<ed-page variant="flush"><ed-main flush>
+<aids-rails-alive class="ed-r-rails-alive">
+	<script type="application/json" data-alive-data>{{ railsAlive.clientJSON | safe }}</script>
+	{%- set first = railsAlive.levels[0] %}
+	<ed-layout-container variant="wide">
+		<header class="ed-r-rails-alive__header">
+			<ed-heading tagName="h1" variant="headline-default">Keep AI on the rails</ed-heading>
+			<ed-text-passage><p>Prompt the agent, then add guardrails one level at a time. Grab pieces and throw them, stir the stage, and poke the characters.</p></ed-text-passage>
+			<ed-text-link href="/demos/keep-ai-on-the-rails/">Read the lesson version</ed-text-link>
+		</header>
+	</ed-layout-container>
+
+	<div class="ed-r-rails-alive__stage" data-alive-js hidden>
+		<canvas class="ed-r-rails-alive__canvas" data-alive-canvas role="img" width="1920" height="1080" aria-label="Level 1, {{ first.title }}. {{ first.lines.stage }}"></canvas>
+	</div>
+
+	<ed-layout-container variant="wide">
+		<ed-stack gap="section">
+		<div class="ed-r-rails-alive__deck" data-alive-js hidden>
+			<nav class="ed-r-rails-alive__levels" aria-label="Guidance levels">
+				<ed-cluster gap="inline">
+				{%- for level in railsAlive.levels %}
+					<ed-button size="sm" variant="{% if loop.first %}primary{% else %}secondary{% endif %}" data-alive-level="{{ loop.index0 }}" aria-pressed="{{ 'true' if loop.first else 'false' }}" aria-keyshortcuts="{{ loop.index }}" text="{{ loop.index }}. {{ level.short }}"></ed-button>
+				{%- endfor %}
+				</ed-cluster>
+			</nav>
+
+			<section class="ed-r-rails-alive__caption" aria-labelledby="alive-title">
+				<p class="ed-r-rails-alive__eyebrow" data-alive-eyebrow>Level 1 of {{ railsAlive.levels.length }}</p>
+				<ed-heading tagName="h2" variant="title-lg" id="alive-title" data-alive-title>{{ first.title }}</ed-heading>
+				<ed-text-passage>
+					<p><strong>Adds:</strong> <span data-alive-adds>{{ first.adds }}</span></p>
+					<p data-alive-stage>{{ first.lines.stage }}</p>
+					<p><strong data-alive-result>{{ first.resultTitle }}.</strong> <span data-alive-caption>{{ first.caption }}</span></p>
+				</ed-text-passage>
+			</section>
+
+			<section class="ed-r-rails-alive__play" aria-label="Prompt the agent">
+				<ed-single-field-form data-alive-prompt label="Prompt the agent" name="prompt" buttonText="Generate" buttonIconName="arrow-right" buttonIconPosition="after" value="{{ railsAlive.suggestions[0] }}" placeholder="Make me a signup page"></ed-single-field-form>
+				<ed-cluster gap="inline">
+				{%- for suggestion in railsAlive.suggestions %}
+					<ed-button size="sm" variant="secondary" data-alive-suggestion data-prompt="{{ suggestion }}" text="{{ suggestion }}"></ed-button>
+				{%- endfor %}
+				</ed-cluster>
+				<ed-button variant="primary" iconName="check" text="Approve release" data-alive-approve aria-keyshortcuts="A" disabled hidden></ed-button>
+			</section>
+
+			<section class="ed-r-rails-alive__build" aria-labelledby="alive-build">
+				<ed-heading tagName="h2" variant="title-sm" id="alive-build">This build</ed-heading>
+				<ed-grid variant="3up">
+					<ed-grid-item><ed-r-stat-card data-alive-stat="hallucinated" label="Hallucinated" meta="Invented pieces in the product" size="sm">0</ed-r-stat-card></ed-grid-item>
+					<ed-grid-item><ed-r-stat-card data-alive-stat="caught" label="Caught" meta="Stopped by validation, sent round again" size="sm">0</ed-r-stat-card></ed-grid-item>
+					<ed-grid-item><ed-r-stat-card data-alive-stat="onSystem" label="On-system" meta="Real components in this build" size="sm">0</ed-r-stat-card></ed-grid-item>
+				</ed-grid>
+			</section>
+
+			<div class="ed-r-rails-alive__settings">
+				<ed-cluster gap="flow" align="center">
+					<ed-toggle data-alive-sound label="Sound" size="sm"><span slot="off">Sound</span></ed-toggle>
+					<ed-toggle data-alive-motion label="Motion" size="sm" checked><span slot="off">Motion</span></ed-toggle>
+					<p class="ed-r-rails-alive__keys"><ed-kbd>Space</ed-kbd> prompt again · <ed-kbd>1</ed-kbd>–<ed-kbd>7</ed-kbd> level · <ed-kbd>A</ed-kbd> approve · drag to throw</p>
+				</ed-cluster>
+			</div>
+		</div>
+
+		<section class="ed-r-rails-alive__key" aria-labelledby="alive-levels">
+			<ed-heading tagName="h2" variant="title-sm" id="alive-levels">The seven levels</ed-heading>
+			<p data-alive-nojs>The playable stage needs JavaScript. These are the seven levels it plays through.</p>
+			<ol class="ed-r-rails-alive__key-list">
+			{%- for level in railsAlive.levels %}
+				<li>
+					<ed-heading tagName="h3" variant="label-lg">{{ loop.index }}. {{ level.title }}</ed-heading>
+					<ed-text-passage size="sm"><p><strong>Adds:</strong> {{ level.adds }}</p><p>{{ level.lines.stage }}</p></ed-text-passage>
+				</li>
+			{%- endfor %}
+			</ol>
+		</section>
+		</ed-stack>
+		<p class="ed-u-visually-hidden" aria-live="polite" data-alive-live></p>
+	</ed-layout-container>
+</aids-rails-alive>
+</ed-main></ed-page>
+<script type="module" src="/js/components.js"></script>
+</body>
+</html>
